@@ -41,12 +41,12 @@ def main():
 
     # environment
     NUM_FISCAL_QUARTERS= int(os.environ.get("NUM_FISCAL_QUARTERS","8"))
-    GLOBAL_OFFSET= int(os.environ.get("GLOBAL_OFFSET","0"))
-    scaling_repo= os.environ.get("SCALING_REPO","ni/labview-icon-editor")
+    GLOBAL_OFFSET= int(os.environ.get("GLOBAL_OFFSET","-54"))
+    scaling_repo= os.environ.get("SCALING_REPO","ni/actor-framework")
 
     # BFS Repos
     all_repos= [
-        "ni/labview-icon-editor",
+        "ni/actor-framework",
         "freecad/freecad",
         "fritzing/fritzing-app",
         "qucs/qucs",
