@@ -1,4 +1,4 @@
-# LabVIEW Certification Redefined: Streamlining Open-Source Contributions and Exam Adjudication
+# LabVIEW Certification Redefined: Streamlining Open-Source Contributions and Exam Adjudication (draft)
 
 ## Executive Summary
 
@@ -42,11 +42,11 @@ Open-source contributors to NI’s LabVIEW projects earn a **score** (points) wh
 
 | **T-Shirt Size** | **Typical Complexity**    | **Base Points** |
 |:----------------:|---------------------------|:---------------:|
-| **S (Small)**    | Minor changes/fixes      | 1               |
-| **M (Medium)**   | Moderate scope changes    | 2               |
-| **L (Large)**    | Significant new features  | 5               |
-| **XL (X-Large)** | Major architecture work   | 10              |
-| **XXL**          | Highly complex refactors  | 15              |
+| **XS (X Small)**    | Minor changes/fixes      | 1               |
+| **S (Small)**   | Moderate scope changes    | 2               |
+| **M (Medium)**    | Significant new features  | 5               |
+| **L (Large)** | Major architecture work   | 10              |
+| **XL (X-Large)**          | Highly complex refactors  | 15              |
 
 ### 1.2 Priority (Impact)
 
@@ -97,10 +97,10 @@ These two values are **added** together to form the **final score** per merged P
 Below is a step-by-step summary for **Certification**:
 
 1. **Receive the Automated Email**  
-   - Each merge triggers a message stating: “Contributor X has a new total of Y points.”
+   - Each merge triggers a message stating: “Contributor X has been attributed with Y points”
 
 2. **Archive or Track**  
-   - You can store these emails in an inbox or reference system.  
+   - You can store these emails in an inbox or reference system.
    - **No immediate action** is necessary unless the user requests points for recertification.
 
 3. **When a Participant Requests Points**  
@@ -134,12 +134,12 @@ Below are sample **T-Shirt Size + Priority** combinations and their **total poin
 
 | **T-Shirt Size** | **Size Points** | **Priority** | **Priority Points** | **Total Score**      |
 |:----------------:|:---------------:|:------------:|:-------------------:|:--------------------:|
-| S                | 1               | P2 (Low)     | +0                 | 1 + 0 = **1**        |
-| S                | 1               | P1 (Medium)  | +5                 | 1 + 5 = **6**        |
-| M                | 2               | P0 (High)    | +15                | 2 + 15 = **17**      |
-| XL               | 10              | P1 (Medium)  | +5                 | 10 + 5 = **15**      |
-| XL               | 10              | P0 (High)    | +15                | 10 + 15 = **25**     |
-| XXL              | 15              | P0 (High)    | +15                | 15 + 15 = **30**     |
+| XS                | 1               | P2 (Low)     | +0                 | 1 + 0 = **1**        |
+| XS                | 1               | P1 (Medium)  | +5                 | 1 + 5 = **6**        |
+| S                | 2               | P0 (High)    | +15                | 2 + 15 = **17**      |
+| M               | 5              | P1 (Medium)  | +5                 | 5 + 5 = **10**      |
+| L               | 10              | P0 (High)    | +15                | 10 + 15 = **25**     |
+| XL              | 15              | P0 (High)    | +15                | 15 + 15 = **30**     |
 
 [Back to top](#labview-certification-redefined-streamlining-open-source-contributions-and-exam-adjudication)
 
@@ -200,7 +200,7 @@ In addition to the **open-source contribution** model above, we propose a comple
 ### 8.3 Community CLA Involvement
 
 - **Role of Community CLAs**:  
-  - Engage **Community CLA** members (advanced certified LabVIEW developers) who are not NI employees and not the test takers themselves.  
+  - Engage **Community CLA** members who are not NI employees and not the test takers themselves.  
   - These CLAs serve as **impartial exam reviewers** to settle borderline cases or disputes.  
 - **Benefits**:  
   - **Reduced Load on NI**: NI staff handle fewer escalations, focusing on the most complex or contested submissions.  
@@ -241,7 +241,6 @@ In addition to the **open-source contribution** model above, we propose a comple
    - Should there be a rotating membership (e.g., yearly) to prevent burnout and maintain impartiality?
 
 4. **Coordination with NI Certification Team**  
-   - How do we maintain clarity on *who* handles *which* certification tasks, especially if disputes arise that go beyond technical merits (e.g., policy or code ownership issues)?  
    - In what scenarios could the NI Certification Team *override* a third-party board decision, if ever?
 
 5. **Data Privacy & Confidentiality**  
