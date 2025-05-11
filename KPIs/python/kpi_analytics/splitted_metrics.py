@@ -70,7 +70,7 @@ def gather_data_for_window(repo_name, start_dt, end_dt):
     }
 
     cnx= get_db_connection()
-    cursor= cnx.cursor()
+    cursor= cnx.cursor(buffered=True)
 
     # mergesRaw => from pull_events, event='merged'
     q_merges= """
