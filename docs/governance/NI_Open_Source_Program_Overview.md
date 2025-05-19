@@ -109,7 +109,4 @@ This alignment reduces manual work for the Certification team and allows for sca
 **Q3: What safeguards exist for contributor experience?**  
 **A:** Issue capacity is scaled based on available SteerCo input. SteerCo members signal availability to prevent overcommitment.
 
-**Q4: Is this model intended to evolve?**  
-**A:** Yes. As contributor engagement scales, NI may pilot new delegation models and governance policies to extend sustainability.
-
 ---
