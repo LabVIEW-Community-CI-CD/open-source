@@ -1,141 +1,87 @@
-> **⚠️ Note:** This document is a living resource intended to support internal process definition and governance clarity.  
-> It serves as an upstream reference for related documentation and may contain detailed content that is provisional or currently under active iteration.
 
-# STEERCO-GUIDELINES.md – NI Open-Source Program
+# STEERCO-GUIDELINES.md
 
-This document defines the structure, expectations, and responsibilities of Steering Committee (SteerCo) members within NI’s Open-Source Program. It exists to provide full operational clarity to both new and experienced members.
+> 🧭 This document outlines the roles, responsibilities, and expectations of members serving on a Steering Committee (SteerCo) within the NI Open-Source Program.
 
 ---
 
-## 📘 Purpose of a SteerCo
+## §1. Role of the Steering Committee
 
-A Technical Steering Committee (SteerCo) is a **volunteer governance body** responsible for guiding the roadmap, feasibility, and contributor experience of a specific GitHub repository.
+The SteerCo exists to provide **volunteer leadership and domain expertise** for a specific repository or technical category. SteerCo members:
 
-SteerCos are **not required to implement code**. Their purpose is to:
-- Evaluate whether issues are technically feasible and contributor-safe
-- Provide architecture or design input to keep the repo healthy
-- Label issues with appropriate effort sizes (S, M, L) for recertification tracking
-- Set contribution priorities and unblock external contributors
-- Ensure the repo maintains transparency, accessibility, and contributor trust
+- Represent real-world usage, integration, and testing of NI open-source IP
+- Offer guidance on roadmap feasibility, documentation gaps, and community needs
+- Are recognized publicly for their participation
 
----
-
-## 🧩 Role in the Program Lifecycle
-
-SteerCos play a central role in the program’s 3-stage repo lifecycle:
-
-| Stage | SteerCo Involvement |
-|-------|----------------------|
-| **1. Community Interest Discovery** | Members apply to join a potential SteerCo |
-| **2. Evaluation** | SteerCo applicants are accepted; repo is scored via Priority Score |
-| **3. Evaluation Complete** | SteerCo becomes official; begins governing repo direction and feasibility |
-
-A repo cannot reach Stage 3 unless its Steering Committee demonstrates maturity, responsiveness, and alignment with program KPIs.
+> ❗ **SteerCo members do not vote on whether a repository is prioritized or launched.**  
+> Their presence and engagement increase eligibility by signaling strong leadership availability, as defined in [`PRIORITY-SCORE.md`](https://github.com/ni/open-source/blob/main/docs/governance/PRIORITY-SCORE.md).
 
 ---
 
-## ⏱ Weekly Commitment
+## §2. SteerCo Authority and Boundaries
 
-SteerCo members are expected to dedicate **~2 hours per week**. This time can be spent:
-- Reviewing issues or pull requests
-- Participating in async GitHub or Discord discussions
-- Sizing certification-eligible issues
-- Voting or offering technical commentary
+SteerCo members are *influencers, not approvers*.
 
----
-
-## 🗳 Voting and Consensus
-
-### ✅ What Counts as a Vote?
-Votes are cast through **insightful participation** in GitHub issues or Discord threads. There is no need for formal voting unless the PM requests one.
-
-### 🧑‍⚖️ Override Authority
-The Program Manager (BDFL) may override consensus in rare cases for strategic or quality assurance reasons. All overrides must be:
-- Justified and logged publicly
-- Respectful of the time and trust of contributors
+| Area | SteerCo Role |
+|------|---------------|
+| 🧪 Technical Guidance | Review PRs, define usage patterns, surface bugs |
+| 🧭 Evaluation Input | Assess interest and practicality (not final scoring) |
+| 🔀 Community Engagement | Encourage external contributions and recognition |
+| ❌ Governance Decisions | Cannot override program-level policies or make launch determinations |
+| ❌ Priority Setting | Do not assign P0/P1/P2 directly; instead, increase repo readiness by being present and engaged |
 
 ---
 
-## 🛠 Feasibility Review
+## §3. Participation Expectations
 
-Before an issue is marked ready for contribution, it must be reviewed by at least **one SteerCo member** for:
-- **Technical scope clarity**
-- **Risk factors** (e.g., internal-only code, unclear API surface)
-- **Contribution size** – estimated in T-shirt sizes.
-
-These labels are used to calculate recertification points. If you’re unsure how to size an issue, ask the Program Manager or Core Team.
-
----
-
-## 🔍 Certification and Recertification
-
-Each SteerCo-labeled issue becomes a **traceable unit** of certification credit for contributors. As a SteerCo member, you directly impact:
-- Who receives credit
-- How the issue contributes to the LabVIEW ecosystem
-- Whether the repo remains cert-eligible over time
-
-Your labels and review comments are considered governance actions.
+| Commitment | Details |
+|------------|---------|
+| Weekly Time | ~2 hours/week per repo or category |
+| Activity | GitHub reviews, issues, discussion replies, test coordination |
+| Collaboration | Coordinate with other members, propose improvements |
+| Independence | Members contribute as individuals—not company representatives |
+| Transparency | All decisions and leadership must be visible and trackable on GitHub |
 
 ---
 
-## 🧠 Good SteerCo Practices
+## §4. Meeting Policy
 
-| Practice | Why It Matters |
-|----------|----------------|
-| Review issues and discussions weekly | Keeps repo active and contributors engaged |
-| Encourage feedback | Builds trust and teaches by example |
-| Avoid blockers | Ask clarifying questions, don’t gate with silence |
-| Write publicly | Transparency builds momentum and accountability |
+SteerCo meetings will be structured to protect contributors’ time and maintain momentum.
 
----
-
-## 📣 Recognition and Visibility
-
-By default, participation is **private**. You may opt in to be listed:
-- On the repo README
-- In leadership or conference briefings
-- On community roll calls or dashboards
-
-No public acknowledgment is made without your consent.
+| Policy | Description |
+|--------|-------------|
+| 🔄 Cadence | Governance meetings alternate biweekly with IP-specific meetings |
+| 📝 Agendas | Agendas must be published 24 hours in advance and clearly scoped |
+| ✂️ Separation | IP-focused meetings are scoped to a single repo or technical cluster; governance meetings address scoring, process, and program design |
+| 📎 Recording | Key decisions must be documented in public GitHub threads or governance commits |
 
 ---
 
-## 🔄 Stepping Away
+## §5. Joining or Leaving a SteerCo
 
-You can take a break or leave the SteerCo at any time:
+To join a SteerCo:
+- Fill out the public interest form
+- Be selected based on relevance, expertise, or contribution history
+- Commit to a 2-hour/week engagement model
 
-- Notify the Program Manager or Core Team
-- Your position will remain open, and you may reapply at any time
-- We track **availability**, not compliance—this is a trust-based program
-
----
-
-## 🤝 Role of the Program Manager
-
-The Program Manager serves as the **benevolent dictator for life (BDFL)** of the open-source program. Their responsibilities include:
-- Accepting or redirecting applicants
-- Ensuring repo launch readiness
-- Resolving ambiguity and preserving strategic alignment
-- Logging overrides when community decisions are adjusted
-
-They are your resource—not your boss.
+To step down:
+- Notify the Program Manager via GitHub or Discord
+- Removal is non-punitive—members may return when ready
 
 ---
 
-## 🧩 Summary
+## §6. Recognition and Impact
 
-| You Do | You Don’t Do |
-|--------|--------------|
-| Validate issues | Write the implementation (unless you want to) |
-| Size for certification | Attend mandatory meetings |
-| Guide roadmap and testing | Review internal-only IP |
-| Provide judgment and clarity | Maintain the repo alone |
+SteerCo membership:
+- Confers public recognition (badges and contributor credits are planned—see `CONTRIBUTOR-RECOGNITION.md`)
+- Is a core signal of priority eligibility for the NI Open-Source Program
+- Can influence NI product decisions—but only through structured and transparent engagement
 
 ---
 
-## 🙌 Thank You
+## §7. Revision History
 
-Every contributor benefits from the time you invest as a SteerCo member. Your judgment, clarity, and leadership help sustain LabVIEW in the open—ethically, technically, and collaboratively.
-
-If you ever have questions, message us on [our Discord server](https://discord.gg/q4d3ggrFVA).
-
+| Date       | Summary                                      |
+|------------|----------------------------------------------|
+| 2025-05-22 | Added meeting structure, clarified role boundaries |
+| 2025-04-XX | Initial version                              |
