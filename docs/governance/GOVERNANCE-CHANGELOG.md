@@ -19,6 +19,17 @@
 
 ---
 
+## 📅 2025-05-23 – Formalization Blockers Resolved in Unified Governance Update
+
+- Added CLA reuse and IP terms to clarify contributor licensing scope
+- Defined Maintainer role, merge authority, and appointment logic
+- Introduced Open Source Core Team and governance fallback duties
+- Documented conflict appeal process and escalation triage
+- Clarified consent workflow for public contributor recognition
+- Added placeholder for resourcing and cross-functional program ownership
+
+---
+
 ## 📅 2025-05-23 – Codified Steering Committee-Based Governance Trust and Resilience
 
 - Formally recognized the combined credibility of Technical and Organizational Steering Committees as foundational to contributor trust
