@@ -20,7 +20,16 @@ NI will not initiate or schedule regular meetings with individual Steering Commi
 
 ### §2.4 Focused Discussions
 
-Meetings, when requested, should be scoped narrowly and centered around advancing a specific technical or governance goal. Meeting notes should be published in a public repository or summarized in GitHub issues when possible.
+<!-- 🛠 FIX: Reinforced agenda enforcement logic and case-by-case flexibility -->
+
+Meetings, when requested, must be scoped narrowly and centered around a specific technical or governance goal.
+
+**Agendas are required** and must be shared at least 24 hours in advance.  
+Communication may occur via Discord, GitHub, Teams, or email.  
+Enforcement is managed by the Program Manager on a case-by-case basis.
+
+Meeting notes must be documented in a public GitHub issue or repo thread.
+
 
 ## §3.0 Exceptions
 
