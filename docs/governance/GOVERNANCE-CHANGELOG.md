@@ -8,6 +8,17 @@
 
 ---
 
+## 📅 2025-05-23 – Introduced GOVERNANCE.md for Central Authority Model
+
+- Added new `GOVERNANCE.md` file to define the Program Manager’s centralized decision authority
+- Formalized that the governance model mimics BDFL-style leadership without declaring it explicitly
+- Summarized powers for all roles: Program Manager, SteerCo, Maintainers, Certification Team, and Core Team
+- Flagged Open Source Core Team, Maintainer, and Certification Team as implied but pending formal definition
+- Established traceability and override logging expectations
+- Set rule that all future governance model changes must be documented and GitHub-visible
+
+---
+
 ## 📅 2025-05-23 – Resolved Structural Contradictions
 
 - Clarified SteerCo meeting logic and GitHub traceability
