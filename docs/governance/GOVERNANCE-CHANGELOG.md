@@ -8,6 +8,14 @@
 
 ---
 
+## 📅 2025-05-24 – Defined Distinct Roles for Program Continuity and Scale
+
+- Introduced separation between **Program Manager (Business Interface)** and **Open Source Program Architect (Community and Automation Lead)**
+- Clarified internal vs. external responsibilities to support future delegation, risk management, and scalable ownership
+- Reflects current operating model, where both roles are fulfilled by the founding Program Manager
+
+---
+
 ## 📅 2025-05-23 – Formalization Blockers Resolved in Unified Governance Update
 
 - Added CLA reuse and IP terms to clarify contributor licensing scope
