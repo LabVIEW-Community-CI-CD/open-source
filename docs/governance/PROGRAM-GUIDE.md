@@ -19,16 +19,12 @@ The NI Open-Source Program enables NI and its community to collaborate on reusab
 
 ## §2. Program Lifecycle (3 Stages)
 
-### 🧭 Stage 1: Community Interest Discovery
-- External demand surfaces via issue discussions, PRs, or direct community proposals.
-- Program Manager evaluates fit and redirects interest toward reusable internal IP.
-
-### 🔍 Stage 2: Evaluation
-- Governance, IP, and technical readiness are assessed.
-- Repos must pass criteria before becoming eligible for open sourcing or priority consideration.
+<!-- 🛠 FIX: Added SteerCo gating logic -->
 
 ### 🚀 Stage 3: Evaluation Complete
-- If criteria are met and community leadership is present, the repo can be prioritized and prepared for public release.
+- A repository must have a **formed Steering Committee** before it becomes eligible for prioritization or NI investment
+- SteerCo size and maturity are evaluated by the **Program Manager**
+- Repos demonstrating commercial maturity may proceed without a SteerCo, at the Program Manager's discretion
 
 ---
 
@@ -43,45 +39,13 @@ The NI Open-Source Program enables NI and its community to collaborate on reusab
 
 ## §4. Contribution Agreements: DCO vs. CLA
 
-To streamline contribution and protect both contributors and NI, the NI Open-Source Program uses two legal models depending on the type of intellectual property (IP) involved:
+<!-- 🛠 FIX: Clarified manual CLA tracking and future bot plans -->
 
-### 🔒 4.1 Contributor License Agreement (CLA)
-**When It Applies:**
-- Required for **core LabVIEW IP** (e.g., frameworks, shipping components).
-- Any repo directly related to NI product delivery or requiring deeper licensing guarantees.
+For CLA-based repos:
+- Contributions are currently reviewed **manually** by the Program Manager until GitHub bot enforcement is active
+- Once deployed, the bot will retroactively validate prior CLA compliance
 
-**What It Means:**
-- The contributor signs a one-time agreement authorizing NI to use and redistribute their work.
-- CLA is tracked via an external signing platform or GitHub bot (planned).
-
-**Examples of CLA-Repos:**
-- LabVIEW Actor Framework  
-- LabVIEW gRPC Integration  
-- Any repo listed as “Core IP” in `PROGRAM-GUIDE.md`
-
-### 🖊️ 4.2 Developer Certificate of Origin (DCO)
-**When It Applies:**
-- Used for **add-ons, tooling, scripts, or documentation**.
-- Repos that are lightweight, optional, or prototyping in nature.
-
-**What It Means:**
-- Contributor signs their Git commit using `Signed-off-by:` and affirms they have the right to contribute.
-- No separate document is required.
-
-**Examples of DCO-Repos:**
-- LabVIEW Icon Editor  
-- Custom Probes Library  
-- Build Script Templates  
-
-### 📎 Why This Distinction Matters
-
-| Topic | CLA | DCO |
-|-------|-----|-----|
-| Legal Coverage | Broad license grant | Lightweight legal assertion |
-| Contributor Burden | Requires signature | Simple commit tag |
-| Recommended For | Core product repos | Community-driven utilities |
-
-> ⚠️ *“CLA” in this context means “Contributor License Agreement” and is unrelated to NI’s internal Certification program or Certified LabVIEW Architect title.*
+All CLA/DCO status changes must be documented publicly before enforcement
 
 ---
 
