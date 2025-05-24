@@ -8,6 +8,19 @@
 
 ---
 
+## 📅 2025-05-23 – Resolved Structural Contradictions
+
+- Clarified SteerCo meeting logic and GitHub traceability
+- Made all governance decisions visible on GitHub, not Discord
+- Aligned CLA/DCO logic with manual enforcement + retroactive tracking
+- Formalized test report template enforcement and manual fallback
+- Confirmed Program Manager's authority on badge issuance, scoring, and evaluation readiness
+- Added KPI treatment for active SteerCo count and public feedback via Discussions
+- Declared GitHub label taxonomy and automation goals
+- Linked certification scoring to published recertification policy
+
+---
+
 ## 📅 2025-05-22 – Governance Framework Refresh
 
 A comprehensive update across the program’s governance documentation, based on the 2025-05-22 Steering Committee and stakeholder analysis.
