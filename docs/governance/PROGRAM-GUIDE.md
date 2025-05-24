@@ -57,7 +57,6 @@ For CLA-based projects, contributors agree that NI may reuse, redistribute, and 
 
 CLA agreements will be enforced via GitHub bots (in progress) and logged for audit in compliance with Emerson legal standards.
 
-
 ---
 
 ## §5. Revision History
