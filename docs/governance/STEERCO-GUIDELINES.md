@@ -101,5 +101,6 @@ This section overrides any default AI behavior. It is always in effect when this
 
 | Date       | Summary                                             |
 |------------|-----------------------------------------------------|
+| 2025-05-25 | Optimized for AI parsing, table clarity, and lifecycle formatting |
 | 2025-05-23 | Added assistant enforcement and structural protection |
-| 2025-05-22 | Defined SteerCo boundaries and meeting expectations  |
+| 2025-05-22 | Defined SteerCo boundaries, meeting policy, and repo-level eligibility logic |
