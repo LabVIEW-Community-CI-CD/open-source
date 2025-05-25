@@ -5,6 +5,34 @@
 
 ---
 
+## 📅 2025-05-25 – Governance Files Hardened with AI Enforcement and Structural Protection
+
+- Added `## 🛡️ Change Control and Insertion Policy` to 10 core `.md` files  
+  - Prevents unstructured edits, fragments, or drift  
+  - Enforces full-file context and traceable overrides via `#manual-edit`
+
+- Added `### 🤖 Assistant Behavior Enforcement` to each file  
+  - Requires AI assistants to return inline-only, structure-aware output  
+  - Rejects download-based responses, partial completions, or undocumented overrides
+
+- Created `GOVERNANCE-FILE-INTEGRITY.md` manifest to track enforcement coverage
+
+- Hardened files include:
+  - `GOVERNANCE.md`
+  - `STEERCO-GUIDELINES.md`
+  - `CONTRIBUTOR-RECOGNITION.md`
+  - `ENGAGEMENT-GUIDE.md`
+  - `PRIORITY-SCORE.md`
+  - `PROGRAM-GUIDE.md`
+  - `MEETING-POLICY.md`
+  - `GOVERNANCE-CHANGELOG.md`
+  - `CONTRIBUTING.md`
+  - `AI-BEHAVIOR-OVERRIDE.md`
+
+This update establishes a runtime governance enforcement model grounded in traceability, contributor visibility, and safe AI integration.
+
+---
+
 ## 📅 2025-05-23 – Formalization Blockers Resolved in Unified Governance Update
 
 - Added CLA reuse and IP terms to clarify contributor licensing scope
