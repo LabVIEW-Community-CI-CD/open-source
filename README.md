@@ -1,39 +1,47 @@
-## 🧱 Governance Framework (v2025.05 — Hardened System Launch)
+# 🧠 NI Open-Source Metadata Framework
 
-The NI Open-Source Program operates under a versioned, assistant-enforced governance framework.  
-This system defines contributor pathways, prioritization logic, badge eligibility, meeting expectations, and audit visibility — all structured for clarity, reuse, and AI-aligned execution.
+![Version](https://img.shields.io/badge/Version-v2025.05--governance--hardened-brightgreen)
 
----
+This framework enables milestone-driven contributor recognition, metadata visibility, and GPT-executed governance logic across NI’s open-source ecosystem.
 
-### 🗂️ Core Policy Documents
-
-| Document | Purpose |
-|----------|---------|
-| [`PROGRAM-GUIDE.md`](./docs/governance/PROGRAM-GUIDE.md) | Program overview, repo lifecycle, CLA/DCO scope |
-| [`PRIORITY-SCORE.md`](./docs/governance/PRIORITY-SCORE.md) | How NI prioritizes open-source efforts |
-| [`STEERCO-GUIDELINES.md`](./docs/governance/STEERCO-GUIDELINES.md) | SteerCo roles, expectations, and authority boundaries |
-| [`CONTRIBUTOR-RECOGNITION.md`](./docs/governance/CONTRIBUTOR-RECOGNITION.md) | Public badge system based on traceable GitHub activity |
-| [`ENGAGEMENT-GUIDE.md`](./docs/governance/ENGAGEMENT-GUIDE.md) | Contributor expectations for Issues, PRs, and discussions |
-| [`MEETING-POLICY.md`](./docs/governance/MEETING-POLICY.md) | Defines scheduling and agenda enforcement for meetings |
-| [`GOVERNANCE-CHANGELOG.md`](./docs/governance/GOVERNANCE-CHANGELOG.md) | Time-stamped record of governance changes |
+It defines:
+- Contributor opt-in policies (`CONTRIBUTOR-RECOGNITION.md`)
+- GitHub signal → badge mapping (`RECOGNITION-TAG-MAP.md`)
+- Runtime GPT behavior contract (`AI-BEHAVIOR-OVERRIDE.md`)
+- GPT-layer execution trace via milestone logs and bundle files
 
 ---
 
-### 🧠 Metadata & Enforcement
+## ✅ Current Framework Version
 
-| File | Role |
-|------|------|
-| [`AI-GOVERNANCE-CONTRACT.md`](./docs/governance/AI-GOVERNANCE-CONTRACT.md) | Defines assistant behavior, output rules, and override tags |
-| [`GOVERNANCE-FILE-INTEGRITY.md`](./docs/governance/GOVERNANCE-FILE-INTEGRITY.md) | Tracks protection status of all governance files |
-| [`ROLE-MAP.md`](./docs/governance/ROLE-MAP.md) | Maps roles to file ownership and approval scope |
-| [`RECOGNITION-TAG-MAP.md`](./docs/governance/RECOGNITION-TAG-MAP.md) | Links GitHub activity to recognition logic |
-| [`GOVERNANCE-SCOPE.md`](./docs/governance/GOVERNANCE-SCOPE.md) | Declares what this governance system covers (and doesn’t) |
-| [`OVERRIDE-GUIDE.md`](./docs/governance/OVERRIDE-GUIDE.md) | Defines exception protocol for humans and AI |
-| [`MILESTONES.md`](./docs/governance/MILESTONES.md) | Registry of governance system evolution |
-| [`FRAMEWORK-README.md`](./docs/governance/FRAMEWORK-README.md) | Explains the system-level architecture of this framework |
+```plaintext
+v2025.05-governance-hardened
+```
+
+See [`FRAMEWORK-VERSION.txt`](./FRAMEWORK-VERSION.txt)
 
 ---
 
-### 📦 Current Framework Version
-**Tag:** [`v2025.05-governance-hardened`](https://github.com/ni/open-source/releases/tag/v2025.05-governance-hardened)  
-**Milestone Summary:** [`MILESTONE-2025-05.md`](./docs/governance/milestones/MILESTONE-2025-05.md)
+## 🧩 First Implementation (Live)
+
+- 📦 [ni/labview-open-source](https://github.com/ni/labview-open-source)
+- 🔖 [Release v2025.05](https://github.com/ni/labview-open-source/releases/tag/v2025.05-governance-hardened)
+- 🧾 [Framework Bundle](./FRAMEWORK-BUNDLE.md)
+
+---
+
+## 🧠 Who Uses This
+
+- GPTs executing recognition, scoring, certification, or form parsing  
+- Contributors submitting metadata or PRs across multiple NI projects  
+- Maintainers aligning folder and template structures  
+- Legal and audit reviewers verifying visibility and milestone outputs
+
+---
+
+## 📘 Resources
+
+- [AI-BEHAVIOR-OVERRIDE.md](./AI-BEHAVIOR-OVERRIDE.md)
+- [CONTRIBUTOR-RECOGNITION.md](./CONTRIBUTOR-RECOGNITION.md)
+- [RECOGNITION-TAG-MAP.md](./RECOGNITION-TAG-MAP.md)
+- [FRAMEWORK-BUNDLE.md](./FRAMEWORK-BUNDLE.md)
