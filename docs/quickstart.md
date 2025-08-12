@@ -46,7 +46,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
 }'
 ```
 
-This will import the **OpenSourceActions** module and run the **Build** adapter. On completion, the script returns with an exit code (0 for success or a non-zero error code). You can include optional flags like `-WorkingDirectory` to change directory before execution, or `-DryRun` to simulate the action (see below).
+This will import the **OpenSourceActions** module and run the **Build** adapter. On completion, the script returns with an exit code (0 for success or a non-zero error code). You can include optional flags like `-WorkingDirectory` to change directory before execution, or `-DryRun` to simulate the action (see below). For details on these and other dispatcher flags, see [Common Parameters](common-parameters.md).
 4. **Confirm Results:** After running, check the console output and exit code. The unified dispatcher prints informative logs (at INFO level by default) and any errors encountered. For GitHub Actions, a non-zero exit code will mark the step as failed, surfacing any error messages thrown by the adapter or underlying script.
 
 ## Need help?
