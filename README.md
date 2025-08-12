@@ -1,6 +1,6 @@
 # LabVIEW Community CI/CD — Unified Dispatcher
 
-PowerShell-based actions for LabVIEW build and test tasks exposed through a single dispatcher script. See [docs/index.md](docs/index.md) for setup, usage, and action reference.
+PowerShell-based actions for LabVIEW build and test tasks exposed through a single dispatcher script. See the [documentation site](https://open-source-actions.github.io/open-source-actions/) for setup, usage, and action reference.
 
 ## Contributing
 
