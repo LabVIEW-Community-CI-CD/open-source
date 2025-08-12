@@ -2,7 +2,9 @@ site_name: Open Source Actions
 site_url: https://open-source-actions.github.io/open-source-actions/
 docs_dir: docs
 nav:
-  - Home: index.md
+  - Home:
+    - Overview: index.md
+    - Architecture: architecture.md
   - Quickstart: quickstart.md
   - Unified Dispatcher: UnifiedDispatcher.md
   - Adapter Authoring: adapter-authoring.md
@@ -10,7 +12,7 @@ nav:
   - Changelog: CHANGELOG.md
   - Contributing: contributing-docs.md
   - Actions:
-      - Apply VIPC: actions/apply-vipc.md
-      - Build LVLIBP: actions/build-lvlibp.md
-      - Missing in Project: actions/missing-in-project.md
-      - Run Unit Tests: actions/run-unit-tests.md
+    - Apply VIPC: actions/apply-vipc.md
+    - Build LVLIBP: actions/build-lvlibp.md
+    - Missing in Project: actions/missing-in-project.md
+    - Run Unit Tests: actions/run-unit-tests.md
