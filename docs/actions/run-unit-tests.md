@@ -12,9 +12,7 @@ Run LabVIEW unit tests via the LabVIEW Unit Test Framework CLI and report pass/f
 ### Optional
 None.
 
-## Usage
-
-### Command line
+## CLI example
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{
   "MinimumSupportedLVVersion": "2020",
@@ -22,7 +20,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{
 }'
 ```
 
-### GitHub Actions
+## GitHub Action example
 ```yaml
 - name: Run LabVIEW Unit Tests
   uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
@@ -35,8 +33,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{
       }
 ```
 
-## Outputs and Exit Codes
-
+## Return Codes
 Parses `UnitTestReport.xml` to summarize results.
 
 - `0` – all tests passed

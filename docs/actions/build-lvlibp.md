@@ -20,9 +20,7 @@ Build a LabVIEW project’s build specification into a Packed Project Library (.
 ### Optional
 None.
 
-## Usage
-
-### Command line
+## CLI example
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
   "MinimumSupportedLVVersion": "2020",
@@ -38,7 +36,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
 }'
 ```
 
-### GitHub Actions
+## GitHub Action example
 ```yaml
 - name: Build Packed Library
   uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
@@ -58,3 +56,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
         "Commit": "abcdef"
       }
 ```
+
+## Return Codes
+- `0` – build succeeded
+- `1` – build failed or g-cli error

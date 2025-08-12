@@ -79,7 +79,7 @@ If `-DryRun` is specified, log what would happen and return 0 instead of calling
 
 ## Module Version and Documentation
 - Bump the module version in `OpenSourceActions.psd1` if appropriate.
-- Document the new action under `docs/actions/` and update central lists.
+- Document the new action under `docs/actions/`. Start from `_template.md` and include sections: Purpose, Parameters (Required/Optional), CLI example, GitHub Action example, and Return Codes. Update central lists.
 
 ## Logging and Error Handling Guidelines
 - Avoid `Write-Host`.

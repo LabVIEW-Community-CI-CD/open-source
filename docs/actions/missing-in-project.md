@@ -13,9 +13,7 @@ Check that all files in a LabVIEW project are present by scanning for items miss
 ### Optional
 None.
 
-## Usage
-
-### Command line
+## CLI example
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson '{
   "LVVersion": "2020",
@@ -24,7 +22,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson 
 }'
 ```
 
-### GitHub Actions
+## GitHub Action example
 ```yaml
 - name: Check for Missing Project Items
   uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
@@ -37,3 +35,8 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson 
         "ProjectFile": "MyProject.lvproj"
       }
 ```
+
+## Return Codes
+- `0` – no missing files detected
+- `1` – g-cli or VI error
+- `2` – missing files found

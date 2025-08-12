@@ -15,9 +15,7 @@ Apply a VI Package Configuration (.vipc) file to a specific LabVIEW installation
 ### Optional
 None.
 
-## Usage
-
-### Command line
+## CLI example
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
   "MinimumSupportedLVVersion": "2019",
@@ -28,7 +26,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
 }'
 ```
 
-### GitHub Actions
+## GitHub Action example
 ```yaml
 - name: Apply VIPC
   uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
@@ -43,3 +41,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
         "VIPCPath": "MyProject.vipc"
       }
 ```
+
+## Return Codes
+- `0` – VIPC applied successfully
+- `1` – error applying VIPC or invalid input
