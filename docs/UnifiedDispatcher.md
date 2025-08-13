@@ -5,10 +5,12 @@ This package adds a single, stable entrypoint to run LabVIEW CI/CD scripts.
 - **Entry script:** `actions/Invoke-OSAction.ps1`
 - **Module:** `actions/OpenSourceActions.psm1/.psd1`
 - **Composite Action:** `actions/abstract-action/action.yml`
-- **Adapters included:** `apply-vipc`, `build-lvlibp`, `missing-in-project`, `run-unit-tests`
+- **Adapters included:** See [docs/index.md](index.md#action-reference) for the authoritative list of adapters
 - **Discovery:** `-ListActions` and `-Describe <name>`
 - **Dry run:** `-DryRun` logs the exact call and skips execution
 - **Exit codes:** Leaf script codes are preserved (e.g., `run-unit-tests` returns `0/2/3`)
+
+See [Common Parameters](common-parameters.md) for a complete list of dispatcher flags and environment variables.
 
 ## Cross‑platform
 
@@ -60,4 +62,4 @@ jobs:
 - **MINOR**: adding new adapter actions or optional parameters.
 - **PATCH**: backwards‑compatible fixes and docs.
 
-Module version: `1.0.0`.
+For the current module version, refer to [`actions/OpenSourceActions.psd1`](../actions/OpenSourceActions.psd1).

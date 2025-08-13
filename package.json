@@ -1,0 +1,9 @@
+{
+  "name": "open-source-actions",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"No JS tests configured\" && exit 0"
+  }
+}
