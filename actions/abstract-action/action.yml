@@ -30,13 +30,29 @@ runs:
     - name: Invoke unified PowerShell action
       shell: pwsh
       run: |
-        $args = @()
-        $args += "-ActionName '${{ inputs.action_name }}'"
-        $args += "-ArgsJson '''${{ inputs.args_json }}'''"
-        if ('${{ inputs.working_directory }}') {
-          $args += "-WorkingDirectory '${{ inputs.working_directory }}'"
+        $ErrorActionPreference = 'Stop'
+
+        # Capture JSON exactly as provided by the caller, without quoting/escaping issues.
+        $json = @'
+${{ inputs.args_json }}
+'@
+
+        # Build parameters via hashtable splatting to avoid fragile CLI string quoting.
+        $params = @{
+          ActionName = '${{ inputs.action_name }}'
+          ArgsJson   = $json
+          LogLevel   = '${{ inputs.log_level }}'
         }
-        $args += "-LogLevel '${{ inputs.log_level }}'"
-        if (${{ inputs.dry_run }}) { $args += "-DryRun" }
-        & "${{ github.action_path }}/../Invoke-OSAction.ps1" @args
+
+        if ('${{ inputs.working_directory }}' -ne '') {
+          $params['WorkingDirectory'] = '${{ inputs.working_directory }}'
+        }
+        if (${{ inputs.dry_run }}) {
+          $params['DryRun'] = $true
+        }
+
+        # Locate the dispatcher script relative to this action folder.
+        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'Invoke-OSAction.ps1'
+
+        & $script @params
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
