@@ -16,6 +16,8 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 - **Param2** (`type`): Description.
 
+> **Unknown parameters:** Parameters not recognized by the dispatcher are ignored with a warning. The warning message can be retrieved from the returned object's `UnknownParams` field when requested.
+
 ## CLI example
 
 ```powershell

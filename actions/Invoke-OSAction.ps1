@@ -60,17 +60,20 @@ function Show-Description([string]$Name) {
   }
 }
 
-function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn) {
+function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn, [switch]$ReturnUnknownParams) {
   $paramNames = (Get-Command $FuncName -ErrorAction Stop).Parameters.Keys
   $unknown = @()
   $filtered = @{}
   foreach ($k in @($InputArgs.Keys)) {
     if ($paramNames -contains $k) { $filtered[$k] = $InputArgs[$k] } else { $unknown += $k }
   }
+  $msg = $null
   if ($unknown.Count) {
     $msg = "Ignored unknown parameters for '$ActionNameForWarn': $($unknown -join ', ')"
     Write-Warning $msg
-    Write-Output $msg
+  }
+  if ($ReturnUnknownParams) {
+    return [pscustomobject]@{ Args = $filtered; UnknownParams = $msg }
   }
   return $filtered
 }

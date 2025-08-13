@@ -10,7 +10,7 @@ $global:dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
 
 Describe 'Unified Dispatcher — discovery and validation' {
   It 'lists available actions' {
-    $out = pwsh -NoProfile -File $global:dispatcher -ListActions
+    $out = pwsh -NoProfile -File $global:dispatcher -ListActions | Out-String
     $out | Should -Match 'apply-vipc'
     $out | Should -Match 'build-lvlibp'
     $out | Should -Match 'missing-in-project'
@@ -18,7 +18,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
   }
 
   It 'describes a known action (build-lvlibp)' {
-    $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp
+    $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp | Out-String
     $out | Should -Match 'Major'
     $out | Should -Match 'Minor'
     $out | Should -Match 'Patch'
@@ -73,9 +73,22 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
     }
 
     It "dry-runs $action and warns on unknown args" {
-      $out = pwsh -NoProfile -File $global:dispatcher -ActionName $action -ArgsJson $argsJson -DryRun
+      $out = pwsh -NoProfile -File $global:dispatcher -ActionName $action -ArgsJson $argsJson -DryRun | Out-String
       $LASTEXITCODE | Should -Be 0
       $out | Should -Match 'Ignored unknown parameters'
     }
+  }
+}
+
+Describe 'Filter-Args helper' {
+  It 'returns UnknownParams when requested' {
+    $ast = [System.Management.Automation.Language.Parser]::ParseFile($global:dispatcher, [ref]$null, [ref]$null)
+    $funcAst = $ast.Find({ param($a) $a -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $a.Name -eq 'Filter-Args' }, $true)
+    Invoke-Expression $funcAst.Extent.Text
+
+    function Dummy { param([string]$Known) }
+    $args = @{ Known = 'value'; Extra = 'x' }
+    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams
+    $result.PSObject.Properties.Name | Should -Contain 'UnknownParams'
   }
 }
