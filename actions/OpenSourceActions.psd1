@@ -9,7 +9,23 @@
   PowerShellVersion     = '7.0'
   CompatiblePSEditions  = @('Core')
 
-  FunctionsToExport = '*'
+  FunctionsToExport = @(
+    'InvokeAddTokenToLabVIEW'
+    'InvokeApplyVIPC'
+    'InvokeBuild'
+    'InvokeBuildLvlibp'
+    'InvokeBuildViPackage'
+    'InvokeCloseLabVIEW'
+    'InvokeGenerateReleaseNotes'
+    'InvokeMissingInProject'
+    'InvokeModifyVIPBDisplayInfo'
+    'InvokePrepareLabVIEWSource'
+    'InvokeRenameFile'
+    'InvokeRestoreSetupLVSource'
+    'InvokeRevertDevelopmentMode'
+    'InvokeRunUnitTests'
+    'InvokeSetDevelopmentMode'
+  )
 
   PrivateData = @{
     PSData = @{
