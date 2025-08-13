@@ -1,11 +1,11 @@
-name: Release Tests
+name: Release
 
 on:
   release:
     types: [published]
 
 jobs:
-  pester-tests:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -32,3 +32,26 @@ jobs:
       - name: Run Pester tests
         shell: pwsh
         run: Invoke-Pester -CI -Path tests/pester
+
+  deploy-docs:
+    needs: tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install mkdocs
+      - run: mkdocs build --strict
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
