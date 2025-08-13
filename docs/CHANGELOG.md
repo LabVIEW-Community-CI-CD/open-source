@@ -6,9 +6,6 @@ All significant documentation changes for this project will be documented in thi
 
 - Introduced changelog to track major documentation updates.
 - Updated action docs, index, README, and dispatcher guidance.
-
-## 2025-08-12
-
 - Added dispatcher parameter guide and links.
 - Added action summary table.
 - Expanded troubleshooting section.
