@@ -62,4 +62,4 @@ jobs:
 - **MINOR**: adding new adapter actions or optional parameters.
 - **PATCH**: backwards‑compatible fixes and docs.
 
-Module version: `1.0.0`.
+For the current module version, refer to [`actions/OpenSourceActions.psd1`](../actions/OpenSourceActions.psd1).
