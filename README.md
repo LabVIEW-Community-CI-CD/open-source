@@ -14,7 +14,7 @@ PowerShell-based actions for LabVIEW build and test tasks exposed through a sing
 
 ```yaml
 - name: Run tests
-  uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: run-unit-tests
     args_json: '{ "MinimumSupportedLVVersion": "2021", "SupportedBitness": "64" }'

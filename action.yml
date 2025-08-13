@@ -51,8 +51,8 @@ ${{ inputs.args_json }}
           $params['DryRun'] = $true
         }
 
-        # Locate the dispatcher script relative to this action folder.
-        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'Invoke-OSAction.ps1'
+        # Locate the dispatcher script relative to this repository root.
+        $script = Join-Path $env:GITHUB_ACTION_PATH 'actions' 'Invoke-OSAction.ps1'
 
         & $script @params
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
