@@ -33,11 +33,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
 }
 
 Describe 'Unified Dispatcher — DryRun behavior for all actions' {
-  $actions = pwsh -NoProfile -File $global:dispatcher -ListActions |
-    Where-Object { $_ -match '^\s+- ' } |
-    ForEach-Object { $_.Trim().Substring(2) }
-
-  $argsJson = (
+  $script:argsJson = (
     @{ MinimumSupportedLVVersion = '2021'
        VIP_LVVersion             = '2021'
        SupportedBitness          = '64'
@@ -55,7 +51,7 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
        Patch                     = 0
        Build                     = 1
        Commit                    = 'deadbeef'
-       DisplayInformationJSON    = '{}' 
+       DisplayInformationJSON    = '{}'
        OutputPath                = 'out.txt'
        CompanyName               = 'Company'
        AuthorName                = 'Author'
@@ -65,18 +61,21 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
        ExtraParam                = 'extra'
     } | ConvertTo-Json -Compress )
 
-  foreach ($name in $actions) {
-    $action = $name
-    It "describes $action" {
-      pwsh -NoProfile -File $global:dispatcher -Describe $action *>$null
-      $LASTEXITCODE | Should -Be 0
-    }
+  $actions = pwsh -NoProfile -File $global:dispatcher -ListActions |
+    Where-Object { $_ -match '^\s+- ' } |
+    ForEach-Object { @{ Action = $_.Trim().Substring(2); ArgsJson = $script:argsJson } }
 
-    It "dry-runs $action and warns on unknown args" {
-      $out = pwsh -NoProfile -File $global:dispatcher -ActionName $action -ArgsJson $argsJson -DryRun | Out-String
-      $LASTEXITCODE | Should -Be 0
-      $out | Should -Match 'Ignored unknown parameters'
-    }
+  It "describes <Action>" -ForEach $actions {
+    param($Action, $ArgsJson)
+    pwsh -NoProfile -File $global:dispatcher -Describe $Action *> $null
+    $LASTEXITCODE | Should -Be 0
+  }
+
+  It "dry-runs <Action> and warns on unknown args" -ForEach $actions {
+    param($Action, $ArgsJson)
+    $out = & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -DryRun *>&1 | Out-String
+    $LASTEXITCODE | Should -Be 0
+    $out | Should -Match 'Ignored unknown parameters'
   }
 }
 
