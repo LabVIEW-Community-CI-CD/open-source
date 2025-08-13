@@ -5,7 +5,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$repoRoot = Split-Path -Parent (Split-Path -Parent $PSCommandPath)
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
 $dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
 
 Describe 'Unified Dispatcher — discovery and validation' {
