@@ -27,6 +27,39 @@ function InvokeAddTokenToLabVIEW {
     return $LASTEXITCODE
 }
 
+function InvokeApplyVIPC {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)] [string] $MinimumSupportedLVVersion,
+        [Parameter(Mandatory)] [string] $VIP_LVVersion,
+        [Parameter(Mandatory)] [string] $SupportedBitness,
+        [Parameter(Mandatory)] [string] $RelativePath,
+        [Parameter()] [string] $VIPCPath,
+        [Parameter()] [string] $LogLevel = 'INFO',
+        [Parameter()] [switch] $DryRun,
+        [Parameter()] [string] $gcliPath
+    )
+    Write-Information "Executing ApplyVIPC (DryRun=$DryRun)"
+    $scriptPath = Join-Path $PSScriptRoot 'apply-vipc/ApplyVIPC.ps1'
+    $args = @{
+        MinimumSupportedLVVersion = $MinimumSupportedLVVersion
+        VIP_LVVersion             = $VIP_LVVersion
+        SupportedBitness          = $SupportedBitness
+        RelativePath              = $RelativePath
+        VIPCPath                  = $VIPCPath
+    }
+    if ($DryRun) {
+        Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
+        return 0
+    }
+    if ($gcliPath) {
+        $env:PATH = "$gcliPath;$($env:PATH)"
+    }
+    & $scriptPath @args
+    if (-not $?) { return 1 }
+    return $LASTEXITCODE
+}
+
 function InvokeBuildViPackage {
     [CmdletBinding()]
     param(
@@ -115,6 +148,49 @@ function InvokeBuild {
     return $LASTEXITCODE
 }
 
+function InvokeBuildLvlibp {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)] [string] $MinimumSupportedLVVersion,
+        [Parameter(Mandatory)] [string] $SupportedBitness,
+        [Parameter(Mandatory)] [string] $RelativePath,
+        [Parameter(Mandatory)] [string] $LabVIEW_Project,
+        [Parameter(Mandatory)] [string] $Build_Spec,
+        [Parameter(Mandatory)] [int] $Major,
+        [Parameter(Mandatory)] [int] $Minor,
+        [Parameter(Mandatory)] [int] $Patch,
+        [Parameter(Mandatory)] [int] $Build,
+        [Parameter(Mandatory)] [string] $Commit,
+        [Parameter()] [string] $LogLevel = 'INFO',
+        [Parameter()] [switch] $DryRun,
+        [Parameter()] [string] $gcliPath
+    )
+    Write-Information "Executing BuildLvlibp version $Major.$Minor.$Patch-$Build (DryRun=$DryRun)"
+    $scriptPath = Join-Path $PSScriptRoot 'build-lvlibp/Build_lvlibp.ps1'
+    $args = @{
+        MinimumSupportedLVVersion = $MinimumSupportedLVVersion
+        SupportedBitness          = $SupportedBitness
+        RelativePath              = $RelativePath
+        LabVIEW_Project           = $LabVIEW_Project
+        Build_Spec                = $Build_Spec
+        Major                     = $Major
+        Minor                     = $Minor
+        Patch                     = $Patch
+        Build                     = $Build
+        Commit                    = $Commit
+    }
+    if ($DryRun) {
+        Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
+        return 0
+    }
+    if ($gcliPath) {
+        $env:PATH = "$gcliPath;$($env:PATH)"
+    }
+    & $scriptPath @args
+    if (-not $?) { return 1 }
+    return $LASTEXITCODE
+}
+
 function InvokeCloseLabVIEW {
     [CmdletBinding()]
     param(
@@ -153,6 +229,35 @@ function InvokeGenerateReleaseNotes {
     Write-Information "Executing GenerateReleaseNotes (DryRun=$DryRun)"
     $scriptPath = Join-Path $PSScriptRoot 'generate-release-notes/GenerateReleaseNotes.ps1'
     $args = @{ OutputPath = $OutputPath }
+    if ($DryRun) {
+        Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
+        return 0
+    }
+    if ($gcliPath) {
+        $env:PATH = "$gcliPath;$($env:PATH)"
+    }
+    & $scriptPath @args
+    if (-not $?) { return 1 }
+    return $LASTEXITCODE
+}
+
+function InvokeMissingInProject {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)] [string] $LVVersion,
+        [Parameter(Mandatory)] [string] $Arch,
+        [Parameter(Mandatory)] [string] $ProjectFile,
+        [Parameter()] [string] $LogLevel = 'INFO',
+        [Parameter()] [switch] $DryRun,
+        [Parameter()] [string] $gcliPath
+    )
+    Write-Information "Executing MissingInProject (DryRun=$DryRun)"
+    $scriptPath = Join-Path $PSScriptRoot 'missing-in-project/CheckMissingInProject.ps1'
+    $args = @{
+        LVVersion   = $LVVersion
+        Arch        = $Arch
+        ProjectFile = $ProjectFile
+    }
     if ($DryRun) {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
