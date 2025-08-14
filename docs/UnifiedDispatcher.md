@@ -4,7 +4,7 @@ This package adds a single, stable entrypoint to run LabVIEW CI/CD scripts.
 
 - **Entry script:** `actions/Invoke-OSAction.ps1`
 - **Module:** `actions/OpenSourceActions.psm1/.psd1`
-- **Composite Action:** `actions/abstract-action/action.yml`
+- **Composite Action:** `action.yml` (repository root)
 - **Adapters included:** See [docs/index.md](index.md#action-reference) for the authoritative list of adapters
 - **Discovery:** `-ListActions` and `-Describe <name>`
 - **Dry run:** `-DryRun` logs the exact call and skips execution
@@ -27,7 +27,7 @@ pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests `
 ## Composite Action usage
 
 ```yaml
-- uses: ./actions/abstract-action
+- uses: ./
   with:
     action_name: run-unit-tests
     args_json: >
@@ -45,7 +45,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./actions/abstract-action
+      - uses: ./
         with:
           action_name: run-unit-tests
           args_json: >

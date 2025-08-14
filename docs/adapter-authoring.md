@@ -9,7 +9,7 @@ This guide explains the structure of the unified dispatcher and how to extend it
 - **Dispatcher Script (`Invoke-OSAction.ps1`)**: Entry point that parses inputs and dispatches to an adapter based on `-ActionName`.
 - **PowerShell Module (`OpenSourceActions.psm1`)**: Houses all adapter functions and shared logic.
 - **Underlying Scripts**: Implement the actual functionality and live under `actions/<action-name>/`.
-- **Composite Action (`abstract-action/action.yml`)**: Wraps the dispatcher for GitHub workflows.
+- **Composite Action (`action.yml`, repository root)**: Wraps the dispatcher for GitHub workflows.
 
 ## Naming Conventions
 

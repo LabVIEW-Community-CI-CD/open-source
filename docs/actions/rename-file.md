@@ -30,7 +30,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName rename-file -ArgsJson '{
 
 ```yaml
 - name: Rename file
-  uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: rename-file
     args_json: >-

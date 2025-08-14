@@ -12,11 +12,12 @@ Each action lives in a `scripts/<action-name>` folder. These PowerShell scripts 
 
 ## Composite action layout
 
-Composite actions share a common template in `actions/abstract-action`. Each published action folder wraps the dispatcher, pointing to the relevant adapter script with parameters and metadata.
+The composite action is defined at the repository root in `action.yml` and wraps the dispatcher. Workflows call this single action and specify which adapter to invoke.
 
 ## Repository layout
 
-- `actions/` – dispatcher and composite action template
+- `actions/` – dispatcher scripts and PowerShell module
+- `action.yml` – composite action entry point
 - `docs/` – MkDocs documentation, including this page
 - `scripts/` – adapter scripts invoked by the dispatcher
 - `tests/` – Pester tests and other verification scripts

@@ -7,7 +7,7 @@ Use the composite action to invoke any adapter by specifying its `action_name` a
 See [add-token-to-labview](actions/add-token-to-labview.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: add-token-to-labview
     args_json: >-
@@ -23,7 +23,7 @@ See [add-token-to-labview](actions/add-token-to-labview.md) for all parameters.
 See [apply-vipc](actions/apply-vipc.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: apply-vipc
     args_json: >-
@@ -41,7 +41,7 @@ See [apply-vipc](actions/apply-vipc.md) for all parameters.
 See [build](actions/build.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: build
     args_json: >-
@@ -63,7 +63,7 @@ See [build](actions/build.md) for all parameters.
 See [build-lvlibp](actions/build-lvlibp.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: build-lvlibp
     args_json: >-
@@ -86,7 +86,7 @@ See [build-lvlibp](actions/build-lvlibp.md) for all parameters.
 See [build-vi-package](actions/build-vi-package.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: build-vi-package
     args_json: >-
@@ -110,7 +110,7 @@ See [build-vi-package](actions/build-vi-package.md) for all parameters.
 See [close-labview](actions/close-labview.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: close-labview
     args_json: >-
@@ -125,7 +125,7 @@ See [close-labview](actions/close-labview.md) for all parameters.
 See [generate-release-notes](actions/generate-release-notes.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: generate-release-notes
     args_json: >-
@@ -139,7 +139,7 @@ See [generate-release-notes](actions/generate-release-notes.md) for all paramete
 See [missing-in-project](actions/missing-in-project.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: missing-in-project
     args_json: >-
@@ -155,7 +155,7 @@ See [missing-in-project](actions/missing-in-project.md) for all parameters.
 See [modify-vipb-display-info](actions/modify-vipb-display-info.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: modify-vipb-display-info
     args_json: >-
@@ -179,7 +179,7 @@ See [modify-vipb-display-info](actions/modify-vipb-display-info.md) for all para
 See [prepare-labview-source](actions/prepare-labview-source.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: prepare-labview-source
     args_json: >-
@@ -197,7 +197,7 @@ See [prepare-labview-source](actions/prepare-labview-source.md) for all paramete
 See [rename-file](actions/rename-file.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: rename-file
     args_json: >-
@@ -212,7 +212,7 @@ See [rename-file](actions/rename-file.md) for all parameters.
 See [restore-setup-lv-source](actions/restore-setup-lv-source.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: restore-setup-lv-source
     args_json: >-
@@ -230,7 +230,7 @@ See [restore-setup-lv-source](actions/restore-setup-lv-source.md) for all parame
 See [revert-development-mode](actions/revert-development-mode.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: revert-development-mode
     args_json: >-
@@ -244,7 +244,7 @@ See [revert-development-mode](actions/revert-development-mode.md) for all parame
 See [run-unit-tests](actions/run-unit-tests.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: run-unit-tests
     args_json: >-
@@ -259,7 +259,7 @@ See [run-unit-tests](actions/run-unit-tests.md) for all parameters.
 See [set-development-mode](actions/set-development-mode.md) for all parameters.
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+- uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: set-development-mode
     args_json: >-

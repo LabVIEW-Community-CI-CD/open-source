@@ -48,7 +48,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -Arg
 
 ```yaml
 - name: Modify VIPB display info
-  uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: modify-vipb-display-info
     args_json: >-

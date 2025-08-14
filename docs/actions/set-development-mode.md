@@ -28,7 +28,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName set-development-mode -ArgsJso
 
 ```yaml
 - name: Set development mode
-  uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: set-development-mode
     args_json: >-

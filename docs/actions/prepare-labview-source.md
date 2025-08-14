@@ -36,7 +36,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName prepare-labview-source -ArgsJ
 
 ```yaml
 - name: Prepare LabVIEW source
-  uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: prepare-labview-source
     args_json: >-
