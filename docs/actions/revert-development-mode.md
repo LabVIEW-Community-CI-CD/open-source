@@ -44,4 +44,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName revert-development-mode -Args
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/revert-development-mode/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/revert-development-mode/)
+Source: [scripts/revert-development-mode/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/revert-development-mode/)

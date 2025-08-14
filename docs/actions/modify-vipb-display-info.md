@@ -74,4 +74,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -Arg
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/modify-vipb-display-info/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/modify-vipb-display-info/)
+Source: [scripts/modify-vipb-display-info/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/modify-vipb-display-info/)

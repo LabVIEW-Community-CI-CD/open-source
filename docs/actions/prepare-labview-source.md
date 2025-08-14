@@ -56,4 +56,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName prepare-labview-source -ArgsJ
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/prepare-labview-source/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/prepare-labview-source/)
+Source: [scripts/prepare-labview-source/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/prepare-labview-source/)

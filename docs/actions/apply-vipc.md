@@ -56,4 +56,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/apply-vipc/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/apply-vipc/)
+Source: [scripts/apply-vipc/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/apply-vipc/)

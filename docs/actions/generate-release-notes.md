@@ -44,4 +44,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName generate-release-notes -ArgsJ
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/generate-release-notes/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/generate-release-notes/)
+Source: [scripts/generate-release-notes/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/generate-release-notes/)

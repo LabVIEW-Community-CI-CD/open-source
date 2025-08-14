@@ -56,4 +56,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName restore-setup-lv-source -Args
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/restore-setup-lv-source/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/restore-setup-lv-source/)
+Source: [scripts/restore-setup-lv-source/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/restore-setup-lv-source/)

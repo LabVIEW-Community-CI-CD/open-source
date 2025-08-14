@@ -68,4 +68,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/build/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/build/)
+Source: [scripts/build/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/build/)

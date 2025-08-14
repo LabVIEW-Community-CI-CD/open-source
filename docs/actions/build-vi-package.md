@@ -74,4 +74,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/build-vi-package/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/build-vi-package/)
+Source: [scripts/build-vi-package/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/build-vi-package/)

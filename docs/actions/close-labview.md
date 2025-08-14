@@ -47,4 +47,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName close-labview -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/close-labview/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/close-labview/)
+Source: [scripts/close-labview/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/close-labview/)

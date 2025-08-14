@@ -47,4 +47,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName rename-file -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/rename-file/](https://github.com/open-source-actions/open-source-actions/tree/main/scripts/rename-file/)
+Source: [scripts/rename-file/](https://github.com/open-source-actions/open-source-actions/tree/actions/scripts/rename-file/)
