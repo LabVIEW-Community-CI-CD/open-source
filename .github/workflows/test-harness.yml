@@ -50,11 +50,15 @@ jobs:
 
       - name: Missing in Project Check
         if: ${{ github.event.inputs.test_action == 'missing-in-project' }}
-        uses: LabVIEW-Community-CI-CD/open-source-actions/missing-in-project@v1
+        uses: LabVIEW-Community-CI-CD/open-source-actions@v1
         with:
-          lv-ver: 2021
-          arch: 64
-          project-file: lv_icon_editor.lvproj
+          action_name: missing-in-project
+          args_json: >
+            {
+              "LVVersion": "2021",
+              "Arch": "64",
+              "ProjectFile": "lv_icon_editor.lvproj"
+            }
 
       - name: Run Unit Tests
         if: ${{ github.event.inputs.test_action == 'run-unit-tests' }}
