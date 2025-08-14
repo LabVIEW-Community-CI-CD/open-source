@@ -47,7 +47,7 @@ runs:
         if ('${{ inputs.working_directory }}' -ne '') {
           $params['WorkingDirectory'] = '${{ inputs.working_directory }}'
         }
-        if (${{ inputs.dry_run }}) {
+        if ('${{ inputs.dry_run }}' -eq 'true') {
           $params['DryRun'] = $true
         }
 
