@@ -1,0 +1,40 @@
+# Pester Testing
+
+## Canonical argument helper
+
+Pester tests share a small helper module, `tests/pester/Helper/ArgsJson.psm1`, which exposes `Get-LabVIEWIconEditorArgsJson`. The function returns a canonical set of dispatcher arguments so every test starts from the same baseline. Using the helper avoids repeating boilerplate and keeps tests resilient to environment differences.
+
+## labview-icon-editor reference project
+
+The helper points at the **labview-icon-editor** project. This open-source repository is tiny, exercises common LabVIEW project layouts and does not require NI components to execute in dry-run mode. Using it as the reference project gives all tests a consistent, real-world example without adding heavy dependencies.
+
+## Adding new tests
+
+1. Create a `*.Tests.ps1` file under `tests/pester` or one of its subfolders.
+2. Import the helper module:
+   ```powershell
+   Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
+   ```
+3. Use `Get-LabVIEWIconEditorArgsJson` to obtain the canonical JSON for dispatcher calls.
+4. Include both positive and negative path tests where practical.
+5. Run the suite with `Invoke-Pester -CI -Path ./tests/pester` before submitting a pull request.
+
+### Positive path example
+
+```powershell
+It 'describes a known action' {
+  $json = Get-LabVIEWIconEditorArgsJson
+  $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp -ArgsJson $json | Out-String
+  $out | Should -Match 'Major'
+}
+```
+
+### Negative path example
+
+```powershell
+It 'fails on unknown action' {
+  $json = Get-LabVIEWIconEditorArgsJson
+  pwsh -NoProfile -File $global:dispatcher -ActionName no-such-action -ArgsJson $json *>$null
+  $LASTEXITCODE | Should -Be 1
+}
+```

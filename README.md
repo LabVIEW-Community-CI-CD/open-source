@@ -81,15 +81,23 @@ Get details about a specific action:
 pwsh actions/Invoke-OSAction.ps1 -Describe run-unit-tests
 ```
 
-## Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for general guidelines and [docs/contributing-docs.md](docs/contributing-docs.md) for documentation rules.
+## Testing
 
 Run the JavaScript tests with:
 
 ```bash
 npm test
 ```
+
+Pester tests cover the dispatcher and helper modules. See [docs/testing-pester.md](docs/testing-pester.md) for guidelines on using the canonical argument helper and adding new tests. Run them with:
+
+```powershell
+Invoke-Pester -CI -Path ./tests/pester
+```
+
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for general guidelines and [docs/contributing-docs.md](docs/contributing-docs.md) for documentation rules.
 
 To preview docs locally:
 
