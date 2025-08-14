@@ -44,4 +44,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName set-development-mode -ArgsJso
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/set-development-mode/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/set-development-mode/)
+Source: [scripts/set-development-mode/](../../scripts/set-development-mode/)

@@ -51,4 +51,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson 
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/missing-in-project/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/missing-in-project/)
+Source: [scripts/missing-in-project/](../../scripts/missing-in-project/)

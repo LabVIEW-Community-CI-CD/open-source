@@ -74,4 +74,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/build-vi-package/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/build-vi-package/)
+Source: [scripts/build-vi-package/](../../scripts/build-vi-package/)

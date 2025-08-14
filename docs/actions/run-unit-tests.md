@@ -48,4 +48,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/run-unit-tests/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/run-unit-tests/)
+Source: [scripts/run-unit-tests/](../../scripts/run-unit-tests/)

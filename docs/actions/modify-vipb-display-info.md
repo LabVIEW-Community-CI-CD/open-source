@@ -74,4 +74,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -Arg
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/modify-vipb-display-info/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/modify-vipb-display-info/)
+Source: [scripts/modify-vipb-display-info/](../../scripts/modify-vipb-display-info/)
