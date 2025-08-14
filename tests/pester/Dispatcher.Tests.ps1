@@ -7,18 +7,21 @@ $ErrorActionPreference = 'Stop'
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
 $global:dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
+Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
+
 
 Describe 'Unified Dispatcher — discovery and validation' {
   It 'lists available actions' {
-    $out = pwsh -NoProfile -File $global:dispatcher -ListActions | Out-String
+    $json = Get-LabVIEWIconEditorArgsJson
+    $out = pwsh -NoProfile -File $global:dispatcher -ListActions -ArgsJson $json | Out-String
     $out | Should -Match 'apply-vipc'
     $out | Should -Match 'build-lvlibp'
     $out | Should -Match 'missing-in-project'
     $out | Should -Match 'run-unit-tests'
   }
-
   It 'describes a known action (build-lvlibp)' {
-    $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp | Out-String
+    $json = Get-LabVIEWIconEditorArgsJson
+    $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp -ArgsJson $json | Out-String
     $out | Should -Match 'Major'
     $out | Should -Match 'Minor'
     $out | Should -Match 'Patch'
@@ -27,15 +30,13 @@ Describe 'Unified Dispatcher — discovery and validation' {
   }
 
   It 'fails gracefully on unknown action' {
-    pwsh -NoProfile -File $global:dispatcher -ActionName no-such-action -ArgsJson '{}' *>$null
+    $json = Get-LabVIEWIconEditorArgsJson
+    pwsh -NoProfile -File $global:dispatcher -ActionName no-such-action -ArgsJson $json *>$null
     $LASTEXITCODE | Should -Be 1
   }
 }
 
 Describe 'ArgsJson path handling' {
-  BeforeAll {
-    Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
-  }
   It 'handles Windows paths without manual escaping' {
     $json = Get-LabVIEWIconEditorArgsJson
     & $global:dispatcher -ActionName set-development-mode -ArgsJson $json -DryRun *> $null
@@ -59,13 +60,21 @@ Describe 'Filter-Args helper' {
 
   Describe 'close-labview parameter aliases' {
     It 'accepts camelCase args' {
-      $json = '{ "MinimumSupportedLVVersion": "2021", "SupportedBitness": "64" }'
+      $base = Get-LabVIEWIconEditorArgsJson | ConvertFrom-Json
+      $json = @{
+        MinimumSupportedLVVersion = $base.MinimumSupportedLVVersion
+        SupportedBitness = $base.SupportedBitness
+      } | ConvertTo-Json -Compress
       & $global:dispatcher -ActionName close-labview -ArgsJson $json -DryRun *> $null
       $LASTEXITCODE | Should -Be 0
     }
 
     It 'accepts snake_case args without warnings' {
-      $json = '{ "minimum_supported_lv_version": "2021", "supported_bitness": "64" }'
+      $base = Get-LabVIEWIconEditorArgsJson | ConvertFrom-Json
+      $json = @{
+        minimum_supported_lv_version = $base.MinimumSupportedLVVersion
+        supported_bitness = $base.SupportedBitness
+      } | ConvertTo-Json -Compress
       $out = & $global:dispatcher -ActionName close-labview -ArgsJson $json -DryRun *>&1 | Out-String
       $LASTEXITCODE | Should -Be 0
       $out | Should -Not -Match 'Ignored unknown parameters'
