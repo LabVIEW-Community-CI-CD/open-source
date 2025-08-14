@@ -1,0 +1,128 @@
+name: Open-Source Actions Test Harness
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_action:
+        description: "Which action to run (e.g. build-vi-package)"
+        required: true
+        type: choice
+        options: 
+          - apply-vipc
+          - compute-version
+          - missing-in-project
+          - run-unit-tests
+          - build-lvlibp
+          - close-labview
+          - rename-file
+          - generate-release-notes
+          - modify-vipb-display-info
+          - build-vi-package
+        default: missing-in-project
+
+jobs:
+  test:
+    if: ${{ github.event.inputs.test_action }}  # run job only if an action was selected
+    runs-on: self-hosted-windows-lv
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Prepare a dummy file for rename-file tests
+      - name: Create dummy file
+        if: ${{ github.event.inputs.test_action == 'rename-file' }}
+        run: echo "Test file for rename-file action." > dummy.txt
+
+      - name: Apply VIPC Dependencies
+        if: ${{ github.event.inputs.test_action == 'apply-vipc' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/apply-vipc@v1
+        with:
+          minimum_supported_lv_version: 2021
+          vip_lv_version: 2021
+          supported_bitness: 64
+          relative_path: ${{ github.workspace }}
+
+      - name: Compute Version
+        if: ${{ github.event.inputs.test_action == 'compute-version' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/compute-version@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Missing in Project Check
+        if: ${{ github.event.inputs.test_action == 'missing-in-project' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/missing-in-project@v1
+        with:
+          lv-ver: 2021
+          arch: 64
+          project-file: lv_icon_editor.lvproj
+
+      - name: Run Unit Tests
+        if: ${{ github.event.inputs.test_action == 'run-unit-tests' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+        with:
+          minimum_supported_lv_version: 2021
+          supported_bitness: 64
+
+      - name: Build Packed Library (PPL)
+        if: ${{ github.event.inputs.test_action == 'build-lvlibp' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/build-lvlibp@v1
+        with:
+          minimum_supported_lv_version: 2021
+          supported_bitness: 64
+          relative_path: ${{ github.workspace }}
+          major: 1
+          minor: 0
+          patch: 0
+          build: 0
+          commit: ${{ github.sha }}
+
+      - name: Close LabVIEW
+        if: ${{ github.event.inputs.test_action == 'close-labview' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/close-labview@v1
+        with:
+          minimum_supported_lv_version: 2021
+          supported_bitness: 64
+
+      - name: Rename File
+        if: ${{ github.event.inputs.test_action == 'rename-file' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/rename-file@v1
+        with:
+          current_filename: dummy.txt
+          new_filename: dummy-renamed.txt
+
+      - name: Generate Release Notes
+        if: ${{ github.event.inputs.test_action == 'generate-release-notes' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/generate-release-notes@v1
+        # (no inputs required; uses default output path)
+
+      - name: Modify VIPB Display Info
+        if: ${{ github.event.inputs.test_action == 'modify-vipb-display-info' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/modify-vipb-display-info@v1
+        with:
+          supported_bitness: 64
+          relative_path: ${{ github.workspace }}
+          vipb_path: Tooling/deployment/NI Icon editor.vipb
+          minimum_supported_lv_version: 2023
+          # labview_minor_revision omitted (defaults to 3 for LV2023 SP1)
+          major: 1
+          minor: 0
+          patch: 0
+          build: 0
+          commit: ${{ github.sha }}
+          release_notes_file: ${{ github.workspace }}/Tooling/deployment/release_notes.md
+          display_information_json: '{}'
+
+      - name: Build VI Package
+        if: ${{ github.event.inputs.test_action == 'build-vi-package' }}
+        uses: LabVIEW-Community-CI-CD/open-source-actions/build-vi-package@v1
+        with:
+          supported_bitness: 64
+          minimum_supported_lv_version: 2023
+          # labview_minor_revision omitted (defaults to 3)
+          major: 1
+          minor: 0
+          patch: 0
+          build: 0
+          commit: ${{ github.sha }}
+          release_notes_file: ${{ github.workspace }}/Tooling/deployment/release_notes.md
+          display_information_json: '{}'
