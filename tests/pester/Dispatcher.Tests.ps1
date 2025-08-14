@@ -75,12 +75,14 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
 
   It "describes <Action>" -ForEach $actions {
     param($Action, $ArgsJson)
+    Write-Host "Testing $Action with ArgsJson $ArgsJson"
     pwsh -NoProfile -File $global:dispatcher -Describe $Action *> $null
     $LASTEXITCODE | Should -Be 0
   }
 
   It "prints description before dry-run <Action>" -ForEach $actions {
     param($Action, $ArgsJson)
+    Write-Host "Testing $Action with ArgsJson $ArgsJson"
     $describeOut = & $global:dispatcher -Describe $Action 6>&1 | Out-String
     & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -DryRun *> $null
     $LASTEXITCODE | Should -Be 0
@@ -89,6 +91,7 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
 
   It "dry-runs <Action> and warns on unknown args" -ForEach $actions {
     param($Action, $ArgsJson)
+    Write-Host "Testing $Action with ArgsJson $ArgsJson"
     $out = & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -DryRun *>&1 | Out-String
     $LASTEXITCODE | Should -Be 0
     $out | Should -Match 'Ignored unknown parameters'
