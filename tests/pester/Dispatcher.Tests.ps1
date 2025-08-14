@@ -33,8 +33,11 @@ Describe 'Unified Dispatcher — discovery and validation' {
 }
 
 Describe 'ArgsJson path handling' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
+  }
   It 'handles Windows paths without manual escaping' {
-    $json = '{ "RelativePath": "C:\path\foo" }'
+    $json = Get-LabVIEWIconEditorArgsJson
     & $global:dispatcher -ActionName set-development-mode -ArgsJson $json -DryRun *> $null
     $LASTEXITCODE | Should -Be 0
   }
