@@ -1,6 +1,6 @@
 # Action Call Reference
 
-Use the composite action to invoke any adapter by specifying its `action_name` and JSON arguments. Each section below shows a sample GitHub Actions step for calling one of the available actions. Refer to the linked action documentation for parameter details and return codes.
+Use the composite action to invoke any adapter by specifying its `action_name` and JSON arguments. Each section below shows a sample GitHub Actions step for calling one of the available actions. Refer to the linked action documentation for parameter details and return codes. See [common parameters](common-parameters.md) for options shared across actions.
 
 ## add-token-to-labview
 
