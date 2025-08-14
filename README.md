@@ -1,6 +1,6 @@
-# LabVIEW Community CI/CD — Unified Dispatcher
+# Unified LabVIEW Action
 
-PowerShell-based actions for LabVIEW build and test tasks exposed through a single dispatcher script. See the [documentation site](https://open-source-actions.github.io/open-source-actions/) for setup and action reference. The [quickstart](docs/quickstart.md) shows a full example and [Unified Dispatcher](docs/UnifiedDispatcher.md) describes how the dispatcher works. For an overview of the project's architecture, see [docs/architecture.md](docs/architecture.md).
+Unified LabVIEW Action is a composite GitHub Action that dispatches LabVIEW CI/CD tasks via PowerShell. See the [documentation site](https://open-source-actions.github.io/open-source-actions/) for setup and action reference. The [quickstart](docs/quickstart.md) shows a full example and [Unified Dispatcher](docs/UnifiedDispatcher.md) describes how the dispatcher works. For an overview of the project's architecture, see [docs/architecture.md](docs/architecture.md).
 
 ## Prerequisites
 
