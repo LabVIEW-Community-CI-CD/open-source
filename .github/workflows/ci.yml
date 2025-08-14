@@ -37,31 +37,46 @@ jobs:
 
   dispatcher-tests:
     name: dispatcher-tests
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Run dispatcher tests
         shell: pwsh
-        run: Invoke-Pester -CI -Path tests/pester/Dispatcher.Tests.ps1
+        run: |
+          $testPath = Join-Path -Path 'tests/pester' -ChildPath 'Dispatcher.Tests.ps1'
+          Invoke-Pester -CI -Path $testPath
 
   dispatcher-dryrun-tests:
     name: dispatcher-dryrun-tests
     needs: dispatcher-tests
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Run dispatcher dry-run tests
         shell: pwsh
-        run: Invoke-Pester -CI -Path tests/pester/Dispatcher.DryRun.Tests.ps1
+        run: |
+          $testPath = Join-Path -Path 'tests/pester' -ChildPath 'Dispatcher.DryRun.Tests.ps1'
+          Invoke-Pester -CI -Path $testPath
 
   scriptpath-tests:
     name: scriptpath-tests
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Run scriptpath tests
         shell: pwsh
-        run: Invoke-Pester -CI -Path tests/pester/ScriptPath.Tests.ps1
+        run: |
+          $testPath = Join-Path -Path 'tests/pester' -ChildPath 'ScriptPath.Tests.ps1'
+          Invoke-Pester -CI -Path $testPath
 
   deploy-docs:
     if: github.ref == 'refs/heads/actions'

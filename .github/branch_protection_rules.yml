@@ -1,0 +1,10 @@
+actions:
+  required_status_checks:
+    - docs-lint
+    - node-tests
+    - dispatcher-tests (ubuntu-latest)
+    - dispatcher-tests (windows-latest)
+    - dispatcher-dryrun-tests (ubuntu-latest)
+    - dispatcher-dryrun-tests (windows-latest)
+    - scriptpath-tests (ubuntu-latest)
+    - scriptpath-tests (windows-latest)
