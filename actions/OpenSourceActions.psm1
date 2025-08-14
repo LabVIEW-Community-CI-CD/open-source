@@ -194,8 +194,8 @@ function InvokeBuildLvlibp {
 function InvokeCloseLabVIEW {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory)] [string] $MinimumSupportedLVVersion,
-        [Parameter(Mandatory)] [string] $SupportedBitness,
+        [Parameter(Mandatory)][Alias('minimum_supported_lv_version')] [string] $MinimumSupportedLVVersion,
+        [Parameter(Mandatory)][Alias('supported_bitness')]          [string] $SupportedBitness,
         [Parameter()] [string] $LogLevel = 'INFO',
         [Parameter()] [switch] $DryRun,
         [Parameter()] [string] $gcliPath

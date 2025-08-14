@@ -99,3 +99,17 @@ Describe 'Filter-Args helper' {
     $result.PSObject.Properties.Name | Should -Contain 'UnknownParams'
   }
 }
+
+Describe 'close-labview parameter aliases' {
+  It 'accepts camelCase args' {
+    $json = '{ "MinimumSupportedLVVersion": "2021", "SupportedBitness": "64" }'
+    & $global:dispatcher -ActionName close-labview -ArgsJson $json -DryRun *> $null
+    $LASTEXITCODE | Should -Be 0
+  }
+
+  It 'accepts snake_case args' {
+    $json = '{ "minimum_supported_lv_version": "2021", "supported_bitness": "64" }'
+    & $global:dispatcher -ActionName close-labview -ArgsJson $json -DryRun *> $null
+    $LASTEXITCODE | Should -Be 0
+  }
+}

@@ -61,7 +61,12 @@ function Show-Description([string]$Name) {
 }
 
 function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn, [switch]$ReturnUnknownParams) {
-  $paramNames = (Get-Command $FuncName -ErrorAction Stop).Parameters.Keys
+  $cmd = Get-Command $FuncName -ErrorAction Stop
+  $paramNames = @()
+  foreach ($p in $cmd.Parameters.Values) {
+    $paramNames += $p.Name
+    if ($p.Aliases) { $paramNames += $p.Aliases }
+  }
   $unknown = @()
   $filtered = @{}
   foreach ($k in @($InputArgs.Keys)) {
