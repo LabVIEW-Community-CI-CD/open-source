@@ -44,6 +44,16 @@ jobs:
         shell: pwsh
         run: Invoke-Pester -CI -Path tests/pester/Dispatcher.Tests.ps1
 
+  dispatcher-dryrun-tests:
+    name: dispatcher-dryrun-tests
+    needs: dispatcher-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run dispatcher dry-run tests
+        shell: pwsh
+        run: Invoke-Pester -CI -Path tests/pester/Dispatcher.DryRun.Tests.ps1
+
   scriptpath-tests:
     name: scriptpath-tests
     runs-on: ubuntu-latest
