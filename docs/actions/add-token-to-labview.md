@@ -50,4 +50,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName add-token-to-labview -ArgsJso
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/add-token-to-labview/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/add-token-to-labview/)
+Source: [scripts/add-token-to-labview/](../../scripts/add-token-to-labview/)

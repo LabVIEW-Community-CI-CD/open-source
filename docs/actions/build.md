@@ -68,4 +68,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/build/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/build/)
+Source: [scripts/build/](../../scripts/build/)

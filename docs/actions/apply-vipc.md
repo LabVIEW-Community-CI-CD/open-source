@@ -56,4 +56,4 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-Source: [scripts/apply-vipc/](https://github.com/LabVIEW-Community-CI-CD/open-source-actions/tree/actions/scripts/apply-vipc/)
+Source: [scripts/apply-vipc/](../../scripts/apply-vipc/)
