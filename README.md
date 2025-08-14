@@ -26,6 +26,39 @@ Unified LabVIEW Action is a composite GitHub Action that dispatches LabVIEW CI/C
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{ "MinimumSupportedLVVersion": "2021", "SupportedBitness": "64" }'
 ```
 
+### Inputs
+
+| Name | Required | Default | Description |
+| ---- | -------- | ------- | ----------- |
+| `action_name` | yes | – | Name of the action to execute (e.g. `run-unit-tests`). |
+| `args_json` | no | `{}` | JSON string of arguments for the selected action. Use to pass parameters to the action. |
+| `working_directory` | no | _(none)_ | Directory where the action runs. Set when your project files are not at the repository root. |
+| `log_level` | no | `INFO` | Verbosity level (`ERROR`, `WARN`, `INFO`, `DEBUG`). Increase to `DEBUG` for troubleshooting. |
+| `dry_run` | no | `false` | Simulate the action without side effects. Helpful for verifying inputs. |
+
+#### Examples
+
+Run tests from a subfolder:
+
+```yaml
+- name: Run tests in module
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
+  with:
+    action_name: run-unit-tests
+    working_directory: src
+```
+
+Enable debug logging and perform a dry run:
+
+```yaml
+- name: Dry run with debug logs
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
+  with:
+    action_name: run-unit-tests
+    log_level: DEBUG
+    dry_run: true
+```
+
 ### Discovering actions
 
 List all available actions:
