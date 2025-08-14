@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Packed Library (32-bit)
-        uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+        uses: LabVIEW-Community-CI-CD/open-source-actions@v1
         with:
           action_name: build-lvlibp
           args_json: >

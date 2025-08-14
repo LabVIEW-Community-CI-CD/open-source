@@ -4,7 +4,7 @@ To keep documentation consistent and easy to review, please follow these rules w
 
 ## Action documentation
 
-When adding a new action, copy `docs/actions/_template.md` to `docs/actions/<action-name>.md` and complete each section: Purpose, Parameters, CLI example, GitHub Action example, and Return Codes.
+When adding a new action, copy [`doc-templates/action-doc-template.md`](../doc-templates/action-doc-template.md) to `docs/actions/<action-name>.md` and complete each section: Purpose, Parameters, CLI example, GitHub Action example, and Return Codes.
 
 ## Markdown linting
 

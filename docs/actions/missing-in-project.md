@@ -32,7 +32,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson 
 
 ```yaml
 - name: Check for Missing Project Items
-  uses: LabVIEW-Community-CI-CD/open-source-actions/abstract-action@v1
+  uses: LabVIEW-Community-CI-CD/open-source-actions@v1
   with:
     action_name: missing-in-project
     args_json: >-

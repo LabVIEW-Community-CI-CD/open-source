@@ -1,4 +1,4 @@
-name: 'Unified LabVIEW Action'
+name: 'Open Source LabVIEW Actions'
 description: 'Composite action to dispatch LabVIEW CI/CD tasks through a unified PowerShell interface.'
 inputs:
   action_name:
