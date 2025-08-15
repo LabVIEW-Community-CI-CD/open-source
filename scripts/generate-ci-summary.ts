@@ -249,12 +249,24 @@ async function generateActionDocs(dispatcherRegistryFile: string, wrapperDirs: s
 }
 
 async function main() {
-  const resultsGlob = process.env.TEST_RESULTS_GLOB || '**/junit*.xml';
   const mappingFile = process.env.REQ_MAPPING_FILE || 'requirements.json';
   const dispatcherRegistryFile = process.env.DISPATCHER_REGISTRY || 'dispatchers.json';
   const evidenceDir = process.env.EVIDENCE_DIR || 'test-screenshots';
 
-  const junitFiles = await glob(resultsGlob, { nodir: true });
+  let junitFiles: string[] = [];
+  const plural = process.env.TEST_RESULTS_GLOBS;
+  if (plural) {
+    const patterns = plural.split(/\s+/).filter(Boolean);
+    const found = new Set<string>();
+    for (const p of patterns) {
+      const matches = await glob(p, { nodir: true });
+      for (const f of matches) found.add(f);
+    }
+    junitFiles = Array.from(found);
+  } else {
+    const single = process.env.TEST_RESULTS_GLOB || '**/junit*.xml';
+    junitFiles = await glob(single, { nodir: true });
+  }
   if (junitFiles.length === 0) throw new Error('No JUnit files found');
 
   const tests = await collectTestCases(junitFiles, evidenceDir);
