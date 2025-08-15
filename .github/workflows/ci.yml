@@ -152,7 +152,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: action-docs
-          path: artifacts/action-docs.*
+          path: artifacts/action-docs.zip
           if-no-files-found: error
 
       - name: Upload evidence (optional)

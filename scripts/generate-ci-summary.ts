@@ -3,6 +3,10 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { glob } from 'glob';
 import { parseStringPromise } from 'xml2js';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
+
+const execFileAsync = promisify(execFile);
 
 /**
  * Load requirement mappings from a JSON file. Returns empty object when file
@@ -93,6 +97,92 @@ async function writeTraceability(results: SuiteResult[], mapping: Record<string,
   await fs.writeFile(path.join('artifacts', 'traceability.json'), JSON.stringify(trace, null, 2));
 }
 
+interface ActionParameter {
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+}
+
+interface ActionInfo {
+  name: string;
+  synopsis: string;
+  description: string;
+  parameters: ActionParameter[];
+}
+
+async function getActionInfo(scriptPath: string): Promise<ActionInfo> {
+  const psCommand = `Get-Help -Full -Path \"${scriptPath}\" | ConvertTo-Json -Depth 4`;
+  const { stdout } = await execFileAsync('pwsh', ['-NoLogo', '-NoProfile', '-Command', psCommand], { maxBuffer: 10 * 1024 * 1024 });
+  const help = JSON.parse(stdout);
+  const synopsis = help.Synopsis ?? '';
+  const description = Array.isArray(help.Description?.Text) ? help.Description.Text.join(' ') : (help.Description?.Text ?? '');
+  const paramsRaw = help.Parameters?.Parameter ?? [];
+  const paramsArr = Array.isArray(paramsRaw) ? paramsRaw : [paramsRaw];
+  const parameters: ActionParameter[] = paramsArr
+    .filter((p: any) => p)
+    .map((p: any) => ({
+      name: p.Name ?? '',
+      type: p.ParameterType?.Name ?? '',
+      required: String(p.Required).toLowerCase() === 'true',
+      description: Array.isArray(p.Description?.Text) ? p.Description.Text.join(' ') : (p.Description?.Text ?? ''),
+    }));
+  return { name: path.basename(path.dirname(scriptPath)), synopsis, description, parameters };
+}
+
+function renderActionDoc(template: string, info: ActionInfo): string {
+  const required = info.parameters.filter((p) => p.required);
+  const optional = info.parameters.filter((p) => !p.required);
+  const reqLines = required.length ? required.map((p) => `- **${p.name}** (\`${p.type}\`): ${p.description}`).join('\n') : 'None.';
+  const optLines = optional.length ? optional.map((p) => `- **${p.name}** (\`${p.type}\`): ${p.description}`).join('\n') : 'None.';
+  const exampleArgs: Record<string, string> = {};
+  for (const p of info.parameters) {
+    exampleArgs[p.name] = 'value';
+  }
+  const argsJson = JSON.stringify(exampleArgs);
+  const cliExample = ['```powershell', `pwsh -File actions/Invoke-OSAction.ps1 -ActionName ${info.name} -ArgsJson '${argsJson}'`, '```'].join('\n');
+  const yamlExample = [
+    '```yaml',
+    `- name: ${info.synopsis || info.name}`,
+    '  uses: LabVIEW-Community-CI-CD/open-source-actions@v1',
+    '  with:',
+    `    action_name: ${info.name}`,
+    '    args_json: >-',
+    `      ${argsJson}`,
+    '```',
+  ].join('\n');
+
+  let md = template.replace(/<action-name>/g, info.name);
+  md = md.replace('Briefly describe the action\'s goal.', info.synopsis || info.description || '');
+  md = md.replace('### Required\n\n- **Param1** (`type`): Description.\n\n', `### Required\n\n${reqLines}\n\n`);
+  md = md.replace('### Optional\n\n- **Param2** (`type`): Description.\n\n', `### Optional\n\n${optLines}\n\n`);
+  md = md.replace(/```powershell[\s\S]*?```/, cliExample);
+  md = md.replace(/```yaml[\s\S]*?```/, yamlExample);
+  return md;
+}
+
+async function generateActionDocs(): Promise<void> {
+  const scripts = await glob('scripts/*/*.ps1');
+  if (scripts.length === 0) return;
+  const template = await fs.readFile(path.join('doc-templates', 'action-doc-template.md'), 'utf8');
+  const outDir = path.join('artifacts', 'action-docs');
+  await fs.mkdir(outDir, { recursive: true });
+  for (const script of scripts) {
+    try {
+      const info = await getActionInfo(script);
+      const md = renderActionDoc(template, info);
+      await fs.writeFile(path.join(outDir, `${info.name}.md`), md);
+    } catch (err: any) {
+      console.warn(`Failed to document ${script}: ${err.message}`);
+    }
+  }
+  try {
+    await execFileAsync('zip', ['-r', 'action-docs.zip', 'action-docs'], { cwd: 'artifacts' });
+  } catch (err: any) {
+    console.warn(`Failed to zip action docs: ${err.message}`);
+  }
+}
+
 async function main() {
   const patternsEnv = process.env.TEST_RESULTS_GLOBS;
   if (!patternsEnv) {
@@ -120,6 +210,7 @@ async function main() {
   const mappingFile = process.env.REQ_MAPPING_FILE ?? 'requirements.json';
   const mapping = await loadRequirementMapping(path.resolve(mappingFile));
   await writeTraceability(results, mapping);
+  await generateActionDocs();
 
   if (results.some((r) => r.failures > 0)) {
     process.exitCode = 1;
