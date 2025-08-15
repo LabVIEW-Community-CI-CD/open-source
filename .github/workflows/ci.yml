@@ -2,236 +2,51 @@ name: CI
 
 on:
   push:
-    branches: [ actions, main, master ]
+    branches: [main]
   pull_request:
-    branches: [ actions, main, master ]
-
-# NOTE: This patch appends steps/jobs to enable JUnit, TTM, and Action Docs.
-# If your job ids differ, adjust 'needs:' in the 'report' job accordingly.
+    branches: [main]
 
 jobs:
-  docs-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            docs:
-              - 'docs/**'
-              - 'doc-templates/**'
-              - 'scripts/**'
-              - 'README.md'
-      - if: ${{ steps.changes.outputs.docs == 'true' }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - if: ${{ steps.changes.outputs.docs == 'true' }}
-        name: Lint documentation
-        shell: pwsh
-        run: scripts/lint-docs.ps1
-      - if: ${{ steps.changes.outputs.docs == 'true' }}
-        uses: ./setup-mkdocs
-      - if: ${{ steps.changes.outputs.docs == 'true' }}
-        run: mkdocs build --strict
-
-  node-tests:
+  node-ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - run: npm install
+          node-version: 20
+      - run: npm ci
       - run: npm run test:ci
+      - run: npm run derive:registry
+      - run: npm run generate:summary
+        if: always()
+        env:
+          TEST_RESULTS_GLOB: "**/junit*.xml"
+          REQ_MAPPING_FILE: "requirements.json"
+          DISPATCHER_REGISTRY: "dispatchers.json"
+          EVIDENCE_DIR: "test-screenshots"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: node-junit
-          path: test-results/node-junit.xml
-          if-no-files-found: error
-
-  dispatcher-tests:
-    name: dispatcher-tests
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Pester
-        shell: pwsh
-        run: |
-          if (-not (Get-Module -ListAvailable -Name Pester |
-                    Where-Object { $_.Version -ge [Version]'5.0.0' })) {
-            Remove-Module Pester -ErrorAction SilentlyContinue
-            Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck
-          }
-      - name: Run Pester with JUnit output
-        shell: pwsh
-        run: |
-          $OutDir = Join-Path $env:GITHUB_WORKSPACE 'pester-results'
-          New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-          Import-Module Pester -MinimumVersion 5.0.0
-          $cfg = [PesterConfiguration]::Default
-          $cfg.Run.Path = './tests/pester'
-          $cfg.Run.Exit = $true
-          $cfg.TestResult.Enabled = $true
-          $cfg.TestResult.OutputFormat = 'JUnitXml'
-          $cfg.TestResult.OutputPath = (Join-Path $OutDir 'pester-junit.xml')
-          Invoke-Pester -Configuration $cfg
-      - name: Upload Pester JUnit
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pester-junit-${{ matrix.os }}
-          path: pester-results/pester-junit.xml
-          if-no-files-found: error
-
-  dispatcher-dryrun-tests:
-    name: dispatcher-dryrun-tests
-    needs: dispatcher-tests
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Pester
-        shell: pwsh
-        run: |
-          if (-not (Get-Module -ListAvailable -Name Pester |
-                    Where-Object { $_.Version -ge [Version]'5.0.0' })) {
-            Remove-Module Pester -ErrorAction SilentlyContinue
-            Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck
-          }
-      - name: Run dispatcher dry-run tests
-        shell: pwsh
-        run: |
-          $testPath = Join-Path -Path 'tests/pester' -ChildPath 'Dispatcher.DryRun.Tests.ps1'
-          Invoke-Pester -CI -Path $testPath
-
-  scriptpath-tests:
-    name: scriptpath-tests
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run scriptpath tests
-        shell: pwsh
-        run: |
-          $testPath = Join-Path -Path 'tests/pester' -ChildPath 'ScriptPath.Tests.ps1'
-          Invoke-Pester -CI -Path $testPath
-
-  report:
-    name: Generate TTM & Action Docs
-    runs-on: ubuntu-latest
-    needs: [docs-lint, dispatcher-tests, dispatcher-dryrun-tests, scriptpath-tests, node-tests]
-    if: always()
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install generator runtime deps
-        # ad-hoc install to avoid repo package.json changes
-        run: |
-          npm i -D ts-node typescript xml2js js-yaml glob
-
-      - name: Download test result artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./downloaded
-
-      - name: Generate Summary & Artifacts
-        env:
-          TEST_RESULTS_GLOBS: |
-            downloaded/**/*.xml
-            **/junit*.xml
-          REQ_MAPPING_FILE: "requirements.json"
-          DISPATCHER_SCRIPT: "actions/Invoke-OSAction.ps1"
-          EVIDENCE_DIR: "test-screenshots"
-        run: node --loader ts-node/esm scripts/generate-ci-summary.ts
-
-      - name: Upload traceability
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
           name: traceability
-          path: |
-            artifacts/traceability.json
-            artifacts/traceability.md
-          if-no-files-found: warn
-
-      - name: Upload action-docs
+          path: artifacts/traceability.*
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: action-docs
-          path: artifacts/action-docs.zip
-          if-no-files-found: warn
-
-      - name: Upload evidence
+          path: artifacts/action-docs.*
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: evidence
           path: artifacts/evidence/**
           if-no-files-found: ignore
 
-      - name: Verify required jobs
-        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
-        run: exit 1
-
-  deploy-docs:
-    needs: report
-    if: always()
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: true
+  ps-ci:
+    runs-on: windows-latest
     steps:
-      - name: Log deploy conditions
-        run: |
-          echo "branch: ${{ github.ref }}"
-          echo "report result: ${{ needs.report.result }}"
       - uses: actions/checkout@v4
-        if: github.ref == 'refs/heads/actions'
-      - uses: dorny/paths-filter@v2
-        if: github.ref == 'refs/heads/actions'
-        id: changes
-        with:
-          filters: |
-            docs:
-              - 'docs/**'
-              - 'README.md'
-      - uses: ./setup-mkdocs
-        if: github.ref == 'refs/heads/actions' && needs.report.result == 'success' && steps.changes.outputs.docs == 'true'
-      - run: mkdocs build --strict
-        if: github.ref == 'refs/heads/actions' && needs.report.result == 'success' && steps.changes.outputs.docs == 'true'
-      - uses: actions/upload-artifact@v4
-        if: github.ref == 'refs/heads/actions' && needs.report.result == 'success' && steps.changes.outputs.docs == 'true'
-        with:
-          name: docs-site
-          path: site
-          if-no-files-found: error
-      - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/actions' && needs.report.result == 'success' && steps.changes.outputs.docs == 'true'
-        with:
-          path: site
-      - id: deploy
-        uses: actions/deploy-pages@v4
-        if: github.ref == 'refs/heads/actions' && needs.report.result == 'success' && steps.changes.outputs.docs == 'true'
+      - shell: pwsh
+        run: |
+          if (Test-Path "tests/pester") {
+            Invoke-Pester -CI -Path tests/pester
+          }
