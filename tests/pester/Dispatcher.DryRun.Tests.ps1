@@ -1,6 +1,7 @@
 #requires -Version 7.0
 # Pester v5+ tests that do NOT require LabVIEW/g-cli.
 # Run:  Invoke-Pester -CI -Path ./tests/pester
+# Requirement: REQ-002 - Dispatcher dry-run mode prints descriptions and warns on unknown arguments without executing actions.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

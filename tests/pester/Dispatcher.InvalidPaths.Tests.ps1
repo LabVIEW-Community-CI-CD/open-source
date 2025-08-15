@@ -1,5 +1,6 @@
 #requires -Version 7.0
 # Pester v5+ tests verifying dispatcher handling of invalid RelativePath
+# Requirement: REQ-005 - Dispatcher fails when RelativePath is missing or invalid.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

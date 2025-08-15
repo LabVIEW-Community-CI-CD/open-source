@@ -1,5 +1,6 @@
 #requires -Version 7.0
 # Verify that each action script exists in the expected location.
+# Requirement: REQ-004 - Every action script exists at the expected path.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

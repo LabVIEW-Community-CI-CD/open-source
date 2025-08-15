@@ -1,6 +1,7 @@
 #requires -Version 7.0
 # Pester v5+ tests that do NOT require LabVIEW/g-cli.
 # Run:  Invoke-Pester -CI -Path ./tests/pester
+# Requirement: REQ-001 - Dispatcher discovers available actions, describes them, and validates arguments.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

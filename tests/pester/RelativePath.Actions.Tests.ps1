@@ -1,5 +1,6 @@
 #requires -Version 7.0
 # Pester v5+ tests verifying RelativePath-consuming actions
+# Requirement: REQ-003 - Actions correctly resolve and pass RelativePath arguments without warnings.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
