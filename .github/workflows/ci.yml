@@ -54,12 +54,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install Pester (if needed)
+      - name: Install Pester
         shell: pwsh
-        run: |
-          if (-not (Get-Module -ListAvailable -Name Pester)) {
-            Install-Module Pester -Force -Scope CurrentUser -SkipPublisherCheck
-          }
+        run: Install-Module Pester -MinimumVersion 5.0.0 -Force -Scope CurrentUser -SkipPublisherCheck
       - name: Run Pester with JUnit output
         shell: pwsh
         run: |
