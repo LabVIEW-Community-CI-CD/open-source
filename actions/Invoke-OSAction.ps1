@@ -45,8 +45,8 @@ function Set-LogLevel {
 }
 
 function Show-List {
-  Write-Host 'Available actions:'
-  $Registry.Keys | Sort-Object | ForEach-Object { Write-Host " - $_" }
+  Write-Output 'Available actions:'
+  $Registry.Keys | Sort-Object | ForEach-Object { Write-Output " - $_" }
 }
 
 function Show-Description([string]$Name) {
@@ -62,7 +62,7 @@ function Show-Description([string]$Name) {
     $summaryLines += "- ``$($p.Name)``: ``$($p.ParameterType.Name)``"
   }
 
-  $consoleLines | ForEach-Object { Write-Host $_ }
+  $consoleLines | ForEach-Object { Write-Output $_ }
 
   if ($env:GITHUB_STEP_SUMMARY) {
     $summary = ($summaryLines -join [Environment]::NewLine) + [Environment]::NewLine
