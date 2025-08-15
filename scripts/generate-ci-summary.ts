@@ -9,28 +9,35 @@ import JSZip from 'jszip';
 
 const execFileAsync = promisify(execFile);
 
+interface Requirement {
+  id: string;
+  description: string;
+  tests: string[];
+}
+
 /**
- * Load requirement mappings from a JSON file. Returns empty object when file
+ * Load requirement mappings from a JSON file. Returns empty array when file
  * cannot be parsed or does not exist.
  */
-export async function loadRequirementMapping(mappingPath: string): Promise<Record<string, string>> {
+export async function loadRequirementMapping(mappingPath: string): Promise<Requirement[]> {
   try {
     const contents = await fs.readFile(mappingPath, 'utf8');
-    return JSON.parse(contents) as Record<string, string>;
+    const parsed = JSON.parse(contents);
+    return Array.isArray(parsed.requirements) ? (parsed.requirements as Requirement[]) : [];
   } catch (err: any) {
     console.warn(`Unable to read requirement mapping file at ${mappingPath}: ${err.message}`);
-    return {};
+    return [];
   }
 }
 
 /**
  * Find the requirement identifier for a given test name. Returns undefined if
- * the test name is not present in the mapping.
+ * the test name is not associated with any requirement.
  */
-export function findRequirementId(testName: string, mapping: Record<string, string>): string | undefined {
-  for (const [id, name] of Object.entries(mapping)) {
-    if (name === testName) {
-      return id;
+export function findRequirementId(testName: string, mapping: Requirement[]): string | undefined {
+  for (const req of mapping) {
+    if (req.tests.includes(testName)) {
+      return req.id;
     }
   }
   return undefined;
@@ -86,7 +93,7 @@ async function appendSummary(results: SuiteResult[]): Promise<void> {
   await fs.appendFile(summaryPath, md);
 }
 
-export async function writeTraceability(results: SuiteResult[], mapping: Record<string, string>): Promise<void> {
+export async function writeTraceability(results: SuiteResult[], mapping: Requirement[]): Promise<void> {
   const trace: Record<string, unknown> = {};
   for (const r of results) {
     const req = findRequirementId(r.name, mapping);
