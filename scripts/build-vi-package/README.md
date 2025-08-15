@@ -3,6 +3,7 @@
 Runs **`build_vip.ps1`** to update a `.vipb` file's display info and build the VI Package via g-cli.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `supported_bitness` | **Yes** | `64` | Target LabVIEW bitness. |
@@ -19,6 +20,7 @@ Runs **`build_vip.ps1`** to update a `.vipb` file's display info and build the V
 > **Note:** The action automatically uses the first `.vipb` file located in this directory.
 
 ## Quick-start
+
 ```yaml
 - uses: ./.github/actions/build-vi-package
   with:
@@ -34,4 +36,5 @@ Runs **`build_vip.ps1`** to update a `.vipb` file's display info and build the V
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

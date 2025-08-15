@@ -1,15 +1,26 @@
-name: Deploy Docs
+name: Docs
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 0'
+  pull_request:
+    branches: [actions]
+  push:
+    branches: [actions]
 
 jobs:
+  lint-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./actions/setup-mkdocs
+      - run: mkdocs build --strict
+
   deploy-docs:
+    if: github.event_name == 'push'
+    needs: lint-docs
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     permissions:
       contents: read
       pages: write
@@ -18,24 +29,11 @@ jobs:
       group: pages
       cancel-in-progress: true
     steps:
-      - name: Log deploy conditions
-        run: 'echo "branch: ${{ github.ref }}"'
       - uses: actions/checkout@v4
-        if: github.ref == 'refs/heads/actions'
       - uses: ./actions/setup-mkdocs
-        if: github.ref == 'refs/heads/actions'
       - run: mkdocs build --strict
-        if: github.ref == 'refs/heads/actions'
-      - uses: actions/upload-artifact@v4
-        if: github.ref == 'refs/heads/actions'
-        with:
-          name: docs-site
-          path: site
-          if-no-files-found: error
       - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/actions'
         with:
           path: site
       - id: deploy
         uses: actions/deploy-pages@v4
-        if: github.ref == 'refs/heads/actions'

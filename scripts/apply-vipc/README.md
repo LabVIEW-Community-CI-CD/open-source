@@ -5,6 +5,7 @@ Ensure a runner has all required LabVIEW packages installed before building or t
 ---
 
 ## Table of Contents
+
 1. [Prerequisites](#prerequisites)
 2. [Inputs](#inputs)
 3. [Quick-start](#quick-start)
@@ -15,6 +16,7 @@ Ensure a runner has all required LabVIEW packages installed before building or t
 ---
 
 ## Prerequisites
+
 | Requirement | Notes |
 |-------------|-------|
 | **Windows runner** | LabVIEW and g-cli are Windows only. |
@@ -25,6 +27,7 @@ Ensure a runner has all required LabVIEW packages installed before building or t
 ---
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `minimum_supported_lv_version` | **Yes** | `2021` | LabVIEW *major* version that the repo supports. |
@@ -35,6 +38,7 @@ Ensure a runner has all required LabVIEW packages installed before building or t
 ---
 
 ## Quick-start
+
 ```yaml
 # .github/workflows/ci-composite.yml (excerpt)
 steps:
@@ -49,11 +53,12 @@ steps:
 ```
 
 The CI pipeline applies these dependencies across multiple LabVIEW versions—2021 (32-bit and 64-bit) and 2023 (64-bit)—as shown in
-[`.github/workflows/ci-composite.yml`](../../workflows/ci-composite.yml).
+[`.github/workflows/ci.yml`](../../.github/workflows/ci.yml).
 
 ---
 
 ## How it works
+
 1. **Checkout** – pulls the repository to ensure scripts and the `.vipc` file are present.
 2. **PowerShell wrapper** – executes `ApplyVIPC.ps1` with the provided inputs.
 3. **g-cli invocation** – `ApplyVIPC.ps1` launches **g-cli** to apply the `.vipc` container to the specified LabVIEW installation.
@@ -62,6 +67,7 @@ The CI pipeline applies these dependencies across multiple LabVIEW versions—20
 ---
 
 ## Troubleshooting
+
 | Symptom | Hint |
 |---------|------|
 | *g-cli executable not found* | Ensure g-cli is installed and on `PATH`. |
@@ -71,4 +77,5 @@ The CI pipeline applies these dependencies across multiple LabVIEW versions—20
 ---
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

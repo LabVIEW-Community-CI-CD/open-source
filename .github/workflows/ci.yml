@@ -20,12 +20,14 @@ jobs:
           filters: |
             docs:
               - 'docs/**'
+              - 'doc-templates/**'
+              - 'scripts/**'
               - 'README.md'
-      - if: steps.changes.outputs.docs == 'true'
+      - if: ${{ steps.changes.outputs.docs == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - if: steps.changes.outputs.docs == 'true'
+      - if: ${{ steps.changes.outputs.docs == 'true' }}
         name: Lint documentation
         shell: pwsh
         run: scripts/lint-docs.ps1

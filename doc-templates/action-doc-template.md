@@ -6,7 +6,7 @@ Briefly describe the action's goal.
 
 ## Parameters
 
-Common parameters are described in [Common parameters](../common-parameters.md).
+Common parameters are described in [Common parameters](../docs/common-parameters.md).
 
 ### Required
 
@@ -44,6 +44,6 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName <action-name> -ArgsJson '{
 - `0` – success
 - non‑zero – failure
 
-For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
+For troubleshooting tips, see the [troubleshooting guide](../docs/troubleshooting.md).
 
 Source: [scripts/`<action-name>`/](../../scripts/<action-name>/) <!-- markdown-link-check-disable-line -->

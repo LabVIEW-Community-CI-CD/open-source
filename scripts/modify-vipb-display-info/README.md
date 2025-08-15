@@ -3,6 +3,7 @@
 Execute **`ModifyVIPBDisplayInfo.ps1`** to merge metadata into a `.vipb` file before packaging.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `supported_bitness` | **Yes** | `64` | Target LabVIEW bitness. |
@@ -19,6 +20,7 @@ Execute **`ModifyVIPBDisplayInfo.ps1`** to merge metadata into a `.vipb` file be
 | `display_information_json` | **Yes** | `'{}'` | JSON for display information. |
 
 ## Quick-start
+
 ```yaml
 - uses: ./.github/actions/modify-vipb-display-info
   with:
@@ -36,4 +38,5 @@ Execute **`ModifyVIPBDisplayInfo.ps1`** to merge metadata into a `.vipb` file be
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

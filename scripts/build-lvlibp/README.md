@@ -3,6 +3,7 @@
 Call **`Build_lvlibp.ps1`** to compile the editor packed library using g-cli.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `minimum_supported_lv_version` | **Yes** | `2021` | LabVIEW major version to use. |
@@ -32,4 +33,5 @@ The following example builds using LabVIEW 2021.
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).
