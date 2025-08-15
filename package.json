@@ -11,15 +11,15 @@
     "generate:summary": "node --loader ts-node/esm scripts/generate-ci-summary.ts"
   },
   "dependencies": {
-    "glob": "^10.3.10"
+    "glob": "^10.3.10",
+    "js-yaml": "^4.1.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
     "@types/xml2js": "^0.4.14",
-    "js-yaml": "^4.1.0",
     "ts-node": "^10.9.1",
     "tsx": "^4.7.0",
-    "typescript": "^5.4.0",
-    "xml2js": "^0.6.2"
+    "typescript": "^5.4.0"
   }
 }
