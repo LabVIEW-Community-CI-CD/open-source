@@ -56,7 +56,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Pester
         shell: pwsh
-        run: Install-Module Pester -MinimumVersion 5.0.0 -Force -Scope CurrentUser -SkipPublisherCheck
+        run: |
+          if (-not (Get-Module -ListAvailable -Name Pester -MinimumVersion 5.0.0)) {
+            Remove-Module Pester -ErrorAction SilentlyContinue
+            Install-Module Pester -MinimumVersion 5.0.0 -Force -Scope CurrentUser -SkipPublisherCheck
+          }
       - name: Run Pester with JUnit output
         shell: pwsh
         run: |
@@ -88,7 +92,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Pester
         shell: pwsh
-        run: Install-Module Pester -MinimumVersion 5.0.0 -Force -Scope CurrentUser -SkipPublisherCheck
+        run: |
+          if (-not (Get-Module -ListAvailable -Name Pester -MinimumVersion 5.0.0)) {
+            Remove-Module Pester -ErrorAction SilentlyContinue
+            Install-Module Pester -MinimumVersion 5.0.0 -Force -Scope CurrentUser -SkipPublisherCheck
+          }
       - name: Run dispatcher dry-run tests
         shell: pwsh
         run: |
