@@ -283,6 +283,7 @@ async function main() {
 
   const wrapperFiles = await glob('*/action.yml', { nodir: true });
   const wrapperDirs = wrapperFiles.map(f => path.dirname(f)).sort();
+  console.log('Discovered wrapper directories:', wrapperDirs.join(', '));
   const { docs, markdown } = await generateActionDocs(dispatcherRegistryFile, wrapperDirs);
 
   const actionDocMd = `### Action Documentation\n\n${markdown}`;

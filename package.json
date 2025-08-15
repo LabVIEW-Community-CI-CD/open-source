@@ -11,8 +11,7 @@
     "generate:summary": "node --loader ts-node/esm scripts/generate-ci-summary.ts"
   },
   "dependencies": {
-    "glob": "^10.3.10",
-    "jszip": "^3.10.1"
+    "glob": "^10.3.10"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
