@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { loadRequirementMapping, findRequirementId, parseJUnitFile, renderActionDoc } from './generate-ci-summary.ts';
+import { loadRequirementMapping, findRequirementId, parseJUnitFile, renderActionDoc, main } from './generate-ci-summary.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,4 +44,24 @@ test('renderActionDoc fills template placeholders', async () => {
   assert.ok(md.includes('**Opt** (`number`): optional param'));
   assert.ok(md.includes('pwsh -File actions/Invoke-OSAction.ps1 -ActionName demo-action'));
   assert.ok(md.includes('action_name: demo-action'));
+});
+
+test('main writes artifacts to artifacts directory', async () => {
+  const cwd = process.cwd();
+  try {
+    process.chdir(path.resolve(__dirname, '..'));
+    const junitXml = `<?xml version="1.0" encoding="UTF-8"?>\n<testsuite name="Sample" tests="1">\n  <testcase name="Dispatcher.Tests"/>\n</testsuite>`;
+    const junitPath = path.join(__dirname, 'ci-junit.xml');
+    await fs.writeFile(junitPath, junitXml);
+    process.env.TEST_RESULTS_GLOBS = junitPath;
+    await fs.rm('artifacts', { recursive: true, force: true });
+    await main();
+    await fs.access(path.join('artifacts', 'traceability.json'));
+    await fs.access(path.join('artifacts', 'action-docs.zip'));
+    await fs.unlink(junitPath);
+  } finally {
+    delete process.env.TEST_RESULTS_GLOBS;
+    await fs.rm(path.join(process.cwd(), 'artifacts'), { recursive: true, force: true });
+    process.chdir(cwd);
+  }
 });

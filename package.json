@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "glob": "^10.3.10",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "jszip": "^3.10.1"
   },
   "devDependencies": {
     "@types/xml2js": "^0.4.14",
