@@ -5,6 +5,7 @@ import { glob } from 'glob';
 import { parseStringPromise } from 'xml2js';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
+import JSZip from 'jszip';
 
 const execFileAsync = promisify(execFile);
 
@@ -85,7 +86,7 @@ async function appendSummary(results: SuiteResult[]): Promise<void> {
   await fs.appendFile(summaryPath, md);
 }
 
-async function writeTraceability(results: SuiteResult[], mapping: Record<string, string>): Promise<void> {
+export async function writeTraceability(results: SuiteResult[], mapping: Record<string, string>): Promise<void> {
   const trace: Record<string, unknown> = {};
   for (const r of results) {
     const req = findRequirementId(r.name, mapping);
@@ -161,7 +162,29 @@ export function renderActionDoc(template: string, info: ActionInfo): string {
   return md;
 }
 
-async function generateActionDocs(): Promise<void> {
+async function zipDirectory(sourceDir: string, outPath: string): Promise<void> {
+  const zip = new JSZip();
+  const root = zip.folder(path.basename(sourceDir));
+  if (!root) throw new Error('Unable to create zip folder');
+  async function addDir(dir: string, folder: JSZip): Promise<void> {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        const sub = folder.folder(entry.name);
+        if (sub) await addDir(full, sub);
+      } else if (entry.isFile()) {
+        const data = await fs.readFile(full);
+        folder.file(entry.name, data);
+      }
+    }
+  }
+  await addDir(sourceDir, root);
+  const content = await zip.generateAsync({ type: 'nodebuffer' });
+  await fs.writeFile(outPath, content);
+}
+
+export async function generateActionDocs(): Promise<void> {
   const scripts = await glob('scripts/*/*.ps1');
   if (scripts.length === 0) return;
   const template = await fs.readFile(path.join('doc-templates', 'action-doc-template.md'), 'utf8');
@@ -177,13 +200,13 @@ async function generateActionDocs(): Promise<void> {
     }
   }
   try {
-    await execFileAsync('zip', ['-r', 'action-docs.zip', 'action-docs'], { cwd: 'artifacts' });
+    await zipDirectory(outDir, path.join('artifacts', 'action-docs.zip'));
   } catch (err: any) {
-    console.warn(`Failed to zip action docs: ${err.message}`);
+    throw new Error(`Failed to zip action docs: ${err.message}`);
   }
 }
 
-async function main() {
+export async function main() {
   const patternsEnv = process.env.TEST_RESULTS_GLOBS;
   if (!patternsEnv) {
     console.warn('TEST_RESULTS_GLOBS not set');
@@ -209,10 +232,18 @@ async function main() {
 
   const mappingFile = process.env.REQ_MAPPING_FILE ?? 'requirements.json';
   const mapping = await loadRequirementMapping(path.resolve(mappingFile));
-  await writeTraceability(results, mapping);
-  await generateActionDocs();
+  let artifactError = false;
+  try {
+    await writeTraceability(results, mapping);
+    await generateActionDocs();
+    await fs.access(path.join('artifacts', 'traceability.json'));
+    await fs.access(path.join('artifacts', 'action-docs.zip'));
+  } catch (err: any) {
+    console.error(`Artifact generation failed: ${err.message}`);
+    artifactError = true;
+  }
 
-  if (results.some((r) => r.failures > 0)) {
+  if (results.some((r) => r.failures > 0) || artifactError) {
     process.exitCode = 1;
   }
 }
