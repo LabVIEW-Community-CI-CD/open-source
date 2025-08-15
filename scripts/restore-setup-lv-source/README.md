@@ -3,6 +3,7 @@
 Run **`RestoreSetupLVSource.ps1`** to restore packaged LabVIEW sources and remove INI tokens.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `minimum_supported_lv_version` | **Yes** | `2021` | LabVIEW major version. |
@@ -12,6 +13,7 @@ Run **`RestoreSetupLVSource.ps1`** to restore packaged LabVIEW sources and remov
 | `build_spec` | **Yes** | `Editor Packed Library` | Build specification name. |
 
 ## Quick-start
+
 ```yaml
 - uses: ./.github/actions/restore-setup-lv-source
   with:
@@ -23,4 +25,5 @@ Run **`RestoreSetupLVSource.ps1`** to restore packaged LabVIEW sources and remov
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

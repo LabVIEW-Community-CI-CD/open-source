@@ -3,11 +3,13 @@
 Invoke **`RevertDevelopmentMode.ps1`** to restore packaged sources after development work.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `relative_path` | **Yes** | `${{ github.workspace }}` | Repository root path. |
 
 ## Quick-start
+
 ```yaml
 - uses: ./.github/actions/revert-development-mode
   with:
@@ -15,4 +17,5 @@ Invoke **`RevertDevelopmentMode.ps1`** to restore packaged sources after develop
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

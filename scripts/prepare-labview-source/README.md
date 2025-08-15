@@ -3,6 +3,7 @@
 Runs **`Prepare_LabVIEW_source.ps1`** to unpack and configure project sources before builds.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `minimum_supported_lv_version` | **Yes** | `2021` | LabVIEW major version. |
@@ -12,6 +13,7 @@ Runs **`Prepare_LabVIEW_source.ps1`** to unpack and configure project sources be
 | `build_spec` | **Yes** | `Editor Packed Library` | Build specification name. |
 
 ## Quick-start
+
 ```yaml
 - uses: ./.github/actions/prepare-labview-source
   with:
@@ -23,4 +25,5 @@ Runs **`Prepare_LabVIEW_source.ps1`** to unpack and configure project sources be
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

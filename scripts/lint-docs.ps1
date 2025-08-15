@@ -12,7 +12,7 @@ $ErrorActionPreference = 'Stop'
 
 Write-Host 'Running markdownlint...'
 # Lint README and documentation Markdown files
-npx --yes markdownlint-cli README.md docs/**/*.md
+npx --yes markdownlint-cli README.md docs/**/*.md doc-templates/**/*.md scripts/**/*.md
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
@@ -41,7 +41,7 @@ if (Invoke-LinkCheck README.md) {
     $exitCode = 1
 }
 
-Get-ChildItem -Path 'docs' -Recurse -Filter '*.md' | ForEach-Object {
+Get-ChildItem -Path 'docs','doc-templates','scripts' -Recurse -Filter '*.md' | ForEach-Object {
     if (Invoke-LinkCheck $_.FullName) {
         $exitCode = 1
     }

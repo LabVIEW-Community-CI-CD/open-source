@@ -3,6 +3,7 @@
 Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
 
 ## Inputs
+
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `relative_path` | **Yes** | `${{ github.workspace }}` | Repository root on disk. |
@@ -16,6 +17,7 @@ Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
 | `author_name` | **Yes** | `Jane Doe` | Author for display info. |
 
 ## Quick-start
+
 ```yaml
 - uses: ./.github/actions/build
   with:
@@ -30,4 +32,5 @@ Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
 ```
 
 ## License
+
 This directory inherits the root repository’s license (MIT, unless otherwise noted).
