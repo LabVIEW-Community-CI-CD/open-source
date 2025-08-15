@@ -16,6 +16,12 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run test:ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: node-junit
+          path: test-results/node-junit.xml
+          if-no-files-found: error
       - run: npm run derive:registry
       - run: npm run generate:summary
         if: always()
@@ -42,11 +48,65 @@ jobs:
           if-no-files-found: ignore
 
   ps-ci:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - shell: pwsh
+      - name: Install Pester
+        shell: pwsh
+        run: |
+          if (-not (Get-Module -ListAvailable -Name Pester |
+                    Where-Object { $_.Version -ge [Version]'5.0.0' })) {
+            Remove-Module Pester -ErrorAction SilentlyContinue
+            Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck
+          }
+      - name: Run Pester
+        shell: pwsh
         run: |
           if (Test-Path "tests/pester") {
-            Invoke-Pester -CI -Path tests/pester
+            if ('${{ matrix.os }}' -eq 'windows-latest') {
+              $OutDir = Join-Path $env:GITHUB_WORKSPACE 'pester-results'
+              New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
+              Import-Module Pester -MinimumVersion 5.0.0
+              $cfg = [PesterConfiguration]::Default
+              $cfg.Run.Path = './tests/pester'
+              $cfg.Run.Exit = $true
+              $cfg.TestResult.Enabled = $true
+              $cfg.TestResult.OutputFormat = 'JUnitXml'
+              $cfg.TestResult.OutputPath = (Join-Path $OutDir 'pester-junit.xml')
+              Invoke-Pester -Configuration $cfg
+            } else {
+              Invoke-Pester -CI -Path tests/pester
+            }
           }
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'windows-latest' && always() }}
+        with:
+          name: pester-junit-${{ matrix.os }}
+          path: pester-results/pester-junit.xml
+          if-no-files-found: error
+
+  report:
+    needs: [node-ci, ps-ci]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          path: ./downloaded
+      - run: npm run derive:registry
+      - run: npm run generate:summary
+        env:
+          TEST_RESULTS_GLOBS: |
+            downloaded/**/*.xml
+            **/junit*.xml
+          REQ_MAPPING_FILE: requirements.json
+          DISPATCHER_REGISTRY: dispatchers.json
+          EVIDENCE_DIR: test-screenshots
