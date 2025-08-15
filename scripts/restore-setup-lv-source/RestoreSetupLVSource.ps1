@@ -45,10 +45,14 @@ try {
     Invoke-Expression $script
 
     # Check the exit code of the executed command
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "Unzip vi.lib/LabVIEW Icon API from LabVIEW $MinimumSupportedLVVersion ($SupportedBitness-bit) and remove localhost.library path from ini file"
+    $exitCode = $LASTEXITCODE
+    if ($exitCode -ne 0) {
+        Write-Error "g-cli exited with code $exitCode"
+        exit $exitCode
     }
+
+    Write-Host "Unzip vi.lib/LabVIEW Icon API from LabVIEW $MinimumSupportedLVVersion ($SupportedBitness-bit) and remove localhost.library path from ini file"
 } catch {
-    Write-Host ""
-    exit 0
+    Write-Error "Failed to restore LabVIEW source: $_"
+    exit 1
 }
