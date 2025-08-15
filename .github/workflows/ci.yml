@@ -120,7 +120,7 @@ jobs:
   report:
     name: Generate TTM & Action Docs
     runs-on: ubuntu-latest
-    needs: [dispatcher-tests, node-tests]
+    needs: [docs-lint, dispatcher-tests, dispatcher-dryrun-tests, scriptpath-tests, node-tests]
     if: always()
     steps:
       - name: Checkout
