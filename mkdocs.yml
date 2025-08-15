@@ -14,6 +14,8 @@ nav:
   - Versioning: versioning.md
   - Changelog: CHANGELOG.md
   - Contributing: contributing-docs.md
+  - Requirements: requirements.md
+  - Testing with Pester: testing-pester.md
   - Actions:
     - Add Token to LabVIEW: actions/add-token-to-labview.md
     - Apply VIPC: actions/apply-vipc.md
