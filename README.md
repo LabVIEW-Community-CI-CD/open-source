@@ -89,6 +89,8 @@ Run the JavaScript tests with:
 npm test
 ```
 
+For CI, `npm run test:ci` emits a JUnit XML report that `scripts/generate-ci-summary.ts` parses to build the step summary and requirement traceability files. The script also renders action documentation from the templates in `doc-templates/` and packages the generated Markdown into the build artifacts.
+
 Pester tests cover the dispatcher and helper modules. See [docs/testing-pester.md](docs/testing-pester.md) for guidelines on using the canonical argument helper and adding new tests. Run them with:
 
 ```powershell

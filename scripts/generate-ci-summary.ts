@@ -42,7 +42,7 @@ interface SuiteResult {
   passed: number;
 }
 
-async function parseJUnitFile(file: string): Promise<SuiteResult[]> {
+export async function parseJUnitFile(file: string): Promise<SuiteResult[]> {
   const xml = await fs.readFile(file, 'utf8');
   const data = await parseStringPromise(xml);
   const suites: any[] = [];
@@ -130,7 +130,7 @@ async function getActionInfo(scriptPath: string): Promise<ActionInfo> {
   return { name: path.basename(path.dirname(scriptPath)), synopsis, description, parameters };
 }
 
-function renderActionDoc(template: string, info: ActionInfo): string {
+export function renderActionDoc(template: string, info: ActionInfo): string {
   const required = info.parameters.filter((p) => p.required);
   const optional = info.parameters.filter((p) => !p.required);
   const reqLines = required.length ? required.map((p) => `- **${p.name}** (\`${p.type}\`): ${p.description}`).join('\n') : 'None.';

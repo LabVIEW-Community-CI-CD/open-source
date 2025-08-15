@@ -4,7 +4,7 @@ To keep documentation consistent and easy to review, please follow these rules w
 
 ## Action documentation
 
-When adding a new action, copy `doc-templates/action-doc-template.md` to `docs/actions/<action-name>.md` and complete each section: Purpose, Parameters, CLI example, GitHub Action example, and Return Codes.
+Documentation for PowerShell actions is generated automatically. During CI the script `scripts/generate-ci-summary.ts` reads the help metadata from each action and fills in `doc-templates/action-doc-template.md`. The rendered Markdown files are zipped into `artifacts/action-docs.zip`. Run `node scripts/generate-ci-summary.ts` locally to preview the generated docs.
 
 ## Markdown linting
 
@@ -49,3 +49,7 @@ You can use [MkDocs](https://www.mkdocs.org/) to preview documentation changes o
    ```
 
 MkDocs serves the site at <http://127.0.0.1:8000/> by default. The server automatically rebuilds when files change, so refresh the browser to see your latest edits.
+
+## JUnit integration
+
+The CI pipeline collects JUnit XML output from both Node and PowerShell tests. `scripts/generate-ci-summary.ts` parses these files to build the GitHub step summary and requirement traceability report. Use `npm run test:ci` to produce the Node JUnit report when verifying documentation updates.
