@@ -5,6 +5,7 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import { glob } from 'glob';
 import { parseStringPromise } from 'xml2js';
 import yaml from 'js-yaml';
+import { writeErrorSummary } from './error-handler';
 
 interface TestCase {
   id: string;
@@ -296,19 +297,10 @@ async function main() {
   }
 }
 
-main().catch(async (err: unknown) => {
-  const msg = `### Error\n\n${err instanceof Error ? err.message : String(err)}`;
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    try {
-      await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, msg + '\n');
-    } catch (appendErr: unknown) {
-      console.error(
-        'Failed to append error summary:',
-        appendErr instanceof Error ? appendErr.message : String(appendErr),
-      );
-    }
-  }
-  console.error('Error generating CI summary:', err);
-  process.exit(1);
-});
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
+  main().catch(async (err: unknown) => {
+    await writeErrorSummary(err);
+    process.exit(1);
+  });
+}
 
