@@ -1,6 +1,7 @@
 # AGENTS.md
 
 ## Testing
+- Run `npm run check:node` to verify Node.js satisfies the required version.
 - Run `npm install` to ensure Node dependencies are available.
 - Run `npm test`.
 - Run `npx --yes markdownlint-cli README.md docs/**/*.md scripts/**/*.md` to lint Markdown files.

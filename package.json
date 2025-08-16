@@ -8,6 +8,11 @@
     "node": ">=24"
   },
   "scripts": {
+    "check:node": "node scripts/check-node-version.js",
+    "pretest": "npm run check:node",
+    "pretest:ci": "npm run check:node",
+    "prederive:registry": "npm run check:node",
+    "pregenerate:summary": "npm run check:node",
     "test": "node --loader ts-node/esm --test scripts/**/*.test.js scripts/*.test.js",
     "test:ci": "mkdir -p test-results && node --loader ts-node/esm --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml",
     "derive:registry": "tsx scripts/derive-dispatcher-registry.ts",

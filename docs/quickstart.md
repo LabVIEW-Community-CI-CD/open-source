@@ -1,6 +1,6 @@
 # Quickstart
 
-1. **Install Requirements:** Ensure you have **NI LabVIEW** (with command-line interface support, often via *g-cli*) installed on the target runner. Most actions require LabVIEW and the NI g-cli tool to be available (Windows runners are recommended). Also verify PowerShell 7+ (`pwsh`) is available for cross-platform script execution.
+1. **Install Requirements:** Ensure you have **NI LabVIEW** (with command-line interface support, often via *g-cli*) installed on the target runner. Most actions require LabVIEW and the NI g-cli tool to be available (Windows runners are recommended). Also verify PowerShell 7+ (`pwsh`) is available for cross-platform script execution. Install **Node.js 24+** and run `npm install` to pull in the TypeScript dependencies used by helper scripts.
 2. **Invoke via Composite Action (GitHub):** Use the adapter-specific action in your workflow. For example, to **build a LabVIEW Packed Library**:
 
 ```yaml

@@ -14,7 +14,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: npm ci
+      - run: npm run check:node
+      - run: npm install
       - run: npm run test:ci
       - uses: actions/upload-artifact@v4
         if: always()
@@ -97,7 +98,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: npm ci
+      - run: npm run check:node
+      - run: npm install
       - uses: actions/download-artifact@v4
         with:
           path: ./downloaded

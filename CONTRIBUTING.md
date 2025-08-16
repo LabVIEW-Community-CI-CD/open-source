@@ -1,8 +1,9 @@
 # Contributing
 
-Contributions of all kinds are welcome. Before submitting pull requests, run the JavaScript tests and any available linters.
+Contributions of all kinds are welcome. Ensure you have Node.js 24 or newer installed, then run `npm install` to set up dependencies. Before submitting pull requests, run the JavaScript tests and any available linters.
 
 ```bash
+npm install
 npm test
 ```
 
