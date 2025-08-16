@@ -42,6 +42,27 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
 }'
 ```
 
+## GitHub Action inputs
+
+GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
+
+| Input | CLI parameter | Description |
+| --- | --- | --- |
+| `minimum_supported_lv_version` | `MinimumSupportedLVVersion` | Minimum LabVIEW version supported. |
+| `supported_bitness` | `SupportedBitness` | "32" or "64" bitness of LabVIEW. |
+| `relative_path` | `RelativePath` | Relative path containing the LabVIEW project. |
+| `labview_project` | `LabVIEW_Project` | Path to the LabVIEW project file. |
+| `build_spec` | `Build_Spec` | Name of the build specification. |
+| `major` | `Major` | Major version component. |
+| `minor` | `Minor` | Minor version component. |
+| `patch` | `Patch` | Patch version component. |
+| `build` | `Build` | Build number. |
+| `commit` | `Commit` | Commit identifier. |
+| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
+| `working_directory` | `WorkingDirectory` | Working directory where the action will run. |
+| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
+| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
+
 ## GitHub Action example
 
 ```yaml

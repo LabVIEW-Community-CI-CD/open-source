@@ -40,6 +40,26 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build -ArgsJson '{
 }'
 ```
 
+## GitHub Action inputs
+
+GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
+
+| Input | CLI parameter | Description |
+| --- | --- | --- |
+| `relative_path` | `RelativePath` | Relative path containing the LabVIEW project. |
+| `major` | `Major` | Major version component. |
+| `minor` | `Minor` | Minor version component. |
+| `patch` | `Patch` | Patch version component. |
+| `build` | `Build` | Build number. |
+| `commit` | `Commit` | Commit identifier. |
+| `labview_minor_revision` | `LabVIEWMinorRevision` | LabVIEW minor revision. |
+| `company_name` | `CompanyName` | Company name for the build. |
+| `author_name` | `AuthorName` | Author name for the build. |
+| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
+| `working_directory` | `WorkingDirectory` | Working directory where the action will run. |
+| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
+| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
+
 ## GitHub Action example
 
 ```yaml

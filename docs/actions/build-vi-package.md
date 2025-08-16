@@ -44,6 +44,29 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
 }'
 ```
 
+## GitHub Action inputs
+
+GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
+
+| Input | CLI parameter | Description |
+| --- | --- | --- |
+| `minimum_supported_lv_version` | `MinimumSupportedLVVersion` | Minimum LabVIEW version supported. |
+| `supported_bitness` | `SupportedBitness` | "32" or "64" bitness of LabVIEW. |
+| `labview_minor_revision` | `LabVIEWMinorRevision` | LabVIEW minor revision. |
+| `relative_path` | `RelativePath` | Relative path containing the project. |
+| `vipb_path` | `VIPBPath` | Path to the VIPB file. |
+| `major` | `Major` | Major version component. |
+| `minor` | `Minor` | Minor version component. |
+| `patch` | `Patch` | Patch version component. |
+| `build` | `Build` | Build number. |
+| `commit` | `Commit` | Commit identifier. |
+| `display_information_json` | `DisplayInformationJSON` | JSON string of display information. |
+| `release_notes_file` | `ReleaseNotesFile` | Optional path to release notes file. |
+| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
+| `working_directory` | `WorkingDirectory` | Working directory where the action will run. |
+| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
+| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
+
 ## GitHub Action example
 
 ```yaml
