@@ -47,6 +47,29 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v4
+      - name: Capture setup info
+        shell: pwsh
+        run: |
+          $data = [ordered]@{
+            'Current runner version' = $env:RUNNER_VERSION
+            'Runner Image'          = $env:ImageOS
+            'ImageVersion'          = $env:ImageVersion
+            'RUNNER_NAME'           = $env:RUNNER_NAME
+            'RUNNER_OS'             = $env:RUNNER_OS
+            'RUNNER_ARCH'           = $env:RUNNER_ARCH
+          }
+          $file = "setup-info-${{ matrix.os }}.md"
+          "was captured from the set up job." | Out-File -FilePath $file -Encoding utf8
+          foreach ($k in $data.Keys) {
+            if ($data[$k]) {
+              "$k: $($data[$k])" | Out-File -FilePath $file -Encoding utf8 -Append
+            }
+          }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: setup-info-${{ matrix.os }}
+          path: setup-info-${{ matrix.os }}.md
       - name: Install Pester
         shell: pwsh
         run: |
@@ -107,3 +130,13 @@ jobs:
         run: |
           cat artifacts/traceability.md >> "$GITHUB_STEP_SUMMARY"
           cat artifacts/traceability.md
+      - name: Include setup information
+        run: |
+          echo '## ubuntu-24.04' >> "$GITHUB_STEP_SUMMARY"
+          cat downloaded/setup-info-ubuntu-24.04/setup-info-ubuntu-24.04.md >> "$GITHUB_STEP_SUMMARY"
+          echo '## icon-editor-windows' >> "$GITHUB_STEP_SUMMARY"
+          cat downloaded/setup-info-icon-editor-windows/setup-info-icon-editor-windows.md >> "$GITHUB_STEP_SUMMARY"
+          echo '## ubuntu-24.04'
+          cat downloaded/setup-info-ubuntu-24.04/setup-info-ubuntu-24.04.md
+          echo '## icon-editor-windows'
+          cat downloaded/setup-info-icon-editor-windows/setup-info-icon-editor-windows.md
