@@ -23,17 +23,17 @@ jobs:
         if: always()
         with:
           name: traceability
-          path: artifacts/${{ toLower(runner.os) }}/traceability.*
+          path: artifacts/${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'macos' || 'linux' }}/traceability.*
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: action-docs
-          path: artifacts/${{ toLower(runner.os) }}/action-docs.*
+          path: artifacts/${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'macos' || 'linux' }}/action-docs.*
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: evidence
-          path: artifacts/${{ toLower(runner.os) }}/evidence/**
+          path: artifacts/${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'macos' || 'linux' }}/evidence/**
           if-no-files-found: ignore
 
   ps-ci:
