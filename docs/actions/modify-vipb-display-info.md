@@ -69,5 +69,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -Arg
 - non‑zero – g-cli or build error
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/modify-vipb-display-info/](../../scripts/modify-vipb-display-info/)

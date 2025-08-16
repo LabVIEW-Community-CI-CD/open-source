@@ -51,5 +51,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName prepare-labview-source -ArgsJ
 - non‑zero – g-cli error preparing source
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/prepare-labview-source/](../../scripts/prepare-labview-source/)

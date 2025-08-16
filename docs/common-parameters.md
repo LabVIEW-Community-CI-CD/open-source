@@ -1,6 +1,6 @@
 # Common Parameters
 
-Calls to `actions/Invoke-OSAction.ps1` share a core set of flags and environment variables.
+Calls to [actions/Invoke-OSAction.ps1](../actions/Invoke-OSAction.ps1) share a core set of flags and environment variables.
 
 ## Command-line flags
 

@@ -4,7 +4,7 @@ To keep documentation consistent and easy to review, please follow these rules w
 
 ## Action documentation
 
-Action documentation lives under [docs/actions/](actions/). Keep these files in sync with their corresponding implementations in [`scripts/`](../scripts).
+Action documentation lives under [docs/actions/](actions/). Keep these files in sync with their corresponding implementations in [scripts/](../scripts).
 
 ## Markdown linting
 

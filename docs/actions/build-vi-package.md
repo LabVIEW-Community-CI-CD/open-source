@@ -69,5 +69,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
 - non‑zero – g-cli or build error
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/build-vi-package/](../../scripts/build-vi-package/)

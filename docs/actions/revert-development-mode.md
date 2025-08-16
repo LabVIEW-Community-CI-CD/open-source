@@ -39,5 +39,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName revert-development-mode -Args
 - non‑zero – script or g-cli error
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/revert-development-mode/](../../scripts/revert-development-mode/)
