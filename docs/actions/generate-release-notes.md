@@ -39,5 +39,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName generate-release-notes -ArgsJ
 - non‑zero – git error generating notes
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/generate-release-notes/](../../scripts/generate-release-notes/)

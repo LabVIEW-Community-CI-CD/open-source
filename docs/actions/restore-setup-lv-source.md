@@ -51,5 +51,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName restore-setup-lv-source -Args
 - non‑zero – g-cli error restoring setup
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/restore-setup-lv-source/](../../scripts/restore-setup-lv-source/)

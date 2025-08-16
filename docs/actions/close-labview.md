@@ -42,5 +42,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName close-labview -ArgsJson '{
 - non‑zero – g-cli error closing LabVIEW
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/close-labview/](../../scripts/close-labview/)

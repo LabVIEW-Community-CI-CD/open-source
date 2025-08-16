@@ -46,5 +46,3 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson 
 - `2` – missing files found
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
-
-Source: [scripts/missing-in-project/](../../scripts/missing-in-project/)

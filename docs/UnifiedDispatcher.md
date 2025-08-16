@@ -2,8 +2,8 @@
 
 This package adds a single, stable entrypoint to run LabVIEW CI/CD scripts.
 
-- **Entry script:** `actions/Invoke-OSAction.ps1`
-- **Module:** `actions/OpenSourceActions.psm1/.psd1`
+- **Entry script:** [actions/Invoke-OSAction.ps1](../actions/Invoke-OSAction.ps1)
+- **Module:** [OpenSourceActions.psm1](../actions/OpenSourceActions.psm1)/[OpenSourceActions.psd1](../actions/OpenSourceActions.psd1)
 - **Adapters included:** See [docs/index.md](index.md#action-reference) for the authoritative list of adapters
 - **Discovery:** `-ListActions` and `-Describe <name>`
 - **Dry run:** `-DryRun` logs the exact call and skips execution
