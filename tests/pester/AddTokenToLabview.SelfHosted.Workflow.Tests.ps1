@@ -18,7 +18,7 @@ Describe 'AddTokenToLabview.SelfHosted.Workflow [REQ-008]' {
                 $addStep = $job.steps | Where-Object { $_.uses -eq './add-token-to-labview/action.yml' } | Select-Object -First 1
                 if ($null -ne $addStep) {
                     $workflowFound = $true
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $addStep.uses | Should -Be './add-token-to-labview/action.yml'
                     $addStep.with.minimum_supported_lv_version | Should -Not -BeNullOrEmpty
                     $addStep.with.supported_bitness | Should -Not -BeNullOrEmpty

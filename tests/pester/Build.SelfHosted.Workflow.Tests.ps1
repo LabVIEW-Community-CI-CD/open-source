@@ -13,7 +13,7 @@ Describe 'Build.SelfHosted.Workflow [REQ-009]' {
         $buildStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './build/action.yml' } | Select-Object -First 1
         $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match 'lv_icon_x64\.lvlibp' } | Select-Object -First 1
 
-        $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+        $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
 
         $buildStep.with.relative_path | Should -Be 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor'
         $buildStep.with.major | Should -Be '1'

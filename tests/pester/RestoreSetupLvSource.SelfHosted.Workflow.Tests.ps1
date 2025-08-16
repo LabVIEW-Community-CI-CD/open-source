@@ -18,7 +18,7 @@ Describe 'RestoreSetupLvSource.SelfHosted.Workflow [REQ-018]' {
                 $restoreStep = $job.steps | Where-Object { $_.uses -eq './restore-setup-lv-source/action.yml' } | Select-Object -First 1
                 if ($null -ne $restoreStep) {
                     $workflowFound = $true
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $restoreStep.with.relative_path | Should -Be 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor'
                     $restoreStep.env | Should -Not -BeNullOrEmpty
                     $artifactStep = $job.steps | Where-Object {

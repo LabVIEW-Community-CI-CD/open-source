@@ -5,7 +5,7 @@ on:
 
 jobs:
   apply-vipc:
-    runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: [self-hosted, icon-editor-windows]
     strategy:
       matrix:
         dry_run: [true, false]

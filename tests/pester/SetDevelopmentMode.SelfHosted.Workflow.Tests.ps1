@@ -18,7 +18,7 @@ Describe 'SetDevelopmentMode.SelfHosted.Workflow [REQ-021]' {
                 $setStep = $job.steps | Where-Object { $_.uses -eq './set-development-mode/action.yml' } | Select-Object -First 1
                 if ($null -ne $setStep) {
                     $workflowFound = $true
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $setStep.with.relative_path | Should -Be 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor'
                     $setStep.with.gcli_path | Should -Not -BeNullOrEmpty
                     $setStep.with.working_directory | Should -Not -BeNullOrEmpty

@@ -60,7 +60,7 @@ Results are returned as standard GitHub Action outputs so downstream jobs can d
 jobs:
   missing-in-project-check:
     needs: [changes, apply-deps]
-    runs-on: self-hosted-windows-lv
+    runs-on: icon-editor-windows
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -87,7 +87,7 @@ If you want **any** missing file to abort the pipeline immediately, place the st
 jobs:
   missing-in-project-check:
     needs: [changes, apply-deps]
-    runs-on: self-hosted-windows-lv
+    runs-on: icon-editor-windows
     strategy:
       matrix:
         arch: [32, 64]
