@@ -24,6 +24,91 @@
       "id": "REQ-005",
       "description": "Dispatcher fails when RelativePath is missing or invalid.",
       "tests": ["Dispatcher.InvalidPaths.Tests"]
+    },
+    {
+      "id": "REQ-006",
+      "description": "Workflow tests the composite action defined in apply-vipc/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv with dry_run true.",
+      "tests": ["ApplyVipc.SelfHosted.DryRunTrue.Workflow"]
+    },
+    {
+      "id": "REQ-007",
+      "description": "Workflow tests the composite action defined in apply-vipc/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv with dry_run false.",
+      "tests": ["ApplyVipc.SelfHosted.DryRunFalse.Workflow"]
+    },
+    {
+      "id": "REQ-008",
+      "description": "Workflow tests the composite action defined in add-token-to-labview/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["AddTokenToLabview.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-009",
+      "description": "Workflow tests the composite action defined in build/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["Build.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-010",
+      "description": "Workflow tests the composite action defined in build-lvlibp/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["BuildLvlibp.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-011",
+      "description": "Workflow tests the composite action defined in build-vi-package/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["BuildViPackage.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-012",
+      "description": "Workflow tests the composite action defined in close-labview/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["CloseLabview.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-013",
+      "description": "Workflow tests the composite action defined in generate-release-notes/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["GenerateReleaseNotes.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-014",
+      "description": "Workflow tests the composite action defined in missing-in-project/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["MissingInProject.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-015",
+      "description": "Workflow tests the composite action defined in modify-vipb-display-info/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["ModifyVipbDisplayInfo.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-016",
+      "description": "Workflow tests the composite action defined in prepare-labview-source/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["PrepareLabviewSource.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-017",
+      "description": "Workflow tests the composite action defined in rename-file/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["RenameFile.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-018",
+      "description": "Workflow tests the composite action defined in restore-setup-lv-source/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["RestoreSetupLvSource.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-019",
+      "description": "Workflow tests the composite action defined in revert-development-mode/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["RevertDevelopmentMode.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-020",
+      "description": "Workflow tests the composite action defined in run-unit-tests/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["RunUnitTests.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-021",
+      "description": "Workflow tests the composite action defined in set-development-mode/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["SetDevelopmentMode.SelfHosted.Workflow"]
+    },
+    {
+      "id": "REQ-022",
+      "description": "Workflow tests the composite action defined in setup-mkdocs/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": ["SetupMkdocs.SelfHosted.Workflow"]
     }
   ]
 }

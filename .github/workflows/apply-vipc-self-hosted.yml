@@ -1,0 +1,21 @@
+name: Apply VIPC (self-hosted test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apply-vipc:
+    runs-on: [self-hosted, self-hosted-windows-lv]
+    strategy:
+      matrix:
+        dry_run: [true, false]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run apply-vipc action (dry_run=${{ matrix.dry_run }})
+        uses: ./apply-vipc/action.yml
+        with:
+          minimum_supported_lv_version: '2020'
+          vip_lv_version: '2020'
+          supported_bitness: '64'
+          relative_path: '.'
+          dry_run: ${{ matrix.dry_run }}
