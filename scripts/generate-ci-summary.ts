@@ -200,6 +200,23 @@ export function summaryToMarkdown(totals: { overall: { passed: number; failed: n
   return lines.join('\n');
 }
 
+export function requirementsSummaryToMarkdown(groups: RequirementGroup[]) {
+  const lines = [
+    '### Requirement Summary',
+    '| Requirement ID | Description | Owner | Total Tests | Passed | Failed | Skipped | Pass Rate (%) |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- |',
+  ];
+  for (const g of groups) {
+    const total = g.tests.length;
+    const passed = g.tests.filter((t) => t.status === 'Passed').length;
+    const failed = g.tests.filter((t) => t.status === 'Failed').length;
+    const skipped = g.tests.filter((t) => t.status === 'Skipped').length;
+    const rate = passed + failed === 0 ? 0 : (passed / (passed + failed)) * 100;
+    lines.push(`| ${g.id} | ${g.description ?? ''} | ${g.owner ?? ''} | ${total} | ${passed} | ${failed} | ${skipped} | ${rate.toFixed(2)} |`);
+  }
+  return lines.join('\n');
+}
+
 export function groupToMarkdown(groups: RequirementGroup[], limit?: number) {
   const lines: string[] = [];
   let count = 0;
@@ -335,6 +352,7 @@ async function main() {
 
   const matrixMd = groupToMarkdown(groups);
   const summaryMd = summaryToMarkdown(totals);
+  const requirementsMd = requirementsSummaryToMarkdown(groups);
 
   const wrapperFiles = await glob('*/action.yml', { nodir: true });
   const wrapperDirs = wrapperFiles.map(f => path.dirname(f)).sort();
@@ -343,7 +361,8 @@ async function main() {
 
   await fs.writeFile(path.join(outDir, 'traceability.json'), JSON.stringify({ requirements: groups, totals }, null, 2));
   await fs.writeFile(path.join(outDir, 'traceability.md'), redact(`### Test Traceability Matrix\n\n${matrixMd}`));
-  await fs.writeFile(path.join(outDir, 'summary.md'), redact(summaryMd));
+  const combinedSummary = `${summaryMd}\n\n${requirementsMd}\n\n_For detailed per-test information, see [traceability.md](traceability.md)._`;
+  await fs.writeFile(path.join(outDir, 'summary.md'), redact(combinedSummary));
   await fs.writeFile(path.join(outDir, 'action-docs.json'), JSON.stringify(docs, null, 2));
   await fs.writeFile(path.join(outDir, 'action-docs.md'), redact(markdown));
 
