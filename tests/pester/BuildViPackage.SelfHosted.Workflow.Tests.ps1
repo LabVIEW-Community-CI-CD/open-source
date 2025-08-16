@@ -17,7 +17,7 @@ Describe 'BuildViPackage.SelfHosted.Workflow [REQ-011]' {
         $buildStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './build-vi-package/action.yml' } | Select-Object -First 1
         $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match '\.vip$' } | Select-Object -First 1
 
-        $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+        $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
 
         $buildStep.with.vipb_path | Should -Be 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\Tooling\\deployment\\NI Icon editor.vipb'
         $buildStep.with.major | Should -Be '1'

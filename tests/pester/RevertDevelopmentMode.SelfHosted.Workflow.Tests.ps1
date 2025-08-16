@@ -18,7 +18,7 @@ Describe 'RevertDevelopmentMode.SelfHosted.Workflow [REQ-019]' {
                 $revertStep = $job.steps | Where-Object { $_.uses -eq './revert-development-mode/action.yml' } | Select-Object -First 1
                 if ($null -ne $revertStep) {
                     $workflowFound = $true
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $revertStep.uses | Should -Be './revert-development-mode/action.yml'
                     $revertStep.with.relative_path | Should -Not -BeNullOrEmpty
                     $uploadStep = $job.steps | Where-Object {

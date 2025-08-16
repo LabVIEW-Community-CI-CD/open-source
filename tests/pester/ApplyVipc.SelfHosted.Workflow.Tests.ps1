@@ -13,7 +13,7 @@ Describe 'ApplyVipc.SelfHosted.DryRunTrue.Workflow [REQ-006]' {
         $applyStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './apply-vipc/action.yml' } | Select-Object -First 1
         $checkoutIconRepoStep = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with']['repository'] -eq 'LabVIEW-Community-CI-CD/labview-icon-editor' } | Select-Object -First 1
 
-        $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+        $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
         $job.strategy.matrix.dry_run | Should -Contain $true
 
         $checkoutIconRepoStep.uses | Should -Be 'actions/checkout@v4'
@@ -38,7 +38,7 @@ Describe 'ApplyVipc.SelfHosted.DryRunFalse.Workflow [REQ-007]' {
         $applyStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './apply-vipc/action.yml' } | Select-Object -First 1
         $checkoutIconRepoStep = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with']['repository'] -eq 'LabVIEW-Community-CI-CD/labview-icon-editor' } | Select-Object -First 1
 
-        $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+        $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
         $job.strategy.matrix.dry_run | Should -Contain $false
 
         $checkoutIconRepoStep.uses | Should -Be 'actions/checkout@v4'

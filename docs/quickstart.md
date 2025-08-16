@@ -6,7 +6,7 @@
 ```yaml
 jobs:
   build_lvlibp:
-    runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: [self-hosted, icon-editor-windows]
     steps:
       - uses: actions/checkout@v3
       - name: Build Packed Library (32-bit)
@@ -53,7 +53,7 @@ Chain the [apply-vipc](actions/apply-vipc.md), [set-development-mode](actions/se
 ```yaml
 jobs:
   build_icon_editor:
-    runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: [self-hosted, icon-editor-windows]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4

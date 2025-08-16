@@ -19,7 +19,7 @@ Describe 'RenameFile.SelfHosted.Workflow [REQ-011]' {
                 if ($null -ne $renameStep) {
                     $workflowFound = $true
 
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $renameStep.uses | Should -Be './rename-file/action.yml'
                     $renameStep.with.current_filename | Should -Not -BeNullOrEmpty
                     $renameStep.with.new_filename | Should -Not -BeNullOrEmpty

@@ -5,7 +5,7 @@ on:
 
 jobs:
   close-labview:
-    runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: [self-hosted, icon-editor-windows]
     steps:
       - uses: actions/checkout@v4
       - name: Checkout target repository

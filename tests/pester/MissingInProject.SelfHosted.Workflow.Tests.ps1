@@ -18,7 +18,7 @@ Describe 'MissingInProject.SelfHosted.Workflow [REQ-014]' {
                 $missingStep = $job.steps | Where-Object { $_.uses -eq './missing-in-project/action.yml' } | Select-Object -First 1
                 if ($null -ne $missingStep) {
                     $workflowFound = $true
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $missingStep.uses | Should -Be './missing-in-project/action.yml'
                     $missingStep.with.lv_version | Should -Not -BeNullOrEmpty
                     $missingStep.with.arch | Should -Not -BeNullOrEmpty

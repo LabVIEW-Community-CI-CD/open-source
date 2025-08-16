@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-lvlibp:
-    runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: [self-hosted, icon-editor-windows]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4

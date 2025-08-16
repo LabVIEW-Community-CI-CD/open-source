@@ -22,7 +22,7 @@ Describe 'CloseLabview.SelfHosted.Workflow [REQ-012]' {
             $closeSteps = $job.steps | Where-Object { $_.uses -eq './close-labview/action.yml' }
             if ($closeSteps) {
                 $jobFound = $true
-                $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                 $bitness = $closeSteps | ForEach-Object { $_.with.supported_bitness }
                 $bitness | Should -Contain '32'
                 $bitness | Should -Contain '64'

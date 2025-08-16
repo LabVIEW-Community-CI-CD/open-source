@@ -13,7 +13,7 @@ Describe 'RunUnitTests.SelfHosted.Workflow [REQ-011]' {
         $testStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './run-unit-tests/action.yml' } | Select-Object -First 1
         $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match 'UnitTestReport\.xml' } | Select-Object -First 1
 
-        $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+        $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
 
         $testStep.with.minimum_supported_lv_version | Should -Be '2021'
         $testStep.with.supported_bitness | Should -Be '64'

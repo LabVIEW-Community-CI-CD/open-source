@@ -18,7 +18,7 @@ Describe 'ModifyVipbDisplayInfo.SelfHosted.Workflow [REQ-015]' {
                 $modStep = $job.steps | Where-Object { $_.uses -eq './modify-vipb-display-info/action.yml' } | Select-Object -First 1
                 if ($null -ne $modStep) {
                     $workflowFound = $true
-                    $job.'runs-on' | Should -Be @('self-hosted','self-hosted-windows-lv')
+                    $job.'runs-on' | Should -Be @('self-hosted','icon-editor-windows')
                     $modStep.uses | Should -Be './modify-vipb-display-info/action.yml'
                     $modStep.with.supported_bitness | Should -Not -BeNullOrEmpty
                     $modStep.with.relative_path | Should -Not -BeNullOrEmpty
