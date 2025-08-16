@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'ModifyVipbDisplayInfo.SelfHosted.Workflow [REQ-015]' {
     It 'runs modify-vipb-display-info action on a self-hosted runner and uploads VIPB artifact [REQ-015]' {

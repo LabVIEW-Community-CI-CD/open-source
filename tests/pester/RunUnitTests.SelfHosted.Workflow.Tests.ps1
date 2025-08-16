@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'RunUnitTests.SelfHosted.Workflow [REQ-011]' {
     It 'runs run-unit-tests action and uploads unit-test results [REQ-011]' {

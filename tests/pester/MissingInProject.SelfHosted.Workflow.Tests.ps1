@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'MissingInProject.SelfHosted.Workflow [REQ-014]' {
     It 'runs missing-in-project action on a self-hosted runner and uploads findings report [REQ-014]' {

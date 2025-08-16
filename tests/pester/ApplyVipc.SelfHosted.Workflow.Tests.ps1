@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'ApplyVipc.SelfHosted.DryRunTrue.Workflow [REQ-006]' {
     It 'runs apply-vipc action with dry_run true [REQ-006]' {

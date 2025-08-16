@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'SetDevelopmentMode.SelfHosted.Workflow [REQ-021]' {
     It 'runs set-development-mode action on a self-hosted runner and uploads logs [REQ-021]' {

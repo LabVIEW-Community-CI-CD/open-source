@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'BuildLvlibp.SelfHosted.Workflow [REQ-010]' {
     It 'runs build-lvlibp action and uploads lvlibp artifact [REQ-010]' {

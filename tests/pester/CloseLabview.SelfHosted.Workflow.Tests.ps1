@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'CloseLabview.SelfHosted.Workflow [REQ-012]' {
     It 'runs close-labview action for 32-bit and 64-bit and uploads logs [REQ-012]' {

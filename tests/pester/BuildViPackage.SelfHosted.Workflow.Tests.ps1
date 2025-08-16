@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'BuildViPackage.SelfHosted.Workflow [REQ-011]' {
     It 'runs build-vi-package action and uploads vi package artifact [REQ-011]' {

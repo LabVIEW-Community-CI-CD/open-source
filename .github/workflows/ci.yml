@@ -42,9 +42,13 @@ jobs:
         include:
           - os: ubuntu-24.04
             runs-on: ubuntu-24.04
+            runner_type: default
           - os: icon-editor-windows
             runs-on: [self-hosted, icon-editor-windows]
+            runner_type: integration
     runs-on: ${{ matrix.runs-on }}
+    env:
+      RUNNER_TYPE: ${{ matrix.runner_type }}
     steps:
       - uses: actions/checkout@v4
       - name: Capture setup info
@@ -79,8 +83,15 @@ jobs:
             Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck
           }
       - name: Install powershell-yaml
+        if: matrix.runner_type != 'integration'
         shell: pwsh
         run: Install-Module -Name powershell-yaml -Scope CurrentUser -Force
+      - name: Validate native YAML parsing
+        if: matrix.runner_type == 'integration'
+        shell: pwsh
+        run: |
+          $parsed = ConvertFrom-Yaml 'a: 1'
+          if ($parsed.a -ne 1) { throw 'YAML parsing failed' }
       - name: Run Pester
         shell: pwsh
         run: |

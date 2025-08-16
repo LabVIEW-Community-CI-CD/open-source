@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'PrepareLabviewSource.SelfHosted.Workflow [REQ-011]' {
     It 'runs prepare-labview-source action and uploads prepared source artifact [REQ-011]' {

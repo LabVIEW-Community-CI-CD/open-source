@@ -2,7 +2,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-Import-Module powershell-yaml
+if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
+    Import-Module powershell-yaml
+}
 
 Describe 'RestoreSetupLvSource.SelfHosted.Workflow [REQ-018]' {
     It 'runs restore-setup-lv-source action on a self-hosted runner and uploads restoration artifacts [REQ-018]' {
