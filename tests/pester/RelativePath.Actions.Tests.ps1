@@ -12,11 +12,12 @@ Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 Describe 'add-token-to-labview resolves RelativePath [REQ-003]' {
     It 'dry-runs without warnings [REQ-003]' {
         $json = Get-LabVIEWIconEditorArgsJson
+        $expected = ($json | ConvertFrom-Json).RelativePath
         $out = & $dispatcher -ActionName add-token-to-labview -ArgsJson $json -DryRun *>&1 | Out-String
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $expected
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -29,7 +30,7 @@ Describe 'apply-vipc resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -42,7 +43,7 @@ Describe 'build-vi-package resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -55,7 +56,7 @@ Describe 'build resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -68,7 +69,7 @@ Describe 'build-lvlibp resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -81,7 +82,7 @@ Describe 'modify-vipb-display-info resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -94,7 +95,7 @@ Describe 'prepare-labview-source resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -107,7 +108,7 @@ Describe 'restore-setup-lv-source resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -120,7 +121,7 @@ Describe 'revert-development-mode resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
@@ -133,7 +134,7 @@ Describe 'set-development-mode resolves RelativePath [REQ-003]' {
         $LASTEXITCODE | Should -Be 0
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
-        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be 'C:\labview-icon-editor'
+        ($jsonText | ConvertFrom-Json).RelativePath | Should -Be $b.RelativePath
         $out | Should -Not -Match 'Ignored unknown parameters'
     }
 }
