@@ -16,18 +16,16 @@ test('generate-ci-summary features', async () => {
   assert.match(content, /<details><summary>/);
 });
 
-test('writes useful summary for non-Error throws', async () => {
+test('writeErrorSummary skips summary file for non-Error throws', async () => {
   const tmp = new URL('./tmp-summary.md', import.meta.url);
   await fs.rm(tmp, { force: true });
   process.env.GITHUB_STEP_SUMMARY = fileURLToPath(tmp);
   const err = Object.create(null);
   err.message = 'boom';
   await writeErrorSummary(err);
-  const summary = await fs.readFile(tmp, 'utf8');
-  assert.match(summary, /boom/);
-  assert.doesNotMatch(summary, /\[Object: null prototype\]/);
+  const exists = await fs.stat(tmp).then(() => true, () => false);
+  assert.strictEqual(exists, false);
   delete process.env.GITHUB_STEP_SUMMARY;
-  await fs.rm(tmp, { force: true });
 });
 
 test('associates classname with requirement', async () => {

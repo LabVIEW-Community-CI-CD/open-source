@@ -58,18 +58,11 @@ function Show-Description([string]$Name) {
   $cmd = Get-Command $funcName -ErrorAction Stop
 
   $consoleLines = @("$key parameters:")
-  $summaryLines = @("### $key parameters")
   foreach ($p in $cmd.Parameters.Values) {
     $consoleLines += " - $($p.Name): $($p.ParameterType.Name)"
-    $summaryLines += "- ``$($p.Name)``: ``$($p.ParameterType.Name)``"
   }
 
   $consoleLines | ForEach-Object { Write-Output $_ }
-
-  if ($env:GITHUB_STEP_SUMMARY) {
-    $summary = ($summaryLines -join [Environment]::NewLine) + [Environment]::NewLine
-    Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $summary
-  }
 }
 
 function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn, [switch]$ReturnUnknownParams) {

@@ -1,5 +1,3 @@
-import fs from 'fs/promises';
-
 export function formatError(err: unknown): string {
   if (err instanceof Error) {
     return err.stack ?? err.message;
@@ -21,16 +19,5 @@ export function formatError(err: unknown): string {
 }
 
 export async function writeErrorSummary(err: unknown): Promise<void> {
-  const msg = `### Error\n\n${formatError(err)}`;
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    try {
-      await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, msg + '\n');
-    } catch (appendErr: unknown) {
-      console.error(
-        'Failed to append error summary:',
-        appendErr instanceof Error ? appendErr.message : String(appendErr),
-      );
-    }
-  }
-  console.error('Error generating CI summary:', err);
+  console.error(`Error generating CI summary: ${formatError(err)}`);
 }

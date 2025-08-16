@@ -16,7 +16,6 @@ provides a human‑readable summary for quick reference.
 Each test file is annotated with its corresponding requirement ID to maintain
 traceability between requirements and test coverage.
 
-During CI runs, `scripts/generate-ci-summary.ts` writes a compact step summary
-with overall pass/fail counts, pass rate, and a link to the `traceability.md`
+During CI runs, `scripts/generate-ci-summary.ts` produces the `traceability.md`
 artifact, which contains the full requirement traceability matrix.
 
