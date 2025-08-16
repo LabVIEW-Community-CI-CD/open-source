@@ -18,12 +18,18 @@ function InvokeAddTokenToLabVIEW {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeApplyVIPC {
@@ -50,12 +56,18 @@ function InvokeApplyVIPC {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeBuildViPackage {
@@ -96,12 +108,18 @@ function InvokeBuildViPackage {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeBuild {
@@ -136,12 +154,18 @@ function InvokeBuild {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeBuildLvlibp {
@@ -178,12 +202,18 @@ function InvokeBuildLvlibp {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeCloseLabVIEW {
@@ -204,12 +234,18 @@ function InvokeCloseLabVIEW {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeGenerateReleaseNotes {
@@ -226,12 +262,18 @@ function InvokeGenerateReleaseNotes {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeMissingInProject {
@@ -254,12 +296,18 @@ function InvokeMissingInProject {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeModifyVIPBDisplayInfo {
@@ -300,12 +348,18 @@ function InvokeModifyVIPBDisplayInfo {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokePrepareLabVIEWSource {
@@ -332,12 +386,18 @@ function InvokePrepareLabVIEWSource {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeRenameFile {
@@ -358,12 +418,18 @@ function InvokeRenameFile {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeRestoreSetupLVSource {
@@ -390,12 +456,18 @@ function InvokeRestoreSetupLVSource {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeRevertDevelopmentMode {
@@ -412,12 +484,18 @@ function InvokeRevertDevelopmentMode {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeRunUnitTests {
@@ -438,12 +516,18 @@ function InvokeRunUnitTests {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
 
 function InvokeSetDevelopmentMode {
@@ -460,10 +544,16 @@ function InvokeSetDevelopmentMode {
         Write-Information "DryRun: & $scriptPath $($args | ConvertTo-Json -Compress)"
         return 0
     }
-    if ($gcliPath) {
-        $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$($env:PATH)"
+    $originalPath = $env:PATH
+    try {
+        if ($gcliPath) {
+            $env:PATH = "$gcliPath$([System.IO.Path]::PathSeparator)$originalPath"
+        }
+        & $scriptPath @args
+        if (-not $?) { return 1 }
+        return $LASTEXITCODE
     }
-    & $scriptPath @args
-    if (-not $?) { return 1 }
-    return $LASTEXITCODE
+    finally {
+        $env:PATH = $originalPath
+    }
 }
