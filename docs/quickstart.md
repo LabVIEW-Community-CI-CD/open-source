@@ -6,7 +6,7 @@
 ```yaml
 jobs:
   build_lvlibp:
-    runs-on: windows-latest
+    runs-on: [self-hosted, self-hosted-windows-lv]
     steps:
       - uses: actions/checkout@v3
       - name: Build Packed Library (32-bit)

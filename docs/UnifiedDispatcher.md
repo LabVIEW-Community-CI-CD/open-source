@@ -43,8 +43,12 @@ jobs:
   unit-tests:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-24.04]
-    runs-on: ${{ matrix.os }}
+        include:
+          - os: ubuntu-24.04
+            runs-on: ubuntu-24.04
+          - os: self-hosted-windows-lv
+            runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./run-unit-tests

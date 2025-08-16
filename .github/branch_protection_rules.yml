@@ -3,8 +3,8 @@ actions:
     - docs-lint
     - node-tests
     - dispatcher-tests (ubuntu-24.04)
-    - dispatcher-tests (windows-latest)
+    - dispatcher-tests (self-hosted-windows-lv)
     - dispatcher-dryrun-tests (ubuntu-24.04)
-    - dispatcher-dryrun-tests (windows-latest)
+    - dispatcher-dryrun-tests (self-hosted-windows-lv)
     - scriptpath-tests (ubuntu-24.04)
-    - scriptpath-tests (windows-latest)
+    - scriptpath-tests (self-hosted-windows-lv)

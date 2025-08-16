@@ -39,8 +39,12 @@ jobs:
   ps-ci:
     strategy:
       matrix:
-        os: [ubuntu-24.04, windows-latest]
-    runs-on: ${{ matrix.os }}
+        include:
+          - os: ubuntu-24.04
+            runs-on: ubuntu-24.04
+          - os: self-hosted-windows-lv
+            runs-on: [self-hosted, self-hosted-windows-lv]
+    runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v4
       - name: Install Pester
