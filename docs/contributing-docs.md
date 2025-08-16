@@ -8,7 +8,8 @@ Documentation for PowerShell actions is generated automatically. During CI the s
 
 ## Markdown linting
 
-- Run `pwsh scripts/lint-docs.ps1` to lint Markdown and check links before submitting changes.
+- Run `npx --yes markdownlint-cli README.md docs/**/*.md doc-templates/**/*.md scripts/**/*.md` to lint Markdown formatting.
+- Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs doc-templates scripts -name '*.md')` to check links before submitting changes.
 - Keep one `#`-level heading at the top of each file and increment heading levels sequentially; do not skip levels.
 
 ## Heading levels
