@@ -2,8 +2,8 @@
 
 This project tracks high‑level requirements and maps each one to the Pester test
 files that verify it. The authoritative mapping is stored in
-[`requirements.json`](requirements.json); the table below provides a human‑readable
-summary for quick reference.
+[`requirements.json`](../requirements.json) at the repository root; the table below
+provides a human‑readable summary for quick reference.
 
 | ID | Description | Tests |
 |----|-------------|-------|
