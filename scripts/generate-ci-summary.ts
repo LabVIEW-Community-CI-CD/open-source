@@ -91,7 +91,8 @@ export async function collectTestCases(files: string[], evidenceDir: string): Pr
           const ownerMatch = name.match(/\[Owner:([^\]]+)\]/i);
           if (ownerMatch) test.owner = ownerMatch[1];
           const reqMatches = [...name.matchAll(/\[(REQ-\d+)\]/gi)].map((m) => m[1].toUpperCase());
-          if (reqMatches.length) test.requirements.push(...reqMatches);
+          const uniqueReqMatches = new Set(reqMatches);
+          if (uniqueReqMatches.size) test.requirements.push(...uniqueReqMatches);
           tests.push(test);
         }
       }
