@@ -1,0 +1,32 @@
+name: Build LVLIBP (self-hosted test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-lvlibp:
+    runs-on: [self-hosted, self-hosted-windows-lv]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: LabVIEW-Community-CI-CD/labview-icon-editor
+          path: ../../labview-icon-editor/labview-icon-editor
+      - name: Run build-lvlibp action
+        uses: ./build-lvlibp/action.yml
+        with:
+          minimum_supported_lv_version: '2021'
+          supported_bitness: '64'
+          relative_path: 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor'
+          labview_project: 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\source\\lv_icon.lvproj'
+          build_spec: 'PackedLib Build'
+          major: '1'
+          minor: '0'
+          patch: '0'
+          build: '1'
+          commit: 'abcdef'
+      - name: Upload lvlibp artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-lvlibp-artifact
+          path: 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\build\\lv_icon.lvlibp'
