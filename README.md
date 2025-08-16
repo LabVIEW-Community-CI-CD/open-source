@@ -6,7 +6,7 @@ For setup and action reference, see the [documentation](docs/index.md). The [qui
 
 ## Prerequisites
 
-- Node.js 24+ (run `npm install` after cloning to fetch ts-node and other dependencies)
+- Node.js 24+ (run `npm install` after cloning to fetch tsx and other dependencies)
 - PowerShell 7+ (`pwsh`)
 - NI LabVIEW with command-line interface support (g-cli) for LabVIEW-based actions
 - Supported platforms: Windows for LabVIEW tasks; PowerShell-only scripts also run on macOS and Linux

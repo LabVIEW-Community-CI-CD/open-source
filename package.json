@@ -13,10 +13,10 @@
     "pretest:ci": "npm run check:node",
     "prederive:registry": "npm run check:node",
     "pregenerate:summary": "npm run check:node",
-    "test": "node --loader ts-node/esm --test scripts/**/*.test.js scripts/*.test.js",
-    "test:ci": "mkdir -p test-results && node --loader ts-node/esm --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml",
+    "test": "tsx --test scripts/**/*.test.js scripts/*.test.js",
+    "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml",
     "derive:registry": "tsx scripts/derive-dispatcher-registry.ts",
-    "generate:summary": "node --loader ts-node/esm scripts/generate-ci-summary.ts"
+    "generate:summary": "tsx scripts/generate-ci-summary.ts"
   },
   "dependencies": {
     "glob": "^10.3.10",
@@ -26,7 +26,6 @@
   "devDependencies": {
     "@types/node": "^24.3.0",
     "@types/xml2js": "^0.4.14",
-    "ts-node": "^10.9.1",
     "tsx": "^4.20.4",
     "typescript": "^5.4.0"
   }
