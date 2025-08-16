@@ -47,6 +47,8 @@ jobs:
   release:
     needs: tests
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.release_meta.outputs.tag }}
     permissions:
       contents: write
     steps:
@@ -80,4 +82,31 @@ jobs:
           release_name: ${{ steps.release_meta.outputs.tag }}
           draft: false
           prerelease: ${{ steps.release_meta.outputs.prerelease }}
+
+  verify:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: false
+
+      - name: Verify release tag
+        env:
+          TAG: ${{ needs.release.outputs.tag }}
+        run: |
+          if git show-ref --tags --quiet "$TAG"; then
+            echo "Tag $TAG already exists" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          git fetch origin "refs/tags/$TAG:refs/tags/$TAG"
+          count=$(git rev-list --count "$TAG")
+          tag_count=${TAG##*-}
+          if [ "$count" -ne "$tag_count" ]; then
+            echo "Commit count $count does not match tag $TAG" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "Tag $TAG matches commit count $count" >> "$GITHUB_STEP_SUMMARY"
 
