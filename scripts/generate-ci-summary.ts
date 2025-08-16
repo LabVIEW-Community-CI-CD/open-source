@@ -274,25 +274,23 @@ async function main() {
 
   await fs.mkdir('artifacts', { recursive: true });
 
-  const summaryLines = [`### Summary`, `- Passed: ${totals.passed}`, `- Failed: ${totals.failed}`, `- Skipped: ${totals.skipped}`, `- Pass rate: ${totals.rate.toFixed(2)}%`, `- Duration: ${totals.duration.toFixed(3)} s`, `- Commit: ${(process.env.GITHUB_SHA || '').slice(0,7)}`, `- Run ID: ${process.env.GITHUB_RUN_ID || ''}`];
+  const matrixMd = groupToMarkdown(groups);
 
-  const matrixMd = groupToMarkdown(groups, tests.length > 100 ? 100 : undefined);
-  const summary = `${summaryLines.join('\n')}` + `\n\n### Test Traceability Matrix\n\n${matrixMd}`;
+  const summaryLines = [`- Passed: ${totals.passed}`, `- Failed: ${totals.failed}`, `- Skipped: ${totals.skipped}`, `- Pass rate: ${totals.rate.toFixed(2)}%`, `- Duration: ${totals.duration.toFixed(3)} s`, `- Commit: ${(process.env.GITHUB_SHA || '').slice(0,7)}`, `- Run ID: ${process.env.GITHUB_RUN_ID || ''}`, `- [Full traceability matrix](traceability.md)`];
+  const summary = `### Summary\n${summaryLines.join('\n')}`;
 
   const wrapperFiles = await glob('*/action.yml', { nodir: true });
   const wrapperDirs = wrapperFiles.map(f => path.dirname(f)).sort();
   console.log('Discovered wrapper directories:', wrapperDirs.join(', '));
   const { docs, markdown } = await generateActionDocs(dispatcherRegistryFile, wrapperDirs);
 
-  const actionDocMd = `### Action Documentation\n\n${markdown}`;
-
-  const finalSummary = redact(`${summary}\n\n${actionDocMd}`);
+  const finalSummary = redact(summary);
   if (process.env.GITHUB_STEP_SUMMARY) {
     await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, finalSummary + '\n');
   }
 
   await fs.writeFile(path.join('artifacts','traceability.json'), JSON.stringify({ requirements: groups, totals }, null, 2));
-  await fs.writeFile(path.join('artifacts','traceability.md'), redact(`### Test Traceability Matrix\n\n${groupToMarkdown(groups)}`));
+  await fs.writeFile(path.join('artifacts','traceability.md'), redact(`### Test Traceability Matrix\n\n${matrixMd}`));
   await fs.writeFile(path.join('artifacts','action-docs.json'), JSON.stringify(docs, null, 2));
   await fs.writeFile(path.join('artifacts','action-docs.md'), redact(markdown));
 
