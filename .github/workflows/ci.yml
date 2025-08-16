@@ -51,6 +51,9 @@ jobs:
             Remove-Module Pester -ErrorAction SilentlyContinue
             Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck
           }
+      - name: Install powershell-yaml
+        shell: pwsh
+        run: Install-Module -Name powershell-yaml -Scope CurrentUser -Force
       - name: Run Pester
         shell: pwsh
         run: |
