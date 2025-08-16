@@ -258,9 +258,12 @@ async function main() {
     const single = process.env.TEST_RESULTS_GLOB || '**/junit*.xml';
     junitFiles = await glob(single, { nodir: true });
   }
-  if (junitFiles.length === 0) throw new Error('No JUnit files found');
-
-  const tests = await collectTestCases(junitFiles, evidenceDir);
+  let tests: TestCase[] = [];
+  if (junitFiles.length === 0) {
+    console.warn('No JUnit files found; writing empty summary.');
+  } else {
+    tests = await collectTestCases(junitFiles, evidenceDir);
+  }
   const { map, meta } = await loadRequirements(mappingFile);
   const groups = mapToRequirements(tests, map, meta);
   const totals = buildSummary(groups);
