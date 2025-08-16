@@ -4,6 +4,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, buildSummary } from '../generate-ci-summary.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
@@ -70,4 +72,30 @@ test('buildSummary splits totals by OS', () => {
   assert.strictEqual(summary.byOs.windows.passed, 1);
   assert.strictEqual(summary.byOs.linux.failed, 1);
   assert.strictEqual(summary.byOs.linux.skipped, 1);
+});
+
+const execFileP = promisify(execFile);
+
+test('writes outputs to OS-specific directory', async () => {
+  const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'summary-'));
+  const junitPath = path.join(tmp, 'junit.xml');
+  await fs.writeFile(junitPath, '<testsuite><testcase name="foo" time="0"/></testsuite>');
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOB: junitPath,
+    EVIDENCE_DIR: tmp,
+    RUNNER_OS: 'Windows',
+  };
+
+  await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const outDir = path.join('artifacts', 'windows');
+  const exists = await fs.stat(path.join(outDir, 'traceability.json')).then(() => true, () => false);
+  assert.strictEqual(exists, true);
+
+  await fs.rm(tmp, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
 });

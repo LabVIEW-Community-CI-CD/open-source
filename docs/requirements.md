@@ -16,6 +16,7 @@ provides a human‑readable summary for quick reference.
 Each test file is annotated with its corresponding requirement ID to maintain
 traceability between requirements and test coverage.
 
-During CI runs, `scripts/generate-ci-summary.ts` produces the `traceability.md`
-artifact, which contains the full requirement traceability matrix.
+During CI runs, `scripts/generate-ci-summary.ts` writes requirement artifacts
+to an OS‑specific directory under `artifacts/`, such as
+`artifacts/windows/traceability.md` or `artifacts/linux/traceability.md`.
 

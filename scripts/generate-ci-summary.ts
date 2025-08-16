@@ -300,7 +300,9 @@ async function main() {
   const groups = mapToRequirements(tests, map, meta);
   const totals = buildSummary(groups);
 
-  await fs.mkdir('artifacts', { recursive: true });
+  const osDir = (process.env.RUNNER_OS ?? 'unknown').toLowerCase();
+  const outDir = path.join('artifacts', osDir);
+  await fs.mkdir(outDir, { recursive: true });
 
   const matrixMd = groupToMarkdown(groups);
 
@@ -309,14 +311,14 @@ async function main() {
   console.log('Discovered wrapper directories:', wrapperDirs.join(', '));
   const { docs, markdown } = await generateActionDocs(dispatcherRegistryFile, wrapperDirs);
 
-  await fs.writeFile(path.join('artifacts','traceability.json'), JSON.stringify({ requirements: groups, totals }, null, 2));
-  await fs.writeFile(path.join('artifacts','traceability.md'), redact(`### Test Traceability Matrix\n\n${matrixMd}`));
-  await fs.writeFile(path.join('artifacts','action-docs.json'), JSON.stringify(docs, null, 2));
-  await fs.writeFile(path.join('artifacts','action-docs.md'), redact(markdown));
+  await fs.writeFile(path.join(outDir, 'traceability.json'), JSON.stringify({ requirements: groups, totals }, null, 2));
+  await fs.writeFile(path.join(outDir, 'traceability.md'), redact(`### Test Traceability Matrix\n\n${matrixMd}`));
+  await fs.writeFile(path.join(outDir, 'action-docs.json'), JSON.stringify(docs, null, 2));
+  await fs.writeFile(path.join(outDir, 'action-docs.md'), redact(markdown));
 
   try {
     await fs.access(evidenceDir);
-    await fs.cp(evidenceDir, path.join('artifacts','evidence'), { recursive: true });
+    await fs.cp(evidenceDir, path.join(outDir, 'evidence'), { recursive: true });
   } catch {
     // ignore missing evidence
   }
