@@ -1,0 +1,31 @@
+name: Build (self-hosted test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted, self-hosted-windows-lv]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: LabVIEW-Community-CI-CD/labview-icon-editor
+          path: ../../labview-icon-editor/labview-icon-editor
+      - name: Run build action
+        uses: ./build/action.yml
+        with:
+          relative_path: 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor'
+          major: '1'
+          minor: '0'
+          patch: '0'
+          build: '1'
+          commit: 'abcdef'
+          labview_minor_revision: '3'
+          company_name: 'Acme Corp'
+          author_name: 'Jane Doe'
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\resource\\plugins\\lv_icon_x64.lvlibp'
