@@ -1,4 +1,12 @@
 {
+  "runners": {
+    "icon-editor-windows": {
+      "owner": "icon-editor-windows",
+      "runner_label": "icon-editor-windows",
+      "runner_type": "integration",
+      "skip_dry_run": true
+    }
+  },
   "requirements": [
     {
       "id": "REQ-001",
@@ -38,8 +46,7 @@
     {
       "id": "REQ-006",
       "description": "Workflow checks out the LabVIEW icon editor repository and tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', relative_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor', and vipc_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\.github\\actions\\apply-vipc\\runner_dependencies.vipc' on a self-hosted Windows runner labeled icon-editor-windows with dry_run true.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "ApplyVipc.SelfHosted.DryRunTrue.Workflow"
       ]
@@ -47,8 +54,7 @@
     {
       "id": "REQ-007",
       "description": "Workflow checks out the LabVIEW icon editor repository and tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', relative_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor', and vipc_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\.github\\actions\\apply-vipc\\runner_dependencies.vipc' on a self-hosted Windows runner labeled icon-editor-windows with dry_run false.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "ApplyVipc.SelfHosted.DryRunFalse.Workflow"
       ]
@@ -56,8 +62,7 @@
     {
       "id": "REQ-008",
       "description": "Workflow tests the composite action defined in add-token-to-labview/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "AddTokenToLabview.SelfHosted.Workflow"
       ]
@@ -65,8 +70,7 @@
     {
       "id": "REQ-009",
       "description": "Workflow tests the composite action defined in build/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "Build.SelfHosted.Workflow"
       ]
@@ -74,8 +78,7 @@
     {
       "id": "REQ-010",
       "description": "Workflow tests the composite action defined in build-lvlibp/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "BuildLvlibp.SelfHosted.Workflow"
       ]
@@ -83,8 +86,7 @@
     {
       "id": "REQ-011",
       "description": "Workflow tests the composite action defined in build-vi-package/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "BuildViPackage.SelfHosted.Workflow"
       ]
@@ -92,8 +94,7 @@
     {
       "id": "REQ-012",
       "description": "Workflow clones an external repository and operates on it without modification using the composite action defined in close-labview/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "CloseLabview.SelfHosted.Workflow"
       ]
@@ -101,8 +102,7 @@
     {
       "id": "REQ-013",
       "description": "Workflow tests the composite action defined in generate-release-notes/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "GenerateReleaseNotes.SelfHosted.Workflow"
       ]
@@ -110,8 +110,7 @@
     {
       "id": "REQ-014",
       "description": "Workflow tests the composite action defined in missing-in-project/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "MissingInProject.SelfHosted.Workflow"
       ]
@@ -119,8 +118,7 @@
     {
       "id": "REQ-015",
       "description": "Workflow tests the composite action defined in modify-vipb-display-info/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "ModifyVipbDisplayInfo.SelfHosted.Workflow"
       ]
@@ -128,8 +126,7 @@
     {
       "id": "REQ-016",
       "description": "Workflow tests the composite action defined in prepare-labview-source/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "PrepareLabviewSource.SelfHosted.Workflow"
       ]
@@ -137,8 +134,7 @@
     {
       "id": "REQ-017",
       "description": "Workflow tests the composite action defined in rename-file/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "RenameFile.SelfHosted.Workflow"
       ]
@@ -146,8 +142,7 @@
     {
       "id": "REQ-018",
       "description": "Workflow tests the composite action defined in restore-setup-lv-source/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "RestoreSetupLvSource.SelfHosted.Workflow"
       ]
@@ -155,8 +150,7 @@
     {
       "id": "REQ-019",
       "description": "Workflow tests the composite action defined in revert-development-mode/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "RevertDevelopmentMode.SelfHosted.Workflow"
       ]
@@ -164,8 +158,7 @@
     {
       "id": "REQ-020",
       "description": "Workflow tests the composite action defined in run-unit-tests/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "RunUnitTests.SelfHosted.Workflow"
       ]
@@ -173,8 +166,7 @@
     {
       "id": "REQ-021",
       "description": "Workflow tests the composite action defined in set-development-mode/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "SetDevelopmentMode.SelfHosted.Workflow"
       ]
@@ -182,8 +174,7 @@
     {
       "id": "REQ-022",
       "description": "Workflow tests the composite action defined in setup-mkdocs/action.yml on a self-hosted Windows runner labeled icon-editor-windows.",
-      "owner": "icon-editor-windows",
-      "runner_label": "icon-editor-windows",
+      "runner": "icon-editor-windows",
       "tests": [
         "SetupMkdocs.SelfHosted.Workflow"
       ]
