@@ -55,6 +55,43 @@ Enable debug logging and perform a dry run:
     dry_run: true
   ```
 
+Build Icon Editor:
+
+Chain the [apply-vipc](docs/actions/apply-vipc.md), [set-development-mode](docs/actions/set-development-mode.md), [build](docs/actions/build.md), and [revert-development-mode](docs/actions/revert-development-mode.md) actions to build the LabVIEW Icon Editor:
+
+```yaml
+- uses: actions/checkout@v4
+  with:
+    repository: LabVIEW-Community-CI-CD/labview-icon-editor
+    path: labview-icon-editor
+- uses: LabVIEW-Community-CI-CD/open-source-actions/apply-vipc@v1
+  with:
+    minimum_supported_lv_version: '2021'
+    vip_lv_version: '2021'
+    supported_bitness: '64'
+    relative_path: labview-icon-editor
+    vipc_path: labview-icon-editor/.github/actions/apply-vipc/runner_dependencies.vipc
+- uses: LabVIEW-Community-CI-CD/open-source-actions/set-development-mode@v1
+  with:
+    minimum_supported_lv_version: '2021'
+    supported_bitness: '64'
+    relative_path: labview-icon-editor
+- uses: LabVIEW-Community-CI-CD/open-source-actions/build@v1
+  with:
+    relative_path: labview-icon-editor
+    major: 1
+    minor: 0
+    patch: 0
+    build: 0
+    commit: abcdef
+    labview_minor_revision: '3'
+    company_name: 'Acme Corp'
+    author_name: 'Jane Doe'
+- uses: LabVIEW-Community-CI-CD/open-source-actions/revert-development-mode@v1
+  with:
+    relative_path: labview-icon-editor
+```
+
 ## CLI/dispatcher usage
 
 If you prefer or need to run tasks directly, call the dispatcher script [actions/Invoke-OSAction.ps1](actions/Invoke-OSAction.ps1) yourself:
