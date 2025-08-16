@@ -57,7 +57,7 @@
     },
     {
       "id": "REQ-012",
-      "description": "Workflow tests the composite action defined in close-labview/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "description": "Workflow clones an external repository and operates on it without modification using the composite action defined in close-labview/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv.",
       "tests": ["CloseLabview.SelfHosted.Workflow"]
     },
     {
