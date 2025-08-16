@@ -27,12 +27,12 @@
     },
     {
       "id": "REQ-006",
-      "description": "Workflow tests the composite action defined in apply-vipc/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv with dry_run true.",
+      "description": "Workflow checks out the LabVIEW icon editor repository and tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', relative_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor', and vipc_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\.github\\actions\\apply-vipc\\runner_dependencies.vipc' on a self-hosted Windows runner labeled self-hosted-windows-lv with dry_run true.",
       "tests": ["ApplyVipc.SelfHosted.DryRunTrue.Workflow"]
     },
     {
       "id": "REQ-007",
-      "description": "Workflow tests the composite action defined in apply-vipc/action.yml on a self-hosted Windows runner labeled self-hosted-windows-lv with dry_run false.",
+      "description": "Workflow checks out the LabVIEW icon editor repository and tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', relative_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor', and vipc_path 'C:\\actions-runner\\_work\\labview-icon-editor\\labview-icon-editor\\.github\\actions\\apply-vipc\\runner_dependencies.vipc' on a self-hosted Windows runner labeled self-hosted-windows-lv with dry_run false.",
       "tests": ["ApplyVipc.SelfHosted.DryRunFalse.Workflow"]
     },
     {
