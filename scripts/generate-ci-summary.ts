@@ -167,14 +167,7 @@ function groupToMarkdown(groups: RequirementGroup[], limit?: number) {
 }
 
 async function generateActionDocs(dispatcherRegistryFile: string, wrapperDirs: string[]) {
-  const actionYaml = yaml.load(await fs.readFile('action.yml', 'utf8')) as any;
-  const actionParams = Object.entries(actionYaml.inputs || {}).map(([name, info]: any) => ({
-    name,
-    description: info.description || '',
-    required: info.required === true,
-    default: info.default ?? '',
-    type: info.type || 'string',
-  }));
+  const actionParams: any[] = [];
 
   let registry: any = null;
   try {
@@ -226,11 +219,8 @@ async function generateActionDocs(dispatcherRegistryFile: string, wrapperDirs: s
         tbl.push(`| ${pn} | ${p.type} | ${p.required} | ${p.default ?? ''} | ${p.description ?? ''} |`);
       }
       lines.push(tbl.join('\n'));
-      lines.push('\n```yaml');
-      lines.push('- uses: ./');
-      lines.push('  with:');
-      lines.push(`    action_name: ${fn}`);
-      lines.push('    args_json: "{}"');
+      lines.push('\n```powershell');
+      lines.push(`pwsh ./actions/Invoke-OSAction.ps1 -ActionName ${fn} -ArgsYaml '{}'`);
       lines.push('```');
     }
   }

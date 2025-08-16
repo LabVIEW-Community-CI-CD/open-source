@@ -52,9 +52,7 @@ Enable debug logging and perform a dry run:
     supported_bitness: '64'
     log_level: DEBUG
     dry_run: true
-```
-
-> **Note**: The legacy top-level action using `action_name` and `args_json` is deprecated. Prefer the adapter-specific wrappers shown above.
+  ```
 
 ## CLI/dispatcher usage
 

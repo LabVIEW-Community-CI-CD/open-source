@@ -58,7 +58,7 @@ pwsh ./actions/Invoke-OSAction.ps1 -Describe run-unit-tests
 
 ### `gcliPath`
 
-Optional path to the NI g-cli executable. When provided in `args_yaml`, the dispatcher prepends it to `PATH`. Default: assumes `g-cli` is already on `PATH`. The legacy `args_json` field is deprecated but still supported.
+Optional path to the NI g-cli executable. When provided in `args_yaml`, the dispatcher prepends it to `PATH`. Default: assumes `g-cli` is already on `PATH`.
 
 Example:
 

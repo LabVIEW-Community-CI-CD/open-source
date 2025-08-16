@@ -4,7 +4,6 @@ This package adds a single, stable entrypoint to run LabVIEW CI/CD scripts.
 
 - **Entry script:** `actions/Invoke-OSAction.ps1`
 - **Module:** `actions/OpenSourceActions.psm1/.psd1`
-- **Composite Action:** `action.yml` (repository root)
 - **Adapters included:** See [docs/index.md](index.md#action-reference) for the authoritative list of adapters
 - **Discovery:** `-ListActions` and `-Describe <name>`
 - **Dry run:** `-DryRun` logs the exact call and skips execution
@@ -14,7 +13,7 @@ See [Common Parameters](common-parameters.md) for a complete list of dispatcher 
 
 ## Cross‑platform
 
-Works on **Windows and Linux** as long as LabVIEW and [g-cli](https://github.com/ni/g-cli) are installed and available on `PATH`. For non‑standard installs, pass `gcliPath` in `args_yaml`. Legacy `args_json` is deprecated but still supported; adapters will prepend it to `PATH`.
+Works on **Windows and Linux** as long as LabVIEW and [g-cli](https://github.com/ni/g-cli) are installed and available on `PATH`. For non‑standard installs, pass `gcliPath` in `args_yaml`.
 
 ## Example (CLI)
 
@@ -27,7 +26,7 @@ gcliPath: "/opt/gcli/bin"
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsYaml (ConvertFrom-Yaml $yaml) -LogLevel INFO
 ```
 
-## Composite Action usage
+## Wrapper action usage
 
 ```yaml
 - uses: ./run-unit-tests
