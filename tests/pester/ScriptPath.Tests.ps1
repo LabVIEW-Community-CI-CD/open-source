@@ -29,8 +29,8 @@ $cases = foreach ($name in $actionNames) {
     }
 }
 
-Describe 'Action script paths' {
-    It 'has script for <Name>' -TestCases $cases {
+Describe 'Action script paths [REQ-004]' {
+    It 'has script for <Name> [REQ-004]' -TestCases $cases {
         param($Name, $Path)
         Test-Path $Path | Should -BeTrue
     }
