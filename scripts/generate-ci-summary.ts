@@ -10,6 +10,7 @@ import { writeErrorSummary } from './error-handler';
 interface TestCase {
   id: string;
   name: string;
+  className?: string;
   status: 'Passed' | 'Failed' | 'Skipped';
   duration: number;
   owner?: string;
@@ -32,7 +33,7 @@ function redact(text: string): string {
   return text.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+/g, '<redacted>');
 }
 
-async function loadRequirements(mappingFile: string) {
+export async function loadRequirements(mappingFile: string) {
   try {
     const raw = await fs.readFile(mappingFile, 'utf8');
     const parsed = JSON.parse(raw);
@@ -56,7 +57,7 @@ async function loadRequirements(mappingFile: string) {
   }
 }
 
-async function collectTestCases(files: string[], evidenceDir: string): Promise<TestCase[]> {
+export async function collectTestCases(files: string[], evidenceDir: string): Promise<TestCase[]> {
   const evidenceFiles = await fs.readdir(evidenceDir).catch(() => []);
   const tests: TestCase[] = [];
   const statusMap: Record<string, 'Passed' | 'Failed' | 'Skipped'> = {
@@ -78,12 +79,13 @@ async function collectTestCases(files: string[], evidenceDir: string): Promise<T
       if (Array.isArray(obj.testcase)) {
         for (const tc of obj.testcase) {
           const name = tc.name?.[0] ?? 'unknown';
+          const className = tc.classname?.[0];
           const id = normalizeTestId(name);
           let status: 'Passed' | 'Failed' | 'Skipped' = 'Passed';
           if (tc.failure || tc.error) status = 'Failed';
           else if (tc.skipped) status = 'Skipped';
           const duration = parseFloat(tc.time?.[0] ?? '0');
-          const test: TestCase = { id, name, status, duration, requirements: [] };
+          const test: TestCase = { id, name, className, status, duration, requirements: [] };
           const evidence = evidenceFiles.find((f) => f.startsWith(id) || f.startsWith(id + '.'));
           if (evidence) test.evidence = path.join('evidence', evidence);
           const ownerMatch = name.match(/\[Owner:([^\]]+)\]/i);
@@ -102,10 +104,12 @@ async function collectTestCases(files: string[], evidenceDir: string): Promise<T
   return tests;
 }
 
-function mapToRequirements(tests: TestCase[], mapping: Record<string, { requirements: string[]; owner?: string }>, meta: Record<string, { description?: string; owner?: string }>): RequirementGroup[] {
+export function mapToRequirements(tests: TestCase[], mapping: Record<string, { requirements: string[]; owner?: string }>, meta: Record<string, { description?: string; owner?: string }>): RequirementGroup[] {
   const groups: Map<string, RequirementGroup> = new Map();
   for (const test of tests) {
-    const mapped = mapping[test.name.toLowerCase()];
+    const mapped =
+      mapping[test.name.toLowerCase()] ||
+      (test.className ? mapping[test.className.toLowerCase()] : undefined);
     const reqs = mapped ? mapped.requirements : test.requirements;
     if (mapped && mapped.owner) test.owner = mapped.owner;
     const targetReqs = reqs.length ? reqs : ['Unmapped'];
