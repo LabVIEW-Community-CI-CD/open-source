@@ -62,19 +62,14 @@ jobs:
           if (Test-Path "tests/pester") {
             $OutDir = Join-Path $env:GITHUB_WORKSPACE 'pester-results'
             New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-            if ('${{ matrix.os }}' -eq 'windows-latest') {
-              Import-Module Pester -MinimumVersion 5.0.0
-              $cfg = [PesterConfiguration]::Default
-              $cfg.Run.Path = './tests/pester'
-              $cfg.Run.Exit = $true
-              $cfg.TestResult.Enabled = $true
-              $cfg.TestResult.OutputFormat = 'JUnitXml'
-              $cfg.TestResult.OutputPath = (Join-Path $OutDir 'pester-junit.xml')
-              Invoke-Pester -Configuration $cfg
-            } else {
-              Invoke-Pester -Path tests/pester -PassThru |
-                Export-JunitXml -Path (Join-Path $OutDir 'pester-junit.xml') | Out-Null
-            }
+            Import-Module Pester -MinimumVersion 5.0.0
+            $cfg = [PesterConfiguration]::Default
+            $cfg.Run.Path = './tests/pester'
+            $cfg.Run.Exit = $true
+            $cfg.TestResult.Enabled = $true
+            $cfg.TestResult.OutputFormat = 'JUnitXml'
+            $cfg.TestResult.OutputPath = (Join-Path $OutDir 'pester-junit.xml')
+            Invoke-Pester -Configuration $cfg
           }
       - uses: actions/upload-artifact@v4
         if: always()
