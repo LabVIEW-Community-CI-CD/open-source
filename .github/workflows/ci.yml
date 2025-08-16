@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main-actions]
+    branches: [actions]
   pull_request:
-    branches: [main-actions]
+    branches: [actions]
 
 jobs:
   node-ci:
