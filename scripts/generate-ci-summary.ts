@@ -16,6 +16,7 @@ interface TestCase {
   owner?: string;
   evidence?: string;
   requirements: string[];
+  os?: string;
 }
 
 interface RequirementGroup {
@@ -67,6 +68,8 @@ export async function collectTestCases(files: string[], evidenceDir: string): Pr
   };
   for (const file of files) {
     const xml = await fs.readFile(file, 'utf8');
+    const osMatch = file.toLowerCase().match(/(windows|linux|macos)/);
+    const osType = osMatch ? osMatch[1] : 'unknown';
     const data = await parseStringPromise(xml, { explicitArray: true, mergeAttrs: true });
     const suites: any[] = [];
     if (data.testsuite) suites.push(data.testsuite);
@@ -85,7 +88,7 @@ export async function collectTestCases(files: string[], evidenceDir: string): Pr
           if (tc.failure || tc.error) status = 'Failed';
           else if (tc.skipped) status = 'Skipped';
           const duration = parseFloat(tc.time?.[0] ?? '0');
-          const test: TestCase = { id, name, className, status, duration, requirements: [] };
+          const test: TestCase = { id, name, className, status, duration, requirements: [], os: osType };
           const evidence = evidenceFiles.find((f) => f.startsWith(id) || f.startsWith(id + '.'));
           if (evidence) test.evidence = path.join('evidence', evidence);
           const ownerMatch = name.match(/\[Owner:([^\]]+)\]/i);
@@ -142,16 +145,30 @@ export function mapToRequirements(tests: TestCase[], mapping: Record<string, { r
   return sorted;
 }
 
-function buildSummary(groups: RequirementGroup[]) {
-  let passed = 0, failed = 0, skipped = 0, duration = 0;
+export function buildSummary(groups: RequirementGroup[]) {
+  const overall = { passed: 0, failed: 0, skipped: 0, duration: 0, rate: 0 };
+  const byOs: Record<string, { passed: number; failed: number; skipped: number; duration: number; rate: number }> = {};
   for (const g of groups) {
     for (const t of g.tests) {
-      duration += t.duration;
-      if (t.status === 'Passed') passed++; else if (t.status === 'Failed') failed++; else skipped++;
+      const os = t.os || 'unknown';
+      if (!byOs[os]) byOs[os] = { passed: 0, failed: 0, skipped: 0, duration: 0, rate: 0 };
+      overall.duration += t.duration;
+      byOs[os].duration += t.duration;
+      if (t.status === 'Passed') {
+        overall.passed++; byOs[os].passed++;
+      } else if (t.status === 'Failed') {
+        overall.failed++; byOs[os].failed++;
+      } else {
+        overall.skipped++; byOs[os].skipped++;
+      }
     }
   }
-  const rate = passed + failed === 0 ? 0 : (passed / (passed + failed)) * 100;
-  return { passed, failed, skipped, duration, rate };
+  overall.rate = overall.passed + overall.failed === 0 ? 0 : (overall.passed / (overall.passed + overall.failed)) * 100;
+  for (const os of Object.keys(byOs)) {
+    const t = byOs[os];
+    t.rate = t.passed + t.failed === 0 ? 0 : (t.passed / (t.passed + t.failed)) * 100;
+  }
+  return { overall, byOs };
 }
 
 export function groupToMarkdown(groups: RequirementGroup[], limit?: number) {

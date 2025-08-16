@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown } from '../generate-ci-summary.ts';
+import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, buildSummary } from '../generate-ci-summary.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
 const fileUrl = new URL('../generate-ci-summary.ts', import.meta.url);
@@ -54,4 +54,20 @@ test('groupToMarkdown assigns numeric identifiers', () => {
   assert.match(md, /\| ID \| Requirement \| Test ID \| Status \|/);
   assert.match(md, /\| 0 \| REQ-XYZ \| alpha \| Passed \|/);
   assert.match(md, /\| 1 \| REQ-XYZ \| beta \| Failed \|/);
+});
+
+test('buildSummary splits totals by OS', () => {
+  const groups = [{
+    id: 'REQ-1',
+    tests: [
+      { id: 'a', name: 'alpha', status: 'Passed', duration: 1, requirements: [], os: 'windows' },
+      { id: 'b', name: 'beta', status: 'Failed', duration: 1, requirements: [], os: 'linux' },
+      { id: 'c', name: 'gamma', status: 'Skipped', duration: 1, requirements: [], os: 'linux' },
+    ],
+  }];
+  const summary = buildSummary(groups);
+  assert.strictEqual(summary.overall.passed, 1);
+  assert.strictEqual(summary.byOs.windows.passed, 1);
+  assert.strictEqual(summary.byOs.linux.failed, 1);
+  assert.strictEqual(summary.byOs.linux.skipped, 1);
 });
