@@ -14,7 +14,7 @@
 - Run `npm run lint:md` to lint Markdown files.
 - Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to verify links.
 - Run `actionlint` to validate GitHub Actions workflows.
-- Run `pwsh -NoLogo -Command "Install-Module -Name Pester -Force -Scope AllUsers; if (\$env:RUNNER_TYPE -ne 'integration') { Install-Module -Name powershell-yaml -Force -Scope AllUsers }; Invoke-Pester -CI -Path ./tests/pester"`.
+- Run `pwsh -NoLogo -Command "Install-Module -Name Pester -Force -Scope AllUsers; Invoke-Pester -CI -Path ./tests/pester"`.
 - If `$env:RUNNER_TYPE` is `integration`, verify native YAML parsing with `pwsh -NoLogo -Command "ConvertFrom-Yaml 'a: 1' | Out-Null"` before running Pester.
 
 All tests above are mandatory; they must pass before committing.

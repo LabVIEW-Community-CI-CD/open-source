@@ -3,16 +3,6 @@ $env:PSModulePath = (Join-Path $PSScriptRoot 'Modules') + [System.IO.Path]::Path
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
-    try {
-        Import-Module powershell-yaml -ErrorAction Stop
-    }
-    catch {
-        Set-ItResult -Skipped -Because 'powershell-yaml module not installed'
-        return
-    }
-}
-
 Describe 'BuildLvlibp.SelfHosted.Workflow' {
     $meta = @{
         requirement = 'REQ-010'

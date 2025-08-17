@@ -3,16 +3,6 @@ $env:PSModulePath = (Join-Path $PSScriptRoot 'Modules') + [System.IO.Path]::Path
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
-    try {
-        Import-Module powershell-yaml -ErrorAction Stop
-    }
-    catch {
-        Set-ItResult -Skipped -Because 'powershell-yaml module not installed'
-        return
-    }
-}
-
 
 $missingLabel = -not ($env:RUNNER_LABELS -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -eq 'icon-editor-windows' })
 
