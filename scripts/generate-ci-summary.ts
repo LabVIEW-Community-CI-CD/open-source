@@ -94,8 +94,16 @@ export async function collectTestCases(files: string[], evidenceDir: string, os?
           const test: TestCase = { id, name, className, status, duration, requirements: [], os: osType };
           const evidence = evidenceFiles.find((f) => f.startsWith(id) || f.startsWith(id + '.'));
           if (evidence) test.evidence = path.join('evidence', evidence);
-          const ownerMatch = name.match(/\[Owner:([^\]]+)\]/i);
-          if (ownerMatch) test.owner = ownerMatch[1];
+          const props = tc.properties?.[0]?.property;
+          if (Array.isArray(props)) {
+            const machine = props.find((p: any) => p.name?.[0] === 'machine-name');
+            const ownerVal = machine?.value?.[0] ?? machine?._;
+            if (ownerVal) test.owner = ownerVal;
+          }
+          if (!test.owner) {
+            const ownerMatch = name.match(/\[Owner:([^\]]+)\]/i);
+            if (ownerMatch) test.owner = ownerMatch[1];
+          }
           const reqMatches = [...name.matchAll(/\[(REQ-\d+)\]/gi)].map((m) => m[1].toUpperCase());
           const uniqueReqMatches = new Set(reqMatches);
           if (uniqueReqMatches.size) test.requirements.push(...uniqueReqMatches);
