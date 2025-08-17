@@ -11,7 +11,7 @@
 - Run `npm run check:node` to verify Node.js satisfies the required version.
 - Run `npm install` to ensure Node dependencies are available.
 - Run `npm test`.
-- Run `npx --yes markdownlint-cli README.md docs/**/*.md scripts/**/*.md` to lint Markdown files.
+- Run `npm run lint:md` to lint Markdown files.
 - Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to verify links.
 - Run `actionlint` to validate GitHub Actions workflows.
 - Run `pwsh -NoLogo -Command "Install-Module -Name Pester -Force -Scope AllUsers; if (\$env:RUNNER_TYPE -ne 'integration') { Install-Module -Name powershell-yaml -Force -Scope AllUsers }; Invoke-Pester -CI -Path ./tests/pester"`.

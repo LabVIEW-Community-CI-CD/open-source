@@ -8,7 +8,7 @@ Action documentation lives under [docs/actions/](actions/). Keep these files in 
 
 ## Markdown linting
 
-- Run `npx --yes markdownlint-cli README.md docs/**/*.md scripts/**/*.md` to lint Markdown formatting.
+- Run `npm run lint:md` to lint Markdown formatting.
 - Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to check links before submitting changes.
 - Keep one `#`-level heading at the top of each file and increment heading levels sequentially; do not skip levels.
 
