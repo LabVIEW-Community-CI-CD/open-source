@@ -26,6 +26,16 @@ This project tracks high‑level requirements and maps each one to the Pester te
 | REQ-020 | Workflow tests the composite action defined in run-unit-tests/action.yml on a self-hosted Windows runner labeled icon-editor-windows. | `tests/pester/RunUnitTests.SelfHosted.Workflow.ps1` | icon-editor-windows | integration | true |
 | REQ-021 | Workflow tests the composite action defined in set-development-mode/action.yml on a self-hosted Windows runner labeled icon-editor-windows. | `tests/pester/SetDevelopmentMode.SelfHosted.Workflow.ps1` | icon-editor-windows | integration | true |
 | REQ-022 | Workflow tests the composite action defined in setup-mkdocs/action.yml on a self-hosted Windows runner labeled icon-editor-windows. | `tests/pester/SetupMkdocs.SelfHosted.Workflow.ps1` | icon-editor-windows | integration | true |
+| REQ-023 | Parser ingests JUnit XML artifacts starting at the testsuites root and iterating through nested suites and testcases. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-024 | Top-level testsuites attributes name, tests, errors, failures, disabled, and time are captured for summary reporting. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-025 | Each testsuite records attributes including name, tests, errors, failures, hostname, id, skipped, disabled, package, and time. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-026 | Suite properties are extracted as name/value pairs for environment details. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-027 | Testcase attributes name, status, classname, assertions, time, and any skip message are preserved. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-028 | Requirement identifiers embedded in testcase names are detected and associated with the test. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-029 | Test results are aggregated by requirement and by suite to count passed, failed, and skipped cases. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-030 | Traceability matrix links requirement IDs to testcases with status, execution time, host properties, and skipped reasons. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
+| REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. | `scripts/__tests__/junit-parser.test.js` |  |  |  |
 
 Each test file is annotated with its corresponding requirement ID to maintain traceability between requirements and test coverage.
 

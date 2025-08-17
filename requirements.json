@@ -178,6 +178,76 @@
       "tests": [
         "SetupMkdocs.SelfHosted.Workflow"
       ]
+    },
+    {
+      "id": "REQ-023",
+      "description": "Parser ingests JUnit XML artifacts starting at the testsuites root and iterating through nested suites and testcases.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-024",
+      "description": "Top-level testsuites attributes name, tests, errors, failures, disabled, and time are captured for summary reporting.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-025",
+      "description": "Each testsuite records attributes including name, tests, errors, failures, hostname, id, skipped, disabled, package, and time.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-026",
+      "description": "Suite properties are extracted as name/value pairs for environment details.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-027",
+      "description": "Testcase attributes name, status, classname, assertions, time, and any skip message are preserved.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-028",
+      "description": "Requirement identifiers embedded in testcase names are detected and associated with the test.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-029",
+      "description": "Test results are aggregated by requirement and by suite to count passed, failed, and skipped cases.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-030",
+      "description": "Traceability matrix links requirement IDs to testcases with status, execution time, host properties, and skipped reasons.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-031",
+      "description": "Parsing logic validates presence of required fields and reports missing or malformed data.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-032",
+      "description": "Parser tolerates and retains unknown attributes for future extensibility.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
     }
   ]
 }
