@@ -57,6 +57,27 @@ test('associates classname with requirement', async () => {
   await fs.rm(dir, { recursive: true, force: true });
 });
 
+test('loadRequirements logs warning on invalid JSON', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'req-'));
+  const badPath = path.join(dir, 'bad.json');
+  await fs.writeFile(badPath, '{');
+  const tmpSummary = path.join(dir, 'summary.md');
+  process.env.GITHUB_STEP_SUMMARY = tmpSummary;
+  let warned = '';
+  const origWarn = console.warn;
+  console.warn = (msg, ...args) => {
+    warned += String(msg);
+    if (args.length) warned += ' ' + args.join(' ');
+  };
+  const { map, meta } = await loadRequirements(badPath);
+  console.warn = origWarn;
+  delete process.env.GITHUB_STEP_SUMMARY;
+  await fs.rm(dir, { recursive: true, force: true });
+  assert.deepEqual(map, {});
+  assert.deepEqual(meta, {});
+  assert.match(warned, /Failed to load requirements mapping/);
+});
+
 test('collectTestCases uses machine-name property for owner', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'owner-'));
   const xmlProp = `<testsuite><testcase name="foo" time="0"><properties><property name="machine-name" value="ci-bot"/></properties></testcase></testsuite>`;
