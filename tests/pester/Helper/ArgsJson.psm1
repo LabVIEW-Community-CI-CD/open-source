@@ -1,16 +1,16 @@
 function Get-LabVIEWIconEditorArgsJson {
-    [OutputType([string])]
+    [OutputType([pscustomobject])]
     param()
 
-    $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
+    $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..' '..')).Path
     if ($env:LABVIEW_ICON_EDITOR_PATH) {
-        $relativePath = $env:LABVIEW_ICON_EDITOR_PATH
+        $workingDir = $env:LABVIEW_ICON_EDITOR_PATH
     } elseif ($IsWindows) {
-        $relativePath = Join-Path $repoRoot 'labview-icon-editor'
+        $workingDir = Join-Path $repoRoot 'labview-icon-editor'
     } elseif ($IsLinux) {
-        $relativePath = Join-Path $repoRoot 'labview-icon-editor'
+        $workingDir = Join-Path $repoRoot 'labview-icon-editor'
     } elseif ($IsMacOS) {
-        $relativePath = Join-Path $repoRoot 'labview-icon-editor'
+        $workingDir = Join-Path $repoRoot 'labview-icon-editor'
     } else {
         throw 'Unsupported platform'
     }
@@ -18,10 +18,13 @@ function Get-LabVIEWIconEditorArgsJson {
     $args = @{
         MinimumSupportedLVVersion = '2021'
         SupportedBitness          = '64'
-        RelativePath              = $relativePath
+        RelativePath              = '.'
     }
 
-    return ($args | ConvertTo-Json -Compress)
+    return [pscustomobject]@{
+        ArgsJson        = ($args | ConvertTo-Json -Compress)
+        WorkingDirectory = $workingDir
+    }
 }
 
 Export-ModuleMember -Function Get-LabVIEWIconEditorArgsJson

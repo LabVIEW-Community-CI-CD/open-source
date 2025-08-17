@@ -21,7 +21,9 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
         Owner       = 'DevTools'
         Evidence    = 'tests/pester/Dispatcher.DryRun.Tests.ps1'
     }
-  $script:args = Get-LabVIEWIconEditorArgsJson | ConvertFrom-Json
+  $params = Get-LabVIEWIconEditorArgsJson
+  $script:projectRoot = $params.WorkingDirectory
+  $script:args = $params.ArgsJson | ConvertFrom-Json
   $extra = @{
        VIP_LVVersion             = '2021'
        VIPCPath                  = 'dummy.vipc'
@@ -45,25 +47,26 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
        NewFilename               = 'new.txt'
        ReleaseNotesFile          = 'notes.md'
        ExtraParam                = 'extra'
+       WorkingDirectory          = $script:projectRoot
     }
   foreach ($kvp in $extra.GetEnumerator()) { $script:args | Add-Member -NotePropertyName $kvp.Key -NotePropertyValue $kvp.Value }
   $script:argsJson = $script:args | ConvertTo-Json -Compress
-  $actions = pwsh -NoProfile -File $global:dispatcher -ListActions |
+  $actions = pwsh -NoProfile -File $global:dispatcher -ListActions -WorkingDirectory $script:projectRoot |
     Where-Object { $_ -match '^\s+- ' } |
     ForEach-Object { @{ Action = $_.Trim().Substring(2); ArgsJson = $script:argsJson } }
 
   It "describes <Action>" -Tag 'REQ-002' -ForEach $actions {
     param($Action, $ArgsJson)
     Write-Host "Testing $Action with ArgsJson $ArgsJson"
-    pwsh -NoProfile -File $global:dispatcher -Describe $Action -ArgsJson $ArgsJson *> $null
+    pwsh -NoProfile -File $global:dispatcher -Describe $Action -ArgsJson $ArgsJson -WorkingDirectory $script:projectRoot *> $null
     $LASTEXITCODE | Should -Be 0
   }
 
   It "prints description before dry-run <Action>" -Tag 'REQ-002' -ForEach $actions {
     param($Action, $ArgsJson)
     Write-Host "Testing $Action with ArgsJson $ArgsJson"
-    $describeOut = & $global:dispatcher -Describe $Action -ArgsJson $ArgsJson 6>&1 | Out-String
-    & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -DryRun *> $null
+    $describeOut = & $global:dispatcher -Describe $Action -ArgsJson $ArgsJson -WorkingDirectory $script:projectRoot 6>&1 | Out-String
+    & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -WorkingDirectory $script:projectRoot -DryRun *> $null
     $LASTEXITCODE | Should -Be 0
     $describeOut | Should -Match "$Action parameters:"
   }
@@ -71,7 +74,7 @@ Describe 'Unified Dispatcher — DryRun behavior for all actions' {
   It "dry-runs <Action> and warns on unknown args" -Tag 'REQ-002' -ForEach $actions {
     param($Action, $ArgsJson)
     Write-Host "Testing $Action with ArgsJson $ArgsJson"
-    $out = & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -DryRun *>&1 | Out-String
+    $out = & $global:dispatcher -ActionName $Action -ArgsJson $ArgsJson -WorkingDirectory $script:projectRoot -DryRun *>&1 | Out-String
     $LASTEXITCODE | Should -Be 0
     $out | Should -Match 'Ignored unknown parameters'
   }

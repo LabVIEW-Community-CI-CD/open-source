@@ -2,7 +2,7 @@
 
 ## Canonical argument helper
 
-Pester tests share a small helper module, `tests/pester/Helper/ArgsJson.psm1`, which exposes `Get-LabVIEWIconEditorArgsJson`. The function returns a canonical set of dispatcher arguments so every test starts from the same baseline. Using the helper avoids repeating boilerplate and keeps tests resilient to environment differences.
+Pester tests share a small helper module, `tests/pester/Helper/ArgsJson.psm1`, which exposes `Get-LabVIEWIconEditorArgsJson`. The function returns a canonical set of dispatcher arguments and the project root so every test starts from the same baseline. Using the helper avoids repeating boilerplate and keeps tests resilient to environment differences.
 
 ## labview-icon-editor reference project
 
@@ -15,7 +15,7 @@ The helper points at the **labview-icon-editor** project. This open-source repos
    ```powershell
    Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
    ```
-3. Use `Get-LabVIEWIconEditorArgsJson` to obtain the canonical JSON for dispatcher calls.
+3. Use `Get-LabVIEWIconEditorArgsJson` to obtain the canonical JSON and working directory for dispatcher calls.
 4. Include both positive and negative path tests where practical.
 5. Run the suite before submitting a pull request with:
 
@@ -32,8 +32,10 @@ The helper points at the **labview-icon-editor** project. This open-source repos
 
 ```powershell
 It 'describes a known action' {
-  $json = Get-LabVIEWIconEditorArgsJson
-  $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp -ArgsJson $json | Out-String
+  $params = Get-LabVIEWIconEditorArgsJson
+  $json = $params.ArgsJson
+  $wd = $params.WorkingDirectory
+  $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp -ArgsJson $json -WorkingDirectory $wd | Out-String
   $out | Should -Match 'Major'
 }
 ```
@@ -42,8 +44,10 @@ It 'describes a known action' {
 
 ```powershell
 It 'fails on unknown action' {
-  $json = Get-LabVIEWIconEditorArgsJson
-  pwsh -NoProfile -File $global:dispatcher -ActionName no-such-action -ArgsJson $json *>$null
+  $params = Get-LabVIEWIconEditorArgsJson
+  $json = $params.ArgsJson
+  $wd = $params.WorkingDirectory
+  pwsh -NoProfile -File $global:dispatcher -ActionName no-such-action -ArgsJson $json -WorkingDirectory $wd *>$null
   $LASTEXITCODE | Should -Be 1
 }
 ```
