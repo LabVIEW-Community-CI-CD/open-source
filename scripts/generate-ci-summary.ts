@@ -396,11 +396,15 @@ async function main() {
   for (const [type, list] of Object.entries(partitions)) {
     const partTotals = buildSummary(list);
     const partSummary = summaryToMarkdown(partTotals);
-    const partMatrix = groupToMarkdown(list);
-    await fs.writeFile(path.join(outDir, `summary-${type}.md`), redact(`${partSummary}\n\n${partMatrix}`));
+    await fs.writeFile(
+      path.join(outDir, `summary-${type}.md`),
+      redact(
+        `${partSummary}\n\n_For detailed per-test information, see [traceability-${type}.md](traceability-${type}.md)._`,
+      ),
+    );
     await fs.writeFile(
       path.join(outDir, `traceability-${type}.md`),
-      redact(`### Test Traceability Matrix\n\n${partMatrix}`),
+      redact(`### Test Traceability Matrix\n\n${groupToMarkdown(list)}`),
     );
   }
 

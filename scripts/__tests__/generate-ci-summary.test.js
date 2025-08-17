@@ -168,12 +168,13 @@ test('partitions requirement groups by runner_type', async () => {
 
   const outDir = path.join('artifacts', 'linux');
   const std = await fs.readFile(path.join(outDir, 'summary-standard.md'), 'utf8');
-  assert.match(std, /REQ-1/);
+  assert.match(std, /traceability-standard.md/);
   const integ = await fs.readFile(path.join(outDir, 'summary-integration.md'), 'utf8');
-  assert.match(integ, /REQ-2/);
-  const traceStdExists = await fs.stat(path.join(outDir, 'traceability-standard.md')).then(() => true, () => false);
-  const traceIntegExists = await fs.stat(path.join(outDir, 'traceability-integration.md')).then(() => true, () => false);
-  assert.strictEqual(traceStdExists && traceIntegExists, true);
+  assert.match(integ, /traceability-integration.md/);
+  const traceStd = await fs.readFile(path.join(outDir, 'traceability-standard.md'), 'utf8');
+  assert.match(traceStd, /REQ-1/);
+  const traceInteg = await fs.readFile(path.join(outDir, 'traceability-integration.md'), 'utf8');
+  assert.match(traceInteg, /REQ-2/);
 
   await fs.rm(dir, { recursive: true, force: true });
   await fs.rm('artifacts', { recursive: true, force: true });
