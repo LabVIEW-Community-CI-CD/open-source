@@ -1,0 +1,20 @@
+diff --git a/node_modules/link-check/lib/proto/file.js b/node_modules/link-check/lib/proto/file.js
+index 19e5354..9a7cdf6 100644
+--- a/node_modules/link-check/lib/proto/file.js
++++ b/node_modules/link-check/lib/proto/file.js
+@@ -14,8 +14,12 @@ module.exports = {
+         } // without the ending '/', the final component is dropped
+ 
+         const loc = new URL(link || '', opts.baseUrl || processModule.cwd());
+-        fs.access(url.fileURLToPath(loc) || '', fs.hasOwnProperty('R_OK') ? fs.R_OK : fs.constants.R_OK, function (err) {
+-            callback(null, new LinkCheckResult(opts, link, !err ? 200 : 400, err));
+-        });
++        fs.access(
++            url.fileURLToPath(loc) || '',
++            fs.constants.R_OK,
++            function (err) {
++                callback(null, new LinkCheckResult(opts, link, !err ? 200 : 400, err));
++            },
++        );
+     }
+ };

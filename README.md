@@ -151,3 +151,13 @@ To preview docs locally:
 pip install mkdocs mkdocs-material
 mkdocs serve
 ```
+
+## Troubleshooting
+
+If npm prints `npm warn Unknown env config "http-proxy"`, remove the
+`npm_config_http_proxy` environment variable or replace it with
+`npm_config_proxy`/`npm_config_https_proxy`.
+
+Node.js 24+ removes legacy constants like `fs.R_OK`. The scripts in this
+repository use `fs.constants.R_OK` to remain compatible with newer Node
+releases.

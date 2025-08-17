@@ -1,5 +1,6 @@
 #!/usr/bin/env tsx
 import fs from 'fs/promises';
+import { constants as fsConstants } from 'fs';
 import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 import { glob } from 'glob';
@@ -390,7 +391,7 @@ async function main() {
   }
 
   try {
-    await fs.access(evidenceDir);
+    await fs.access(evidenceDir, fsConstants.R_OK);
     await fs.cp(evidenceDir, path.join(outDir, 'evidence'), { recursive: true });
   } catch {
     // ignore missing evidence
