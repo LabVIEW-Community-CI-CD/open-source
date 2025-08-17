@@ -144,13 +144,3 @@ jobs:
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: test-screenshots
       - run: npx tsx scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"
-      - name: Include setup information
-        run: |
-          echo '## ubuntu-24.04' >> "$GITHUB_STEP_SUMMARY"
-          cat downloaded/setup-info-ubuntu-24.04/setup-info-ubuntu-24.04.md >> "$GITHUB_STEP_SUMMARY"
-          echo '## icon-editor-windows' >> "$GITHUB_STEP_SUMMARY"
-          cat downloaded/setup-info-icon-editor-windows/setup-info-icon-editor-windows.md >> "$GITHUB_STEP_SUMMARY"
-          echo '## ubuntu-24.04'
-          cat downloaded/setup-info-ubuntu-24.04/setup-info-ubuntu-24.04.md
-          echo '## icon-editor-windows'
-          cat downloaded/setup-info-icon-editor-windows/setup-info-icon-editor-windows.md
