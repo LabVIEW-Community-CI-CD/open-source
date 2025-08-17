@@ -19,6 +19,8 @@ jobs:
       - run: npm run test:ci
       - run: npm run derive:registry
       - run: npm run generate:summary
+        env:
+          TEST_RESULTS_GLOB: test-results/*junit*.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -132,7 +134,7 @@ jobs:
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: |
-            downloaded/test-results/**/*.xml
+            downloaded/test-results/**/*junit*.xml
             downloaded/pester-junit-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json

@@ -334,7 +334,7 @@ async function main() {
     }
     junitFiles = Array.from(found);
   } else {
-    const single = process.env.TEST_RESULTS_GLOB || '**/junit*.xml';
+    const single = process.env.TEST_RESULTS_GLOB || '**/*junit*.xml';
     junitFiles = await glob(single, { nodir: true });
   }
   let tests: TestCase[] = [];

@@ -16,6 +16,7 @@ test('generate-ci-summary features', async () => {
   assert.match(content, /TEST_RESULTS_GLOBS/);
   assert.match(content, /<redacted>/);
   assert.match(content, /<details><summary>/);
+  assert.match(content, /\*\*\/\*junit\*\.xml/);
 });
 
 test('writeErrorSummary skips summary file for non-Error throws', async () => {
