@@ -93,23 +93,25 @@ export async function collectTestCases(files: string[], evidenceDir: string, os?
           else if (tc.skipped) status = 'Skipped';
           const duration = parseFloat(tc.time?.[0] ?? '0');
           const test: TestCase = { id, name, className, status, duration, requirements: [], os: osType };
-          const props = tc.properties?.[0]?.property;
-          if (Array.isArray(props)) {
-            const machine = props.find((p: any) => p.name?.[0] === 'machine-name');
-            const ownerVal = machine?.value?.[0] ?? machine?._;
-            if (ownerVal) test.owner = ownerVal;
-            const evidenceProp = props.find((p: any) =>
-              ['evidence', 'attachment', 'ci_link'].includes(p.name?.[0])
-            );
-            const evidenceVal = evidenceProp?.value?.[0] ?? evidenceProp?._;
-            if (evidenceVal) test.evidence = evidenceVal;
-            for (const p of props) {
-              if (p.name?.[0] === 'requirement') {
-                const val = p.value?.[0] ?? p._;
-                if (typeof val === 'string') test.requirements.push(val.toUpperCase());
+            const props = tc.properties?.[0]?.property;
+            if (Array.isArray(props)) {
+              const findProp = (n: string) =>
+                props.find((p: any) => p.name?.[0]?.toLowerCase() === n);
+              const ownerProp = findProp('owner') ?? findProp('machine-name');
+              const ownerVal = ownerProp?.value?.[0] ?? ownerProp?._;
+              if (ownerVal) test.owner = ownerVal;
+              const evidenceProp = props.find((p: any) =>
+                ['evidence', 'attachment', 'ci_link'].includes((p.name?.[0] ?? '').toLowerCase())
+              );
+              const evidenceVal = evidenceProp?.value?.[0] ?? evidenceProp?._;
+              if (evidenceVal) test.evidence = evidenceVal;
+              for (const p of props) {
+                if (p.name?.[0]?.toLowerCase() === 'requirement') {
+                  const val = p.value?.[0] ?? p._;
+                  if (typeof val === 'string') test.requirements.push(val.toUpperCase());
+                }
               }
             }
-          }
           if (!test.evidence) {
             const evidence = evidenceFiles.find((f) => f.startsWith(id) || f.startsWith(id + '.'));
             if (evidence) test.evidence = path.join('evidence', evidence);

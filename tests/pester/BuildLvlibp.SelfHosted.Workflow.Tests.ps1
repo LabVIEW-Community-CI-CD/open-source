@@ -13,6 +13,7 @@ if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
 }
 
 Describe 'BuildLvlibp.SelfHosted.Workflow' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/BuildLvlibp.SelfHosted.Workflow.Tests.ps1" } }
     It 'runs build-lvlibp action and uploads lvlibp artifact' -Tag 'REQ-010' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/build-lvlibp-self-hosted.yml'

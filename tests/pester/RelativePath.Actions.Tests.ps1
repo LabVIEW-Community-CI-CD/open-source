@@ -10,6 +10,7 @@ $dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
 Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 
 Describe 'add-token-to-labview resolves RelativePath' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/RelativePath.Actions.Tests.ps1" } }
     It 'dry-runs without warnings' -Tag 'REQ-003' {
         $json = Get-LabVIEWIconEditorArgsJson
         $expected = ($json | ConvertFrom-Json).RelativePath

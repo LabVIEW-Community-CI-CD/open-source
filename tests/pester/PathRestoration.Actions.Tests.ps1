@@ -6,6 +6,7 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
 Import-Module (Join-Path $repoRoot 'actions' 'OpenSourceActions.psm1') -Force
 
 Describe 'Adapters restore PATH' -Skip {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/PathRestoration.Actions.Tests.ps1" } }
     BeforeAll {
         $script:gcliPath = Join-Path $PSScriptRoot 'dummy-gcli'
         New-Item -ItemType Directory -Path $script:gcliPath -Force | Out-Null

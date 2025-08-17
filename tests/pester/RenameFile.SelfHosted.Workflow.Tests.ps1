@@ -13,6 +13,7 @@ if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
 }
 
 Describe 'RenameFile.SelfHosted.Workflow' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/RenameFile.SelfHosted.Workflow.Tests.ps1" } }
     It 'runs rename-file action on a self-hosted runner and uploads renamed file artifact' -Tag 'REQ-011' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $wfDir = Join-Path $repoRoot '.github/workflows'

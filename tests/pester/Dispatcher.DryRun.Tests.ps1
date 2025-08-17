@@ -11,6 +11,7 @@ $global:dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
 Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 
 Describe 'Unified Dispatcher — DryRun behavior for all actions' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/Dispatcher.DryRun.Tests.ps1" } }
   $script:args = Get-LabVIEWIconEditorArgsJson | ConvertFrom-Json
   $extra = @{
        VIP_LVVersion             = '2021'

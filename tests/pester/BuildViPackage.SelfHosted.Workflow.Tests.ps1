@@ -13,6 +13,7 @@ if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
 }
 
 Describe 'BuildViPackage.SelfHosted.Workflow' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/BuildViPackage.SelfHosted.Workflow.Tests.ps1" } }
     It 'runs build-vi-package action and uploads vi package artifact' -Tag 'REQ-011' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/build-vi-package-self-hosted.yml'

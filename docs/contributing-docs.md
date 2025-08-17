@@ -54,3 +54,16 @@ MkDocs serves the site at <http://127.0.0.1:8000/> by default. The server automa
 ## JUnit integration
 
 The CI pipeline collects JUnit XML output from both Node and PowerShell tests. `scripts/generate-ci-summary.ts` parses these files to build the requirement traceability report. Use `npm run test:ci` to produce the Node JUnit report when verifying documentation updates.
+
+### Pester properties
+
+Pester tests should record traceability metadata by adding `Add-TestResult -Property` calls in each `It` block. At minimum, include an `Owner` and an `Evidence` path:
+
+```powershell
+It "does something" {
+    Add-TestResult -Property @{ Owner = 'DevTools'; Evidence = 'tests/pester/example.Tests.ps1' }
+    # test body
+}
+```
+
+These properties are preferred over naming conventions when `scripts/generate-ci-summary.ts` builds the CI report.

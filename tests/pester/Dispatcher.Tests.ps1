@@ -12,6 +12,7 @@ Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 
 
 Describe 'Unified Dispatcher — discovery and validation' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/Dispatcher.Tests.ps1" } }
   It 'lists available actions' -Tag 'REQ-001' {
     $json = Get-LabVIEWIconEditorArgsJson
     $out = pwsh -NoProfile -File $global:dispatcher -ListActions -ArgsJson $json | Out-String

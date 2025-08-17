@@ -13,6 +13,7 @@ if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
 }
 
 Describe 'ApplyVipc.SelfHosted.DryRunTrue.Workflow' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/ApplyVipc.SelfHosted.Workflow.Tests.ps1" } }
     It 'runs apply-vipc action with dry_run true' -Tag 'REQ-006' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/apply-vipc-self-hosted.yml'

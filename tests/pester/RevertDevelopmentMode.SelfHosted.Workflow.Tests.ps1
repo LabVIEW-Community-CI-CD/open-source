@@ -13,6 +13,7 @@ if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
 }
 
 Describe 'RevertDevelopmentMode.SelfHosted.Workflow' {
+    BeforeEach { Add-TestResult -Property @{ Owner = "DevTools"; Evidence = "tests/pester/RevertDevelopmentMode.SelfHosted.Workflow.Tests.ps1" } }
     It 'runs revert-development-mode action on a self-hosted runner and uploads configuration artifact' -Tag 'REQ-019' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $wfDir = Join-Path $repoRoot '.github/workflows'
