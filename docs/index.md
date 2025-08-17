@@ -29,8 +29,10 @@ Open Source LabVIEW Actions unifies LabVIEW CI/CD scripts behind a single PowerS
 | [rename-file](actions/rename-file.md) | Rename a file if it exists. |
 | [restore-setup-lv-source](actions/restore-setup-lv-source.md) | Restore the LabVIEW source setup by unzipping the LabVIEW Icon API and removing the INI token. |
 | [revert-development-mode](actions/revert-development-mode.md) | Restore the repository from development mode by restoring packaged sources and closing LabVIEW. |
+| [run-pester-tests](actions/run-pester-tests.md) | Run PowerShell Pester tests in a repository. |
 | [run-unit-tests](actions/run-unit-tests.md) | Run LabVIEW unit tests via the LabVIEW Unit Test Framework CLI and report pass/fail/error using standard exit codes. |
 | [set-development-mode](actions/set-development-mode.md) | Configure the repository for development mode by removing packed libraries, adding tokens, preparing sources, and closing LabVIEW. |
+| [setup-mkdocs](actions/setup-mkdocs.md) | Install a pinned MkDocs with caching. |
 
 ## Workflow Examples
 

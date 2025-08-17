@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Run Pester tests in a target repository by dispatching the `run-pester-tests` action through `Invoke-OSAction.ps1`.
+Run Pester tests in a target repository by dispatching the [`run-pester-tests`](../actions/run-pester-tests.md) action through `Invoke-OSAction.ps1`.
 
 ## Inputs
 
