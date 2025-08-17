@@ -63,7 +63,10 @@ export async function loadRequirements(mappingFile: string) {
       }
     }
     return { map, meta };
-  } catch {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(`Failed to load requirements mapping from ${mappingFile}: ${msg}`);
+    await writeErrorSummary(err);
     return { map: {}, meta: {} };
   }
 }
