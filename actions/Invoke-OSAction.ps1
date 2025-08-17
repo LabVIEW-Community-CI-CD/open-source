@@ -58,6 +58,8 @@ try {
 }
 if (-not $Registry) { $Registry = $FallbackRegistry }
 
+# Sets the verbosity for informational and verbose messages.
+# Level: Desired log level (ERROR, WARN, INFO, DEBUG).
 function Set-LogLevel {
   param([string]$Level)
   switch ($Level.ToUpperInvariant()) {
@@ -69,11 +71,14 @@ function Set-LogLevel {
   }
 }
 
+# Outputs the list of available actions.
 function Show-List {
   Write-Output 'Available actions:'
   $Registry.Keys | Sort-Object | ForEach-Object { Write-Output " - $_" }
 }
 
+# Displays parameter information for an action.
+# Name: Action name to describe.
 function Show-Description([string]$Name) {
   $key = $Name.ToLowerInvariant()
   if (-not $Registry.Contains($key)) { throw "Unknown action '$Name'" }
@@ -88,6 +93,11 @@ function Show-Description([string]$Name) {
   $consoleLines | ForEach-Object { Write-Output $_ }
 }
 
+# Filters a set of input arguments to those accepted by a dispatcher.
+# InputArgs: Hashtable of supplied arguments.
+# FuncName: Target dispatcher function name.
+# ActionNameForWarn: Action name used when emitting warnings.
+# ReturnUnknownParams: If set, returns unknown parameters as well.
 function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn, [switch]$ReturnUnknownParams) {
   $cmd = Get-Command $FuncName -ErrorAction Stop
 

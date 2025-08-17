@@ -1,6 +1,6 @@
 {
   "InvokeAddTokenToLabVIEW": {
-    "description": "",
+    "description": "Adds an authentication token to a LabVIEW installation. MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). RelativePath: Path to the project root relative to the working directory. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -30,7 +30,7 @@
     }
   },
   "InvokeApplyVIPC": {
-    "description": "",
+    "description": "Applies a VI Package Configuration to a LabVIEW project. MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports. VIP_LVVersion: LabVIEW version used to build the VIPC. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). RelativePath: Path to the project root relative to the working directory. VIPCPath: Optional path to the VIPC file. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -70,7 +70,7 @@
     }
   },
   "InvokeBuild": {
-    "description": "",
+    "description": "Builds the project and records version information. RelativePath: Path to the project root relative to the working directory. Major: Major version component. Minor: Minor version component. Patch: Patch version component. Build: Build number component. Commit: Commit identifier used for the build metadata. LabVIEWMinorRevision: Minor revision of LabVIEW used for the build. CompanyName: Company name recorded in build metadata. AuthorName: Author name recorded in build metadata. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "AuthorName": {
         "type": "string",
@@ -130,7 +130,7 @@
     }
   },
   "InvokeBuildLvlibp": {
-    "description": "",
+    "description": "Builds a LabVIEW Packed Library using a project and build spec. MinimumSupportedLVVersion: Minimum LabVIEW version that the library supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). RelativePath: Path to the project root relative to the working directory. LabVIEW_Project: Path to the LabVIEW project file. Build_Spec: Name of the build specification within the project. Major: Major version component. Minor: Minor version component. Patch: Patch version component. Build: Build number component. Commit: Commit identifier used for the build metadata. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Build": {
         "type": "number",
@@ -195,7 +195,7 @@
     }
   },
   "InvokeBuildViPackage": {
-    "description": "",
+    "description": "Builds a VI Package using the provided VIPB file and version metadata. MinimumSupportedLVVersion: Minimum LabVIEW version that the package supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). LabVIEWMinorRevision: Minor revision of LabVIEW used to build the package. RelativePath: Path to the project root relative to the working directory. VIPBPath: Path to the VIPB build specification file. Major: Major version component. Minor: Minor version component. Patch: Patch version component. Build: Build number component. Commit: Commit identifier used for the build metadata. DisplayInformationJSON: JSON string containing display information for the package. ReleaseNotesFile: Optional path to a release notes file. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Build": {
         "type": "number",
@@ -270,7 +270,7 @@
     }
   },
   "InvokeCloseLabVIEW": {
-    "description": "",
+    "description": "Closes any running instance of LabVIEW. MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -295,7 +295,7 @@
     }
   },
   "InvokeGenerateReleaseNotes": {
-    "description": "",
+    "description": "Generates a release notes file from the project's metadata. OutputPath: Path where the release notes should be written. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -316,7 +316,7 @@
     }
   },
   "InvokeMissingInProject": {
-    "description": "",
+    "description": "Lists files referenced in a LabVIEW project that are missing on disk. LVVersion: LabVIEW version of the project. Arch: Target architecture or bitness. ProjectFile: Path to the .lvproj file to analyze. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Arch": {
         "type": "string",
@@ -346,7 +346,7 @@
     }
   },
   "InvokeModifyVIPBDisplayInfo": {
-    "description": "",
+    "description": "Updates display information fields in a VIPB build specification. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). RelativePath: Path to the project root relative to the working directory. VIPBPath: Path to the VIPB build specification file. MinimumSupportedLVVersion: Minimum LabVIEW version that the package supports. LabVIEWMinorRevision: Minor revision of LabVIEW used for the build. Major: Major version component. Minor: Minor version component. Patch: Patch version component. Build: Build number component. Commit: Commit identifier used for the build metadata. DisplayInformationJSON: JSON string containing display information for the package. ReleaseNotesFile: Optional path to a release notes file. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Build": {
         "type": "number",
@@ -421,7 +421,7 @@
     }
   },
   "InvokePrepareLabVIEWSource": {
-    "description": "",
+    "description": "Prepares a LabVIEW project for source distribution. MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). RelativePath: Path to the project root relative to the working directory. LabVIEW_Project: Path to the LabVIEW project file. Build_Spec: Name of the build specification within the project. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Build_Spec": {
         "type": "string",
@@ -461,7 +461,7 @@
     }
   },
   "InvokeRenameFile": {
-    "description": "",
+    "description": "Renames a file on disk. CurrentFilename: Existing path to the file. NewFilename: New path for the file. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "CurrentFilename": {
         "type": "string",
@@ -486,7 +486,7 @@
     }
   },
   "InvokeRestoreSetupLVSource": {
-    "description": "",
+    "description": "Restores the Setup LabVIEW source build specification. MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). RelativePath: Path to the project root relative to the working directory. LabVIEW_Project: Path to the LabVIEW project file. Build_Spec: Name of the build specification within the project. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Build_Spec": {
         "type": "string",
@@ -526,7 +526,7 @@
     }
   },
   "InvokeRevertDevelopmentMode": {
-    "description": "",
+    "description": "Returns a repository to its previous development mode state. RelativePath: Path to the project root relative to the working directory. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -546,7 +546,7 @@
     }
   },
   "InvokeRunPesterTests": {
-    "description": "",
+    "description": "Runs Pester tests located in the specified working directory. WorkingDirectory: Path containing the Pester tests to execute. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -566,7 +566,7 @@
     }
   },
   "InvokeRunUnitTests": {
-    "description": "",
+    "description": "Runs LabVIEW unit tests. MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -591,7 +591,7 @@
     }
   },
   "InvokeSetDevelopmentMode": {
-    "description": "",
+    "description": "Configures the repository for development mode. RelativePath: Path to the project root relative to the working directory. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "DryRun": {
         "type": "boolean",
@@ -611,7 +611,7 @@
     }
   },
   "Run": {
-    "description": "",
+    "description": "Runs a helper script from the repository's scripts directory. ScriptSegments: Path segments under the scripts folder that locate the target script. Arguments: Hashtable of arguments forwarded to the script. DryRun: If set, writes the command without executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
       "Arguments": {
         "type": "string",
@@ -636,7 +636,7 @@
     }
   },
   "Set": {
-    "description": "",
+    "description": "Sets the verbosity for informational and verbose messages. Level: Desired log level (ERROR, WARN, INFO, DEBUG).",
     "parameters": {
       "Level": {
         "type": "string",
