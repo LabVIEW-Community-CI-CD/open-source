@@ -143,10 +143,7 @@ jobs:
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: test-screenshots
-      - name: Print test traceability matrix
-        run: |
-          cat "artifacts/${RUNNER_OS,,}/traceability.md" >> "$GITHUB_STEP_SUMMARY"
-          cat "artifacts/${RUNNER_OS,,}/traceability.md"
+      - run: node scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"
       - name: Include setup information
         run: |
           echo '## ubuntu-24.04' >> "$GITHUB_STEP_SUMMARY"
