@@ -9,6 +9,10 @@ on:
 jobs:
   node-ci:
     runs-on: ubuntu-24.04
+    env:
+      # Summary artifacts are emitted under artifacts/<os>.
+      # This job always runs on Linux, so the directory is fixed.
+      ARTIFACT_DIR: artifacts/linux
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,17 +29,17 @@ jobs:
         if: always()
         with:
           name: traceability
-          path: artifacts/${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'macos' || 'linux' }}/traceability.*
+          path: ${{ env.ARTIFACT_DIR }}/traceability.*
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: action-docs
-          path: artifacts/${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'macos' || 'linux' }}/action-docs.*
+          path: ${{ env.ARTIFACT_DIR }}/action-docs.*
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: evidence
-          path: artifacts/${{ runner.os == 'Windows' && 'windows' || runner.os == 'macOS' && 'macos' || 'linux' }}/evidence/**
+          path: ${{ env.ARTIFACT_DIR }}/evidence/**
           if-no-files-found: ignore
 
   ps-ci:
