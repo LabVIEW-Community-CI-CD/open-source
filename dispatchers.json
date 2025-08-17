@@ -1,62 +1,603 @@
 {
   "InvokeAddTokenToLabVIEW": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeApplyVIPC": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "VIP_LVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "VIPCPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    }
   },
   "InvokeBuild": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "AuthorName": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Build": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Commit": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "CompanyName": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LabVIEWMinorRevision": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Major": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Minor": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Patch": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeBuildLvlibp": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "Build": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Build_Spec": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Commit": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LabVIEW_Project": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Major": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Minor": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Patch": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeBuildViPackage": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "Build": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Commit": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DisplayInformationJSON": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LabVIEWMinorRevision": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Major": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Minor": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Patch": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "ReleaseNotesFile": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "VIPBPath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeCloseLabVIEW": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeGenerateReleaseNotes": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "OutputPath": {
+        "type": "string",
+        "required": false,
+        "default": "Tooling/deployment/release_notes.md",
+        "description": ""
+      }
+    }
   },
   "InvokeMissingInProject": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "Arch": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "ProjectFile": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeModifyVIPBDisplayInfo": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "Build": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Commit": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DisplayInformationJSON": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LabVIEWMinorRevision": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Major": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "Minor": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "Patch": {
+        "type": "number",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "ReleaseNotesFile": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "VIPBPath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokePrepareLabVIEWSource": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "Build_Spec": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LabVIEW_Project": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeRenameFile": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "CurrentFilename": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "NewFilename": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeRestoreSetupLVSource": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "Build_Spec": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "LabVIEW_Project": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeRevertDevelopmentMode": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeRunUnitTests": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "MinimumSupportedLVVersion": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "SupportedBitness": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
   },
   "InvokeSetDevelopmentMode": {
     "description": "",
-    "parameters": {}
+    "parameters": {
+      "DryRun": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "gcliPath": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "RelativePath": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    }
+  },
+  "Set": {
+    "description": "",
+    "parameters": {
+      "Level": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      }
+    }
   }
 }

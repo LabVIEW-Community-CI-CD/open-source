@@ -50,16 +50,58 @@ function extractDescription(content: string, index: number): string {
   return desc.join(' ');
 }
 
+function extractParamBlock(content: string, start: number): string | null {
+  const rest = content.slice(start);
+  const paramMatch = /\bparam\s*\(/i.exec(rest);
+  if (!paramMatch) return null;
+  const before = rest
+    .slice(0, paramMatch.index)
+    .split(/\r?\n/)
+    .map(l => l.trim())
+    .filter(l => l && !l.startsWith('#') && !l.startsWith('['));
+  if (before.length > 0) return null;
+  let idx = start + paramMatch.index + paramMatch[0].length;
+  let depth = 1;
+  let inSingle = false, inDouble = false, inComment = false;
+  while (idx < content.length) {
+    const ch = content[idx];
+    const prev = content[idx - 1];
+    if (inComment) {
+      if (ch === '\n' || ch === '\r') inComment = false;
+    } else if (!inDouble && ch === "'" && prev !== '`') {
+      inSingle = !inSingle;
+    } else if (!inSingle && ch === '"' && prev !== '`') {
+      inDouble = !inDouble;
+    } else if (!inSingle && !inDouble) {
+      if (ch === '#') {
+        inComment = true;
+      } else if (ch === '(') {
+        depth++;
+      } else if (ch === ')') {
+        depth--;
+        if (depth === 0) {
+          return content.slice(start + paramMatch.index + paramMatch[0].length, idx);
+        }
+      }
+    }
+    idx++;
+  }
+  return null;
+}
+
 async function main() {
   const files = await glob('actions/*.{ps1,psm1}');
   const registry: Record<string, FuncInfo> = {};
   for (const file of files) {
     const content = await fs.readFile(file, 'utf8');
-    const regex = /function\s+(\w+)\s*\{[\s\S]*?param\(([^\)]*)\)/gi;
+    const fnRegex = /function\s+(\w+)\b/gi;
     let match: RegExpExecArray | null;
-    while ((match = regex.exec(content)) !== null) {
+    while ((match = fnRegex.exec(content)) !== null) {
       const fn = match[1];
-      const paramsBlock = match[2];
+      const bodyStart = content.indexOf('{', fnRegex.lastIndex);
+      if (bodyStart === -1) continue;
+      const paramsBlock = extractParamBlock(content, bodyStart + 1);
+      if (!paramsBlock) continue;
       const description = extractDescription(content, match.index);
       registry[fn] = { description, parameters: parseParams(paramsBlock) };
     }
