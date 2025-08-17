@@ -24,6 +24,7 @@ const xml = `<?xml version="1.0" encoding="utf-8"?>
 const xmlMissing = `<testsuites><testsuite><testcase /></testsuite></testsuites>`;
 
 const xmlExtra = `<testsuites name="X" tests="0" errors="0" failures="0" disabled="0" time="0"><testsuite name="S" tests="0" errors="0" failures="0" skipped="0" disabled="0" hostname="h" id="1" package="p" time="0"><testcase name="t" foo="bar" time="0"/></testsuite></testsuites>`;
+const xmlBad = `<testsuites><testsuite>`;
 
 test('[REQ-023] parses nested JUnit structures', async () => {
   const report = await parseJUnit(xml);
@@ -85,4 +86,8 @@ test('[REQ-031] validates missing fields', async () => {
 test('[REQ-032] preserves unknown attributes', async () => {
   const report = await parseJUnit(xmlExtra);
   assert.strictEqual(report.suites[0].testcases[0].attributes.foo, 'bar');
+});
+
+test('[REQ-033] throws error for malformed XML', async () => {
+  await assert.rejects(() => parseJUnit(xmlBad), { message: 'Invalid JUnit XML' });
 });

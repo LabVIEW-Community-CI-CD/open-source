@@ -31,7 +31,12 @@ function extractAttributes(obj: any): Record<string, string> {
 }
 
 export async function parseJUnit(xml: string): Promise<JUnitReport> {
-  const parsed = await parseStringPromise(xml, { explicitArray: false, mergeAttrs: true });
+  let parsed;
+  try {
+    parsed = await parseStringPromise(xml, { explicitArray: false, mergeAttrs: true });
+  } catch {
+    throw new Error('Invalid JUnit XML');
+  }
   const root = parsed.testsuites ?? parsed.testsuite;
   const reportAttrs = extractAttributes(root);
   const rawSuites = root.testsuite
