@@ -1,3 +1,4 @@
+$env:PSModulePath = (Join-Path $PSScriptRoot 'Modules') + [System.IO.Path]::PathSeparator + $env:PSModulePath
 Describe 'Dispatcher Args Inputs' {
     $meta = @{
         requirement = 'REQ-000'

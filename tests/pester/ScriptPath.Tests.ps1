@@ -1,4 +1,5 @@
 #requires -Version 7.0
+$env:PSModulePath = (Join-Path $PSScriptRoot 'Modules') + [System.IO.Path]::PathSeparator + $env:PSModulePath
 # Verify that each action script exists in the expected location.
 # Requirement: REQ-004 - Every action script exists at the expected path.
 

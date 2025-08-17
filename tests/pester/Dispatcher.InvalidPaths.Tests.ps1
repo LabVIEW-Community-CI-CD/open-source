@@ -1,4 +1,5 @@
 #requires -Version 7.0
+$env:PSModulePath = (Join-Path $PSScriptRoot 'Modules') + [System.IO.Path]::PathSeparator + $env:PSModulePath
 # Pester v5+ tests verifying dispatcher handling of invalid RelativePath
 # Requirement: REQ-005 - Dispatcher fails when RelativePath is missing or invalid.
 

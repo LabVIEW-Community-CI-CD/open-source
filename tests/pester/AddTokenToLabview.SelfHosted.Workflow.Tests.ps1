@@ -1,4 +1,5 @@
 #requires -Version 7.0
+$env:PSModulePath = (Join-Path $PSScriptRoot 'Modules') + [System.IO.Path]::PathSeparator + $env:PSModulePath
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
@@ -12,11 +13,12 @@ if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
     }
 }
 
-if (-not ($env:RUNNER_LABELS -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -eq 'icon-editor-windows' })) {
-    Set-ItResult -Skipped -Because 'requires runner label icon-editor-windows'
-    return
-}
 
+$missingLabel = -not ($env:RUNNER_LABELS -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -eq 'icon-editor-windows' })
+
+if ($missingLabel) {
+    Describe 'AddTokenToLabview.SelfHosted.Workflow' -Skip {}
+} else {
 Describe 'AddTokenToLabview.SelfHosted.Workflow' {
     $meta = @{
         requirement = 'REQ-008'
@@ -56,4 +58,5 @@ Describe 'AddTokenToLabview.SelfHosted.Workflow' {
             Set-ItResult -Skipped -Because 'No workflow found using add-token-to-labview action'
         }
     }
+}
 }
