@@ -26,6 +26,23 @@ Describe 'Unified Dispatcher — discovery and validation' {
     $out | Should -Match 'missing-in-project'
     $out | Should -Match 'run-unit-tests'
   }
+  It 'registry includes all Invoke* adapters in module' -Tag 'REQ-001' {
+    $modulePath = Join-Path (Split-Path $global:dispatcher -Parent) 'OpenSourceActions.psm1'
+    $module = Import-Module $modulePath -PassThru
+    $fnNames = (Get-Command -Module $module | Where-Object Name -like 'Invoke*').Name
+    function Convert-Name([string]$fn) {
+      $name = $fn -replace '^Invoke'
+      $name = $name -creplace '([a-z0-9])([A-Z])', '$1-$2'
+      $name = $name -creplace '([A-Z])([A-Z][a-z])', '$1-$2'
+      $name = $name -ireplace 'Lab-VIEW', 'LabVIEW'
+      return $name.ToLowerInvariant()
+    }
+    $expected = $fnNames | ForEach-Object { Convert-Name $_ }
+    $listed = pwsh -NoProfile -File $global:dispatcher -ListActions | Out-String
+    foreach ($action in $expected) {
+      $listed | Should -Match " - $action"
+    }
+  }
   It 'describes a known action (build-lvlibp)' -Tag 'REQ-001' {
     $json = Get-LabVIEWIconEditorArgsJson
     $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp -ArgsJson $json | Out-String

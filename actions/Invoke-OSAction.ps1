@@ -16,8 +16,9 @@ $ErrorActionPreference = 'Stop'
 
 Import-Module (Join-Path $PSScriptRoot 'OpenSourceActions.psm1') -Force
 
-# Ordered registry of action name to adapter function
-$Registry = [ordered]@{
+# Attempt to build registry from generated dispatcher metadata; fall back to
+# a static map only if loading fails or produces no entries.
+$FallbackRegistry = [ordered]@{
     'add-token-to-labview'      = 'InvokeAddTokenToLabVIEW'
     'apply-vipc'               = 'InvokeApplyVIPC'
     'build'                    = 'InvokeBuild'
@@ -34,6 +35,27 @@ $Registry = [ordered]@{
     'run-unit-tests'           = 'InvokeRunUnitTests'
     'set-development-mode'     = 'InvokeSetDevelopmentMode'
 }
+
+$Registry = $null
+$dispatcherPath = Join-Path $PSScriptRoot '..' 'dispatchers.json'
+try {
+  if (Test-Path $dispatcherPath) {
+    $raw = Get-Content -Path $dispatcherPath -Raw | ConvertFrom-Json -AsHashtable
+    $generated = [ordered]@{}
+    foreach ($fn in $raw.Keys) {
+      if ($fn -notlike 'Invoke*') { continue }
+      $name = $fn -replace '^Invoke'
+      $name = $name -creplace '([a-z0-9])([A-Z])', '$1-$2'
+      $name = $name -creplace '([A-Z])([A-Z][a-z])', '$1-$2'
+      $name = $name -ireplace 'Lab-VIEW', 'LabVIEW'
+      $generated[$name.ToLowerInvariant()] = $fn
+    }
+    if ($generated.Count -gt 0) { $Registry = $generated }
+  }
+} catch {
+  # Ignore errors and fall back to the static table
+}
+if (-not $Registry) { $Registry = $FallbackRegistry }
 
 function Set-LogLevel {
   param([string]$Level)
