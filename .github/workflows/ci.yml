@@ -107,7 +107,8 @@ jobs:
             $cfg = New-PesterConfiguration
             $cfg.Run.Path = './tests/pester'
             $cfg.TestResult.Enabled = $false
-            Invoke-Pester -CI -Configuration $cfg
+            $cfg.Run.Exit = $true
+            Invoke-Pester -Configuration $cfg
           }
       - uses: actions/upload-artifact@v4
         if: always()
