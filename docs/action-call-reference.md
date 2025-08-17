@@ -184,6 +184,16 @@ See [revert-development-mode](actions/revert-development-mode.md) for all parame
     relative_path: '.'
 ```
 
+## run-pester-tests
+
+See [run-pester-tests](actions/run-pester-tests.md) for all parameters.
+
+```yaml
+- uses: LabVIEW-Community-CI-CD/open-source-actions/run-pester-tests@v1
+  with:
+    working_directory: '.'
+```
+
 ## run-unit-tests
 
 See [run-unit-tests](actions/run-unit-tests.md) for all parameters.
@@ -203,4 +213,12 @@ See [set-development-mode](actions/set-development-mode.md) for all parameters.
 - uses: LabVIEW-Community-CI-CD/open-source-actions/set-development-mode@v1
   with:
     relative_path: '.'
+```
+
+## setup-mkdocs
+
+See [setup-mkdocs](actions/setup-mkdocs.md) for all parameters.
+
+```yaml
+- uses: LabVIEW-Community-CI-CD/open-source-actions/setup-mkdocs@v1
 ```
