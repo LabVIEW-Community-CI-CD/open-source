@@ -152,7 +152,7 @@
         "ps-ci"
       ],
       "runs-on": "ubuntu-24.04",
-      "if": "always()",
+      "if": "(success() || failure()) && !cancelled()",
       "steps": [
         {
           "uses": "actions/checkout@v4"
