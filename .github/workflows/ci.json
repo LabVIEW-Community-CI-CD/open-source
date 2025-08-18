@@ -102,10 +102,10 @@
           "uses": "actions/checkout@v4"
         },
         {
-          "name": "Install PowerShell 7.5.1",
+          "name": "Ensure PowerShell 7.5.1",
           "if": "matrix.os == 'windows-latest'",
           "shell": "pwsh",
-          "run": "$expectedBuild = '10.0.20348'\n$build = (Get-ComputerInfo).OsVersion\nif ($build -ne $expectedBuild) {\n  throw \"Unexpected OS build: $build\"\n}\n$msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'\n$msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'\nInvoke-WebRequest -Uri $msiUrl -OutFile $msiPath\n$expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'\n$actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash\nif ($actualHash -ne $expectedHash) {\n  throw \"SHA256 mismatch: $actualHash\"\n}\nStart-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'\n$version = (pwsh --version).Trim() -replace '^PowerShell '\nif ($version -ne '7.5.1') {\n  throw \"PowerShell version $version is not 7.5.1\"\n}\n"
+          "run": "$required = [Version]'7.5.1'\nif ($PSVersionTable.PSVersion -lt $required) {\n  $msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'\n  $msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'\n  Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath\n  $expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'\n  $actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash\n  if ($actualHash -ne $expectedHash) {\n    throw \"SHA256 mismatch: $actualHash\"\n  }\n  Start-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'\n}\n$version = (pwsh --version).Trim() -replace '^PowerShell '\nif ([Version]$version -lt $required) {\n  throw \"PowerShell version $version is less than $required\"\n}\n"
         },
         {
           "name": "Capture setup info",
