@@ -27,17 +27,17 @@ jobs:
         env:
           TEST_RESULTS_GLOBS: test-results/*junit*.xml
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: traceability
           path: ${{ env.ARTIFACT_DIR }}/traceability.*
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: action-docs
           path: ${{ env.ARTIFACT_DIR }}/action-docs.*
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: evidence
           path: ${{ env.ARTIFACT_DIR }}/evidence/**
@@ -94,7 +94,7 @@ jobs:
             }
           }
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: setup-info-${{ matrix.os }}
           path: setup-info-${{ matrix.os }}.md
@@ -119,7 +119,7 @@ jobs:
             Invoke-Pester -Configuration $cfg
           }
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: pester-junit-${{ matrix.os }}
           path: pester-results/pester-junit.xml
@@ -128,7 +128,7 @@ jobs:
   report:
     needs: [node-ci, ps-ci]
     runs-on: ubuntu-24.04
-    if: always()
+    if: ${{ (success() || failure()) && !cancelled() }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
