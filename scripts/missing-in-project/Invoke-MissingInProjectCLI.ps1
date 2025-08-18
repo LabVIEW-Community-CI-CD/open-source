@@ -2,7 +2,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$LVVersion,
-    [Parameter(Mandatory)][ValidateSet('32','64')][string]$Arch,
+    [Parameter(Mandatory)][ValidateSet('32','64')][string]$SupportedBitness,
     [Parameter(Mandatory)][string]$ProjectFile
 )
 
@@ -24,9 +24,9 @@ if (-not (Test-Path $HelperPath)) {
 # =========================  SETUP  =========================
 function Setup {
     Write-Host "=== Setup ==="
-    Write-Host "LVVersion  : $LVVersion"
-    Write-Host "Arch       : $Arch-bit"
-    Write-Host "ProjectFile: $ProjectFile"
+    Write-Host "LVVersion       : $LVVersion"
+    Write-Host "SupportedBitness: $SupportedBitness-bit"
+    Write-Host "ProjectFile     : $ProjectFile"
 
     # remove an old results file to avoid stale data
     if (Test-Path $MissingFilePath) {
@@ -42,11 +42,11 @@ function MainSequence {
     Write-Host "Invoking missing‑file check via helper script …`n"
 
     # call helper & capture any stdout (not strictly needed now)
-    & $HelperPath -LVVersion $LVVersion -Arch $Arch -ProjectFile $ProjectFile
+    & $HelperPath -LVVersion $LVVersion -SupportedBitness $SupportedBitness -ProjectFile $ProjectFile
     $Script:HelperExitCode = $LASTEXITCODE
 
     # Ensure LabVIEW is closed (redundant if helper did it)
-    & g-cli --lv-ver $LVVersion --arch $Arch QuitLabVIEW | Out-Null
+    & g-cli --lv-ver $LVVersion --arch $SupportedBitness QuitLabVIEW | Out-Null
 
     if ($Script:HelperExitCode -ne 0) {
         Write-Error "Helper returned non‑zero exit code: $Script:HelperExitCode"

@@ -264,7 +264,7 @@ function Invoke-GenerateReleaseNotes {
 
 # Lists files referenced in a LabVIEW project that are missing on disk.
 # LVVersion: LabVIEW version of the project.
-# Arch: Target architecture or bitness.
+# SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
 # ProjectFile: Path to the .lvproj file to analyze.
 # DryRun: If set, prints the command instead of executing it.
 # gcliPath: Optional path prepended to PATH for locating the g CLI.
@@ -272,16 +272,16 @@ function Invoke-MissingInProject {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] [string] $LVVersion,
-        [Parameter(Mandatory)] [string] $Arch,
+        [Parameter(Mandatory)] [string] $SupportedBitness,
         [Parameter(Mandatory)] [string] $ProjectFile,
         [Parameter()] [switch] $DryRun,
         [Parameter()] [string] $gcliPath
     )
     Write-Information "Executing MissingInProject (DryRun=$DryRun)"
     $args = @{
-        LVVersion   = $LVVersion
-        Arch        = $Arch
-        ProjectFile = $ProjectFile
+        LVVersion        = $LVVersion
+        SupportedBitness = $SupportedBitness
+        ProjectFile      = $ProjectFile
     }
     return Invoke-OpenSourceActionScript -ScriptSegments @('missing-in-project','Invoke-MissingInProjectCLI.ps1') -Arguments $args -DryRun:$DryRun -gcliPath $gcliPath
 }

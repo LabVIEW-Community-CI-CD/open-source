@@ -4,8 +4,8 @@ inputs:
   lv_version:
     description: 'LabVIEW version to use.'
     required: true
-  arch:
-    description: 'Target architecture (32 or 64).'
+  supported_bitness:
+    description: 'Target LabVIEW bitness (32 or 64).'
     required: true
   project_file:
     description: 'Path to the LabVIEW project (.lvproj).'
@@ -33,7 +33,7 @@ runs:
         $ErrorActionPreference = 'Stop'
         $args = @{
           LVVersion   = '${{ inputs.lv_version }}'
-          Arch        = '${{ inputs.arch }}'
+          SupportedBitness = '${{ inputs.supported_bitness }}'
           ProjectFile = '${{ inputs.project_file }}'
         }
         if ('${{ inputs.gcli_path }}') { $args['gcliPath'] = '${{ inputs.gcli_path }}' }

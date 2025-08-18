@@ -24,7 +24,7 @@ Describe 'MissingInProject.Workflow' {
         $externalCheckout | Should -BeNullOrEmpty
 
         $missingStep.with.lv_version | Should -Be '2021'
-        $missingStep.with.arch | Should -Be '64'
+        $missingStep.with.supported_bitness | Should -Be '64'
         $missingStep.with.project_file | Should -Be 'scripts/missing-in-project/Missing in Project.lvproj'
         $missingStep.with.relative_path | Should -Be 'scripts/missing-in-project'
 

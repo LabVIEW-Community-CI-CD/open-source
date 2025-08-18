@@ -12,7 +12,7 @@ jobs:
         uses: ./missing-in-project/action.yml
         with:
           lv_version: '2021'
-          arch: '64'
+          supported_bitness: '64'
           project_file: 'scripts/missing-in-project/Missing in Project.lvproj'
           relative_path: 'scripts/missing-in-project'
       - name: Upload missing findings

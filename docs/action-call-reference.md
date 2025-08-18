@@ -111,7 +111,7 @@ See [missing-in-project](actions/missing-in-project.md) for all parameters.
 - uses: LabVIEW-Community-CI-CD/open-source-actions/missing-in-project@v1
   with:
     lv_version: '2020'
-    arch: '64'
+    supported_bitness: '64'
     project_file: 'MyProject.lvproj'
 ```
 
