@@ -11,7 +11,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 ### Required
 
 - **LVVersion** (`string`): LabVIEW version used to open the project.
-- **Arch** (`string`): "32" or "64" bitness of LabVIEW.
+- **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
 - **ProjectFile** (`string`): Path to the project file to inspect.
 
 ### Optional
@@ -23,7 +23,7 @@ None.
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson '{
   "LVVersion": "2020",
-  "Arch": "64",
+  "SupportedBitness": "64",
   "ProjectFile": "MyProject.lvproj"
 }'
 ```
@@ -35,7 +35,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | Input | CLI parameter | Description |
 | --- | --- | --- |
 | `lv_version` | `LVVersion` | LabVIEW version to use. |
-| `arch` | `Arch` | Target architecture (32 or 64). |
+| `supported_bitness` | `SupportedBitness` | Target LabVIEW bitness (32 or 64). |
 | `project_file` | `ProjectFile` | Path to the LabVIEW project (.lvproj). |
 | `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
 | `working_directory` | `WorkingDirectory` | Base directory for the action; relative paths are resolved from here. |
@@ -49,7 +49,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
   uses: LabVIEW-Community-CI-CD/open-source-actions/missing-in-project@v1
   with:
     lv_version: '2020'
-    arch: '64'
+    supported_bitness: '64'
     project_file: 'MyProject.lvproj'
 ```
 

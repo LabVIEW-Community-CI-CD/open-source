@@ -316,12 +316,12 @@
     }
   },
   "Invoke-MissingInProject": {
-    "description": "Lists files referenced in a LabVIEW project that are missing on disk. LVVersion: LabVIEW version of the project. Arch: Target architecture or bitness. ProjectFile: Path to the .lvproj file to analyze. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
+    "description": "Lists files referenced in a LabVIEW project that are missing on disk. LVVersion: LabVIEW version of the project. SupportedBitness: Target LabVIEW bitness (32- or 64-bit). ProjectFile: Path to the .lvproj file to analyze. DryRun: If set, prints the command instead of executing it. gcliPath: Optional path prepended to PATH for locating the g CLI.",
     "parameters": {
-      "Arch": {
+      "SupportedBitness": {
         "type": "string",
         "required": true,
-        "description": "Target architecture or bitness."
+        "description": "Target LabVIEW bitness (32- or 64-bit)."
       },
       "DryRun": {
         "type": "boolean",

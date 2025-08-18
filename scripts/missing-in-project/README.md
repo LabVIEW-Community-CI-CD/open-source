@@ -39,7 +39,7 @@ Results are returned as standard GitHub Action outputs so downstream jobs can d
 | Name | Required | Example | Description |
 |------|----------|---------|-------------|
 | `lv-ver` | **Yes** | `2021` | LabVIEW _major_ version number that should be used to run `MissingInProjectCLI.vi` |
-| `arch` | **Yes** | `32` or `64` | Bitness of the LabVIEW runtime to launch |
+| `supported-bitness` | **Yes** | `32` or `64` | Bitness of the LabVIEW runtime to launch |
 | `project-file` | No | `source/MyPlugin.lvproj` | Path (absolute or relative to repository root) of the project to inspect. Defaults to **`lv_icon.lvproj`** |
 
 ---
@@ -70,7 +70,7 @@ jobs:
         uses: ./.github/actions/missing-in-project
         with:
           lv-ver: 2021
-          arch: 64
+          supported-bitness: 64
 
       - name: Print report
         if: ${{ steps.mip.outputs.passed == 'false' }}
@@ -90,13 +90,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [32, 64]
+        supported_bitness: [32, 64]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/missing-in-project
         with:
           lv-ver: 2021
-          arch: ${{ matrix.arch }}
+          supported-bitness: ${{ matrix.supported_bitness }}
 
   build-package:
     needs: missing-in-project-check
@@ -143,7 +143,7 @@ jobs:
 ```powershell
 pwsh -File .github/actions/missing-in-project/Invoke-MissingInProjectCLI.ps1 `
       -LVVersion 2021 `
-      -Arch 64 `
+      -SupportedBitness 64 `
       -ProjectFile 'C:\path\to\MyProj.lvproj'
 
 echo "Exit code: $LASTEXITCODE"
