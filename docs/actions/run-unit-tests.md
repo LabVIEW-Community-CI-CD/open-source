@@ -29,6 +29,12 @@ $json = @'
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson $json
 ```
 
+Alternatively, load arguments from a JSON file:
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json
+```
+
 ## GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).

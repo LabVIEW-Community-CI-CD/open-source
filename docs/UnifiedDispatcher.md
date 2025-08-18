@@ -28,6 +28,12 @@ $json = @'
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson $json -LogLevel INFO
 ```
 
+Arguments can also be read from a JSON file:
+
+```powershell
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json -LogLevel INFO
+```
+
 ## Wrapper action usage
 
 ```yaml

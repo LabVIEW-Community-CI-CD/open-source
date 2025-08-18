@@ -94,7 +94,7 @@ Chain the [apply-vipc](docs/actions/apply-vipc.md), [set-development-mode](docs/
 
 ## CLI/dispatcher usage
 
-If you prefer or need to run tasks directly, call the dispatcher script [actions/Invoke-OSAction.ps1](actions/Invoke-OSAction.ps1) yourself:
+If you prefer or need to run tasks directly, serialize arguments as JSON and call the dispatcher script [actions/Invoke-OSAction.ps1](actions/Invoke-OSAction.ps1) yourself:
 
 ```powershell
 $json = @'
@@ -105,8 +105,7 @@ $json = @'
 '@
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson $json
 ```
-
-You can also load arguments from a file:
+YAML conversion via `ConvertFrom-Yaml` is no longer required. You can also load arguments from a JSON file:
 
 ```powershell
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json

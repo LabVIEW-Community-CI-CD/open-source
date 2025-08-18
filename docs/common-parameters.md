@@ -11,7 +11,7 @@ Controls logging verbosity. Allowed values: `ERROR`, `WARN`, `INFO` (default), `
 Example:
 
 ```powershell
-pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsYaml '{}' -LogLevel DEBUG
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{}' -LogLevel DEBUG
 ```
 
 ### `-DryRun`
@@ -21,7 +21,7 @@ Prints the adapter invocation without executing it.
 Example:
 
 ```powershell
-pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsYaml '{}' -DryRun
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{}' -DryRun
 ```
 
 ### `-WorkingDirectory`
@@ -31,7 +31,7 @@ Runs the adapter after changing to the specified directory using `-WorkingDirect
 Example:
 
 ```powershell
-pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsYaml '{}' -WorkingDirectory src
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{}' -WorkingDirectory src
 ```
 
 ### `-ListActions`
@@ -58,12 +58,12 @@ pwsh ./actions/Invoke-OSAction.ps1 -Describe run-unit-tests
 
 ### `gcliPath`
 
-Optional path to the NI g-cli executable. When provided in `args_yaml`, the dispatcher prepends it to `PATH`. Default: assumes `g-cli` is already on `PATH`.
+Optional path to the NI g-cli executable. When provided in `args_json`, the dispatcher prepends it to `PATH`. Default: assumes `g-cli` is already on `PATH`.
 
 Example:
 
 ```powershell
-pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsYaml '{"gcliPath":"/opt/gcli/bin"}'
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{"gcliPath":"/opt/gcli/bin"}'
 ```
 
 ### `PSModulePath`
@@ -74,5 +74,5 @@ Example:
 
 ```powershell
 $env:PSModulePath = "$PWD/modules"
-pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsYaml '{}'
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{}'
 ```
