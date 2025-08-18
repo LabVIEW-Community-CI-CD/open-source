@@ -57,7 +57,7 @@
     },
     {
       "id": "REQ-006",
-      "description": "Workflow checks out the LabVIEW icon editor repository and tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', working_directory '/home/runner/work/labview-icon-editor/labview-icon-editor', relative_path '.', and vipc_path '/home/runner/work/labview-icon-editor/labview-icon-editor/.github/actions/apply-vipc/runner_dependencies.vipc' on the GitHub-hosted Ubuntu runner labeled ubuntu-latest with dry_run true.",
+      "description": "Workflow tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', relative_path '.', and vipc_path 'scripts/apply-vipc/runner_dependencies.vipc' on the GitHub-hosted Ubuntu runner labeled ubuntu-latest with dry_run true.",
       "runner": "ubuntu-latest",
       "tests": [
         "ApplyVipc.DryRunTrue.Workflow"

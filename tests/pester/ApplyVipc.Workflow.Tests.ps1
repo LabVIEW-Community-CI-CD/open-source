@@ -15,19 +15,20 @@ Describe 'ApplyVipc.DryRunTrue.Workflow' {
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Yaml
         $job = $wf.jobs.'apply-vipc'
         $applyStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './apply-vipc/action.yml' } | Select-Object -First 1
-        $checkoutIconRepoStep = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with']['repository'] -eq 'LabVIEW-Community-CI-CD/labview-icon-editor' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
         $job.'runs-on' | Should -Be 'ubuntu-latest'
 
-        $checkoutIconRepoStep.uses | Should -Be 'actions/checkout@v4'
-        $checkoutIconRepoStep.with.path | Should -Match 'labview-icon-editor/labview-icon-editor$'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
         $applyStep.uses | Should -Be './apply-vipc/action.yml'
         $applyStep.with.minimum_supported_lv_version | Should -Be '2021'
         $applyStep.with.vip_lv_version | Should -Be '2021'
         $applyStep.with.supported_bitness | Should -Be '64'
-        $applyStep.with.relative_path | Should -Match 'labview-icon-editor$'
-        $applyStep.with.vipc_path | Should -Match 'labview-icon-editor.*runner_dependencies.vipc$'
+        $applyStep.with.relative_path | Should -Be '.'
+        $applyStep.with.vipc_path | Should -Be 'scripts/apply-vipc/runner_dependencies.vipc'
         $applyStep.with.dry_run | Should -Be $true
     }
 }

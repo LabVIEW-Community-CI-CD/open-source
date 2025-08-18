@@ -8,16 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run apply-vipc action (dry_run=true)
         uses: ./apply-vipc/action.yml
         with:
           minimum_supported_lv_version: '2021'
           vip_lv_version: '2021'
           supported_bitness: '64'
-          relative_path: 'labview-icon-editor/labview-icon-editor'
-          vipc_path: 'labview-icon-editor/labview-icon-editor/.github/actions/apply-vipc/runner_dependencies.vipc'
+          relative_path: '.'
+          vipc_path: 'scripts/apply-vipc/runner_dependencies.vipc'
           dry_run: true
