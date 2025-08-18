@@ -132,6 +132,25 @@ function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNa
   return $filtered
 }
 
+# Normalizes a RelativePath value against an optional base directory.
+# RelativePath: Path to normalize.
+# BaseDirectory: Directory used to resolve the relative path. Defaults to the current location.
+function Normalize-RelativePath {
+  param(
+    [Parameter(Mandatory)] [string] $RelativePath,
+    [string] $BaseDirectory
+  )
+  $base = if ($BaseDirectory) {
+    [System.IO.Path]::GetFullPath($BaseDirectory)
+  } else {
+    [System.IO.Directory]::GetCurrentDirectory()
+  }
+  $combined = [System.IO.Path]::Combine($base, $RelativePath)
+  $full = [System.IO.Path]::GetFullPath($combined)
+  $relative = [System.IO.Path]::GetRelativePath($base, $full)
+  return [System.IO.Path]::TrimEndingDirectorySeparator($relative)
+}
+
 try {
   # Discovery short-circuits
   if ($ListActions) { Show-List; exit 0 }
@@ -199,6 +218,10 @@ try {
 
   # Only pass parameters that the adapter actually accepts
   $argsHash = Filter-Args -InputArgs $argsHash -FuncName $funcName -ActionNameForWarn $key
+
+  if ($argsHash.ContainsKey('RelativePath')) {
+    $argsHash['RelativePath'] = Normalize-RelativePath -RelativePath $argsHash['RelativePath'] -BaseDirectory $WorkingDirectory
+  }
 
   if ($WorkingDirectory) { Push-Location -Path $WorkingDirectory }
   try {
