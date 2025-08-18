@@ -1,16 +1,9 @@
 {
-  "runners": {
-    "windows-latest": {
-      "owner": "windows-latest",
-      "runner_label": "windows-latest",
-      "runner_type": "integration",
-      "skip_dry_run": false
-    },
     "self-hosted-windows-lv": {
       "owner": "self-hosted-windows-lv",
       "runner_label": "self-hosted-windows-lv",
       "runner_type": "default",
-      "skip_dry_run": true
+      "skip_dry_run": false
     },
     "ubuntu-latest": {
       "owner": "ubuntu-latest",
