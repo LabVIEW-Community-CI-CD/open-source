@@ -49,17 +49,20 @@ jobs:
         include:
           - os: ubuntu-24.04
             runs-on: ubuntu-24.04
-            runner_type: default
-          - os: windows-latest
-            runs-on: windows-latest
+            runner_type: linux
+          - os: self-hosted-windows-lv
+            runs-on: self-hosted-windows-lv
             runner_type: integration
+          - os: self-hosted-windows-lv
+            runs-on: self-hosted-windows-lv
+            runner_type: default
     runs-on: ${{ matrix.runs-on }}
     env:
       RUNNER_TYPE: ${{ matrix.runner_type }}
     steps:
       - uses: actions/checkout@v4
       - name: Ensure PowerShell 7.5.1
-        if: matrix.os == 'windows-latest'
+        if: matrix.runner_type != 'linux'
         shell: pwsh
         run: |
           $required = [Version]'7.5.1'
@@ -89,7 +92,7 @@ jobs:
             'RUNNER_OS'             = $env:RUNNER_OS
             'RUNNER_ARCH'           = $env:RUNNER_ARCH
           }
-          $file = "setup-info-${{ matrix.os }}.md"
+          $file = "setup-info-${{ matrix.runner_type }}.md"
           "was captured from the set up job." | Out-File -FilePath $file -Encoding utf8
           foreach ($k in $data.Keys) {
             if ($data[$k]) {
@@ -99,8 +102,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: setup-info-${{ matrix.os }}
-          path: setup-info-${{ matrix.os }}.md
+          name: setup-info-${{ matrix.runner_type }}
+          path: setup-info-${{ matrix.runner_type }}.md
       - name: Install Pester
         shell: pwsh
         run: |
@@ -124,7 +127,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: pester-junit-${{ matrix.os }}
+          name: pester-junit-${{ matrix.runner_type }}
           path: pester-results/pester-junit.xml
           if-no-files-found: error
 
