@@ -8,17 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run missing-in-project action
         uses: ./missing-in-project/action.yml
         with:
           lv_version: '2021'
           arch: '64'
-          project_file: 'labview-icon-editor/labview-icon-editor/source/lv_icon.lvproj'
-          relative_path: 'labview-icon-editor/labview-icon-editor'
+          project_file: 'scripts/missing-in-project/Missing in Project.lvproj'
+          relative_path: 'scripts/missing-in-project'
       - name: Upload missing findings
         uses: actions/upload-artifact@v4
         with:

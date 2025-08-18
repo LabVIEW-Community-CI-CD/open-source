@@ -11,34 +11,21 @@ Describe 'RestoreSetupLvSource.Workflow' {
 
     It 'runs restore-setup-lv-source action and uploads restoration artifacts' -Tag 'REQ-018' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
-        $wfDir = Join-Path $repoRoot '.github/workflows'
-        $workflowFiles = Get-ChildItem -Path $wfDir -Filter '*.yml'
-        $workflowFound = $false
+        $workflowPath = Join-Path $repoRoot '.github/workflows/restore-setup-lv-source-self-hosted.yml'
+        $wf = Get-Content -Raw $workflowPath | ConvertFrom-Yaml
+        $job = $wf.jobs.'restore-setup-lv-source'
+        $restoreStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq './restore-setup-lv-source/action.yml' } | Select-Object -First 1
+        $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
-        foreach ($wfFile in $workflowFiles) {
-            $wf = Get-Content -Raw $wfFile.FullName | ConvertFrom-Yaml
-            foreach ($jobEntry in $wf.jobs.GetEnumerator()) {
-                $job = $jobEntry.Value
-                $restoreStep = $job.steps | Where-Object { $_.uses -eq './restore-setup-lv-source/action.yml' } | Select-Object -First 1
-                if ($null -ne $restoreStep) {
-                    $workflowFound = $true
-                    $job.'runs-on' | Should -Be 'ubuntu-latest'
-                    $restoreStep.with.relative_path | Should -Match 'labview-icon-editor$'
-                    $restoreStep.env | Should -Not -BeNullOrEmpty
-                    $artifactStep = $job.steps | Where-Object {
-                        $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' -and (
-                            ($_.with.path -match 'restore') -or ($_.with.path -match 'snapshot') -or
-                            ($_.with.name -match 'restore') -or ($_.with.name -match 'snapshot') -or
-                            ($_.with.path -match 'log') -or ($_.with.name -match 'log')
-                        )
-                    } | Select-Object -First 1
-                    $artifactStep | Should -Not -BeNullOrEmpty
-                }
-            }
-        }
+        $job.'runs-on' | Should -Be 'ubuntu-latest'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
-        if (-not $workflowFound) {
-            Set-ItResult -Skipped -Because 'No workflow found using restore-setup-lv-source action'
-        }
+        $restoreStep.with.relative_path | Should -Be 'scripts/restore-setup-lv-source'
+        $restoreStep.env | Should -Not -BeNullOrEmpty
+
+        $artifactStep.with.path | Should -Be 'scripts/restore-setup-lv-source/restore.log'
     }
 }

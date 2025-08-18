@@ -16,15 +16,20 @@ Describe 'BuildLvlibp.Workflow' {
         $job = $wf.jobs.'build-lvlibp'
         $buildStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './build-lvlibp/action.yml' } | Select-Object -First 1
         $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match '\.lvlibp$' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
         $job.'runs-on' | Should -Be 'ubuntu-latest'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
         $buildStep.with.minimum_supported_lv_version | Should -Be '2021'
         $buildStep.with.supported_bitness | Should -Be '64'
-        $buildStep.with.labview_project | Should -Match 'labview-icon-editor.*lv_icon.lvproj$'
+        $buildStep.with.relative_path | Should -Be 'scripts/build-lvlibp'
+        $buildStep.with.labview_project | Should -Be 'scripts/build-lvlibp/lv_icon.lvproj'
         $buildStep.with.build_spec | Should -Be 'PackedLib Build'
 
         $artifactStep | Should -Not -BeNullOrEmpty
-        $artifactStep.with.path | Should -Match '\.lvlibp$'
+        $artifactStep.with.path | Should -Be 'scripts/build-lvlibp/lv_icon.lvlibp'
     }
 }

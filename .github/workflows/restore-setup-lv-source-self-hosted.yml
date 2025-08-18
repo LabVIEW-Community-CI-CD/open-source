@@ -8,17 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run restore-setup-lv-source action
         uses: ./restore-setup-lv-source/action.yml
         with:
           minimum_supported_lv_version: '2021'
           supported_bitness: '64'
-          relative_path: 'labview-icon-editor/labview-icon-editor'
-          labview_project: 'labview-icon-editor/labview-icon-editor/source/lv_icon.lvproj'
+          relative_path: 'scripts/restore-setup-lv-source'
+          labview_project: 'scripts/restore-setup-lv-source/lv_icon.lvproj'
           build_spec: 'PackageSource'
         env:
           GCLI_SUPPRESS_PROMPTS: '1'
@@ -26,4 +22,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: restore-logs
-          path: 'labview-icon-editor/labview-icon-editor/restore.log'
+          path: 'scripts/restore-setup-lv-source/restore.log'

@@ -27,9 +27,18 @@ Describe 'CloseLabview.Workflow' {
             if ($closeSteps) {
                 $jobFound = $true
                 $job.'runs-on' | Should -Be 'ubuntu-latest'
+                $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+                $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
+                $checkoutSteps.Count | Should -Be 1
+                $externalCheckout | Should -BeNullOrEmpty
+
                 $bitness = $closeSteps | ForEach-Object { $_.with.supported_bitness }
                 $bitness | Should -Contain '32'
                 $bitness | Should -Contain '64'
+
+                foreach ($step in $closeSteps) {
+                    $step.with.working_directory | Should -Be '${{ github.workspace }}/scripts/close-labview'
+                }
 
                 $logUploadSteps = $job.steps | Where-Object {
                     $_.uses -like 'actions/upload-artifact@*' -and (
@@ -37,6 +46,7 @@ Describe 'CloseLabview.Workflow' {
                     )
                 }
                 $logUploadSteps | Should -HaveCount 2
+                $logUploadSteps | ForEach-Object { $_.with.path | Should -Be '${{ github.workspace }}/scripts/close-labview/close-labview.log' }
             }
         }
 

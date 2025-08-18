@@ -8,14 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run build action
         uses: ./build/action.yml
         with:
-          relative_path: 'labview-icon-editor/labview-icon-editor'
+          relative_path: 'scripts/build'
           major: '1'
           minor: '0'
           patch: '0'
@@ -28,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifact
-          path: 'labview-icon-editor/labview-icon-editor/resource/plugins/lv_icon_x64.lvlibp'
+          path: 'scripts/build/lv_icon_x64.lvlibp'

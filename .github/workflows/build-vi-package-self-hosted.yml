@@ -8,18 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run build-vi-package action
         uses: ./build-vi-package/action.yml
         with:
           minimum_supported_lv_version: '2021'
           supported_bitness: '64'
           labview_minor_revision: '0'
-          relative_path: 'labview-icon-editor/labview-icon-editor'
-          vipb_path: 'labview-icon-editor/labview-icon-editor/source/lv_icon.vipb'
+          relative_path: 'scripts/build-vi-package'
+          vipb_path: 'scripts/build-vi-package/NI Icon editor.vipb'
           major: '1'
           minor: '0'
           patch: '0'
@@ -30,4 +26,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vi-package
-          path: 'labview-icon-editor/labview-icon-editor/build/lv_icon.vip'
+          path: 'scripts/build-vi-package/lv_icon.vip'

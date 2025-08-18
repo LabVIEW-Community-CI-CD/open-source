@@ -8,20 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run prepare-labview-source action
         uses: ./prepare-labview-source/action.yml
         with:
           minimum_supported_lv_version: '2021'
           supported_bitness: '64'
-          relative_path: 'labview-icon-editor/labview-icon-editor'
-          labview_project: 'labview-icon-editor/labview-icon-editor/source/lv_icon.lvproj'
+          relative_path: 'scripts/prepare-labview-source'
+          labview_project: 'scripts/prepare-labview-source/lv_icon.lvproj'
           build_spec: 'PackageSource'
       - name: Upload prepared source
         uses: actions/upload-artifact@v4
         with:
           name: prepared-source
-          path: 'labview-icon-editor/labview-icon-editor/prepared-source.zip'
+          path: 'scripts/prepare-labview-source/prepared-source.zip'

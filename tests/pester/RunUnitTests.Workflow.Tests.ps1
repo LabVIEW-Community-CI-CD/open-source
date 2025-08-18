@@ -16,16 +16,21 @@ Describe 'RunUnitTests.Workflow' {
         $job = $wf.jobs.'run-unit-tests'
         $testStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './run-unit-tests/action.yml' } | Select-Object -First 1
         $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match 'UnitTestReport\.xml' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
         $job.'runs-on' | Should -Be 'ubuntu-latest'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
         $testStep.with.minimum_supported_lv_version | Should -Be '2021'
         $testStep.with.supported_bitness | Should -Be '64'
-        $testStep.with.project_path | Should -Match 'labview-icon-editor.*lv_icon.lvproj$'
-        $testStep.with.test_config | Should -Match 'labview-icon-editor.*unittest-config.cfg$'
+        $testStep.with.project_path | Should -Be 'scripts/run-unit-tests/lv_icon.lvproj'
+        $testStep.with.test_config | Should -Be 'scripts/run-unit-tests/unittest-config.cfg'
+        $testStep.with.working_directory | Should -Be 'scripts/run-unit-tests'
 
         $artifactStep | Should -Not -BeNullOrEmpty
         $artifactStep.with.name | Should -Be 'unit-test-results'
-        $artifactStep.with.path | Should -Match 'UnitTestReport\.xml'
+        $artifactStep.with.path | Should -Be 'scripts/run-unit-tests/UnitTestReport.xml'
     }
 }

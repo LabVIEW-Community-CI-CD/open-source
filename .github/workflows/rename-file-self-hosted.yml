@@ -8,17 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run rename-file action
         uses: ./rename-file/action.yml
         with:
-          current_filename: 'labview-icon-editor/labview-icon-editor/README.md'
-          new_filename: 'labview-icon-editor/labview-icon-editor/README-renamed.md'
+          current_filename: 'scripts/rename-file/README.md'
+          new_filename: 'scripts/rename-file/README-renamed.md'
       - name: Upload renamed file
         uses: actions/upload-artifact@v4
         with:
           name: renamed-file
-          path: 'labview-icon-editor/labview-icon-editor/README-renamed.md'
+          path: 'scripts/rename-file/README-renamed.md'

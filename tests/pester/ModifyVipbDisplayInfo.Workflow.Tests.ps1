@@ -11,42 +11,30 @@ Describe 'ModifyVipbDisplayInfo.Workflow' {
 
     It 'runs modify-vipb-display-info action and uploads VIPB artifact' -Tag 'REQ-015' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
-        $wfDir = Join-Path $repoRoot '.github/workflows'
-        $workflowFiles = Get-ChildItem -Path $wfDir -Filter '*.yml'
-        $workflowFound = $false
+        $workflowPath = Join-Path $repoRoot '.github/workflows/modify-vipb-display-info-self-hosted.yml'
+        $wf = Get-Content -Raw $workflowPath | ConvertFrom-Yaml
+        $job = $wf.jobs.'modify-vipb-display-info'
+        $modStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq './modify-vipb-display-info/action.yml' } | Select-Object -First 1
+        $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
-        foreach ($wfFile in $workflowFiles) {
-            $wf = Get-Content -Raw $wfFile.FullName | ConvertFrom-Yaml
-            foreach ($jobEntry in $wf.jobs.GetEnumerator()) {
-                $job = $jobEntry.Value
-                $modStep = $job.steps | Where-Object { $_.uses -eq './modify-vipb-display-info/action.yml' } | Select-Object -First 1
-                if ($null -ne $modStep) {
-                    $workflowFound = $true
-                    $job.'runs-on' | Should -Be 'ubuntu-latest'
-                    $modStep.uses | Should -Be './modify-vipb-display-info/action.yml'
-                    $modStep.with.supported_bitness | Should -Not -BeNullOrEmpty
-                    $modStep.with.relative_path | Should -Not -BeNullOrEmpty
-                    $modStep.with.vipb_path | Should -Not -BeNullOrEmpty
-                    $modStep.with.minimum_supported_lv_version | Should -Not -BeNullOrEmpty
-                    $modStep.with.labview_minor_revision | Should -Not -BeNullOrEmpty
-                    $modStep.with.major | Should -Not -BeNullOrEmpty
-                    $modStep.with.minor | Should -Not -BeNullOrEmpty
-                    $modStep.with.patch | Should -Not -BeNullOrEmpty
-                    $modStep.with.build | Should -Not -BeNullOrEmpty
-                    $modStep.with.commit | Should -Not -BeNullOrEmpty
-                    $modStep.with.display_information_json | Should -Not -BeNullOrEmpty
-                    $artifactStep = $job.steps | Where-Object {
-                        $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' -and (
-                            ($_.with.path -match '\.vipb') -or ($_.with.path -match '\.log')
-                        )
-                    } | Select-Object -First 1
-                    $artifactStep | Should -Not -BeNullOrEmpty
-                }
-            }
-        }
+        $job.'runs-on' | Should -Be 'ubuntu-latest'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
-        if (-not $workflowFound) {
-            Set-ItResult -Skipped -Because 'No workflow found using modify-vipb-display-info action'
-        }
+        $modStep.with.supported_bitness | Should -Be '64'
+        $modStep.with.relative_path | Should -Be 'scripts/modify-vipb-display-info'
+        $modStep.with.vipb_path | Should -Be 'scripts/modify-vipb-display-info/lv_icon.vipb'
+        $modStep.with.minimum_supported_lv_version | Should -Be '2021'
+        $modStep.with.labview_minor_revision | Should -Be '0'
+        $modStep.with.major | Should -Be '1'
+        $modStep.with.minor | Should -Be '0'
+        $modStep.with.patch | Should -Be '0'
+        $modStep.with.build | Should -Be '1'
+        $modStep.with.commit | Should -Be 'abcdef'
+        $modStep.with.display_information_json | Should -Be '{"Name":"Test"}'
+
+        $artifactStep.with.path | Should -Be 'scripts/modify-vipb-display-info/lv_icon.vipb'
     }
 }

@@ -11,36 +11,24 @@ Describe 'SetDevelopmentMode.Workflow' {
 
     It 'runs set-development-mode action and uploads logs' -Tag 'REQ-021' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
-        $wfDir = Join-Path $repoRoot '.github/workflows'
-        $workflowFiles = Get-ChildItem -Path $wfDir -Filter '*.yml'
-        $workflowFound = $false
+        $workflowPath = Join-Path $repoRoot '.github/workflows/set-development-mode-self-hosted.yml'
+        $wf = Get-Content -Raw $workflowPath | ConvertFrom-Yaml
+        $job = $wf.jobs.'set-development-mode'
+        $setStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq './set-development-mode/action.yml' } | Select-Object -First 1
+        $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
-        foreach ($wfFile in $workflowFiles) {
-            $wf = Get-Content -Raw $wfFile.FullName | ConvertFrom-Yaml
-            foreach ($jobEntry in $wf.jobs.GetEnumerator()) {
-                $job = $jobEntry.Value
-                $setStep = $job.steps | Where-Object { $_.uses -eq './set-development-mode/action.yml' } | Select-Object -First 1
-                if ($null -ne $setStep) {
-                    $workflowFound = $true
-                    $job.'runs-on' | Should -Be 'ubuntu-latest'
-                    $setStep.with.relative_path | Should -Match 'labview-icon-editor$'
-                    $setStep.with.gcli_path | Should -Not -BeNullOrEmpty
-                    $setStep.with.working_directory | Should -Not -BeNullOrEmpty
-                    $setStep.with.log_level | Should -Not -BeNullOrEmpty
-                    $setStep.with.dry_run | Should -Not -BeNullOrEmpty
-                    $artifactStep = $job.steps | Where-Object {
-                        $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' -and (
-                            ($_.with.path -match 'log') -or ($_.with.path -match 'dev') -or
-                            ($_.with.name -match 'log') -or ($_.with.name -match 'dev')
-                        )
-                    } | Select-Object -First 1
-                    $artifactStep | Should -Not -BeNullOrEmpty
-                }
-            }
-        }
+        $job.'runs-on' | Should -Be 'ubuntu-latest'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
-        if (-not $workflowFound) {
-            Set-ItResult -Skipped -Because 'No workflow found using set-development-mode action'
-        }
+        $setStep.with.relative_path | Should -Be 'scripts/set-development-mode'
+        $setStep.with.gcli_path | Should -Be 'scripts/set-development-mode/g-cli.exe'
+        $setStep.with.working_directory | Should -Be 'scripts/set-development-mode'
+        $setStep.with.log_level | Should -Be 'INFO'
+        $setStep.with.dry_run | Should -Be 'true'
+
+        $artifactStep.with.path | Should -Be 'scripts/set-development-mode/dev-mode.log'
     }
 }

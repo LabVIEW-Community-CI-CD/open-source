@@ -11,35 +11,22 @@ Describe 'PrepareLabviewSource.Workflow' {
 
     It 'runs prepare-labview-source action and uploads prepared source artifact' -Tag 'REQ-016' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
-        $wfDir = Join-Path $repoRoot '.github/workflows'
-        $workflowFiles = Get-ChildItem -Path $wfDir -Filter '*.yml'
-        $workflowFound = $false
+        $workflowPath = Join-Path $repoRoot '.github/workflows/prepare-labview-source-self-hosted.yml'
+        $wf = Get-Content -Raw $workflowPath | ConvertFrom-Yaml
+        $job = $wf.jobs.'prepare-labview-source'
+        $prepareStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq './prepare-labview-source/action.yml' } | Select-Object -First 1
+        $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' } | Select-Object -First 1
+        $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
+        $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
-        foreach ($wfFile in $workflowFiles) {
-            $wf = Get-Content -Raw $wfFile.FullName | ConvertFrom-Yaml
-            foreach ($jobEntry in $wf.jobs.GetEnumerator()) {
-                $job = $jobEntry.Value
-                $prepareStep = $job.steps | Where-Object { $_.uses -eq './prepare-labview-source/action.yml' } | Select-Object -First 1
-                if ($null -ne $prepareStep) {
-                    $workflowFound = $true
-                    $job.'runs-on' | Should -Be 'ubuntu-latest'
-                    $prepareStep.uses | Should -Be './prepare-labview-source/action.yml'
-                    $prepareStep.with.relative_path | Should -Match 'labview-icon-editor$'
-                    $prepareStep.with.labview_project | Should -Match 'labview-icon-editor.*lv_icon.lvproj$'
-                    $prepareStep.with.build_spec | Should -Be 'Editor Packed Library'
-                    $artifactStep = $job.steps | Where-Object {
-                        $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' -and (
-                            ($_.with.path -match 'source' -and $_.with.path -match '\\.zip$') -or
-                            ($_.with.name -match 'source')
-                        )
-                    } | Select-Object -First 1
-                    $artifactStep | Should -Not -BeNullOrEmpty
-                }
-            }
-        }
+        $job.'runs-on' | Should -Be 'ubuntu-latest'
+        $checkoutSteps.Count | Should -Be 1
+        $externalCheckout | Should -BeNullOrEmpty
 
-        if (-not $workflowFound) {
-            Set-ItResult -Skipped -Because 'No workflow found using prepare-labview-source action'
-        }
+        $prepareStep.with.relative_path | Should -Be 'scripts/prepare-labview-source'
+        $prepareStep.with.labview_project | Should -Be 'scripts/prepare-labview-source/lv_icon.lvproj'
+        $prepareStep.with.build_spec | Should -Be 'PackageSource'
+
+        $artifactStep.with.path | Should -Be 'scripts/prepare-labview-source/prepared-source.zip'
     }
 }

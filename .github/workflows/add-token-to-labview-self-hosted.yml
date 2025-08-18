@@ -8,18 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: LabVIEW-Community-CI-CD/labview-icon-editor
-          path: labview-icon-editor/labview-icon-editor
       - name: Run add-token-to-labview action
         uses: ./add-token-to-labview/action.yml
         with:
           minimum_supported_lv_version: '2021'
           supported_bitness: '64'
-          relative_path: 'labview-icon-editor/labview-icon-editor'
+          relative_path: 'scripts/add-token-to-labview'
       - name: Upload token artifact
         uses: actions/upload-artifact@v4
         with:
           name: token-artifact
-          path: 'labview-icon-editor/labview-icon-editor/LabVIEW.ini'
+          path: 'scripts/add-token-to-labview/LabVIEW.ini'
