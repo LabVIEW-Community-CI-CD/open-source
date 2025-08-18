@@ -90,13 +90,13 @@ jobs:
             Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck
           }
       - name: Install powershell-yaml
-        if: matrix.runner_type != 'integration'
         shell: pwsh
         run: Install-Module -Name powershell-yaml -Scope CurrentUser -Force
-      - name: Validate native YAML parsing
+      - name: Validate YAML parsing
         if: matrix.runner_type == 'integration'
         shell: pwsh
         run: |
+          Import-Module powershell-yaml
           $parsed = ConvertFrom-Yaml 'a: 1'
           if ($parsed.a -ne 1) { throw 'YAML parsing failed' }
       - name: Run Pester
