@@ -147,5 +147,5 @@ jobs:
             downloaded/pester-junit-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
-          EVIDENCE_DIR: test-screenshots
+          EVIDENCE_DIR: downloaded/evidence
       - run: npx tsx scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"
