@@ -1,3 +1,4 @@
 self-hosted-runner:
   labels:
     - icon-editor-windows
+    - self-hosted-windows-lv
