@@ -184,7 +184,7 @@
             "TEST_RESULTS_GLOBS": "downloaded/test-results/**/*junit*.xml\ndownloaded/pester-junit-*/pester-junit.xml\n",
             "REQ_MAPPING_FILE": "requirements.json",
             "DISPATCHER_REGISTRY": "dispatchers.json",
-            "EVIDENCE_DIR": "test-screenshots"
+            "EVIDENCE_DIR": "downloaded/evidence"
           }
         },
         {
