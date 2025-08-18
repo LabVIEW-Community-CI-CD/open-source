@@ -2,6 +2,8 @@
 
 This project tracks high‑level requirements and maps each one to the Pester test files that verify it. The authoritative mapping is stored in [`requirements.json`](../requirements.json); the table below provides a human‑readable summary for quick reference.
 
+Runner Type indicates whether a requirement runs on a standard GitHub-hosted image or an integration runner with preinstalled tooling. See [runner-types](runner-types.md) for guidance on choosing between them.
+
 | ID | Description | Tests | Runner | Runner Type | Skip Dry Run |
 |----|-------------|-------|--------|-------------|--------------|
 | REQ-001 | Dispatcher discovers available actions, describes them, and validates arguments. | `tests/pester/Dispatcher.Tests.ps1` |  |  |  |
