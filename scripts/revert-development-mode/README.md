@@ -18,6 +18,10 @@ Invoke **`RevertDevelopmentMode.ps1`** to restore packaged sources after develop
 
 See also: [docs/actions/revert-development-mode.md](../../docs/actions/revert-development-mode.md)
 
+## Error handling
+
+Failures emit `An unexpected error occurred during script execution: <details>` and the script exits with a non-zero status.
+
 ## License
 
 This directory inherits the root repository’s license (MIT, unless otherwise noted).
