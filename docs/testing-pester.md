@@ -2,18 +2,21 @@
 
 ## Setup
 
-Clone the [`labview-icon-editor`](https://github.com/LabVIEW-Community-CI-CD/labview-icon-editor) repository under
-`open-source-actions/labview-icon-editor`:
+Most tests run without cloning the [`labview-icon-editor`](https://github.com/LabVIEW-Community-CI-CD/labview-icon-editor) repository. The helper defaults to the repository root as the project directory.
+
+Tests that need the example project can either clone it under `open-source-actions/labview-icon-editor`:
 
 ```bash
 git clone https://github.com/LabVIEW-Community-CI-CD/labview-icon-editor.git labview-icon-editor
 ```
 
-Alternatively, set `LABVIEW_ICON_EDITOR_PATH` to the location of an existing clone:
+or set `LABVIEW_ICON_EDITOR_PATH` to the location of an existing clone:
 
 ```bash
 export LABVIEW_ICON_EDITOR_PATH=/path/to/labview-icon-editor
 ```
+
+To enforce that the project exists, set `LABVIEW_ICON_EDITOR_REQUIRED=1` or call `Get-LabVIEWIconEditorArgsJson -RequireProject` in your test.
 
 Required tooling:
 
@@ -38,7 +41,7 @@ Pester tests share a small helper module, `tests/pester/Helper/ArgsJson.psm1`, w
 
 ## labview-icon-editor reference project
 
-The helper points at the **labview-icon-editor** project. This open-source repository is tiny, exercises common LabVIEW project layouts and does not require NI components to execute in dry-run mode. Using it as the reference project gives all tests a consistent, real-world example without adding heavy dependencies.
+When available, the helper points at the **labview-icon-editor** project. This open-source repository is tiny, exercises common LabVIEW project layouts and does not require NI components to execute in dry-run mode. Using it as the reference project gives all tests a consistent, real-world example without adding heavy dependencies.
 
 ## Adding new tests
 
