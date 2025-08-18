@@ -148,25 +148,28 @@ try {
     if (-not (Test-Path $ArgsFile)) { throw "ArgsFile '$ArgsFile' not found" }
     $ext = [System.IO.Path]::GetExtension($ArgsFile).ToLowerInvariant()
     $content = Get-Content -Path $ArgsFile -Raw
-    try {
-      switch ($ext) {
-        '.json' {
-          $fileArgs = ConvertFrom-Json -InputObject $content -AsHashtable -ErrorAction Stop
+      try {
+        switch ($ext) {
+          '.json' {
+            $fileArgs = ConvertFrom-Json -InputObject $content -AsHashtable -ErrorAction Stop
+          }
+          '.yaml' {
+            $fileArgs = ConvertFrom-Yaml -Yaml $content -AsHashtable -ErrorAction Stop
+          }
+          '.yml' {
+            $fileArgs = ConvertFrom-Yaml -Yaml $content -AsHashtable -ErrorAction Stop
+          }
+          default {
+            throw "Unsupported ArgsFile extension '$ext'. Use .json, .yaml, or .yml."
+          }
         }
-        '.yaml' {
-          $fileArgs = ConvertFrom-Yaml -Yaml $content -ErrorAction Stop | ConvertTo-Json -Depth 32 | ConvertFrom-Json -AsHashtable
-        }
-        '.yml' {
-          $fileArgs = ConvertFrom-Yaml -Yaml $content -ErrorAction Stop | ConvertTo-Json -Depth 32 | ConvertFrom-Json -AsHashtable
-        }
-        default {
-          throw "Unsupported ArgsFile extension '$ext'. Use .json, .yaml, or .yml."
+        if ($fileArgs -isnot [hashtable]) {
+          throw 'ArgsFile root node must be a mapping/object'
         }
       }
-    }
-    catch {
-      throw "ArgsFile could not be parsed: $($_.Exception.Message)"
-    }
+      catch {
+        throw "ArgsFile could not be parsed: $($_.Exception.Message)"
+      }
     foreach ($k in $fileArgs.Keys) { $argsHash[$k] = $fileArgs[$k] }
   }
 
