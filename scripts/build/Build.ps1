@@ -82,15 +82,14 @@ function Execute-Script {
         Invoke-Expression $command
         Write-Verbose "Command completed. Checking exit code..."
         if ($LASTEXITCODE -ne 0) {
-            Write-Host "Error occurred while executing: `"$ScriptPath`" with arguments: `"$Arguments`". Exit code: $LASTEXITCODE" -ForegroundColor Red
-            exit $LASTEXITCODE
+            Write-Error "Error occurred while executing: `"$ScriptPath`" with arguments: `"$Arguments`". Exit code: $LASTEXITCODE"
+            throw "Script failed with exit code $LASTEXITCODE"
         }
         Write-Verbose "Exit code is 0; no errors detected."
     }
     catch {
-        Write-Host "Error occurred while executing: `"$ScriptPath`" with arguments: `"$Arguments`". Exiting." -ForegroundColor Red
-        Write-Verbose "Exception details: $($_.Exception.Message)"
-        exit 1
+        Write-Error "Error occurred while executing: `"$ScriptPath`" with arguments: `"$Arguments`""
+        throw
     }
 }
 
@@ -266,7 +265,7 @@ try {
     Write-Verbose "Script: Build.ps1 completed without errors."
 }
 catch {
-    Write-Host "An unexpected error occurred during script execution: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Error "An unexpected error occurred during script execution: $($_.Exception.Message)"
     Write-Verbose "Stack Trace: $($_.Exception.StackTrace)"
     exit 1
 }

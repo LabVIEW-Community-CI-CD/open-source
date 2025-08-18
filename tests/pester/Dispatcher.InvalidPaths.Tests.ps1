@@ -11,6 +11,7 @@ Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 
 $params = Get-LabVIEWIconEditorArgsJson
 $projectRoot = $params.WorkingDirectory
+$errorText = 'An unexpected error occurred during script execution'
 
 Describe 'Invalid RelativePath handling' {
     $meta = @{
@@ -23,7 +24,7 @@ Describe 'Invalid RelativePath handling' {
         $json = @{ RelativePath = 'NoSuchDir' } | ConvertTo-Json -Compress
         $out = pwsh -NonInteractive -NoProfile -File $global:dispatcher -ActionName set-development-mode -ArgsJson $json -WorkingDirectory $projectRoot *>&1 | Out-String
         $LASTEXITCODE | Should -Not -Be 0
-        $out | Should -Match 'An unexpected error occurred during script execution'
+        $out | Should -Match $errorText
     }
 
     It 'fails when RelativePath is missing' -Tag 'REQ-005' {
