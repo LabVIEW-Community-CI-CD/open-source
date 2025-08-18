@@ -92,7 +92,7 @@ jobs:
             'RUNNER_OS'             = $env:RUNNER_OS
             'RUNNER_ARCH'           = $env:RUNNER_ARCH
           }
-          $file = "setup-info-${{ matrix.runner_type }}.md"
+          $file = "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md"
           "was captured from the set up job." | Out-File -FilePath $file -Encoding utf8
           foreach ($k in $data.Keys) {
             if ($data[$k]) {
@@ -102,8 +102,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: setup-info-${{ matrix.runner_type }}
-          path: setup-info-${{ matrix.runner_type }}.md
+          name: setup-info-${{ matrix.os }}-${{ matrix.runner_type }}
+          path: setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md
       - name: Install Pester
         shell: pwsh
         run: |
@@ -127,7 +127,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: pester-junit-${{ matrix.runner_type }}
+          name: pester-junit-${{ matrix.os }}-${{ matrix.runner_type }}
           path: pester-results/pester-junit.xml
           if-no-files-found: error
 
