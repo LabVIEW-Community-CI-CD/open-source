@@ -1,0 +1,18 @@
+name: 'Setup MkDocs'
+description: 'Install a pinned MkDocs with caching'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-mkdocs-1.5.3
+        restore-keys: |
+          ${{ runner.os }}-pip-mkdocs-
+    - name: Install MkDocs
+      shell: bash
+      run: pip install mkdocs==1.5.3

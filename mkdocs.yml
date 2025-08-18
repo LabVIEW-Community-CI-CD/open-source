@@ -1,0 +1,34 @@
+site_name: Open Source LabVIEW Actions
+site_url: https://open-source-actions.github.io/open-source-actions/
+docs_dir: docs
+nav:
+  - Home:
+    - Overview: index.md
+    - Architecture: architecture.md
+  - Quickstart: quickstart.md
+  - Action Calls: action-call-reference.md
+  - Common Parameters: common-parameters.md
+  - Troubleshooting: troubleshooting.md
+  - Unified Dispatcher: UnifiedDispatcher.md
+  - Adapter Authoring: adapter-authoring.md
+  - Versioning: versioning.md
+  - Changelog: CHANGELOG.md
+  - Contributing: contributing-docs.md
+  - Requirements: requirements.md
+  - Testing with Pester: testing-pester.md
+  - Actions:
+    - Add Token to LabVIEW: actions/add-token-to-labview.md
+    - Apply VIPC: actions/apply-vipc.md
+    - Build: actions/build.md
+    - Build LVLIBP: actions/build-lvlibp.md
+    - Build VI Package: actions/build-vi-package.md
+    - Close LabVIEW: actions/close-labview.md
+    - Generate Release Notes: actions/generate-release-notes.md
+    - Missing in Project: actions/missing-in-project.md
+    - Modify VIPB Display Info: actions/modify-vipb-display-info.md
+    - Prepare LabVIEW Source: actions/prepare-labview-source.md
+    - Rename File: actions/rename-file.md
+    - Restore Setup LV Source: actions/restore-setup-lv-source.md
+    - Revert Development Mode: actions/revert-development-mode.md
+    - Run Unit Tests: actions/run-unit-tests.md
+    - Set Development Mode: actions/set-development-mode.md

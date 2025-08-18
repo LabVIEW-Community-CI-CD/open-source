@@ -1,0 +1,28 @@
+{
+  "name": "Apply VIPC (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "apply-vipc": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run apply-vipc action (dry_run=true)",
+          "uses": "./apply-vipc/action.yml",
+          "with": {
+            "minimum_supported_lv_version": "2021",
+            "vip_lv_version": "2021",
+            "supported_bitness": "64",
+            "relative_path": ".",
+            "vipc_path": "scripts/apply-vipc/runner_dependencies.vipc",
+            "dry_run": true
+          }
+        }
+      ]
+    }
+  }
+}

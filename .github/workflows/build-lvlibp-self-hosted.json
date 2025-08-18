@@ -1,0 +1,40 @@
+{
+  "name": "Build LVLIBP (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "build-lvlibp": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run build-lvlibp action",
+          "uses": "./build-lvlibp/action.yml",
+          "with": {
+            "minimum_supported_lv_version": "2021",
+            "supported_bitness": "64",
+            "relative_path": "scripts/build-lvlibp",
+            "labview_project": "scripts/build-lvlibp/lv_icon.lvproj",
+            "build_spec": "PackedLib Build",
+            "major": "1",
+            "minor": "0",
+            "patch": "0",
+            "build": "1",
+            "commit": "abcdef"
+          }
+        },
+        {
+          "name": "Upload lvlibp artifact",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "build-lvlibp-artifact",
+            "path": "scripts/build-lvlibp/lv_icon.lvlibp"
+          }
+        }
+      ]
+    }
+  }
+}

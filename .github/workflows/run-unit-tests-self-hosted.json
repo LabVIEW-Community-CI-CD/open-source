@@ -1,0 +1,35 @@
+{
+  "name": "Run unit tests (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "run-unit-tests": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run unit tests action",
+          "uses": "./run-unit-tests/action.yml",
+          "with": {
+            "minimum_supported_lv_version": "2021",
+            "supported_bitness": "64",
+            "project_path": "scripts/run-unit-tests/lv_icon.lvproj",
+            "test_config": "scripts/run-unit-tests/unittest-config.cfg",
+            "working_directory": "scripts/run-unit-tests"
+          }
+        },
+        {
+          "name": "Upload unit test results",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "unit-test-results",
+            "path": "scripts/run-unit-tests/UnitTestReport.xml"
+          }
+        }
+      ]
+    }
+  }
+}

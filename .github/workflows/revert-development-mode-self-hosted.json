@@ -1,0 +1,31 @@
+{
+  "name": "Revert development mode (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "revert-development-mode": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run revert-development-mode action",
+          "uses": "./revert-development-mode/action.yml",
+          "with": {
+            "relative_path": "./"
+          }
+        },
+        {
+          "name": "Upload config artifact",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "devmode-config",
+            "path": "devmode-config.txt"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Build (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "build": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run build action",
+          "uses": "./build/action.yml",
+          "with": {
+            "relative_path": "scripts/build",
+            "major": "1",
+            "minor": "0",
+            "patch": "0",
+            "build": "1",
+            "commit": "abcdef",
+            "labview_minor_revision": "3",
+            "company_name": "Acme Corp",
+            "author_name": "Jane Doe"
+          }
+        },
+        {
+          "name": "Upload build artifact",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "build-artifact",
+            "path": "scripts/build/lv_icon_x64.lvlibp"
+          }
+        }
+      ]
+    }
+  }
+}

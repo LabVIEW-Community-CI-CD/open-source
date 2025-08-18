@@ -1,0 +1,35 @@
+{
+  "name": "Set development mode (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "set-development-mode": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run set-development-mode action",
+          "uses": "./set-development-mode/action.yml",
+          "with": {
+            "relative_path": "scripts/set-development-mode",
+            "gcli_path": "scripts/set-development-mode/g-cli.exe",
+            "working_directory": "scripts/set-development-mode",
+            "log_level": "INFO",
+            "dry_run": "true"
+          }
+        },
+        {
+          "name": "Upload dev mode logs",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "dev-mode-config",
+            "path": "scripts/set-development-mode/dev-mode.log"
+          }
+        }
+      ]
+    }
+  }
+}

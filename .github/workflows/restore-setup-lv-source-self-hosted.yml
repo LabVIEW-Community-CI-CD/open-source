@@ -1,0 +1,25 @@
+name: Restore setup LV source (ubuntu test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restore-setup-lv-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run restore-setup-lv-source action
+        uses: ./restore-setup-lv-source/action.yml
+        with:
+          minimum_supported_lv_version: '2021'
+          supported_bitness: '64'
+          relative_path: 'scripts/restore-setup-lv-source'
+          labview_project: 'scripts/restore-setup-lv-source/lv_icon.lvproj'
+          build_spec: 'PackageSource'
+        env:
+          GCLI_SUPPRESS_PROMPTS: '1'
+      - name: Upload restore logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: restore-logs
+          path: 'scripts/restore-setup-lv-source/restore.log'

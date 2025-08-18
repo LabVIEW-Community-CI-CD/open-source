@@ -1,0 +1,17 @@
+diff --git a/node_modules/@yarnpkg/lockfile/index.js b/node_modules/@yarnpkg/lockfile/index.js
+index 67cab24..c634614 100644
+--- a/node_modules/@yarnpkg/lockfile/index.js
++++ b/node_modules/@yarnpkg/lockfile/index.js
+@@ -1287,11 +1287,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
+ 
+ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+ 
+-const constants = exports.constants = typeof (_fs || _load_fs()).default.constants !== 'undefined' ? (_fs || _load_fs()).default.constants : {
+-  R_OK: (_fs || _load_fs()).default.R_OK,
+-  W_OK: (_fs || _load_fs()).default.W_OK,
+-  X_OK: (_fs || _load_fs()).default.X_OK
+-};
++const constants = exports.constants = (_fs || _load_fs()).default.constants;
+ 
+ const lockQueue = exports.lockQueue = new (_blockingQueue || _load_blockingQueue()).default('fs lock');
+ 

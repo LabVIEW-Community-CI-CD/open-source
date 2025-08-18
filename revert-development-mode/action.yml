@@ -1,0 +1,39 @@
+name: 'Revert development mode'
+description: 'Restore repository from development mode by restoring packaged sources and closing LabVIEW'
+inputs:
+  relative_path:
+    description: 'Relative path containing the repository.'
+    required: true
+  gcli_path:
+    description: 'Optional path to the g-cli executable.'
+    required: false
+  working_directory:
+    description: 'Working directory where the action will run.'
+    required: false
+  log_level:
+    description: 'Verbosity level (ERROR|WARN|INFO|DEBUG).'
+    default: 'INFO'
+    required: false
+  dry_run:
+    description: 'If true, simulate the action without side effects.'
+    default: false
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Dispatch revert-development-mode
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $args = @{ RelativePath = '${{ inputs.relative_path }}' }
+        if ('${{ inputs.gcli_path }}') { $args['gcliPath'] = '${{ inputs.gcli_path }}' }
+        $params = @{
+          ActionName = 'revert-development-mode'
+          ArgsJson   = $args
+          LogLevel   = '${{ inputs.log_level }}'
+        }
+        if ('${{ inputs.dry_run }}' -eq 'true') { $params['DryRun'] = $true }
+        if ('${{ inputs.working_directory }}') { $params['WorkingDirectory'] = '${{ inputs.working_directory }}' }
+        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'actions' 'Invoke-OSAction.ps1'
+        & $script @params
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -1,9 +1,0 @@
-repo_name=dotnet/core,enabled=1
-repo_name=facebook/react,enabled=1
-repo_name=ni/actor-framework,enabled=1
-repo_name=ni/grpc-labview,enabled=0
-repo_name=ni/labview-icon-editor,enabled=0
-repo_name=ni/labview-memory-management-tools,enabled=0
-repo_name=ni/niveristand-custom-device-build-tools,enabled=0
-repo_name=ni/niveristand-custom-device-development-tools,enabled=0
-repo_name=tensorflow/tensorflow,enabled=1

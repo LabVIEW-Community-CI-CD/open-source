@@ -1,0 +1,29 @@
+name: Build VI package (ubuntu test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-vi-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run build-vi-package action
+        uses: ./build-vi-package/action.yml
+        with:
+          minimum_supported_lv_version: '2021'
+          supported_bitness: '64'
+          labview_minor_revision: '0'
+          relative_path: 'scripts/build-vi-package'
+          vipb_path: 'scripts/build-vi-package/NI Icon editor.vipb'
+          major: '1'
+          minor: '0'
+          patch: '0'
+          build: '1'
+          commit: 'abcdef'
+          display_information_json: '{"Name":"Test"}'
+      - name: Upload VI package
+        uses: actions/upload-artifact@v4
+        with:
+          name: vi-package
+          path: 'scripts/build-vi-package/lv_icon.vip'

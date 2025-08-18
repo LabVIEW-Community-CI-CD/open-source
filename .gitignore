@@ -1,9 +1,0 @@
-KPIs/mining scripts/github_token.txt
-*.pyc
-KPIs/python/raw data capture/github_token.txt
-KPIs/python/raw data capture/tokens.txt
-KPIs/python/raw data capture/last_known_dates.json
-KPIs/python/raw data capture/data mining/config.yaml
-KPIs/python/raw data capture/events.log
-KPIs/python/raw data capture/events.log*
-KPIs/python/raw data capture/data mining/events.log*

@@ -1,0 +1,45 @@
+name: 'Rename file'
+description: 'Rename a file if it exists'
+inputs:
+  current_filename:
+    description: 'Existing file name.'
+    required: true
+  new_filename:
+    description: 'New file name.'
+    required: true
+  gcli_path:
+    description: 'Optional path to the g-cli executable.'
+    required: false
+  working_directory:
+    description: 'Working directory where the action will run.'
+    required: false
+  log_level:
+    description: 'Verbosity level (ERROR|WARN|INFO|DEBUG).'
+    default: 'INFO'
+    required: false
+  dry_run:
+    description: 'If true, simulate the action without side effects.'
+    default: false
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Dispatch rename-file
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $args = @{
+          CurrentFilename = '${{ inputs.current_filename }}'
+          NewFilename     = '${{ inputs.new_filename }}'
+        }
+        if ('${{ inputs.gcli_path }}') { $args['gcliPath'] = '${{ inputs.gcli_path }}' }
+        $params = @{
+          ActionName = 'rename-file'
+          ArgsJson   = $args
+          LogLevel   = '${{ inputs.log_level }}'
+        }
+        if ('${{ inputs.dry_run }}' -eq 'true') { $params['DryRun'] = $true }
+        if ('${{ inputs.working_directory }}') { $params['WorkingDirectory'] = '${{ inputs.working_directory }}' }
+        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'actions' 'Invoke-OSAction.ps1'
+        & $script @params
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

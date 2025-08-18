@@ -1,0 +1,23 @@
+name: Prepare LabVIEW source (ubuntu test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prepare-labview-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run prepare-labview-source action
+        uses: ./prepare-labview-source/action.yml
+        with:
+          minimum_supported_lv_version: '2021'
+          supported_bitness: '64'
+          relative_path: 'scripts/prepare-labview-source'
+          labview_project: 'scripts/prepare-labview-source/lv_icon.lvproj'
+          build_spec: 'PackageSource'
+      - name: Upload prepared source
+        uses: actions/upload-artifact@v4
+        with:
+          name: prepared-source
+          path: 'scripts/prepare-labview-source/prepared-source.zip'

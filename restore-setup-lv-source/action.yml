@@ -1,0 +1,57 @@
+name: 'Restore LabVIEW source setup'
+description: 'Restore LabVIEW source by unzipping components and removing tokens'
+inputs:
+  minimum_supported_lv_version:
+    description: 'Minimum LabVIEW version supported.'
+    required: true
+  supported_bitness:
+    description: '"32" or "64" bitness of LabVIEW.'
+    required: true
+  relative_path:
+    description: 'Relative path containing the project.'
+    required: true
+  labview_project:
+    description: 'Path to the LabVIEW project file.'
+    required: true
+  build_spec:
+    description: 'Name of the build specification.'
+    required: true
+  gcli_path:
+    description: 'Optional path to the g-cli executable.'
+    required: false
+  working_directory:
+    description: 'Working directory where the action will run.'
+    required: false
+  log_level:
+    description: 'Verbosity level (ERROR|WARN|INFO|DEBUG).'
+    default: 'INFO'
+    required: false
+  dry_run:
+    description: 'If true, simulate the action without side effects.'
+    default: false
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Dispatch restore-setup-lv-source
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $args = @{
+          MinimumSupportedLVVersion = '${{ inputs.minimum_supported_lv_version }}'
+          SupportedBitness          = '${{ inputs.supported_bitness }}'
+          RelativePath              = '${{ inputs.relative_path }}'
+          LabVIEW_Project           = '${{ inputs.labview_project }}'
+          Build_Spec                = '${{ inputs.build_spec }}'
+        }
+        if ('${{ inputs.gcli_path }}') { $args['gcliPath'] = '${{ inputs.gcli_path }}' }
+        $params = @{
+          ActionName = 'restore-setup-lv-source'
+          ArgsJson   = $args
+          LogLevel   = '${{ inputs.log_level }}'
+        }
+        if ('${{ inputs.dry_run }}' -eq 'true') { $params['DryRun'] = $true }
+        if ('${{ inputs.working_directory }}') { $params['WorkingDirectory'] = '${{ inputs.working_directory }}' }
+        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'actions' 'Invoke-OSAction.ps1'
+        & $script @params
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

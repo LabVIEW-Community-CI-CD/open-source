@@ -1,0 +1,21 @@
+name: Add token to LabVIEW (ubuntu test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  add-token:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run add-token-to-labview action
+        uses: ./add-token-to-labview/action.yml
+        with:
+          minimum_supported_lv_version: '2021'
+          supported_bitness: '64'
+          relative_path: 'scripts/add-token-to-labview'
+      - name: Upload token artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: token-artifact
+          path: 'scripts/add-token-to-labview/LabVIEW.ini'

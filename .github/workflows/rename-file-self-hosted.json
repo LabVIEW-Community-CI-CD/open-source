@@ -1,0 +1,32 @@
+{
+  "name": "Rename file (ubuntu test)",
+  "on": {
+    "workflow_dispatch": null
+  },
+  "jobs": {
+    "rename-file": {
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Run rename-file action",
+          "uses": "./rename-file/action.yml",
+          "with": {
+            "current_filename": "scripts/rename-file/README.md",
+            "new_filename": "scripts/rename-file/README-renamed.md"
+          }
+        },
+        {
+          "name": "Upload renamed file",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "renamed-file",
+            "path": "scripts/rename-file/README-renamed.md"
+          }
+        }
+      ]
+    }
+  }
+}

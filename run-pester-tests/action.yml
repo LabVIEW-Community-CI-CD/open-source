@@ -1,0 +1,34 @@
+name: 'Run Pester tests'
+description: 'Run PowerShell Pester tests in a repository'
+inputs:
+  working_directory:
+    description: 'Directory containing the repository under test.'
+    required: true
+  log_level:
+    description: 'Verbosity level (ERROR|WARN|INFO|DEBUG).'
+    default: 'INFO'
+    required: false
+  dry_run:
+    description: 'If true, simulate the action without side effects.'
+    default: false
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Dispatch run-pester-tests
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $args = @{
+          WorkingDirectory = '${{ inputs.working_directory }}'
+        }
+        $params = @{
+          ActionName = 'run-pester-tests'
+          ArgsJson   = $args
+          LogLevel   = '${{ inputs.log_level }}'
+        }
+        if ('${{ inputs.dry_run }}' -eq 'true') { $params['DryRun'] = $true }
+        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'actions' 'Invoke-OSAction.ps1'
+        & $script @params
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+

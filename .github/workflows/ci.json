@@ -1,0 +1,196 @@
+{
+  "name": "CI",
+  "on": {
+    "push": {
+      "branches": [
+        "actions"
+      ]
+    },
+    "pull_request": {
+      "branches": [
+        "actions"
+      ]
+    }
+  },
+  "jobs": {
+    "node-ci": {
+      "runs-on": "ubuntu-24.04",
+      "env": {
+        "ARTIFACT_DIR": "artifacts/linux"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "uses": "actions/setup-node@v4",
+          "with": {
+            "node-version": 24
+          }
+        },
+        {
+          "run": "npm run check:node"
+        },
+        {
+          "run": "npm install"
+        },
+        {
+          "run": "npm run link:check"
+        },
+        {
+          "run": "npm run test:ci"
+        },
+        {
+          "run": "npm run derive:registry"
+        },
+        {
+          "run": "npm run generate:summary",
+          "env": {
+            "TEST_RESULTS_GLOB": "test-results/*junit*.xml"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "always()",
+          "with": {
+            "name": "traceability",
+            "path": "${{ env.ARTIFACT_DIR }}/traceability.*"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "always()",
+          "with": {
+            "name": "action-docs",
+            "path": "${{ env.ARTIFACT_DIR }}/action-docs.*"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "always()",
+          "with": {
+            "name": "evidence",
+            "path": "${{ env.ARTIFACT_DIR }}/evidence/**",
+            "if-no-files-found": "ignore"
+          }
+        }
+      ]
+    },
+    "ps-ci": {
+      "strategy": {
+        "matrix": {
+          "include": [
+            {
+              "os": "ubuntu-24.04",
+              "runs-on": "ubuntu-24.04",
+              "runner_type": "default"
+            },
+            {
+              "os": "windows-latest",
+              "runs-on": "windows-latest",
+              "runner_type": "integration"
+            }
+          ]
+        }
+      },
+      "runs-on": "${{ matrix.runs-on }}",
+      "env": {
+        "RUNNER_TYPE": "${{ matrix.runner_type }}"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Install PowerShell 7.5.1",
+          "if": "matrix.os == 'windows-latest'",
+          "shell": "pwsh",
+          "run": "$expectedBuild = '10.0.20348'\n$build = (Get-ComputerInfo).OsVersion\nif ($build -ne $expectedBuild) {\n  throw \"Unexpected OS build: $build\"\n}\n$msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'\n$msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'\nInvoke-WebRequest -Uri $msiUrl -OutFile $msiPath\n$expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'\n$actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash\nif ($actualHash -ne $expectedHash) {\n  throw \"SHA256 mismatch: $actualHash\"\n}\nStart-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'\n$version = (pwsh --version).Trim() -replace '^PowerShell '\nif ($version -ne '7.5.1') {\n  throw \"PowerShell version $version is not 7.5.1\"\n}\n"
+        },
+        {
+          "name": "Capture setup info",
+          "shell": "pwsh",
+          "run": "$data = [ordered]@{\n  'Current runner version' = $env:RUNNER_VERSION\n  'Runner Image'          = $env:ImageOS\n  'ImageVersion'          = $env:ImageVersion\n  'RUNNER_NAME'           = $env:RUNNER_NAME\n  'RUNNER_OS'             = $env:RUNNER_OS\n  'RUNNER_ARCH'           = $env:RUNNER_ARCH\n}\n$file = \"setup-info-${{ matrix.os }}.md\"\n\"was captured from the set up job.\" | Out-File -FilePath $file -Encoding utf8\nforeach ($k in $data.Keys) {\n  if ($data[$k]) {\n    \"${k}: $($data[$k])\" | Out-File -FilePath $file -Encoding utf8 -Append\n  }\n}\n"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "always()",
+          "with": {
+            "name": "setup-info-${{ matrix.os }}",
+            "path": "setup-info-${{ matrix.os }}.md"
+          }
+        },
+        {
+          "name": "Install Pester",
+          "shell": "pwsh",
+          "run": "if (-not (Get-Module -ListAvailable -Name Pester |\n          Where-Object { $_.Version -ge [Version]'5.0.0' })) {\n  Remove-Module Pester -ErrorAction SilentlyContinue\n  Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck\n}\n"
+        },
+        {
+          "name": "Validate native YAML parsing",
+          "shell": "pwsh",
+          "run": "$parsed = ConvertFrom-Yaml 'a: 1'\nif ($parsed.a -ne 1) { throw 'YAML parsing failed' }\n"
+        },
+        {
+          "name": "Run Pester",
+          "shell": "pwsh",
+          "run": "if (Test-Path \"tests/pester\") {\n  $cfg = New-PesterConfiguration\n  $cfg.Run.Path = './tests/pester'\n  $cfg.TestResult.Enabled = $false\n  $cfg.Run.Exit = $true\n  Invoke-Pester -Configuration $cfg\n}\n"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "always()",
+          "with": {
+            "name": "pester-junit-${{ matrix.os }}",
+            "path": "pester-results/pester-junit.xml",
+            "if-no-files-found": "error"
+          }
+        }
+      ]
+    },
+    "report": {
+      "needs": [
+        "node-ci",
+        "ps-ci"
+      ],
+      "runs-on": "ubuntu-24.04",
+      "if": "always()",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "uses": "actions/setup-node@v4",
+          "with": {
+            "node-version": 24
+          }
+        },
+        {
+          "run": "npm run check:node"
+        },
+        {
+          "run": "npm install"
+        },
+        {
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "path": "./downloaded"
+          }
+        },
+        {
+          "run": "npm run derive:registry"
+        },
+        {
+          "run": "npm run generate:summary",
+          "env": {
+            "TEST_RESULTS_GLOBS": "downloaded/test-results/**/*junit*.xml\ndownloaded/pester-junit-*/pester-junit.xml\n",
+            "REQ_MAPPING_FILE": "requirements.json",
+            "DISPATCHER_REGISTRY": "dispatchers.json",
+            "EVIDENCE_DIR": "test-screenshots"
+          }
+        },
+        {
+          "run": "npx tsx scripts/print-pester-traceability.ts >> \"$GITHUB_STEP_SUMMARY\""
+        }
+      ]
+    }
+  }
+}
