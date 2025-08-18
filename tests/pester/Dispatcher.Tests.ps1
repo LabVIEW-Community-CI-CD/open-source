@@ -85,8 +85,7 @@ Describe 'ArgsFile handling' {
     $jsonFile = Join-Path $TestDrive 'args.json'
     @{ MinimumSupportedLVVersion = '2021'; SupportedBitness = '32' } | ConvertTo-Json -Compress | Set-Content -Path $jsonFile
 
-    $override = @{ SupportedBitness = '64' }
-    $overrideJson = $override | ConvertTo-Json -Compress
+    $overrideJson = @{ SupportedBitness = '64' } | ConvertTo-Json -Compress
 
     $projectRoot = (Get-LabVIEWIconEditorArgsJson).WorkingDirectory
     $out = & $global:dispatcher -ActionName close-labview -ArgsFile $jsonFile -ArgsJson $overrideJson -WorkingDirectory $projectRoot -DryRun *>&1 | Out-String
