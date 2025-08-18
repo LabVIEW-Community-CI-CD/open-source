@@ -112,7 +112,9 @@ jobs:
           if (Test-Path "tests/pester") {
             $cfg = New-PesterConfiguration
             $cfg.Run.Path = './tests/pester'
-            $cfg.TestResult.Enabled = $false
+            $cfg.TestResult.Enabled = $true
+            $cfg.TestResult.OutputFormat = 'JUnitXml'
+            $cfg.TestResult.OutputPath = 'pester-results/pester-junit.xml'
             $cfg.Run.Exit = $true
             Invoke-Pester -Configuration $cfg
           }
