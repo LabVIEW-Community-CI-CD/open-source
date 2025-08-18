@@ -115,14 +115,14 @@
         {
           "name": "Capture setup info",
           "shell": "pwsh",
-          "run": "$data = [ordered]@{\n  'Current runner version' = $env:RUNNER_VERSION\n  'Runner Image'          = $env:ImageOS\n  'ImageVersion'          = $env:ImageVersion\n  'RUNNER_NAME'           = $env:RUNNER_NAME\n  'RUNNER_OS'             = $env:RUNNER_OS\n  'RUNNER_ARCH'           = $env:RUNNER_ARCH\n}\n$file = \"setup-info-${{ matrix.runner_type }}.md\"\n\"was captured from the set up job.\" | Out-File -FilePath $file -Encoding utf8\nforeach ($k in $data.Keys) {\n  if ($data[$k]) {\n    \"${k}: $($data[$k])\" | Out-File -FilePath $file -Encoding utf8 -Append\n  }\n}\n"
+          "run": "$data = [ordered]@{\n  'Current runner version' = $env:RUNNER_VERSION\n  'Runner Image'          = $env:ImageOS\n  'ImageVersion'          = $env:ImageVersion\n  'RUNNER_NAME'           = $env:RUNNER_NAME\n  'RUNNER_OS'             = $env:RUNNER_OS\n  'RUNNER_ARCH'           = $env:RUNNER_ARCH\n}\n$file = \"setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md\"\n\"was captured from the set up job.\" | Out-File -FilePath $file -Encoding utf8\nforeach ($k in $data.Keys) {\n  if ($data[$k]) {\n    \"${k}: $($data[$k])\" | Out-File -FilePath $file -Encoding utf8 -Append\n  }\n}\n"
         },
         {
           "uses": "actions/upload-artifact@v4",
           "if": "always()",
           "with": {
-            "name": "setup-info-${{ matrix.runner_type }}",
-            "path": "setup-info-${{ matrix.runner_type }}.md"
+            "name": "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}",
+            "path": "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md"
           }
         },
         {
@@ -144,7 +144,7 @@
           "uses": "actions/upload-artifact@v4",
           "if": "always()",
           "with": {
-            "name": "pester-junit-${{ matrix.runner_type }}",
+            "name": "pester-junit-${{ matrix.os }}-${{ matrix.runner_type }}",
             "path": "pester-results/pester-junit.xml",
             "if-no-files-found": "error"
           }
