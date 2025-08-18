@@ -341,7 +341,7 @@ async function generateActionDocs(dispatcherRegistryFile: string, wrapperDirs: s
       }
       lines.push(tbl.join('\n'));
       lines.push('\n```powershell');
-      lines.push(`pwsh ./actions/Invoke-OSAction.ps1 -ActionName ${fn} -ArgsYaml '{}'`);
+      lines.push(`pwsh ./actions/Invoke-OSAction.ps1 -ActionName ${fn} -ArgsJson '{}'`);
       lines.push('```');
     }
   }

@@ -35,7 +35,7 @@
         {
           "name": "Run Pester tests",
           "shell": "pwsh",
-          "run": "./actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -WorkingDirectory \"${{ github.workspace }}/target\""
+          "run": "./actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -ArgsJson '{}' -WorkingDirectory \"${{ github.workspace }}/target\""
         }
       ]
     }

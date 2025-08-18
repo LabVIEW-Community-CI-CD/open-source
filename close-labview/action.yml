@@ -35,7 +35,7 @@ runs:
         if ('${{ inputs.gcli_path }}') { $args['gcliPath'] = '${{ inputs.gcli_path }}' }
         $params = @{
           ActionName = 'close-labview'
-          ArgsYaml   = $args
+          ArgsJson   = $args
           LogLevel   = '${{ inputs.log_level }}'
         }
         if ('${{ inputs.dry_run }}' -eq 'true') { $params['DryRun'] = $true }
