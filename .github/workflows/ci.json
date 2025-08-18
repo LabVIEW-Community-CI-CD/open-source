@@ -46,7 +46,7 @@
         {
           "run": "npm run generate:summary",
           "env": {
-            "TEST_RESULTS_GLOB": "test-results/*junit*.xml"
+            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml"
           }
         },
         {
