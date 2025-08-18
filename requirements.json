@@ -9,8 +9,8 @@
     "self-hosted-windows-lv": {
       "owner": "self-hosted-windows-lv",
       "runner_label": "self-hosted-windows-lv",
-      "runner_type": "integration",
-      "skip_dry_run": false
+      "runner_type": "default",
+      "skip_dry_run": true
     },
     "ubuntu-latest": {
       "owner": "ubuntu-latest",
