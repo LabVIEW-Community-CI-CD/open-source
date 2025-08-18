@@ -125,6 +125,10 @@ Get details about a specific action:
 pwsh actions/Invoke-OSAction.ps1 -Describe run-unit-tests
 ```
 
+## Runner Types
+
+Workflows distinguish between standard GitHub-hosted images and integration runners with preinstalled tooling. See [docs/runner-types.md](docs/runner-types.md) for a detailed comparison.
+
 ## Testing
 
 Run the JavaScript tests with:
