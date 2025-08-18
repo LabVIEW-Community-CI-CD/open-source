@@ -1,12 +1,12 @@
 {
     "self-hosted-windows-lv": {
-      "owner": "self-hosted-windows-lv",
+      "owner": "NI",
       "runner_label": "self-hosted-windows-lv",
       "runner_type": "default",
       "skip_dry_run": false
     },
     "ubuntu-latest": {
-      "owner": "ubuntu-latest",
+      "owner": "GitHub Actions",
       "runner_label": "ubuntu-latest",
       "runner_type": "integration",
       "skip_dry_run": false
