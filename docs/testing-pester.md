@@ -23,12 +23,14 @@ Required tooling:
 - PowerShell 7.5.1
 - Node.js 24 or newer
 - [`actionlint`](https://github.com/rhysd/actionlint)
+- [Pester](https://pester.dev/) (install with `Install-Module Pester -Force -Scope CurrentUser`)
 
 Sample command sequence to run the suite:
 
 ```powershell
 npm install
 actionlint
+Install-Module Pester -Force -Scope CurrentUser
 $cfg = New-PesterConfiguration
 $cfg.Run.Path = './tests/pester'
 $cfg.TestResult.Enabled = $false
