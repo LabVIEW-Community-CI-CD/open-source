@@ -16,7 +16,7 @@ Describe 'RunUnitTests.Workflow' {
         $job = $wf.jobs.'run-unit-tests'
         $testStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './run-unit-tests/action.yml' } | Select-Object -First 1
         $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match 'UnitTestReport\.xml' } | Select-Object -First 1
-        $summaryStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-test-results@v1' } | Select-Object -First 1
+        $publishStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'EnricoMi/publish-unit-test-result-action@v2' } | Select-Object -First 1
         $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_.uses -eq 'actions/checkout@v4' }
         $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
@@ -34,8 +34,7 @@ Describe 'RunUnitTests.Workflow' {
         $artifactStep.with.name | Should -Be 'unit-test-results'
         $artifactStep.with.path | Should -Be 'artifacts/unit-tests/UnitTestReport.xml'
 
-        $summaryStep | Should -Not -BeNullOrEmpty
-        $summaryStep.with.files | Should -Be 'artifacts/unit-tests/UnitTestReport.xml'
-        $summaryStep.with.reporter | Should -Be 'junit'
+        $publishStep | Should -Not -BeNullOrEmpty
+        $publishStep.with.files | Should -Be 'artifacts/unit-tests/UnitTestReport.xml'
     }
 }

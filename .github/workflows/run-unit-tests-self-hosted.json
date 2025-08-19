@@ -23,11 +23,10 @@
         },
         {
           "name": "Upload test results to GitHub",
-          "uses": "actions/upload-test-results@v1",
+          "uses": "EnricoMi/publish-unit-test-result-action@v2",
           "if": "${{ (success() || failure()) && !cancelled() }}",
           "with": {
-            "files": "artifacts/unit-tests/UnitTestReport.xml",
-            "reporter": "junit"
+            "files": "artifacts/unit-tests/UnitTestReport.xml"
           }
         },
         {

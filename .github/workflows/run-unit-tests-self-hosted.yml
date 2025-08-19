@@ -17,11 +17,10 @@ jobs:
           test_config: 'scripts/run-unit-tests/unittest-config.cfg'
           working_directory: 'scripts/run-unit-tests'
       - name: Upload test results to GitHub
-        uses: actions/upload-test-results@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           files: 'artifacts/unit-tests/UnitTestReport.xml'
-          reporter: junit
       - name: Upload unit test results
         uses: actions/upload-artifact@v4
         with:
