@@ -116,19 +116,6 @@
           "run": "$required = [Version]'7.5.1'\nif ($PSVersionTable.PSVersion -lt $required) {\n  $msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'\n  $msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'\n  Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath\n  $expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'\n  $actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash\n  if ($actualHash -ne $expectedHash) {\n    throw \"SHA256 mismatch: $actualHash\"\n  }\n  Start-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'\n}\n$version = (pwsh --version).Trim() -replace '^PowerShell '\nif ([Version]$version -lt $required) {\n  throw \"PowerShell version $version is less than $required\"\n}\n"
         },
         {
-          "name": "Capture setup info",
-          "shell": "pwsh",
-          "run": "$data = [ordered]@{\n  'Current runner version' = $env:RUNNER_VERSION\n  'Runner Image'          = $env:ImageOS\n  'ImageVersion'          = $env:ImageVersion\n  'RUNNER_NAME'           = $env:RUNNER_NAME\n  'RUNNER_OS'             = $env:RUNNER_OS\n  'RUNNER_ARCH'           = $env:RUNNER_ARCH\n}\n$file = \"setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md\"\n\"was captured from the set up job.\" | Out-File -FilePath $file -Encoding utf8\nforeach ($k in $data.Keys) {\n  if ($data[$k]) {\n    \"${k}: $($data[$k])\" | Out-File -FilePath $file -Encoding utf8 -Append\n  }\n}\n"
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}",
-            "path": "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md"
-          }
-        },
-        {
           "name": "Install Pester",
           "shell": "pwsh",
           "run": "if (-not (Get-Module -ListAvailable -Name Pester |\n          Where-Object { $_.Version -ge [Version]'5.0.0' })) {\n  Remove-Module Pester -ErrorAction SilentlyContinue\n  Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck\n}\n"
