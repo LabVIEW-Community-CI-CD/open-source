@@ -30,7 +30,7 @@ actionlint -version
 
 ## Pester
 
-[Pester](https://pester.dev/) runs the PowerShell test suite. Install it and confirm the module is available:
+[Pester](https://pester.dev/) runs the PowerShell test suite. The GitHub runner installs it automatically; install it only if you plan to run tests locally and confirm the module is available:
 
 ```powershell
 Install-Module Pester -Force -Scope CurrentUser

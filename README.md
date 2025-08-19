@@ -113,10 +113,10 @@ npm test
 
 For CI, `npm run test:ci` emits a JUnit XML report that [scripts/generate-ci-summary.ts](scripts/generate-ci-summary.ts) parses to build requirement traceability files in OS‑specific subdirectories (e.g., `artifacts/windows`, `artifacts/linux`) based on the `RUNNER_OS` environment variable. The summary script searches `artifacts/` by default; set `TEST_RESULTS_GLOBS` if your reports are elsewhere.
 
-Pester tests cover the dispatcher and helper modules. See [docs/testing-pester.md](docs/testing-pester.md) for guidelines on using the canonical argument helper and adding new tests. Run them with:
+Pester tests cover the dispatcher and helper modules. See [docs/testing-pester.md](docs/testing-pester.md) for guidelines on using the canonical argument helper and adding new tests. The GitHub runner installs Pester automatically; install it locally only if you plan to run the tests yourself:
 
 ```powershell
-Install-Module Pester -Force -Scope CurrentUser  # if Pester isn't already available
+Install-Module Pester -Force -Scope CurrentUser
 ```
 
 ```powershell
