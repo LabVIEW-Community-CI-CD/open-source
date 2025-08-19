@@ -5,10 +5,5 @@
   "retryErrors": true,
   "verbosity": "error",
   "skip": [
-    "https://open-source-actions.github.io/open-source-actions/",
-    "http://127.0.0.1:8000/",
-    "https://github.com/ni/g-cli",
-    "docs$",
-    "scripts$"
   ]
 }
