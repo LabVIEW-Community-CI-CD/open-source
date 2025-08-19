@@ -8,6 +8,13 @@ theme:
     - navigation.tabs
     - content.code.copy
     - toc.integrate
+
+markdown_extensions:
+  - admonition
+  - def_list
+  - toc
+  - pymdownx.superfences
+  - pymdownx.highlight
 nav:
   - Home:
     - Overview: index.md
