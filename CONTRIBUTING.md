@@ -14,6 +14,13 @@ npm run lint:md
 npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')
 ```
 
+## Requirement Traceability
+
+Each requirement is tracked as an issue or entry in `requirements.json`. Every
+code change must reference the requirement it addresses, and each requirement
+must be covered by at least one automated test. The CI pipeline checks these
+links and reports missing associations.
+
 ## Commit Messages
 
 Each commit should reference at least one requirement ID defined in `requirements.json` (for example, `REQ-001`). Pull requests are automatically checked for this convention.

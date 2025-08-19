@@ -159,6 +159,15 @@ Invoke-Pester -Configuration $cfg
 
 XML test result output is intentionally disabled.
 
+## Requirement Traceability
+
+Each requirement is tracked as an issue or entry in
+[`requirements.json`](requirements.json). Every code change must reference the
+requirement it addresses, and each requirement must have at least one automated
+test. The CI pipeline checks these links and reports missing associations. For a
+full mapping of requirements to tests, see
+[docs/requirements.md](docs/requirements.md).
+
 ## Contributing
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for general guidelines and [docs/contributing-docs.md](docs/contributing-docs.md) for documentation rules.
