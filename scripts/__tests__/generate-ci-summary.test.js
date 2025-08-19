@@ -332,6 +332,15 @@ test('ignores stale JUnit files outside artifacts path', async () => {
   await fs.rm(stalePath, { force: true });
 });
 
+test('throws when no JUnit files found and strict mode enabled', async () => {
+  await fs.rm('artifacts', { recursive: true, force: true });
+  const env = { ...process.env, REQUIRE_TEST_RESULTS: '1', RUNNER_OS: 'Linux' };
+  await assert.rejects(
+    execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env }),
+    /No JUnit files found/,
+  );
+});
+
 test('partitions requirement groups by runner_type', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'partition-'));
   const junitPath = path.join(dir, 'junit.xml');
