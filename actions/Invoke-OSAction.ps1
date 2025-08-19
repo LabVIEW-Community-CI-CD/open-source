@@ -8,6 +8,7 @@ param(
   [Parameter()] [ValidateSet('ERROR','WARN','INFO','DEBUG')] [string] $LogLevel = 'INFO',
   [switch] $DryRun,
   [switch] $ListActions,
+  [switch] $FailOnUnknown,
   [string] $Describe
 )
 
@@ -228,7 +229,13 @@ try {
   # Only pass parameters that the adapter actually accepts
   $filterResult = Filter-Args -InputArgs $argsHash -FuncName $funcName -ActionNameForWarn $key -ReturnUnknownParams
   $argsHash = $filterResult.Args
-  if ($filterResult.UnknownParams) { Write-Warning $filterResult.UnknownParams }
+  if ($filterResult.UnknownParams) {
+    if ($FailOnUnknown) {
+      throw $filterResult.UnknownParams
+    } else {
+      Write-Warning $filterResult.UnknownParams
+    }
+  }
 
   if ($argsHash.ContainsKey('RelativePath')) {
     $argsHash['RelativePath'] = Normalize-RelativePath -RelativePath $argsHash['RelativePath'] -BaseDirectory $WorkingDirectory
