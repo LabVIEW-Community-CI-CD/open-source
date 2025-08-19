@@ -6,7 +6,7 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, requirementsSummaryToMarkdown, buildSummary } from '../generate-ci-summary.ts';
+import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../generate-ci-summary.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
 const fileUrl = new URL('../generate-ci-summary.ts', import.meta.url);
@@ -134,6 +134,17 @@ test('requirementsSummaryToMarkdown escapes pipes in description', () => {
   ];
   const md = requirementsSummaryToMarkdown(groups);
   assert.ok(md.includes('| REQ-1 | Alpha \\| Beta |'));
+});
+
+test('computeStatusCounts tallies test statuses', () => {
+  const tests = [
+    { id: '1', name: 'a', status: 'Passed', duration: 0, requirements: [] },
+    { id: '2', name: 'b', status: 'Failed', duration: 0, requirements: [] },
+    { id: '3', name: 'c', status: 'Skipped', duration: 0, requirements: [] },
+    { id: '4', name: 'd', status: 'Passed', duration: 0, requirements: [] },
+  ];
+  const counts = computeStatusCounts(tests);
+  assert.deepEqual(counts, { total: 4, passed: 2, failed: 1, skipped: 1 });
 });
 
 test('buildSummary splits totals by OS', () => {

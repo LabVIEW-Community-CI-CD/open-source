@@ -237,14 +237,25 @@ export function summaryToMarkdown(totals: { overall: { passed: number; failed: n
   return ['### Test Summary', buildTable(header, rows)].join('\n');
 }
 
+export function computeStatusCounts(tests: TestCase[]) {
+  const counts = { total: tests.length, passed: 0, failed: 0, skipped: 0 };
+  for (const t of tests) {
+    if (t.status === 'Passed') {
+      counts.passed++;
+    } else if (t.status === 'Failed') {
+      counts.failed++;
+    } else {
+      counts.skipped++;
+    }
+  }
+  return counts;
+}
+
 export function requirementsSummaryToMarkdown(groups: RequirementGroup[]) {
   const header = ['Requirement ID', 'Description', 'Owner', 'Total Tests', 'Passed', 'Failed', 'Skipped', 'Pass Rate (%)'];
   const rows: string[][] = [];
   for (const g of groups) {
-    const total = g.tests.length;
-    const passed = g.tests.filter((t) => t.status === 'Passed').length;
-    const failed = g.tests.filter((t) => t.status === 'Failed').length;
-    const skipped = g.tests.filter((t) => t.status === 'Skipped').length;
+    const { total, passed, failed, skipped } = computeStatusCounts(g.tests);
     const rate = passed + failed === 0 ? 0 : (passed / (passed + failed)) * 100;
     rows.push([
       g.id,
@@ -275,9 +286,8 @@ export function groupToMarkdown(groups: RequirementGroup[], limit?: number) {
   const lines: string[] = [];
   let remaining = limit ?? Infinity;
   for (const g of groups) {
-    const total = g.tests.length;
-    const passedCount = g.tests.filter((t) => t.status === 'Passed').length;
-    const pct = total === 0 ? 0 : Math.round((passedCount / total) * 100);
+    const { total, passed } = computeStatusCounts(g.tests);
+    const pct = total === 0 ? 0 : Math.round((passed / total) * 100);
     const heading = `${g.id} (${pct}% passed)`;
     const tblHeader = ['Requirement', 'Test ID', 'Status', 'Duration (s)', 'Owner', 'Evidence'];
     const rows: string[][] = [];
