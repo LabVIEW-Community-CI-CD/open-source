@@ -4,7 +4,24 @@ import { glob } from 'glob';
 import { collectTestCases } from './summary/tests.ts';
 
 async function main() {
-  const junitFiles = await glob('artifacts/pester-junit-*/pester-junit.xml');
+  const overrideDir = process.env.PESTER_JUNIT_PATH;
+  let junitFiles: string[] = [];
+  if (overrideDir) {
+    junitFiles = await glob(path.join(overrideDir, 'pester-junit.xml'));
+  } else {
+    const matches = await glob('artifacts/pester-junit-*/pester-junit.xml');
+    if (matches.length > 0) {
+      const latestDir = matches
+        .map((f) => path.dirname(f))
+        .sort()
+        .pop()!;
+      junitFiles = matches.filter((f) => path.dirname(f) === latestDir);
+    }
+  }
+  if (junitFiles.length === 0) {
+    console.warn('No JUnit files found');
+    process.exit(1);
+  }
   const tests = [];
   for (const file of junitFiles) {
     const dir = path.dirname(file);
