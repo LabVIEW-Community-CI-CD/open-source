@@ -3,9 +3,12 @@
 ## Environment Setup
 - Run `apt-get update && apt-get install -y apt-utils` to ensure required APT utilities are available.
 - Ensure Node.js 24 or newer is installed (e.g. via the NodeSource setup script).
+  - Verify with `node --version`.
 - Install `actionlint` and ensure it is on your `PATH`:
   - `go install github.com/rhysd/actionlint/cmd/actionlint@latest`
+  - Verify with `actionlint -version`.
 - Ensure PowerShell 7.5.1 is installed and accessible.
+  - Verify with `pwsh --version`.
   - Linux runners rely on preinstalled `pwsh`.
   - On Windows Server 2022 (build 10.0.20348), download the MSI and verify its SHA256 checksum before installing:
 
@@ -18,6 +21,10 @@
     Remove-Item pwsh.msi
     ```
 - PowerShell 7.5.1 includes native YAML support; external modules such as `powershell-yaml` are no longer required.
+- Install NI LabVIEW's command-line interface (g-cli) on Windows runners and ensure it is accessible.
+  - Verify with `g-cli --version` or `& 'C:\\Program Files\\G-CLI\\bin\\g-cli.exe' --version`.
+- Optional: set `LABVIEW_ICON_EDITOR_PATH` if a custom icon editor location is required.
+  - Verify with `echo $LABVIEW_ICON_EDITOR_PATH` (or `$env:LABVIEW_ICON_EDITOR_PATH` in PowerShell).
 
 ## Testing
 - Run `npm run check:node` to verify Node.js satisfies the required version.

@@ -33,6 +33,10 @@ Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
 
 See also: [docs/actions/build.md](../../docs/actions/build.md)
 
+## Error handling
+
+On failure the script outputs `An unexpected error occurred during script execution: <details>` and returns a non-zero exit code.
+
 ## License
 
 This directory inherits the root repository’s license (MIT, unless otherwise noted).

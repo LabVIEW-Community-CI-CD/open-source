@@ -59,7 +59,7 @@ function Invoke-MyNewAction {
 
 After adding your adapter function, regenerate the dispatcher registry:
 
-1. Run `npm run derive:registry` to update `dispatchers.json`.
+1. Run `npx tsx scripts/derive-dispatcher-registry.ts` to update `dispatchers.json`.
 2. Commit the regenerated file.
 
 ## Logging and Verbosity

@@ -8,6 +8,7 @@ param(
   [Parameter()] [ValidateSet('ERROR','WARN','INFO','DEBUG')] [string] $LogLevel = 'INFO',
   [switch] $DryRun,
   [switch] $ListActions,
+  [switch] $FailOnUnknown,
   [string] $Describe
 )
 
@@ -97,8 +98,15 @@ function Show-Description([string]$Name) {
 # InputArgs: Hashtable of supplied arguments.
 # FuncName: Target dispatcher function name.
 # ActionNameForWarn: Action name used when emitting warnings.
-# ReturnUnknownParams: If set, returns unknown parameters as well.
-function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn, [switch]$ReturnUnknownParams) {
+# ReturnUnknownParams: If set, returns unknown parameters and suppresses warnings.
+# NoWarn: Suppresses warnings for unknown parameters without returning them.
+function Filter-Args(
+  [hashtable]$InputArgs,
+  [string]$FuncName,
+  [string]$ActionNameForWarn,
+  [switch]$ReturnUnknownParams,
+  [switch]$NoWarn
+) {
   $cmd = Get-Command $FuncName -ErrorAction Stop
 
   # Map each alias to its canonical parameter name for the target function
@@ -124,12 +132,33 @@ function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNa
   $msg = $null
   if ($unknown.Count) {
     $msg = "Ignored unknown parameters for '$ActionNameForWarn': $($unknown -join ', ')"
-    Write-Warning $msg
+    if (-not $NoWarn -and -not $ReturnUnknownParams) {
+      Write-Warning $msg
+    }
   }
   if ($ReturnUnknownParams) {
     return [pscustomobject]@{ Args = $filtered; UnknownParams = $msg }
   }
   return $filtered
+}
+
+# Normalizes a RelativePath value against an optional base directory.
+# RelativePath: Path to normalize.
+# BaseDirectory: Directory used to resolve the relative path. Defaults to the current location.
+function Normalize-RelativePath {
+  param(
+    [Parameter(Mandatory)] [string] $RelativePath,
+    [string] $BaseDirectory
+  )
+  $base = if ($BaseDirectory) {
+    [System.IO.Path]::GetFullPath($BaseDirectory)
+  } else {
+    [System.IO.Directory]::GetCurrentDirectory()
+  }
+  $combined = [System.IO.Path]::Combine($base, $RelativePath)
+  $full = [System.IO.Path]::GetFullPath($combined)
+  $relative = [System.IO.Path]::GetRelativePath($base, $full)
+  return [System.IO.Path]::TrimEndingDirectorySeparator($relative)
 }
 
 try {
@@ -198,7 +227,19 @@ try {
   Set-LogLevel -Level $LogLevel
 
   # Only pass parameters that the adapter actually accepts
-  $argsHash = Filter-Args -InputArgs $argsHash -FuncName $funcName -ActionNameForWarn $key
+  $filterResult = Filter-Args -InputArgs $argsHash -FuncName $funcName -ActionNameForWarn $key -ReturnUnknownParams
+  $argsHash = $filterResult.Args
+  if ($filterResult.UnknownParams) {
+    if ($FailOnUnknown) {
+      throw $filterResult.UnknownParams
+    } else {
+      Write-Warning $filterResult.UnknownParams
+    }
+  }
+
+  if ($argsHash.ContainsKey('RelativePath')) {
+    $argsHash['RelativePath'] = Normalize-RelativePath -RelativePath $argsHash['RelativePath'] -BaseDirectory $WorkingDirectory
+  }
 
   if ($WorkingDirectory) { Push-Location -Path $WorkingDirectory }
   try {

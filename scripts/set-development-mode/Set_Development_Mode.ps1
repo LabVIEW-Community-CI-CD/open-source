@@ -27,7 +27,8 @@ function Execute-Script {
     try {
         Invoke-Expression $ScriptCommand -ErrorAction Stop
     } catch {
-        throw "Error occurred while executing: $ScriptCommand"
+        Write-Error "Error occurred while executing: $ScriptCommand"
+        throw
     }
 }
 # Sequential script execution with error handling

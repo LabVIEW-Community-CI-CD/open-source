@@ -41,7 +41,7 @@ function Execute-Script {
             throw "Script failed with exit code $LASTEXITCODE"
         }
     } catch {
-        Write-Error "Error occurred while executing: $ScriptCommand. $_"
+        Write-Error "Error occurred while executing: $ScriptCommand"
         if (-not $LASTEXITCODE) {
             $global:LASTEXITCODE = 1
         }

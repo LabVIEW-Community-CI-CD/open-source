@@ -15,6 +15,17 @@ interface FuncInfo {
   parameters: Record<string, ParamInfo>;
 }
 
+function attachParamDescriptions(info: FuncInfo) {
+  if (!info.description) return;
+  for (const [name, param] of Object.entries(info.parameters)) {
+    const regex = new RegExp(`\\b${name}:\\s*([^\\.]+)`, 'i');
+    const match = info.description.match(regex);
+    if (match) {
+      param.description = match[1].trim();
+    }
+  }
+}
+
 function parseParams(block: string): Record<string, ParamInfo> {
   const params: Record<string, ParamInfo> = {};
   const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -94,7 +105,7 @@ async function main() {
   const registry: Record<string, FuncInfo> = {};
   for (const file of files) {
     const content = await fs.readFile(file, 'utf8');
-    const fnRegex = /function\s+(\w+)\b/gi;
+    const fnRegex = /function\s+([\w-]+)\b/gi;
     let match: RegExpExecArray | null;
     while ((match = fnRegex.exec(content)) !== null) {
       const fn = match[1];
@@ -104,8 +115,10 @@ async function main() {
       if (!paramsBlock) continue;
       const description = extractDescription(content, match.index);
       registry[fn] = { description, parameters: parseParams(paramsBlock) };
+      attachParamDescriptions(registry[fn]);
     }
   }
+  delete registry['Invoke-OpenSourceActionScript'];
   for (const info of Object.values(registry)) {
     if (info.parameters.RelativePath) {
       info.parameters.RelativePath.description =

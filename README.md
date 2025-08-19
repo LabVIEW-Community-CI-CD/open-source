@@ -11,6 +11,8 @@ For setup and action reference, see the [documentation](docs/index.md). The [qui
 - NI LabVIEW with command-line interface support (g-cli) for LabVIEW-based actions
 - Supported platforms: Windows for LabVIEW tasks; PowerShell-only scripts also run on macOS and Linux
 
+See [Environment Setup](docs/environment-setup.md) for installation steps and commands to verify each dependency.
+
 ## GitHub Action usage
 
 ```yaml
@@ -111,6 +113,12 @@ Alternatively, load arguments from a JSON file:
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json
 ```
 
+By default the dispatcher ignores unknown parameters and emits a warning. Add `-FailOnUnknown` to treat unexpected parameters as errors:
+
+```powershell
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson $json -FailOnUnknown
+```
+
 ### Discovering actions
 
 List all available actions:
@@ -124,6 +132,10 @@ Get details about a specific action:
 ```powershell
 pwsh actions/Invoke-OSAction.ps1 -Describe run-unit-tests
 ```
+
+## Runner Types
+
+Workflows distinguish between standard GitHub-hosted images and integration runners with preinstalled tooling. See [docs/runner-types.md](docs/runner-types.md) for a detailed comparison.
 
 ## Testing
 
