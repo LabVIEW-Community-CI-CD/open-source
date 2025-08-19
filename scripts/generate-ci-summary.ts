@@ -4,10 +4,10 @@ import { constants as fsConstants } from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import { glob } from 'glob';
-import { parseStringPromise } from 'xml2js';
 import { writeErrorSummary } from './error-handler.ts';
 import { buildSummary, summaryToMarkdown, requirementsSummaryToMarkdown, requirementTestsToMarkdown, groupToMarkdown, TestCase, RequirementGroup } from './summary/index.ts';
 import { generateActionDocs } from './summary/generate-action-docs.ts';
+import { parseJUnit } from './junit-parser.ts';
 
 
 function normalizeTestId(id: string): string {
@@ -57,60 +57,40 @@ export async function collectTestCases(files: string[], evidenceDir: string, os?
   const osType = (os ?? process.env.RUNNER_OS ?? 'unknown').toLowerCase();
   for (const file of files) {
     const xml = await fs.readFile(file, 'utf8');
-    const data = await parseStringPromise(xml, { explicitArray: true, mergeAttrs: true });
-    const suites: any[] = [];
-    if (data.testsuite) suites.push(data.testsuite);
-    if (data.testsuites) {
-      if (Array.isArray(data.testsuites.testsuite)) suites.push(...data.testsuites.testsuite);
-      else if (data.testsuites.testsuite) suites.push(data.testsuites.testsuite);
+    let report;
+    try {
+      report = await parseJUnit(xml);
+    } catch {
+      continue;
     }
-    const collect = (obj: any) => {
-      if (!obj) return;
-      if (Array.isArray(obj.testcase)) {
-        for (const tc of obj.testcase) {
-          const name = tc.name?.[0] ?? 'unknown';
-          const className = tc.classname?.[0];
-          const id = normalizeTestId(name);
-          let status: 'Passed' | 'Failed' | 'Skipped' = 'Passed';
-          if (tc.failure || tc.error) status = 'Failed';
-          else if (tc.skipped) status = 'Skipped';
-          const duration = parseFloat(tc.time?.[0] ?? '0');
-          const test: TestCase = { id, name, className, status, duration, requirements: [], os: osType };
-            const props = tc.properties?.[0]?.property;
-            if (Array.isArray(props)) {
-              const findProp = (n: string) =>
-                props.find((p: any) => p.name?.[0]?.toLowerCase() === n);
-              const ownerProp = findProp('owner') ?? findProp('machine-name');
-              const ownerVal = ownerProp?.value?.[0] ?? ownerProp?._;
-              if (ownerVal) test.owner = ownerVal;
-              const evidenceProp = props.find((p: any) =>
-                ['evidence', 'attachment', 'ci_link'].includes((p.name?.[0] ?? '').toLowerCase())
-              );
-              const evidenceVal = evidenceProp?.value?.[0] ?? evidenceProp?._;
-              if (evidenceVal) test.evidence = evidenceVal;
-              for (const p of props) {
-                if (p.name?.[0]?.toLowerCase() === 'requirement') {
-                  const val = p.value?.[0] ?? p._;
-                  if (typeof val === 'string') test.requirements.push(val.toUpperCase());
-                }
-              }
-            }
-          if (!test.evidence) {
-            const evidence = evidenceFiles.find((f) => f.startsWith(id) || f.startsWith(id + '.'));
-            if (evidence) test.evidence = path.join('evidence', evidence);
-          }
-          if (!test.owner) {
-            const ownerMatch = name.match(/\[Owner:([^\]]+)\]/i);
-            if (ownerMatch) test.owner = ownerMatch[1];
-          }
-          tests.push(test);
+    for (const suite of report.suites) {
+      for (const tc of suite.testcases) {
+        const id = normalizeTestId(tc.name);
+        const test: TestCase = {
+          id,
+          name: tc.name,
+          className: tc.classname,
+          status: tc.status,
+          duration: tc.time,
+          requirements: [...tc.requirements],
+          os: osType,
+        };
+        const props = tc.properties;
+        const ownerVal = props['owner'] ?? props['machine-name'];
+        if (ownerVal) test.owner = ownerVal;
+        const evidenceVal = props['evidence'] ?? props['attachment'] ?? props['ci_link'];
+        if (evidenceVal) test.evidence = evidenceVal;
+        if (!test.evidence) {
+          const evidence = evidenceFiles.find((f) => f.startsWith(id) || f.startsWith(id + '.'));
+          if (evidence) test.evidence = path.join('evidence', evidence);
         }
+        if (!test.owner) {
+          const ownerMatch = tc.name.match(/\[Owner:([^\]]+)\]/i);
+          if (ownerMatch) test.owner = ownerMatch[1];
+        }
+        tests.push(test);
       }
-      if (Array.isArray(obj.testsuite)) {
-        for (const s of obj.testsuite) collect(s);
-      }
-    };
-    for (const s of suites) collect(s);
+    }
   }
   return tests;
 }
