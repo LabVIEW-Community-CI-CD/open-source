@@ -6,7 +6,7 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, buildSummary } from '../generate-ci-summary.ts';
+import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, requirementsSummaryToMarkdown, buildSummary } from '../generate-ci-summary.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
 const fileUrl = new URL('../generate-ci-summary.ts', import.meta.url);
@@ -126,6 +126,14 @@ test('groupToMarkdown omits numeric identifiers', () => {
   assert.match(md, /\| Requirement \| Test ID \| Status \| Duration \(s\) \| Owner \| Evidence \|/);
   assert.match(md, /\| REQ-XYZ \| alpha \| Passed \|/);
   assert.match(md, /\| REQ-XYZ \| beta \| Failed \|/);
+});
+
+test('requirementsSummaryToMarkdown escapes pipes in description', () => {
+  const groups = [
+    { id: 'REQ-1', description: 'Alpha | Beta', tests: [] },
+  ];
+  const md = requirementsSummaryToMarkdown(groups);
+  assert.ok(md.includes('| REQ-1 | Alpha \\| Beta |'));
 });
 
 test('buildSummary splits totals by OS', () => {
