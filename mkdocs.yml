@@ -50,21 +50,24 @@ nav:
   - Requirements: requirements.md
   - Testing with Pester: testing-pester.md
   - Actions:
-    - Add Token to LabVIEW: actions/add-token-to-labview.md
-    - Apply VIPC: actions/apply-vipc.md
-    - Build: actions/build.md
-    - Build LVLIBP: actions/build-lvlibp.md
-    - Build VI Package: actions/build-vi-package.md
-    - Close LabVIEW: actions/close-labview.md
-    - Generate Release Notes: actions/generate-release-notes.md
-    - Missing in Project: actions/missing-in-project.md
-    - Modify VIPB Display Info: actions/modify-vipb-display-info.md
-    - Prepare LabVIEW Source: actions/prepare-labview-source.md
-    - Rename File: actions/rename-file.md
-    - Restore Setup LV Source: actions/restore-setup-lv-source.md
-    - Revert Development Mode: actions/revert-development-mode.md
-    - Run Unit Tests: actions/run-unit-tests.md
-    - Set Development Mode: actions/set-development-mode.md
+    - Setup:
+      - Add Token to LabVIEW: actions/add-token-to-labview.md
+      - Apply VIPC: actions/apply-vipc.md
+      - Close LabVIEW: actions/close-labview.md
+      - Missing in Project: actions/missing-in-project.md
+      - Prepare LabVIEW Source: actions/prepare-labview-source.md
+      - Rename File: actions/rename-file.md
+      - Restore Setup LV Source: actions/restore-setup-lv-source.md
+      - Set Development Mode: actions/set-development-mode.md
+      - Revert Development Mode: actions/revert-development-mode.md
+    - Build:
+      - Build: actions/build.md
+      - Build LVLIBP: actions/build-lvlibp.md
+      - Build VI Package: actions/build-vi-package.md
+      - Generate Release Notes: actions/generate-release-notes.md
+      - Modify VIPB Display Info: actions/modify-vipb-display-info.md
+    - Testing:
+      - Run Unit Tests: actions/run-unit-tests.md
   - Workflows:
     - Add Token to LabVIEW: workflows/add-token-to-labview.md
     - Apply VIPC: workflows/apply-vipc.md
