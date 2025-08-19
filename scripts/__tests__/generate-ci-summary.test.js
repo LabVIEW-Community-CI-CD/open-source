@@ -236,6 +236,38 @@ test('writes outputs to OS-specific directory', async () => {
   await fs.rm('artifacts', { recursive: true, force: true });
 });
 
+test('skips invalid JUnit files and still generates summary', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'badjunit-'));
+  const goodXml = '<testsuite><testcase name="good" time="0"/></testsuite>';
+  const badXml = '<testsuite><testcase name="bad"></testsuite>';
+  const goodPath = path.join(dir, 'good.xml');
+  const badPath = path.join(dir, 'bad.xml');
+  await fs.writeFile(goodPath, goodXml);
+  await fs.writeFile(badPath, badXml);
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: `${goodPath} ${badPath}`,
+    EVIDENCE_DIR: dir,
+    RUNNER_OS: 'Linux',
+  };
+
+  const { stderr } = await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const outDir = path.join('artifacts', 'linux');
+  const summary = await fs.readFile(path.join(outDir, 'summary.md'), 'utf8');
+  assert.match(summary, /\| linux \| 1 \| 0 \| 0 \|/);
+  const trace = await fs.readFile(path.join(outDir, 'traceability.md'), 'utf8');
+  assert.match(trace, /good/);
+  assert.strictEqual(trace.includes('bad'), false);
+  assert.match(stderr, /Failed to parse JUnit file/);
+
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
+});
+
 test('partitions requirement groups by runner_type', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'partition-'));
   const junitPath = path.join(dir, 'junit.xml');

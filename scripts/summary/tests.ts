@@ -12,11 +12,12 @@ export async function collectTestCases(files: string[], evidenceDir: string, os?
   const tests: TestCase[] = [];
   const osType = (os ?? process.env.RUNNER_OS ?? 'unknown').toLowerCase();
   for (const file of files) {
-    const xml = await fs.readFile(file, 'utf8');
     let report;
     try {
+      const xml = await fs.readFile(file, 'utf8');
       report = await parseJUnit(xml);
-    } catch {
+    } catch (err) {
+      console.warn('Failed to parse JUnit file:', file, err);
       continue;
     }
     for (const suite of report.suites) {
