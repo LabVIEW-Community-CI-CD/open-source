@@ -15,7 +15,7 @@ Describe 'Build.Workflow' {
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable
         $job = $wf.jobs.'build'
         $buildStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq './build/action.yml' } | Select-Object -First 1
-        $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match 'lv_icon_x64\.lvlibp' } | Select-Object -First 1
+        $artifactStep = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/upload-artifact@v4' -and $_['with']['path'] -match 'resource/plugins' } | Select-Object -First 1
         $checkoutSteps = $job.steps | Where-Object { $_.ContainsKey('uses') -and $_['uses'] -eq 'actions/checkout@v4' }
         $externalCheckout = $job.steps | Where-Object { $_.ContainsKey('with') -and $_['with'].ContainsKey('repository') }
 
@@ -34,7 +34,7 @@ Describe 'Build.Workflow' {
         $buildStep.with.author_name | Should -Be 'Jane Doe'
 
         $artifactStep | Should -Not -BeNullOrEmpty
-        $artifactStep.with.path | Should -Be 'scripts/build/lv_icon_x64.lvlibp'
+        $artifactStep.with.path | Should -Be 'scripts/build/resource/plugins'
         $artifactStep.with.name | Should -Be 'build-artifact'
     }
 }

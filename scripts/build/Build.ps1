@@ -157,11 +157,12 @@ try {
     Execute-Script $CloseLabVIEW `
         "-MinimumSupportedLVVersion 2021 -SupportedBitness 32"
 
-    # 5) Rename .lvlibp -> lv_icon_x86.lvlibp
-    Write-Verbose "Renaming .lvlibp file to lv_icon_x86.lvlibp..."
+    # 5) Rename .lvlibp -> include version and commit (x86)
+    Write-Verbose "Renaming .lvlibp file to include version and commit (x86)..."
     $RenameFile = Join-Path $ActionsPath "rename-file/Rename-file.ps1"
+    $x86Name = "lv_icon_x86_v$Major.$Minor.$Patch.$Build+$Commit.lvlibp"
     Execute-Script $RenameFile `
-        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename 'lv_icon_x86.lvlibp'"
+        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename '$x86Name'"
 
  #   # 6) Apply VIPC (64-bit)
  #   Write-Verbose "Now applying VIPC for 64-bit..."
@@ -188,10 +189,11 @@ try {
         "-MinimumSupportedLVVersion 2021 -SupportedBitness 64"
     
 
-    # Rename .lvlibp -> lv_icon_x64.lvlibp
-    Write-Verbose "Renaming .lvlibp file to lv_icon_x64.lvlibp..."
+    # Rename .lvlibp -> include version and commit (x64)
+    Write-Verbose "Renaming .lvlibp file to include version and commit (x64)..."
+    $x64Name = "lv_icon_x64_v$Major.$Minor.$Patch.$Build+$Commit.lvlibp"
     Execute-Script $RenameFile `
-        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename 'lv_icon_x64.lvlibp'"
+        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename '$x64Name'"
 
     # -------------------------------------------------------------------------
     # 8) Construct the JSON for "Company Name" & "Author Name", plus version
@@ -260,6 +262,16 @@ try {
     Write-Verbose "Closing LabVIEW (64-bit)..."
     Execute-Script $CloseLabVIEW `
         "-MinimumSupportedLVVersion 2023 -SupportedBitness 64"
+
+    # 13) Generate artifact manifest
+    Write-Verbose "Generating artifact manifest..."
+    $artifactDir = Join-Path $RelativePath 'resource\plugins'
+    $manifest = @{ commit = $Commit; build = $Build; artifacts = @() }
+    Get-ChildItem -Path $artifactDir -Filter '*.lvlibp' | ForEach-Object {
+        $manifest.artifacts += @{ name = $_.Name; path = $_.FullName; size = $_.Length }
+    }
+    $manifestPath = Join-Path $artifactDir 'artifact-manifest.json'
+    $manifest | ConvertTo-Json -Depth 3 | Out-File -Encoding UTF8 $manifestPath
 
     Write-Host "All scripts executed successfully!" -ForegroundColor Green
     Write-Verbose "Script: Build.ps1 completed without errors."

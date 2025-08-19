@@ -31,6 +31,11 @@ Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
     author_name: CI
 ```
 
+## Outputs
+
+Artifacts are emitted to `resource/plugins` with filenames embedding version and commit details, for example:
+`lv_icon_x64_v1.0.0.1+abcdef.lvlibp`. An accompanying `artifact-manifest.json` records each artifact's name, path, size, build number, and commit to aid provenance tracking.
+
 See also: [docs/actions/build.md](../../docs/actions/build.md)
 
 ## Error handling

@@ -26,11 +26,11 @@
           }
         },
         {
-          "name": "Upload build artifact",
+          "name": "Upload build artifacts",
           "uses": "actions/upload-artifact@v4",
           "with": {
             "name": "build-artifact",
-            "path": "scripts/build/lv_icon_x64.lvlibp"
+            "path": "scripts/build/resource/plugins"
           }
         }
       ]

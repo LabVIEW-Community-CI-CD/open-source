@@ -79,6 +79,10 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
     author_name: 'Jane Doe'
 ```
 
+## Outputs
+
+The build action produces versioned artifacts with provenance information. Packed libraries are named using the pattern `lv_icon_{arch}_v<major>.<minor>.<patch>.<build>+<commit>.lvlibp`, embedding both the build number and source commit. A companion `artifact-manifest.json` lists the generated artifacts along with their paths, sizes, and commit identifier for traceability.
+
 ## Return Codes
 
 - `0` – build completed successfully
