@@ -52,3 +52,9 @@ nav:
     - Revert Development Mode: actions/revert-development-mode.md
     - Run Unit Tests: actions/run-unit-tests.md
     - Set Development Mode: actions/set-development-mode.md
+plugins:
+  - search
+  - autorefs
+  - redirects:
+      redirect_maps:
+        old-page.md: new-page.md
