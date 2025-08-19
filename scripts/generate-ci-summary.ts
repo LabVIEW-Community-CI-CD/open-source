@@ -82,6 +82,14 @@ async function main() {
   }
   const { map, meta } = await loadRequirements(mappingFile);
   const groups = mapToRequirements(tests, map, meta);
+  const allUnmapped = groups.every(g => g.id === 'Unmapped');
+  if (allUnmapped) {
+    const msg = 'All tests are unmapped; verify requirements mapping.';
+    if (process.env.REQUIRE_REQUIREMENTS_MAPPING) {
+      throw new Error(msg);
+    }
+    console.warn(msg);
+  }
   const totals = buildSummary(groups);
 
   const outDir = path.join('artifacts', osType);
