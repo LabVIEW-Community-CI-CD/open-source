@@ -10,9 +10,9 @@ runs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-mkdocs-1.5.3
+        key: ${{ runner.os }}-pip-mkdocs-1.5.3-mkdocs-material-9.6.17-pymdown-extensions-10.16.1-mkdocs-autorefs-1.4.2-mkdocs-redirects-1.2.2
         restore-keys: |
           ${{ runner.os }}-pip-mkdocs-
     - name: Install MkDocs
       shell: bash
-      run: pip install mkdocs==1.5.3 mkdocs-material pymdown-extensions mkdocs-autorefs mkdocs-redirects
+      run: pip install mkdocs==1.5.3 mkdocs-material==9.6.17 pymdown-extensions==10.16.1 mkdocs-autorefs==1.4.2 mkdocs-redirects==1.2.2
