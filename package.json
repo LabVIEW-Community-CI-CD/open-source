@@ -15,7 +15,7 @@
     "prederive:registry": "npm run check:node",
     "pregenerate:summary": "npm run check:node",
     "test": "tsx --test scripts/**/*.test.js scripts/*.test.js",
-    "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml",
+    "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml scripts/**/*.test.js scripts/*.test.js",
     "derive:registry": "tsx scripts/derive-dispatcher-registry.ts",
     "generate:summary": "tsx scripts/generate-ci-summary.ts",
     "generate:traceability-matrix": "tsx scripts/generate-traceability-matrix.ts",
