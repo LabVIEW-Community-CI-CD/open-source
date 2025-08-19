@@ -11,7 +11,7 @@ Action documentation lives under [docs/actions/](actions/). Keep these files in 
 ## Markdown linting
 
 - Run `npm run lint:md` to lint Markdown formatting.
-- Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to check links before submitting changes.
+- Run `npx --yes linkinator README.md docs scripts --markdown --skip "https://open-source-actions.github.io/open-source-actions/" --skip "http://127.0.0.1:8000/" --skip "https://github.com/ni/g-cli" --skip "^docs$" --skip "^scripts$"` to check links before submitting changes.
 - Keep one `#`-level heading at the top of each file and increment heading levels sequentially; do not skip levels.
 
 ## Heading levels
