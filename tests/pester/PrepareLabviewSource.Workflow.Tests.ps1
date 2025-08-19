@@ -9,7 +9,7 @@ Describe 'PrepareLabviewSource.Workflow' {
         Evidence    = 'tests/pester/PrepareLabviewSource.Workflow.Tests.ps1'
     }
 
-    It 'runs prepare-labview-source action and uploads prepared source artifact' -Tag 'REQ-016' {
+    It 'runs prepare-labview-source action and uploads prepared source artifact [REQ-016]' -Tag 'REQ-016' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/prepare-labview-source-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

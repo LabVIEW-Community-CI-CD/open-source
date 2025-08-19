@@ -10,7 +10,7 @@ Describe 'AddTokenToLabview.Workflow' {
         Evidence    = 'tests/pester/AddTokenToLabview.Workflow.Tests.ps1'
     }
 
-    It 'runs add-token-to-labview action and uploads token artifact' -Tag 'REQ-008' {
+    It 'runs add-token-to-labview action and uploads token artifact [REQ-008]' -Tag 'REQ-008' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/add-token-to-labview-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

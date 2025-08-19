@@ -9,7 +9,7 @@ Describe 'CloseLabview.Workflow' {
         Evidence    = 'tests/pester/CloseLabview.Workflow.Tests.ps1'
     }
 
-    It 'runs close-labview action for 32-bit and 64-bit and uploads logs' -Tag 'REQ-012' {
+    It 'runs close-labview action for 32-bit and 64-bit and uploads logs [REQ-012]' -Tag 'REQ-012' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $wfFile = Join-Path $repoRoot '.github/workflows/close-labview-external.json'
 

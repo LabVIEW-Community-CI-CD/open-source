@@ -16,7 +16,7 @@ $meta = @{
 }
 
 Describe 'add-token-to-labview resolves RelativePath' {
-    It 'dry-runs without warnings' -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $obj = $params.ArgsJson | ConvertFrom-Json
         $obj.RelativePath = './'
@@ -32,7 +32,7 @@ Describe 'add-token-to-labview resolves RelativePath' {
 }
 
 Describe 'apply-vipc resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -47,7 +47,7 @@ Describe 'apply-vipc resolves RelativePath' {
 }
 
 Describe 'build-vi-package resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -62,7 +62,7 @@ Describe 'build-vi-package resolves RelativePath' {
 }
 
 Describe 'build resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -77,7 +77,7 @@ Describe 'build resolves RelativePath' {
 }
 
 Describe 'build-lvlibp resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -92,7 +92,7 @@ Describe 'build-lvlibp resolves RelativePath' {
 }
 
 Describe 'modify-vipb-display-info resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -107,7 +107,7 @@ Describe 'modify-vipb-display-info resolves RelativePath' {
 }
 
 Describe 'prepare-labview-source resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -122,7 +122,7 @@ Describe 'prepare-labview-source resolves RelativePath' {
 }
 
 Describe 'restore-setup-lv-source resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -137,7 +137,7 @@ Describe 'restore-setup-lv-source resolves RelativePath' {
 }
 
 Describe 'revert-development-mode resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory
@@ -152,7 +152,7 @@ Describe 'revert-development-mode resolves RelativePath' {
 }
 
 Describe 'set-development-mode resolves RelativePath' {
-    It 'dry-runs without warnings'  -Tag 'REQ-003' {
+    It 'dry-runs without warnings [REQ-003]' -Tag 'REQ-003' {
         $params = Get-LabVIEWIconEditorArgsJson
         $b = $params.ArgsJson | ConvertFrom-Json
         $projectRoot = $params.WorkingDirectory

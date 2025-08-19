@@ -9,7 +9,7 @@ Describe 'RestoreSetupLvSource.Workflow' {
         Evidence    = 'tests/pester/RestoreSetupLvSource.Workflow.Tests.ps1'
     }
 
-    It 'runs restore-setup-lv-source action and uploads restoration artifacts' -Tag 'REQ-018' {
+    It 'runs restore-setup-lv-source action and uploads restoration artifacts [REQ-018]' -Tag 'REQ-018' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/restore-setup-lv-source-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

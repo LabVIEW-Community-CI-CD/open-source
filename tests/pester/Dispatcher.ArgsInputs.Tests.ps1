@@ -16,7 +16,7 @@ Describe 'Dispatcher Args Inputs' {
         Evidence    = 'tests/pester/Dispatcher.ArgsInputs.Tests.ps1'
     }
 
-    It 'accepts ArgsJson and warns on unknown parameters' -Tag 'REQ-000' {
+    It 'accepts ArgsJson and warns on unknown parameters [REQ-000]' -Tag 'REQ-000' {
         $params = Get-LabVIEWIconEditorArgsJson
         $projectRoot = $params.WorkingDirectory
 
@@ -32,7 +32,7 @@ Describe 'Dispatcher Args Inputs' {
         $out | Should -Match "Ignored unknown parameters for 'close-labview': Extra"
     }
 
-    It 'accepts ArgsFile and warns on unknown parameters' -Tag 'REQ-000' {
+    It 'accepts ArgsFile and warns on unknown parameters [REQ-000]' -Tag 'REQ-000' {
         $params = Get-LabVIEWIconEditorArgsJson
         $projectRoot = $params.WorkingDirectory
 
@@ -46,7 +46,7 @@ Describe 'Dispatcher Args Inputs' {
         $out | Should -Match "Ignored unknown parameters for 'close-labview': Extra"
     }
 
-    It 'uses inline args to override file and warns on all unknown parameters' -Tag 'REQ-000' {
+    It 'uses inline args to override file and warns on all unknown parameters [REQ-000]' -Tag 'REQ-000' {
         $params = Get-LabVIEWIconEditorArgsJson
         $projectRoot = $params.WorkingDirectory
 

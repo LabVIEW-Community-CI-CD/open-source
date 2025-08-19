@@ -9,7 +9,7 @@ Describe 'BuildViPackage.Workflow' {
         Evidence    = 'tests/pester/BuildViPackage.Workflow.Tests.ps1'
     }
 
-    It 'runs build-vi-package action and uploads vi package artifact' -Tag 'REQ-011' {
+    It 'runs build-vi-package action and uploads vi package artifact [REQ-011]' -Tag 'REQ-011' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/build-vi-package-self-hosted.json'
         if (-not (Test-Path $workflowPath)) {

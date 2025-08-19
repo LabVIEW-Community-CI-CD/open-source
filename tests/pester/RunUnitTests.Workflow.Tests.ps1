@@ -9,7 +9,7 @@ Describe 'RunUnitTests.Workflow' {
         Evidence    = 'tests/pester/RunUnitTests.Workflow.Tests.ps1'
     }
 
-    It 'runs run-unit-tests action and uploads unit-test results' -Tag 'REQ-011' {
+    It 'runs run-unit-tests action and uploads unit-test results [REQ-011]' -Tag 'REQ-011' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/run-unit-tests-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable
