@@ -4,7 +4,7 @@ import { glob } from 'glob';
 import { collectTestCases } from './summary/tests.ts';
 
 async function main() {
-  const junitFiles = await glob('downloaded/pester-junit-*/pester-junit.xml');
+  const junitFiles = await glob('artifacts/pester-junit-*/pester-junit.xml');
   const tests = [];
   for (const file of junitFiles) {
     const dir = path.dirname(file);
