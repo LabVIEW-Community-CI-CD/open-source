@@ -97,8 +97,15 @@ function Show-Description([string]$Name) {
 # InputArgs: Hashtable of supplied arguments.
 # FuncName: Target dispatcher function name.
 # ActionNameForWarn: Action name used when emitting warnings.
-# ReturnUnknownParams: If set, returns unknown parameters as well.
-function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNameForWarn, [switch]$ReturnUnknownParams) {
+# ReturnUnknownParams: If set, returns unknown parameters and suppresses warnings.
+# NoWarn: Suppresses warnings for unknown parameters without returning them.
+function Filter-Args(
+  [hashtable]$InputArgs,
+  [string]$FuncName,
+  [string]$ActionNameForWarn,
+  [switch]$ReturnUnknownParams,
+  [switch]$NoWarn
+) {
   $cmd = Get-Command $FuncName -ErrorAction Stop
 
   # Map each alias to its canonical parameter name for the target function
@@ -124,7 +131,9 @@ function Filter-Args([hashtable]$InputArgs, [string]$FuncName, [string]$ActionNa
   $msg = $null
   if ($unknown.Count) {
     $msg = "Ignored unknown parameters for '$ActionNameForWarn': $($unknown -join ', ')"
-    Write-Warning $msg
+    if (-not $NoWarn -and -not $ReturnUnknownParams) {
+      Write-Warning $msg
+    }
   }
   if ($ReturnUnknownParams) {
     return [pscustomobject]@{ Args = $filtered; UnknownParams = $msg }
@@ -217,7 +226,9 @@ try {
   Set-LogLevel -Level $LogLevel
 
   # Only pass parameters that the adapter actually accepts
-  $argsHash = Filter-Args -InputArgs $argsHash -FuncName $funcName -ActionNameForWarn $key
+  $filterResult = Filter-Args -InputArgs $argsHash -FuncName $funcName -ActionNameForWarn $key -ReturnUnknownParams
+  $argsHash = $filterResult.Args
+  if ($filterResult.UnknownParams) { Write-Warning $filterResult.UnknownParams }
 
   if ($argsHash.ContainsKey('RelativePath')) {
     $argsHash['RelativePath'] = Normalize-RelativePath -RelativePath $argsHash['RelativePath'] -BaseDirectory $WorkingDirectory
