@@ -1,6 +1,13 @@
 site_name: Open Source LabVIEW Actions
 site_url: https://open-source-actions.github.io/open-source-actions/
 docs_dir: docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - content.code.copy
+    - toc.integrate
 nav:
   - Home:
     - Overview: index.md
