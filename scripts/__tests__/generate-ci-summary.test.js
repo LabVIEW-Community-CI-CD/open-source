@@ -84,6 +84,32 @@ test('loadRequirements logs warning on invalid JSON', async () => {
   assert.match(warned, /Failed to load requirements mapping/);
 });
 
+test('loadRequirements warns and skips invalid entries', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'req-'));
+  const req = {
+    requirements: [
+      { id: 'REQ-1', tests: ['good'] },
+      { tests: ['missing id'] },
+      { id: 'REQ-3', tests: 'not-array' },
+    ],
+  };
+  const reqPath = path.join(dir, 'req.json');
+  await fs.writeFile(reqPath, JSON.stringify(req));
+  let warned = '';
+  const origWarn = console.warn;
+  console.warn = (msg) => {
+    warned += String(msg);
+  };
+  const { map, meta } = await loadRequirements(reqPath);
+  console.warn = origWarn;
+  await fs.rm(dir, { recursive: true, force: true });
+  assert.match(warned, /Invalid requirement entry/);
+  assert.strictEqual('good' in map, true);
+  assert.strictEqual('missing id' in map, false);
+  assert.strictEqual('not-array' in map, false);
+  assert.deepEqual(Object.keys(meta), ['REQ-1']);
+});
+
 test('collectTestCases uses machine-name property for owner', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'owner-'));
   const xmlProp = `<testsuite><testcase name="foo" time="0"><properties><property name="machine-name" value="ci-bot"/></properties></testcase></testsuite>`;
