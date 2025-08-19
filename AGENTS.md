@@ -33,4 +33,7 @@
 - Run `npm run lint:md` to lint Markdown files.
 - Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to verify links and ensure failures are visible.
 - Run `actionlint` to validate GitHub Actions workflows.
-- Pester tests are executed by the GitHub runner; do not run them locally.
+
+### Pester Tests
+
+Pester tests are part of the continuous integration pipeline. The GitHub runner executes them automatically, so agents must not run Pester tests manually.
