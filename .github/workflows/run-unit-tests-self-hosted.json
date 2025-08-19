@@ -22,11 +22,20 @@
           }
         },
         {
+          "name": "Upload test results to GitHub",
+          "uses": "actions/upload-test-results@v1",
+          "if": "${{ (success() || failure()) && !cancelled() }}",
+          "with": {
+            "files": "artifacts/unit-tests/UnitTestReport.xml",
+            "reporter": "junit"
+          }
+        },
+        {
           "name": "Upload unit test results",
           "uses": "actions/upload-artifact@v4",
           "with": {
             "name": "unit-test-results",
-            "path": "scripts/run-unit-tests/UnitTestReport.xml"
+            "path": "artifacts/unit-tests/UnitTestReport.xml"
           }
         }
       ]
