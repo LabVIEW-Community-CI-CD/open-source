@@ -313,6 +313,57 @@ test('skips invalid JUnit files and still generates summary', async () => {
   await fs.rm('artifacts', { recursive: true, force: true });
 });
 
+test('warns when all tests are unmapped', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'unmapped-'));
+  const junitPath = path.join(dir, 'junit.xml');
+  await fs.writeFile(junitPath, '<testsuite><testcase name="foo" time="0"/></testsuite>');
+  const reqPath = path.join(dir, 'req.json');
+  await fs.writeFile(reqPath, JSON.stringify({ requirements: [] }));
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: junitPath,
+    EVIDENCE_DIR: dir,
+    REQ_MAPPING_FILE: reqPath,
+    RUNNER_OS: 'Linux',
+  };
+
+  const { stderr } = await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+  assert.match(stderr, /All tests are unmapped/);
+
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('errors when strict unmapped mode enabled', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'unmapped-'));
+  const junitPath = path.join(dir, 'junit.xml');
+  await fs.writeFile(junitPath, '<testsuite><testcase name="foo" time="0"/></testsuite>');
+  const reqPath = path.join(dir, 'req.json');
+  await fs.writeFile(reqPath, JSON.stringify({ requirements: [] }));
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: junitPath,
+    EVIDENCE_DIR: dir,
+    REQ_MAPPING_FILE: reqPath,
+    RUNNER_OS: 'Linux',
+    REQUIRE_REQUIREMENTS_MAPPING: '1',
+  };
+
+  await assert.rejects(
+    execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env }),
+    /All tests are unmapped/,
+  );
+
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
+});
+
 test('ignores stale JUnit files outside artifacts path', async () => {
   await fs.rm('artifacts', { recursive: true, force: true });
   const freshDir = path.join('artifacts', 'current');
