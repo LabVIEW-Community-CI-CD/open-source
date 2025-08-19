@@ -4,14 +4,14 @@ To keep documentation consistent and easy to review, please follow these rules w
 
 ## Action documentation
 
-Action documentation lives under [docs/actions/](actions/). Keep these files in sync with their corresponding implementations in [scripts/](../scripts).
+Action documentation lives under [docs/actions](actions/README.md). Keep these files in sync with their corresponding implementations in [scripts](../scripts/README.md).
 
 - Run `npm run verify:docs` to check that documented inputs match each action's action.yml.
 
 ## Markdown linting
 
 - Run `npm run lint:md` to lint Markdown formatting.
-- Run `npx --yes linkinator README.md docs scripts --markdown --skip "https://open-source-actions.github.io/open-source-actions/" --skip "http://127.0.0.1:8000/" --skip "https://github.com/ni/g-cli" --skip "^docs$" --skip "^scripts$"` to check links before submitting changes.
+- Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to check links before submitting changes.
 - Keep one `#`-level heading at the top of each file and increment heading levels sequentially; do not skip levels.
 
 ## Heading levels

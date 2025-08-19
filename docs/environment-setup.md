@@ -28,6 +28,15 @@ go install github.com/rhysd/actionlint/cmd/actionlint@latest
 actionlint -version
 ```
 
+## Pester
+
+[Pester](https://pester.dev/) runs the PowerShell test suite. Install it and confirm the module is available:
+
+```powershell
+Install-Module Pester -Force -Scope CurrentUser
+pwsh -NoLogo -Command 'Import-Module Pester; Invoke-Pester -Version'
+```
+
 ## g-cli
 
 Some actions rely on NI's LabVIEW command-line interface (g-cli).

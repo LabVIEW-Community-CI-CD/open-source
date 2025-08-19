@@ -4,6 +4,9 @@
   "retry": true,
   "retryErrors": true,
   "verbosity": "error",
+  "directoryListing": true,
   "skip": [
+    "https://open-source-actions.github.io/open-source-actions/",
+    "http://127.0.0.1:8000/"
   ]
 }
