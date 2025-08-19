@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { collectTestCases, loadRequirements, mapToRequirements } from '../generate-ci-summary.ts';
-import { groupToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../summary/index.ts';
+import { groupToMarkdown, summaryToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../summary/index.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
 const fileUrl = new URL('../generate-ci-summary.ts', import.meta.url);
@@ -136,7 +136,8 @@ test('requirementsSummaryToMarkdown escapes pipes in description', () => {
     { id: 'REQ-1', description: 'Alpha | Beta', tests: [] },
   ];
   const md = requirementsSummaryToMarkdown(groups);
-  assert.ok(md.includes('| REQ-1 | Alpha \\| Beta |'));
+  assert.ok(md.includes('| Requirement ID | Description | Owner | Total Tests | Passed | Failed | Skipped | Pass Rate (%) |'));
+  assert.ok(md.includes('| REQ-1 | Alpha \\| Beta |  | 0 | 0 | 0 | 0 | 0.00 |'));
 });
 
 test('computeStatusCounts tallies test statuses', () => {
@@ -148,6 +149,29 @@ test('computeStatusCounts tallies test statuses', () => {
   ];
   const counts = computeStatusCounts(tests);
   assert.deepEqual(counts, { total: 4, passed: 2, failed: 1, skipped: 1 });
+});
+
+test('summaryToMarkdown sorts OS alphabetically and escapes special characters', () => {
+  const totals = {
+    overall: { passed: 2, failed: 0, skipped: 0, duration: 3, rate: 100 },
+    byOs: {
+      'win|dos': { passed: 1, failed: 0, skipped: 0, duration: 1, rate: 100 },
+      linux: { passed: 1, failed: 0, skipped: 0, duration: 2, rate: 100 },
+    },
+  };
+  const md = summaryToMarkdown(totals);
+  assert.match(md, /\| OS \| Passed \| Failed \| Skipped \| Duration \(s\) \| Pass Rate \(%\) \|/);
+  assert.ok(md.includes('| win\\|dos | 1 | 0 | 0 | 1.00 | 100.00 |'));
+  const linuxIdx = md.indexOf('| linux |');
+  const winIdx = md.indexOf('| win\\|dos |');
+  assert.ok(linuxIdx > -1 && winIdx > linuxIdx);
+});
+
+test('summaryToMarkdown handles no tests', () => {
+  const totals = { overall: { passed: 0, failed: 0, skipped: 0, duration: 0, rate: 0 }, byOs: {} };
+  const md = summaryToMarkdown(totals);
+  assert.ok(md.includes('| overall | 0 | 0 | 0 | 0.00 | 0.00 |'));
+  assert.strictEqual(md.includes('| linux |'), false);
 });
 
 test('buildSummary splits totals by OS', () => {
