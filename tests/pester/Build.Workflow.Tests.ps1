@@ -9,7 +9,7 @@ Describe 'Build.Workflow' {
         Evidence    = 'tests/pester/Build.Workflow.Tests.ps1'
     }
 
-    It 'runs build action with required inputs' -Tag 'REQ-009' {
+    It 'runs build action with required inputs [REQ-009]' -Tag 'REQ-009' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/build-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

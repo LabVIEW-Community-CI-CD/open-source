@@ -9,7 +9,7 @@ Describe 'BuildLvlibp.Workflow' {
         Evidence    = 'tests/pester/BuildLvlibp.Workflow.Tests.ps1'
     }
 
-    It 'runs build-lvlibp action and uploads lvlibp artifact' -Tag 'REQ-010' {
+    It 'runs build-lvlibp action and uploads lvlibp artifact [REQ-010]' -Tag 'REQ-010' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/build-lvlibp-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

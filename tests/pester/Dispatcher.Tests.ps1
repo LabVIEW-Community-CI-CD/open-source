@@ -21,7 +21,7 @@ $meta = @{
 }
 
 Describe 'Unified Dispatcher — discovery and validation' {
-  It 'lists available actions' -Tag 'REQ-001' {
+  It 'lists available actions [REQ-001]' -Tag 'REQ-001' {
     $params = Get-LabVIEWIconEditorArgsJson
     $json = $params.ArgsJson
     $projectRoot = $params.WorkingDirectory
@@ -31,7 +31,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
     $out | Should -Match 'missing-in-project'
     $out | Should -Match 'run-unit-tests'
   }
-  It 'registry includes all Invoke* adapters in module' -Tag 'REQ-001' {
+  It 'registry includes all Invoke* adapters in module [REQ-001]' -Tag 'REQ-001' {
     $modulePath = Join-Path (Split-Path $global:dispatcher -Parent) 'OpenSourceActions.psm1'
     $module = Import-Module $modulePath -PassThru
     $fnNames = (Get-Command -Module $module | Where-Object { $_.Name -like 'Invoke*' -and $_.Name -ne 'Invoke-OpenSourceActionScript' }).Name
@@ -49,7 +49,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
       $listed | Should -Match " - $action"
     }
   }
-  It 'describes a known action (build-lvlibp)' -Tag 'REQ-001' {
+  It 'describes a known action (build-lvlibp) [REQ-001]' -Tag 'REQ-001' {
     $params = Get-LabVIEWIconEditorArgsJson
     $json = $params.ArgsJson
     $projectRoot = $params.WorkingDirectory
@@ -61,7 +61,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
     $out | Should -Match 'Commit'
   }
 
-  It 'fails gracefully on unknown action' -Tag 'REQ-001' {
+  It 'fails gracefully on unknown action [REQ-001]' -Tag 'REQ-001' {
     $params = Get-LabVIEWIconEditorArgsJson
     $json = $params.ArgsJson
     $projectRoot = $params.WorkingDirectory
@@ -71,7 +71,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
 }
 
 Describe 'ArgsJson path handling' {
-  It 'handles Windows paths without manual escaping' -Tag 'REQ-001' {
+  It 'handles Windows paths without manual escaping [REQ-001]' -Tag 'REQ-001' {
     $params = Get-LabVIEWIconEditorArgsJson
     $json = $params.ArgsJson
     $projectRoot = $params.WorkingDirectory
@@ -81,7 +81,7 @@ Describe 'ArgsJson path handling' {
 }
 
 Describe 'ArgsFile handling' {
-  It 'merges file arguments with inline overrides' -Tag 'REQ-001' {
+  It 'merges file arguments with inline overrides [REQ-001]' -Tag 'REQ-001' {
     $jsonFile = Join-Path $TestDrive 'args.json'
     @{ MinimumSupportedLVVersion = '2021'; SupportedBitness = '32' } | ConvertTo-Json -Compress | Set-Content -Path $jsonFile
 
@@ -96,7 +96,7 @@ Describe 'ArgsFile handling' {
 
 
 Describe 'Filter-Args helper' {
-  It 'returns UnknownParams when requested' -Tag 'REQ-001' {
+  It 'returns UnknownParams when requested [REQ-001]' -Tag 'REQ-001' {
     $ast = [System.Management.Automation.Language.Parser]::ParseFile($global:dispatcher, [ref]$null, [ref]$null)
     $funcAst = $ast.Find({ param($a) $a -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $a.Name -eq 'Filter-Args' }, $true)
     Invoke-Expression $funcAst.Extent.Text
@@ -113,7 +113,7 @@ Describe 'Filter-Args helper' {
 }
 
   Describe 'close-labview parameter aliases' {
-    It 'accepts camelCase args' -Tag 'REQ-001' {
+    It 'accepts camelCase args [REQ-001]' -Tag 'REQ-001' {
       $params = Get-LabVIEWIconEditorArgsJson
       $base = $params.ArgsJson | ConvertFrom-Json
       $projectRoot = $params.WorkingDirectory
@@ -125,7 +125,7 @@ Describe 'Filter-Args helper' {
       $LASTEXITCODE | Should -Be 0
     }
 
-    It 'accepts snake_case args without warnings' -Tag 'REQ-001' {
+    It 'accepts snake_case args without warnings [REQ-001]' -Tag 'REQ-001' {
       $params = Get-LabVIEWIconEditorArgsJson
       $base = $params.ArgsJson | ConvertFrom-Json
       $projectRoot = $params.WorkingDirectory

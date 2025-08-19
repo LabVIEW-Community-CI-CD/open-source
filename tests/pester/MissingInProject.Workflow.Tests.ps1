@@ -9,7 +9,7 @@ Describe 'MissingInProject.Workflow' {
         Evidence    = 'tests/pester/MissingInProject.Workflow.Tests.ps1'
     }
 
-    It 'runs missing-in-project action and uploads findings report' -Tag 'REQ-014' {
+    It 'runs missing-in-project action and uploads findings report [REQ-014]' -Tag 'REQ-014' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/missing-in-project-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

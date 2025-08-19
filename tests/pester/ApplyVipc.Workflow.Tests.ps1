@@ -9,7 +9,7 @@ Describe 'ApplyVipc.DryRunTrue.Workflow' {
         Evidence    = 'tests/pester/ApplyVipc.Workflow.Tests.ps1'
     }
 
-    It 'runs apply-vipc action with dry_run true' -Tag 'REQ-006' {
+    It 'runs apply-vipc action with dry_run true [REQ-006]' -Tag 'REQ-006' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/apply-vipc-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

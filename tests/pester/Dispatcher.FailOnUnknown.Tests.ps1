@@ -16,7 +16,7 @@ Describe 'Dispatcher FailOnUnknown' {
         Evidence    = 'tests/pester/Dispatcher.FailOnUnknown.Tests.ps1'
     }
 
-    It 'warns on unknown parameters by default' -Tag 'REQ-000' {
+    It 'warns on unknown parameters by default [REQ-000]' -Tag 'REQ-000' {
         $params = Get-LabVIEWIconEditorArgsJson
         $json = @{ MinimumSupportedLVVersion = '2021'; SupportedBitness = '64'; Extra = 'value' } | ConvertTo-Json -Compress
         $out = & $global:dispatcher -ActionName close-labview -ArgsJson $json -WorkingDirectory $params.WorkingDirectory -DryRun *>&1 | Out-String
@@ -24,7 +24,7 @@ Describe 'Dispatcher FailOnUnknown' {
         $out | Should -Match "Ignored unknown parameters for 'close-labview': Extra"
     }
 
-    It 'throws on unknown parameters when FailOnUnknown is set' -Tag 'REQ-000' {
+    It 'throws on unknown parameters when FailOnUnknown is set [REQ-000]' -Tag 'REQ-000' {
         $params = Get-LabVIEWIconEditorArgsJson
         $json = @{ MinimumSupportedLVVersion = '2021'; SupportedBitness = '64'; Extra = 'value' } | ConvertTo-Json -Compress
         { & $global:dispatcher -ActionName close-labview -ArgsJson $json -WorkingDirectory $params.WorkingDirectory -DryRun -FailOnUnknown } | Should -Throw "Ignored unknown parameters for 'close-labview': Extra"
