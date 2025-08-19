@@ -21,7 +21,7 @@
     "generate:traceability-matrix": "tsx scripts/generate-traceability-matrix.ts",
     "check:traceability": "tsx scripts/check-traceability.ts",
     "lint:md": "markdownlint-cli2 README.md \"docs/**/*.md\" \"scripts/**/*.md\"",
-    "link:check": "linkinator README.md docs scripts --markdown --skip \"https://open-source-actions.github.io/open-source-actions/\" --skip \"http://127\\.0\\.0\\.1:8000/\" --skip \"https://github.com/ni/g-cli\" --skip \"^docs$\" --skip \"^scripts$\""
+    "link:check": "linkinator README.md docs scripts --config linkinator.config.json"
   },
   "dependencies": {
     "adm-zip": "^0.5.10",
