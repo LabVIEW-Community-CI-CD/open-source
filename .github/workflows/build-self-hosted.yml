@@ -6,22 +6,40 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MAJOR: '1'
+      MINOR: '0'
+      PATCH: '0'
     steps:
       - uses: actions/checkout@v4
       - name: Run build action
         uses: ./build/action.yml
         with:
           relative_path: 'scripts/build'
-          major: '1'
-          minor: '0'
-          patch: '0'
-          build: '1'
-          commit: 'abcdef'
+          major: ${{ env.MAJOR }}
+          minor: ${{ env.MINOR }}
+          patch: ${{ env.PATCH }}
+          build: ${{ github.run_number }}
+          commit: ${{ github.sha }}
           labview_minor_revision: '3'
           company_name: 'Acme Corp'
           author_name: 'Jane Doe'
+      - name: Record artifact metadata
+        id: record
+        run: |
+          VERSION="${MAJOR}.${MINOR}.${PATCH}.${GITHUB_RUN_NUMBER}"
+          SHORT_SHA="${GITHUB_SHA::7}"
+          ARTIFACT="lv_icon_x64_v${VERSION}+${SHORT_SHA}.lvlibp"
+          mv scripts/build/lv_icon_x64.lvlibp "scripts/build/${ARTIFACT}"
+          printf '{"commit":"%s","build_number":"%s","artifacts":["%s"]}' "$GITHUB_SHA" "$GITHUB_RUN_NUMBER" "$ARTIFACT" > scripts/build/artifact-manifest.json
+          echo "artifact=${ARTIFACT}" >> "$GITHUB_OUTPUT"
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact
-          path: 'scripts/build/lv_icon_x64.lvlibp'
+          name: ${{ steps.record.outputs.artifact }}
+          path: scripts/build/${{ steps.record.outputs.artifact }}
+      - name: Upload artifact manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-manifest
+          path: scripts/build/artifact-manifest.json
