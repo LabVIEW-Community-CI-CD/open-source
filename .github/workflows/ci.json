@@ -44,6 +44,9 @@
           "run": "npm run derive:registry"
         },
         {
+          "run": "rm -rf artifacts"
+        },
+        {
           "run": "npm run generate:summary",
           "env": {
             "TEST_RESULTS_GLOBS": "test-results/*junit*.xml"
@@ -173,6 +176,9 @@
         },
         {
           "run": "npm install"
+        },
+        {
+          "run": "rm -rf artifacts"
         },
         {
           "uses": "actions/download-artifact@v4",

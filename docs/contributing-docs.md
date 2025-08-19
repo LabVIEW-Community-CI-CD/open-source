@@ -55,7 +55,11 @@ MkDocs serves the site at <http://127.0.0.1:8000/> by default. The server automa
 
 ## JUnit integration
 
-The CI pipeline collects JUnit XML output from both Node and PowerShell tests. `scripts/generate-ci-summary.ts` parses these files to build the requirement traceability report. Use `npm run test:ci` to produce the Node JUnit report when verifying documentation updates.
+The CI pipeline collects JUnit XML output from both Node and PowerShell tests. `scripts/generate-ci-summary.ts` parses these files to build the requirement traceability report. Use `npm run test:ci` to produce the Node JUnit report when verifying documentation updates. By default, the summary script only searches `artifacts/` for JUnit XML files; if your results are elsewhere, pass a glob via `TEST_RESULTS_GLOBS`, for example:
+
+```bash
+TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+```
 
 ### Pester properties
 
