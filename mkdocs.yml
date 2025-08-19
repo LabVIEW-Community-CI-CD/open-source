@@ -56,6 +56,24 @@ nav:
     - Revert Development Mode: actions/revert-development-mode.md
     - Run Unit Tests: actions/run-unit-tests.md
     - Set Development Mode: actions/set-development-mode.md
+  - Workflows:
+    - Add Token to LabVIEW: workflows/add-token-to-labview.md
+    - Apply VIPC: workflows/apply-vipc.md
+    - Build LVLIBP: workflows/build-lvlibp.md
+    - Build VI Package: workflows/build-vi-package.md
+    - Build: workflows/build.md
+    - Close LabVIEW: workflows/close-labview.md
+    - Generate Release Notes: workflows/generate-release-notes.md
+    - Missing in Project: workflows/missing-in-project.md
+    - Modify VIPB Display Info: workflows/modify-vipb-display-info.md
+    - Prepare LabVIEW Source: workflows/prepare-labview-source.md
+    - Rename File: workflows/rename-file.md
+    - Restore Setup LV Source: workflows/restore-setup-lv-source.md
+    - Revert Development Mode: workflows/revert-development-mode.md
+    - Run Pester Tests: workflows/run-pester-tests.md
+    - Run Unit Tests: workflows/run-unit-tests.md
+    - Set Development Mode: workflows/set-development-mode.md
+    - Setup MkDocs: workflows/setup-mkdocs.md
 plugins:
   - search
   - autorefs
