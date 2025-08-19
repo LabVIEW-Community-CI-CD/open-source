@@ -11,7 +11,7 @@ jobs:
       MINOR: '0'
       PATCH: '0'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Run build action
         uses: ./build/action.yml
         with:
@@ -34,12 +34,12 @@ jobs:
           printf '{"commit":"%s","build_number":"%s","artifacts":["%s"]}' "$GITHUB_SHA" "$GITHUB_RUN_NUMBER" "$ARTIFACT" > scripts/build/artifact-manifest.json
           echo "artifact=${ARTIFACT}" >> "$GITHUB_OUTPUT"
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ${{ steps.record.outputs.artifact }}
           path: scripts/build/${{ steps.record.outputs.artifact }}
       - name: Upload artifact manifest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: artifact-manifest
           path: scripts/build/artifact-manifest.json
