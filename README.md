@@ -113,6 +113,12 @@ Alternatively, load arguments from a JSON file:
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json
 ```
 
+By default the dispatcher ignores unknown parameters and emits a warning. Add `-FailOnUnknown` to treat unexpected parameters as errors:
+
+```powershell
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson $json -FailOnUnknown
+```
+
 ### Discovering actions
 
 List all available actions:

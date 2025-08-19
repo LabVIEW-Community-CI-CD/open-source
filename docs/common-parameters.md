@@ -24,6 +24,16 @@ Example:
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{}' -DryRun
 ```
 
+### `-FailOnUnknown`
+
+Treats unsupported parameters as errors. By default, the dispatcher ignores unknown parameters and emits a warning. Specify `-FailOnUnknown` to throw instead.
+
+Example:
+
+```powershell
+pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsJson '{}' -FailOnUnknown
+```
+
 ### `-WorkingDirectory`
 
 Runs the adapter after changing to the specified directory using `-WorkingDirectory`.
