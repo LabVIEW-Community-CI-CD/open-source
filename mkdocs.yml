@@ -6,6 +6,10 @@ edit_uri: edit/actions/docs/
 site_description: Actions for automating LabVIEW workflows
 site_author: Open Source Actions Team
 
+strict: true
+watch:
+  - docs
+  - scripts
 docs_dir: docs
 
 theme:
