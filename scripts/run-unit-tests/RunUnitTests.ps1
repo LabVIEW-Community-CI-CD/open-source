@@ -16,9 +16,6 @@
 .PARAMETER SupportedBitness
     Bitness for LabVIEW (e.g., "64").
 
-.PARAMETER KeepReport
-    Skip cleanup so the UnitTestReport.xml remains on disk.
-
 .NOTES
     PowerShell 7.5+ assumed for cross-platform support.
     This script *requires* that g-cli and LabVIEW be compatible with the OS.
@@ -32,10 +29,7 @@ param(
     [Parameter(Mandatory=$true)]
     [ValidateSet("32","64")]
     [string]
-    $SupportedBitness,
-
-    [switch]
-    $KeepReport
+    $SupportedBitness
 )
 
 # --------------------------------------------------------------------
@@ -232,27 +226,22 @@ function MainSequence {
 # --------------------------  CLEANUP  --------------------------
 function Cleanup {
     Write-Host "`n=== Cleanup ==="
-    # If everything passed (and g-cli was OK), delete the report
-    if (($script:OriginalExitCode -eq 0) -and (-not $script:TestsHadFailures)) {
-        try {
-            Remove-Item $ReportPath -Force -ErrorAction Stop
-            Write-Host "`nAll tests passed. Deleted UnitTestReport.xml."
-        }
-        catch {
-            Write-Warning "Failed to delete $($ReportPath): $($_.Exception.Message)"
-        }
+    try {
+        $artifactDir = Join-Path -Path (Join-Path $PSScriptRoot '..' '..') -ChildPath 'artifacts/unit-tests'
+        New-Item -ItemType Directory -Path $artifactDir -Force | Out-Null
+        $dest = Join-Path -Path $artifactDir -ChildPath 'UnitTestReport.xml'
+        Copy-Item -Path $ReportPath -Destination $dest -Force
+        Write-Host "Copied UnitTestReport.xml to $dest."
+    }
+    catch {
+        Write-Warning "Failed to copy UnitTestReport.xml: $($_.Exception.Message)"
     }
 }
 
 # -------------------  EXECUTION FLOW  -------------------
 Setup
 MainSequence
-if (-not $KeepReport) {
-    Cleanup
-}
-else {
-    Write-Host "`nSkipping Cleanup; retaining UnitTestReport.xml."
-}
+Cleanup
 
 # -------------------  FINAL EXIT CODE  ------------------
 if ($Script:OriginalExitCode -ne 0) {
