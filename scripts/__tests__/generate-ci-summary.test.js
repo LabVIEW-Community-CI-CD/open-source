@@ -144,6 +144,24 @@ test('groupToMarkdown omits numeric identifiers', () => {
   assert.match(md, /\| REQ-XYZ \| beta \| Failed \|/);
 });
 
+test('groupToMarkdown supports optional limit for truncation', () => {
+  const groups = [{
+    id: 'REQ-XYZ',
+    tests: [
+      { id: 'a', name: 'alpha', status: 'Passed', duration: 0, requirements: [] },
+      { id: 'b', name: 'beta', status: 'Failed', duration: 0, requirements: [] },
+      { id: 'c', name: 'gamma', status: 'Skipped', duration: 0, requirements: [] },
+    ],
+  }];
+  const truncated = groupToMarkdown(groups, 2);
+  assert.match(truncated, /Truncated/);
+  assert.strictEqual(truncated.includes('gamma'), false);
+
+  const full = groupToMarkdown(groups);
+  assert.doesNotMatch(full, /Truncated/);
+  assert.ok(full.includes('gamma'));
+});
+
 test('requirementsSummaryToMarkdown escapes pipes in description', () => {
   const groups = [
     { id: 'REQ-1', description: 'Alpha | Beta', tests: [] },
