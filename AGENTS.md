@@ -31,6 +31,6 @@
 - Run `npm install` to ensure Node dependencies are available.
 - Run `npm test`.
 - Run `npm run lint:md` to lint Markdown files.
-- Run `npx --yes linkinator README.md docs scripts --markdown --skip "https://open-source-actions.github.io/open-source-actions/" --skip "http://127.0.0.1:8000/" --skip "https://github.com/ni/g-cli" --skip "^docs$" --skip "^scripts$"` to verify links and ensure failures are visible.
+- Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to verify links and ensure failures are visible.
 - Run `actionlint` to validate GitHub Actions workflows.
 - Run `pwsh -NoLogo -Command "$cfg = New-PesterConfiguration; $cfg.Run.Path = './tests/pester'; $cfg.TestResult.Enabled = $false; Invoke-Pester -Configuration $cfg"` and ensure all tests pass (XML output is intentionally disabled).
