@@ -38,9 +38,14 @@ async function main() {
     const single = process.env.TEST_RESULTS_GLOB || 'artifacts/**/*junit*.xml';
     junitFiles = await glob(single, { nodir: true });
   }
+  const requireResults = !!process.env.REQUIRE_TEST_RESULTS;
   let tests: TestCase[] = [];
   if (junitFiles.length === 0) {
-    console.warn('No JUnit files found; writing empty summary.');
+    const msg = 'No JUnit files found';
+    if (requireResults) {
+      throw new Error(msg);
+    }
+    console.warn(`${msg}; writing empty summary.`);
   } else {
     tests = await collectTestCases(junitFiles, evidenceDir, osType);
   }
