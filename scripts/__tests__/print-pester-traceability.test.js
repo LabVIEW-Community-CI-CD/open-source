@@ -28,10 +28,23 @@ test('groups owners and includes requirements and evidence', async () => {
   assert(bobSection.includes('Beta'));
   assert(!bobSection.includes('Alpha') && !bobSection.includes('Gamma'));
 
-  // requirement IDs and evidence links
-  assert.match(aliceSection, /Alpha \| REQ-123 \| Passed \| \[link\]\(http:\/\/example.com\/alpha.log\)/);
-  assert.match(aliceSection, /Gamma \| REQ-789 \| Passed \| \[link\]\(http:\/\/example.com\/gamma.log\)/);
-  assert.match(bobSection, /Beta \| REQ-456 \| Passed \| \[link\]\(http:\/\/example.com\/beta.log\)/);
+  // header and rows
+  assert(aliceSection.includes('| Requirement | Test ID | Status | Duration (s) | Owner | Evidence |'));
+  assert(
+    aliceSection.includes(
+      '| REQ-123 | \\[Owner:alice\\] Alpha | Passed | 0.000 | alice | \\[link\\](http://example.com/alpha.log) |'
+    )
+  );
+  assert(
+    aliceSection.includes(
+      '| REQ-789 | \\[Owner:alice\\] Gamma | Passed | 0.000 | alice | \\[link\\](http://example.com/gamma.log) |'
+    )
+  );
+  assert(
+    bobSection.includes(
+      '| REQ-456 | \\[Owner:bob\\] Beta | Passed | 0.000 | bob | \\[link\\](http://example.com/beta.log) |'
+    )
+  );
 });
 
 test('fails when no JUnit files are found', async () => {
