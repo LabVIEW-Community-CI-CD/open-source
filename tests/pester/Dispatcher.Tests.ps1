@@ -104,7 +104,8 @@ Describe 'Filter-Args helper' {
     function Dummy { param([string]$Known) }
     $args = @{ Known = 'value'; Extra = 'x' }
     $warnings = @()
-    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams -WarningVariable warnings
+    # Capture and suppress warnings to keep test output clean while verifying no warnings are emitted
+    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams -WarningVariable warnings -WarningAction SilentlyContinue
     $warnings | Should -BeNullOrEmpty
     $result.PSObject.Properties.Name | Should -Contain 'UnknownParams'
     $result.UnknownParams | Should -Match 'Extra'
