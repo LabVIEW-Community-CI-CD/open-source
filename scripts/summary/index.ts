@@ -101,7 +101,7 @@ export function requirementTestsToMarkdown(groups: RequirementGroup[]) {
   const rows: string[][] = [];
   for (const g of groups) {
     for (const t of g.tests) {
-      rows.push([g.id, t.name, t.status]);
+      rows.push([g.id, t.id, t.status]);
     }
   }
   return ['### Requirement Testcases', buildTable(header, rows)].join('\n');
@@ -121,7 +121,7 @@ export function groupToMarkdown(groups: RequirementGroup[], limit?: number) {
       const evidence = t.evidence ? `[link](${t.evidence})` : '';
       rows.push([
         g.id,
-        t.name,
+        t.id,
         t.status,
         t.duration.toFixed(3),
         t.owner ?? g.owner ?? '',

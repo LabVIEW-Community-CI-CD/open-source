@@ -45,7 +45,7 @@ async function main() {
       const evidence = t.evidence ? `[link](${t.evidence})` : '';
       rows.push([
         t.requirements.join(', '),
-        t.name,
+        t.id,
         t.status,
         t.duration.toFixed(3),
         t.owner ?? owner,

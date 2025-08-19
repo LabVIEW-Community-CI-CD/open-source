@@ -160,8 +160,8 @@ test('groupToMarkdown omits numeric identifiers', () => {
   const groups = [{
     id: 'REQ-XYZ',
     tests: [
-      { id: 'a', name: 'alpha', status: 'Passed', duration: 0, requirements: [] },
-      { id: 'b', name: 'beta', status: 'Failed', duration: 0, requirements: [] },
+      { id: 'alpha', name: 'Alpha', status: 'Passed', duration: 0, requirements: [] },
+      { id: 'beta', name: 'Beta', status: 'Failed', duration: 0, requirements: [] },
     ],
   }];
   const md = groupToMarkdown(groups);
@@ -175,9 +175,9 @@ test('groupToMarkdown supports optional limit for truncation', () => {
   const groups = [{
     id: 'REQ-XYZ',
     tests: [
-      { id: 'a', name: 'alpha', status: 'Passed', duration: 0, requirements: [] },
-      { id: 'b', name: 'beta', status: 'Failed', duration: 0, requirements: [] },
-      { id: 'c', name: 'gamma', status: 'Skipped', duration: 0, requirements: [] },
+      { id: 'alpha', name: 'Alpha', status: 'Passed', duration: 0, requirements: [] },
+      { id: 'beta', name: 'Beta', status: 'Failed', duration: 0, requirements: [] },
+      { id: 'gamma', name: 'Gamma', status: 'Skipped', duration: 0, requirements: [] },
     ],
   }];
   const truncated = groupToMarkdown(groups, 2);
