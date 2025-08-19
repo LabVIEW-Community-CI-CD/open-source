@@ -24,14 +24,19 @@ jobs:
       - run: npm run test:ci
       - run: npm run derive:registry
       - run: rm -rf artifacts
-      - run: npm run generate:summary
-        env:
-          TEST_RESULTS_GLOBS: test-results/*junit*.xml
+      - run: mkdir -p artifacts && cp test-results/*junit*.xml artifacts/
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: test-results
-          path: test-results
+          name: junit-results
+          path: artifacts/**/*junit*.xml
+      - uses: actions/upload-test-results@v1
+        if: ${{ (success() || failure()) && !cancelled() }}
+        with:
+          junit-files: artifacts/**/*junit*.xml
+      - run: npm run generate:summary
+        env:
+          TEST_RESULTS_GLOBS: test-results/*junit*.xml
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
@@ -133,7 +138,8 @@ jobs:
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: |
-            artifacts/test-results*/**/*junit*.xml
+            artifacts/junit-results/artifacts/**/*junit*.xml
+            artifacts/pester-junit-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: artifacts/evidence
