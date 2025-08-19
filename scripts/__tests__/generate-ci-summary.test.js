@@ -6,16 +6,19 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../generate-ci-summary.ts';
+import { collectTestCases, loadRequirements, mapToRequirements } from '../generate-ci-summary.ts';
+import { groupToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../summary/index.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
 const fileUrl = new URL('../generate-ci-summary.ts', import.meta.url);
+const summaryUrl = new URL('../summary/index.ts', import.meta.url);
 
 test('generate-ci-summary features', async () => {
   const content = await fs.readFile(fileUrl, 'utf8');
+  const summaryContent = await fs.readFile(summaryUrl, 'utf8');
   assert.match(content, /TEST_RESULTS_GLOBS/);
   assert.match(content, /<redacted>/);
-  assert.match(content, /<details><summary>/);
+  assert.match(summaryContent, /<details><summary>/);
   assert.match(content, /\*\*\/\*junit\*\.xml/);
 });
 
