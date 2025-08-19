@@ -5,7 +5,7 @@
 - Ensure Node.js 24 or newer is installed (e.g. via the NodeSource setup script).
   - Verify with `node --version`.
 - Install `actionlint` and ensure it is on your `PATH`:
-  - `go install github.com/rhysd/actionlint/cmd/actionlint@latest`
+  - `go install github.com/rhysd/actionlint/cmd/actionlint@v1.6.26`
   - Verify with `actionlint -version`.
 - Ensure PowerShell 7.5.1 is installed and accessible.
   - Verify with `pwsh --version`.
