@@ -20,9 +20,8 @@
     "generate:summary": "tsx scripts/generate-ci-summary.ts",
     "generate:traceability-matrix": "tsx scripts/generate-traceability-matrix.ts",
     "check:traceability": "tsx scripts/check-traceability.ts",
-    "postinstall": "patch-package",
     "lint:md": "markdownlint-cli2 README.md \"docs/**/*.md\" \"scripts/**/*.md\"",
-    "link:check": "markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')"
+    "link:check": "linkinator README.md docs scripts --markdown --skip \"https://open-source-actions.github.io/open-source-actions/\" --skip \"http://127\\.0\\.0\\.1:8000/\" --skip \"https://github.com/ni/g-cli\" --skip \"^docs$\" --skip \"^scripts$\""
   },
   "dependencies": {
     "adm-zip": "^0.5.10",
@@ -33,9 +32,8 @@
   "devDependencies": {
     "@types/node": "^24.3.0",
     "@types/xml2js": "^0.4.14",
-    "markdown-link-check": "3.13.7",
+    "linkinator": "^6.1.4",
     "markdownlint-cli2": "^0.12.1",
-    "patch-package": "^8.0.0",
     "tsx": "^4.20.4",
     "typescript": "^5.4.0"
   }

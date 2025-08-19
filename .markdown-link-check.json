@@ -1,7 +1,0 @@
-{
-  "ignorePatterns": [
-    { "pattern": "^https://open-source-actions.github.io/open-source-actions/" },
-    { "pattern": "^http://127\\.0\\.0\\.1:8000/" },
-    { "pattern": "^https://github.com/ni/g-cli" }
-  ]
-}

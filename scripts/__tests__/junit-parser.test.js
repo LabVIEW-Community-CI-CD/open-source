@@ -20,6 +20,7 @@ const xml = `<?xml version="1.0" encoding="utf-8"?>
     </testcase>
   </testsuite>
 </testsuites>`;
+const xmlFlat = `<?xml version="1.0" encoding="utf-8"?><testsuites><testcase name="ok" time="0.1"/><testcase name="bad" time="0.2"><failure message="oops"/></testcase></testsuites>`;
 
 const xmlMissing = `<testsuites><testsuite><testcase /></testsuite></testsuites>`;
 
@@ -61,6 +62,12 @@ test('[REQ-028] extracts requirement identifiers', async () => {
   const report = await parseJUnit(xml);
   const ids = report.suites.flatMap((s) => s.testcases.flatMap((t) => t.requirements));
   assert.deepStrictEqual(ids, ['REQ-028', 'REQ-028']);
+});
+test('handles root-level testcases', async () => {
+  const report = await parseJUnit(xmlFlat);
+  assert.strictEqual(report.suites.length, 1);
+  assert.strictEqual(report.suites[0].testcases.length, 2);
+  assert.strictEqual(report.suites[0].testcases[1].status, 'Failed');
 });
 
 test('[REQ-029] aggregates status by requirement and suite', async () => {
