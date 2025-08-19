@@ -43,6 +43,10 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
     working_directory: '.'
 ```
 
+## Outputs
+
+Running the action writes a `requirement-coverage.json` file to the working directory. The file lists each requirement ID discovered from test tags and whether its associated tests passed (`PASS`), failed (`FAIL`), or were not executed (`NOT_RUN`).
+
 ## Return Codes
 
 - `0` – all tests passed

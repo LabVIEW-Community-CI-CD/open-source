@@ -46,4 +46,6 @@ jobs:
       - name: Run run-pester-tests
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -WorkingDirectory "${{ github.workspace }}/target"
+
+After the workflow completes, the target repository will contain a `requirement-coverage.json` file summarizing requirement pass/fail status from the test run.
 ```
