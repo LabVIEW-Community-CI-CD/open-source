@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 import path from 'path';
 import { glob } from 'glob';
-import { collectTestCases } from './generate-ci-summary.ts';
+import { collectTestCases } from './summary/tests.ts';
 
 async function main() {
   const junitFiles = await glob('downloaded/pester-junit-*/pester-junit.xml');
