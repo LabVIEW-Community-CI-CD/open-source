@@ -1,8 +1,8 @@
-# run-pester-tests workflow
+# missing-in-project workflow
 
 ## Purpose
 
-Dispatch the [run-pester-tests](../actions/run-pester-tests.md) action to a target repository through `Invoke-OSAction.ps1`.
+Dispatch the [missing-in-project](../actions/missing-in-project.md) action to a target repository through `Invoke-OSAction.ps1`.
 
 ## Inputs
 
@@ -20,7 +20,7 @@ Dispatch the [run-pester-tests](../actions/run-pester-tests.md) action to a targ
 ## Example
 
 ```yaml
-name: run-pester-tests
+name: missing-in-project
 on:
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ on:
         required: false
         default: 'main'
 jobs:
-  run-pester-tests:
+  missing-in-project:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
           ref: ${{ inputs.ref }}
           path: target
           token: ${{ secrets.REPO_TOKEN }}
-      - name: Run run-pester-tests
+      - name: Run missing-in-project
         shell: pwsh
-        run: ./actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -WorkingDirectory "${{ github.workspace }}/target"
+        run: ./actions/Invoke-OSAction.ps1 -ActionName missing-in-project -WorkingDirectory "${{ github.workspace }}/target"
 ```
