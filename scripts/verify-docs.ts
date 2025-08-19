@@ -11,7 +11,9 @@ interface DocEntry {
 async function parseDoc(md: string): Promise<Record<string, DocEntry>> {
   const lines = md.split(/\r?\n/);
   const start = lines.findIndex((l) => l.trim().startsWith('| Input |'));
-  if (start === -1) return {};
+  if (start === -1) {
+    throw new Error("missing 'Input' table");
+  }
   const headers = lines[start].split('|').slice(1, -1).map((h) => h.trim().toLowerCase());
   const colIndex: Record<string, number> = {};
   headers.forEach((h, i) => (colIndex[h] = i));
@@ -50,7 +52,15 @@ async function main() {
     }
     const actionYaml = yaml.load(await fs.readFile(file, 'utf8')) as any;
     const inputs = actionYaml.inputs ?? {};
-    const docTable = await parseDoc(await fs.readFile(docPath, 'utf8'));
+    let docTable: Record<string, DocEntry>;
+    try {
+      docTable = await parseDoc(await fs.readFile(docPath, 'utf8'));
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`${action}: ${msg}`);
+      errors = true;
+      continue;
+    }
     for (const [name, props] of Object.entries<any>(inputs)) {
       if (!(name in docTable)) {
         console.error(`${action}: input '${name}' missing from docs`);
