@@ -15,4 +15,4 @@ runs:
           ${{ runner.os }}-pip-mkdocs-
     - name: Install MkDocs
       shell: bash
-      run: pip install mkdocs==1.5.3
+      run: pip install mkdocs==1.5.3 mkdocs-material pymdown-extensions mkdocs-autorefs mkdocs-redirects

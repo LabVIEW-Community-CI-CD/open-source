@@ -9,6 +9,7 @@ export interface JUnitTestCase {
   skippedMessage?: string;
   requirements: string[];
   attributes: Record<string, string>;
+  properties: Record<string, string>;
 }
 
 export interface JUnitTestSuite {
@@ -67,9 +68,22 @@ export async function parseJUnit(xml: string): Promise<JUnitReport> {
       if (tc.failure || tc.error) status = 'Failed';
       else if (tc.skipped) status = 'Skipped';
       const skippedMessage = tc.skipped?.message ?? tc.skipped?._;
+      const props: Record<string, string> = {};
+      const propList = tc.properties?.property;
+      const propItems = Array.isArray(propList) ? propList : propList ? [propList] : [];
       const reqMatches = [...name.matchAll(/\[(REQ-\d+)\]/gi)].map((m) => m[1].toUpperCase());
-      const requirements = Array.from(new Set(reqMatches));
-      return { name, status, classname, assertions, time, skippedMessage, requirements, attributes: tcAttrs };
+      const reqSet = new Set<string>(reqMatches);
+      for (const p of propItems) {
+        if (p.name && (p.value || p._)) {
+          const val = p.value ?? p._ ?? '';
+          props[p.name] = val;
+          if (p.name.toLowerCase() === 'requirement') {
+            reqSet.add(val.toUpperCase());
+          }
+        }
+      }
+      const requirements = Array.from(reqSet);
+      return { name, status, classname, assertions, time, skippedMessage, requirements, attributes: tcAttrs, properties: props };
     });
     return { attributes: suiteAttrs, properties: props, testcases };
   });

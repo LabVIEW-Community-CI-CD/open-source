@@ -23,6 +23,7 @@ jobs:
       - run: npm run link:check
       - run: npm run test:ci
       - run: npm run derive:registry
+      - run: rm -rf artifacts
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: test-results/*junit*.xml
@@ -142,16 +143,17 @@ jobs:
           node-version: 24
       - run: npm run check:node
       - run: npm install
+      - run: rm -rf artifacts
       - uses: actions/download-artifact@v4
         with:
-          path: ./downloaded
+          path: ./artifacts
       - run: npm run derive:registry
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: |
-            downloaded/test-results/**/*junit*.xml
-            downloaded/pester-junit-*/pester-junit.xml
+            artifacts/test-results/**/*junit*.xml
+            artifacts/pester-junit-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
-          EVIDENCE_DIR: downloaded/evidence
+          EVIDENCE_DIR: artifacts/evidence
       - run: npx tsx scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"

@@ -6,6 +6,8 @@ The Open Source LabVIEW Actions project exposes multiple LabVIEW CI/CD steps thr
 
 `Invoke-OSAction.ps1` routes incoming requests to the appropriate adapter script. The dispatcher discovers available actions, forwards command-line arguments, and preserves exit codes.
 
+![Dispatcher to adapter to action flow](images/architecture.svg)
+
 ## Adapter scripts
 
 Each action lives in a `scripts/<action-name>` folder. These PowerShell scripts implement the build or test work and are invoked by the dispatcher with the JSON arguments supplied by the GitHub Action.

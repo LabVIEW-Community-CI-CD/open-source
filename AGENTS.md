@@ -31,6 +31,6 @@
 - Run `npm install` to ensure Node dependencies are available.
 - Run `npm test`.
 - Run `npm run lint:md` to lint Markdown files.
-- Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to verify links.
+- Run `npx --yes markdown-link-check -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to verify links and ensure failures are visible.
 - Run `actionlint` to validate GitHub Actions workflows.
 - Run `pwsh -NoLogo -Command "$cfg = New-PesterConfiguration; $cfg.Run.Path = './tests/pester'; $cfg.TestResult.Enabled = $false; Invoke-Pester -Configuration $cfg"` and ensure all tests pass (XML output is intentionally disabled).

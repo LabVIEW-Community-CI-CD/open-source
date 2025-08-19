@@ -6,17 +6,23 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { collectTestCases, loadRequirements, mapToRequirements, groupToMarkdown, buildSummary } from '../generate-ci-summary.ts';
+import { collectTestCases } from '../summary/tests.ts';
+import { loadRequirements, mapToRequirements } from '../summary/requirements.ts';
+import { groupToMarkdown, summaryToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../summary/index.ts';
 import { writeErrorSummary } from '../error-handler.ts';
 
 const fileUrl = new URL('../generate-ci-summary.ts', import.meta.url);
+const summaryUrl = new URL('../summary/index.ts', import.meta.url);
+const requirementsUrl = new URL('../summary/requirements.ts', import.meta.url);
 
 test('generate-ci-summary features', async () => {
   const content = await fs.readFile(fileUrl, 'utf8');
+  const summaryContent = await fs.readFile(summaryUrl, 'utf8');
+  const reqContent = await fs.readFile(requirementsUrl, 'utf8');
   assert.match(content, /TEST_RESULTS_GLOBS/);
-  assert.match(content, /<redacted>/);
-  assert.match(content, /<details><summary>/);
-  assert.match(content, /\*\*\/\*junit\*\.xml/);
+  assert.match(reqContent, /<redacted>/);
+  assert.match(summaryContent, /<details><summary>/);
+  assert.match(content, /artifacts\/\*\*\/\*junit\*\.xml/);
 });
 
 test('writeErrorSummary skips summary file for non-Error throws', async () => {
@@ -78,6 +84,32 @@ test('loadRequirements logs warning on invalid JSON', async () => {
   assert.match(warned, /Failed to load requirements mapping/);
 });
 
+test('loadRequirements warns and skips invalid entries', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'req-'));
+  const req = {
+    requirements: [
+      { id: 'REQ-1', tests: ['good'] },
+      { tests: ['missing id'] },
+      { id: 'REQ-3', tests: 'not-array' },
+    ],
+  };
+  const reqPath = path.join(dir, 'req.json');
+  await fs.writeFile(reqPath, JSON.stringify(req));
+  let warned = '';
+  const origWarn = console.warn;
+  console.warn = (msg) => {
+    warned += String(msg);
+  };
+  const { map, meta } = await loadRequirements(reqPath);
+  console.warn = origWarn;
+  await fs.rm(dir, { recursive: true, force: true });
+  assert.match(warned, /Invalid requirement entry/);
+  assert.strictEqual('good' in map, true);
+  assert.strictEqual('missing id' in map, false);
+  assert.strictEqual('not-array' in map, false);
+  assert.deepEqual(Object.keys(meta), ['REQ-1']);
+});
+
 test('collectTestCases uses machine-name property for owner', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'owner-'));
   const xmlProp = `<testsuite><testcase name="foo" time="0"><properties><property name="machine-name" value="ci-bot"/></properties></testcase></testsuite>`;
@@ -113,6 +145,16 @@ test('collectTestCases uses evidence property and falls back to directory scan',
   await fs.rm(dir, { recursive: true, force: true });
 });
 
+test('collectTestCases captures requirement property', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'reqprop-'));
+  const xml = `<testsuite><testcase name="gamma" time="0"><properties><property name="requirement" value="REQ-123"/></properties></testcase></testsuite>`;
+  const xmlPath = path.join(dir, 'junit.xml');
+  await fs.writeFile(xmlPath, xml);
+  const tests = await collectTestCases([xmlPath], dir, 'linux');
+  assert.deepStrictEqual(tests[0].requirements, ['REQ-123']);
+  await fs.rm(dir, { recursive: true, force: true });
+});
+
 test('groupToMarkdown omits numeric identifiers', () => {
   const groups = [{
     id: 'REQ-XYZ',
@@ -126,6 +168,67 @@ test('groupToMarkdown omits numeric identifiers', () => {
   assert.match(md, /\| Requirement \| Test ID \| Status \| Duration \(s\) \| Owner \| Evidence \|/);
   assert.match(md, /\| REQ-XYZ \| alpha \| Passed \|/);
   assert.match(md, /\| REQ-XYZ \| beta \| Failed \|/);
+});
+
+test('groupToMarkdown supports optional limit for truncation', () => {
+  const groups = [{
+    id: 'REQ-XYZ',
+    tests: [
+      { id: 'a', name: 'alpha', status: 'Passed', duration: 0, requirements: [] },
+      { id: 'b', name: 'beta', status: 'Failed', duration: 0, requirements: [] },
+      { id: 'c', name: 'gamma', status: 'Skipped', duration: 0, requirements: [] },
+    ],
+  }];
+  const truncated = groupToMarkdown(groups, 2);
+  assert.match(truncated, /Truncated/);
+  assert.strictEqual(truncated.includes('gamma'), false);
+
+  const full = groupToMarkdown(groups);
+  assert.doesNotMatch(full, /Truncated/);
+  assert.ok(full.includes('gamma'));
+});
+
+test('requirementsSummaryToMarkdown escapes pipes in description', () => {
+  const groups = [
+    { id: 'REQ-1', description: 'Alpha | Beta', tests: [] },
+  ];
+  const md = requirementsSummaryToMarkdown(groups);
+  assert.ok(md.includes('| Requirement ID | Description | Owner | Total Tests | Passed | Failed | Skipped | Pass Rate (%) |'));
+  assert.ok(md.includes('| REQ-1 | Alpha \\| Beta |  | 0 | 0 | 0 | 0 | 0.00 |'));
+});
+
+test('computeStatusCounts tallies test statuses', () => {
+  const tests = [
+    { id: '1', name: 'a', status: 'Passed', duration: 0, requirements: [] },
+    { id: '2', name: 'b', status: 'Failed', duration: 0, requirements: [] },
+    { id: '3', name: 'c', status: 'Skipped', duration: 0, requirements: [] },
+    { id: '4', name: 'd', status: 'Passed', duration: 0, requirements: [] },
+  ];
+  const counts = computeStatusCounts(tests);
+  assert.deepEqual(counts, { total: 4, passed: 2, failed: 1, skipped: 1 });
+});
+
+test('summaryToMarkdown sorts OS alphabetically and escapes special characters', () => {
+  const totals = {
+    overall: { passed: 2, failed: 0, skipped: 0, duration: 3, rate: 100 },
+    byOs: {
+      'win|dos': { passed: 1, failed: 0, skipped: 0, duration: 1, rate: 100 },
+      linux: { passed: 1, failed: 0, skipped: 0, duration: 2, rate: 100 },
+    },
+  };
+  const md = summaryToMarkdown(totals);
+  assert.match(md, /\| OS \| Passed \| Failed \| Skipped \| Duration \(s\) \| Pass Rate \(%\) \|/);
+  assert.ok(md.includes('| win\\|dos | 1 | 0 | 0 | 1.00 | 100.00 |'));
+  const linuxIdx = md.indexOf('| linux |');
+  const winIdx = md.indexOf('| win\\|dos |');
+  assert.ok(linuxIdx > -1 && winIdx > linuxIdx);
+});
+
+test('summaryToMarkdown handles no tests', () => {
+  const totals = { overall: { passed: 0, failed: 0, skipped: 0, duration: 0, rate: 0 }, byOs: {} };
+  const md = summaryToMarkdown(totals);
+  assert.ok(md.includes('| overall | 0 | 0 | 0 | 0.00 | 0.00 |'));
+  assert.strictEqual(md.includes('| linux |'), false);
 });
 
 test('buildSummary splits totals by OS', () => {
@@ -175,6 +278,58 @@ test('writes outputs to OS-specific directory', async () => {
 
   await fs.rm(tmp, { recursive: true, force: true });
   await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('skips invalid JUnit files and still generates summary', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'badjunit-'));
+  const goodXml = '<testsuite><testcase name="good" time="0"/></testsuite>';
+  const badXml = '<testsuite><testcase name="bad"></testsuite>';
+  const goodPath = path.join(dir, 'good.xml');
+  const badPath = path.join(dir, 'bad.xml');
+  await fs.writeFile(goodPath, goodXml);
+  await fs.writeFile(badPath, badXml);
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: `${goodPath} ${badPath}`,
+    EVIDENCE_DIR: dir,
+    RUNNER_OS: 'Linux',
+  };
+
+  const { stderr } = await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const outDir = path.join('artifacts', 'linux');
+  const summary = await fs.readFile(path.join(outDir, 'summary.md'), 'utf8');
+  assert.match(summary, /\| linux \| 1 \| 0 \| 0 \|/);
+  const trace = await fs.readFile(path.join(outDir, 'traceability.md'), 'utf8');
+  assert.match(trace, /good/);
+  assert.strictEqual(trace.includes('bad'), false);
+  assert.match(stderr, /Failed to parse JUnit file/);
+
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('ignores stale JUnit files outside artifacts path', async () => {
+  await fs.rm('artifacts', { recursive: true, force: true });
+  const freshDir = path.join('artifacts', 'current');
+  await fs.mkdir(freshDir, { recursive: true });
+  const freshXml = '<testsuite><testcase name="fresh" time="0"/></testsuite>';
+  await fs.writeFile(path.join(freshDir, 'junit.xml'), freshXml);
+  const stalePath = path.join('stale-junit.xml');
+  await fs.writeFile(stalePath, '<testsuite><testcase name="stale" time="0"/></testsuite>');
+
+  const env = { ...process.env, RUNNER_OS: 'Linux' };
+  await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const trace = await fs.readFile(path.join('artifacts', 'linux', 'traceability.md'), 'utf8');
+  assert.match(trace, /fresh/);
+  assert.strictEqual(trace.includes('stale'), false);
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+  await fs.rm(stalePath, { force: true });
 });
 
 test('partitions requirement groups by runner_type', async () => {
