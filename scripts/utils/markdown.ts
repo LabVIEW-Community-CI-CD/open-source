@@ -1,5 +1,5 @@
 export function escapeMarkdown(text: string): string {
-  return text.replace(/\|/g, '\\|');
+  return text.replace(/[|`*_\[\]]/g, '\\$&');
 }
 
 export function buildTable(header: string[], rows: string[][]): string {
