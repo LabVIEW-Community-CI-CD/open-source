@@ -5,7 +5,7 @@
 .PARAMETER LVVersion
     LabVIEW version (e.g. "2021").
 
-.PARAMETER Arch
+.PARAMETER SupportedBitness
     Bitness ("32" or "64").
 
 .PARAMETER ProjectFile
@@ -19,7 +19,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$LVVersion,
-    [Parameter(Mandatory)][ValidateSet('32','64')][string]$Arch,
+    [Parameter(Mandatory)][ValidateSet('32','64')][string]$SupportedBitness,
     [Parameter(Mandatory)][string]$ProjectFile
 )
 $ErrorActionPreference = 'Stop'
@@ -46,13 +46,13 @@ if (-not (Test-Path $ProjectFile)) {
 
 Write-Host "ℹ️  VI path      : $viPath"
 Write-Host "ℹ️  Project file : $ProjectFile"
-Write-Host "ℹ️  LabVIEW ver  : $LVVersion  ($Arch-bit)"
+Write-Host "ℹ️  LabVIEW ver  : $LVVersion  ($SupportedBitness-bit)"
 Write-Host "--------------------------------------------------"
 
 # ---------- build argument list & invoke ----------
 $gcliArgs = @(
     '--lv-ver', $LVVersion,
-    '--arch',   $Arch,
+    '--arch',   $SupportedBitness,
     $viPath,
     '--',
     $ProjectFile
@@ -71,7 +71,7 @@ if ($exitCode -eq 0) {
 }
 
 # close LabVIEW if still running (harmless if not)
-& g-cli --lv-ver $LVVersion --arch $Arch QuitLabVIEW | Out-Null
+& g-cli --lv-ver $LVVersion --arch $SupportedBitness QuitLabVIEW | Out-Null
 
 $global:LASTEXITCODE = $exitCode
 return

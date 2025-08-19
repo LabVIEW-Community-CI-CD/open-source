@@ -15,6 +15,9 @@ function Invoke-OpenSourceActionScript {
     foreach ($seg in $segments) {
         $scriptPath = [System.IO.Path]::Combine($scriptPath, $seg)
     }
+    if ($Arguments.ContainsKey('RelativePath')) {
+        $Arguments['RelativePath'] = [System.IO.Path]::TrimEndingDirectorySeparator($Arguments['RelativePath'])
+    }
     if ($DryRun) {
         Write-Information "DryRun: & $scriptPath $($Arguments | ConvertTo-Json -Compress)"
         return 0
@@ -36,7 +39,7 @@ function Invoke-OpenSourceActionScript {
 # Adds an authentication token to a LabVIEW installation.
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # DryRun: If set, prints the command instead of executing it.
 # gcliPath: Optional path prepended to PATH for locating the g CLI.
 function Invoke-AddTokenToLabVIEW {
@@ -61,7 +64,7 @@ function Invoke-AddTokenToLabVIEW {
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports.
 # VIP_LVVersion: LabVIEW version used to build the VIPC.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # VIPCPath: Optional path to the VIPC file.
 # DryRun: If set, prints the command instead of executing it.
 # gcliPath: Optional path prepended to PATH for locating the g CLI.
@@ -91,7 +94,7 @@ function Invoke-ApplyVIPC {
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the package supports.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
 # LabVIEWMinorRevision: Minor revision of LabVIEW used to build the package.
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # VIPBPath: Path to the VIPB build specification file.
 # Major: Major version component.
 # Minor: Minor version component.
@@ -139,7 +142,7 @@ function Invoke-BuildViPackage {
 }
 
 # Builds the project and records version information.
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # Major: Major version component.
 # Minor: Minor version component.
 # Patch: Patch version component.
@@ -183,7 +186,7 @@ function Invoke-Build {
 # Builds a LabVIEW Packed Library using a project and build spec.
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the library supports.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # LabVIEW_Project: Path to the LabVIEW project file.
 # Build_Spec: Name of the build specification within the project.
 # Major: Major version component.
@@ -264,7 +267,7 @@ function Invoke-GenerateReleaseNotes {
 
 # Lists files referenced in a LabVIEW project that are missing on disk.
 # LVVersion: LabVIEW version of the project.
-# Arch: Target architecture or bitness.
+# SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
 # ProjectFile: Path to the .lvproj file to analyze.
 # DryRun: If set, prints the command instead of executing it.
 # gcliPath: Optional path prepended to PATH for locating the g CLI.
@@ -272,23 +275,23 @@ function Invoke-MissingInProject {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)] [string] $LVVersion,
-        [Parameter(Mandatory)] [string] $Arch,
+        [Parameter(Mandatory)] [string] $SupportedBitness,
         [Parameter(Mandatory)] [string] $ProjectFile,
         [Parameter()] [switch] $DryRun,
         [Parameter()] [string] $gcliPath
     )
     Write-Information "Executing MissingInProject (DryRun=$DryRun)"
     $args = @{
-        LVVersion   = $LVVersion
-        Arch        = $Arch
-        ProjectFile = $ProjectFile
+        LVVersion        = $LVVersion
+        SupportedBitness = $SupportedBitness
+        ProjectFile      = $ProjectFile
     }
     return Invoke-OpenSourceActionScript -ScriptSegments @('missing-in-project','Invoke-MissingInProjectCLI.ps1') -Arguments $args -DryRun:$DryRun -gcliPath $gcliPath
 }
 
 # Updates display information fields in a VIPB build specification.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # VIPBPath: Path to the VIPB build specification file.
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the package supports.
 # LabVIEWMinorRevision: Minor revision of LabVIEW used for the build.
@@ -340,7 +343,7 @@ function Invoke-ModifyVIPBDisplayInfo {
 # Prepares a LabVIEW project for source distribution.
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # LabVIEW_Project: Path to the LabVIEW project file.
 # Build_Spec: Name of the build specification within the project.
 # DryRun: If set, prints the command instead of executing it.
@@ -391,7 +394,7 @@ function Invoke-RenameFile {
 # Restores the Setup LabVIEW source build specification.
 # MinimumSupportedLVVersion: Minimum LabVIEW version that the project supports.
 # SupportedBitness: Target LabVIEW bitness (32- or 64-bit).
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # LabVIEW_Project: Path to the LabVIEW project file.
 # Build_Spec: Name of the build specification within the project.
 # DryRun: If set, prints the command instead of executing it.
@@ -419,7 +422,7 @@ function Invoke-RestoreSetupLVSource {
 }
 
 # Returns a repository to its previous development mode state.
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # DryRun: If set, prints the command instead of executing it.
 # gcliPath: Optional path prepended to PATH for locating the g CLI.
 function Invoke-RevertDevelopmentMode {
@@ -472,7 +475,7 @@ function Invoke-RunUnitTests {
 }
 
 # Configures the repository for development mode.
-# RelativePath: Path to the project root relative to the working directory.
+# RelativePath: Normalized path to the project root relative to the working directory.
 # DryRun: If set, prints the command instead of executing it.
 # gcliPath: Optional path prepended to PATH for locating the g CLI.
 function Invoke-SetDevelopmentMode {

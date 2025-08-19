@@ -25,7 +25,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
     $params = Get-LabVIEWIconEditorArgsJson
     $json = $params.ArgsJson
     $projectRoot = $params.WorkingDirectory
-    $out = pwsh -NoProfile -File $global:dispatcher -ListActions -ArgsJson $json -WorkingDirectory $projectRoot | Out-String
+    $out = & $global:dispatcher -ListActions -ArgsJson $json -WorkingDirectory $projectRoot | Out-String
     $out | Should -Match 'apply-vipc'
     $out | Should -Match 'build-lvlibp'
     $out | Should -Match 'missing-in-project'
@@ -34,9 +34,9 @@ Describe 'Unified Dispatcher — discovery and validation' {
   It 'registry includes all Invoke* adapters in module' -Tag 'REQ-001' {
     $modulePath = Join-Path (Split-Path $global:dispatcher -Parent) 'OpenSourceActions.psm1'
     $module = Import-Module $modulePath -PassThru
-    $fnNames = (Get-Command -Module $module | Where-Object Name -like 'Invoke*').Name
+    $fnNames = (Get-Command -Module $module | Where-Object { $_.Name -like 'Invoke*' -and $_.Name -ne 'Invoke-OpenSourceActionScript' }).Name
     function Convert-Name([string]$fn) {
-      $name = $fn -replace '^Invoke'
+      $name = $fn -replace '^Invoke-?'
       $name = $name -creplace '([a-z0-9])([A-Z])', '$1-$2'
       $name = $name -creplace '([A-Z])([A-Z][a-z])', '$1-$2'
       $name = $name -ireplace 'Lab-VIEW', 'LabVIEW'
@@ -44,7 +44,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
     }
     $expected = $fnNames | ForEach-Object { Convert-Name $_ }
     $wd = (Get-LabVIEWIconEditorArgsJson).WorkingDirectory
-    $listed = pwsh -NoProfile -File $global:dispatcher -ListActions -WorkingDirectory $wd | Out-String
+    $listed = & $global:dispatcher -ListActions -WorkingDirectory $wd | Out-String
     foreach ($action in $expected) {
       $listed | Should -Match " - $action"
     }
@@ -53,7 +53,7 @@ Describe 'Unified Dispatcher — discovery and validation' {
     $params = Get-LabVIEWIconEditorArgsJson
     $json = $params.ArgsJson
     $projectRoot = $params.WorkingDirectory
-    $out = pwsh -NoProfile -File $global:dispatcher -Describe build-lvlibp -ArgsJson $json -WorkingDirectory $projectRoot | Out-String
+    $out = & $global:dispatcher -Describe build-lvlibp -ArgsJson $json -WorkingDirectory $projectRoot | Out-String
     $out | Should -Match 'Major'
     $out | Should -Match 'Minor'
     $out | Should -Match 'Patch'
@@ -103,8 +103,12 @@ Describe 'Filter-Args helper' {
 
     function Dummy { param([string]$Known) }
     $args = @{ Known = 'value'; Extra = 'x' }
-    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams
+    $warnings = @()
+    # Capture and suppress warnings to keep test output clean while verifying no warnings are emitted
+    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams -WarningVariable warnings -WarningAction SilentlyContinue
+    $warnings | Should -BeNullOrEmpty
     $result.PSObject.Properties.Name | Should -Contain 'UnknownParams'
+    $result.UnknownParams | Should -Match 'Extra'
   }
 }
 

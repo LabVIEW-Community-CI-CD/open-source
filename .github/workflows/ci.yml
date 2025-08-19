@@ -25,19 +25,19 @@ jobs:
       - run: npm run derive:registry
       - run: npm run generate:summary
         env:
-          TEST_RESULTS_GLOB: test-results/*junit*.xml
+          TEST_RESULTS_GLOBS: test-results/*junit*.xml
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: traceability
           path: ${{ env.ARTIFACT_DIR }}/traceability.*
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: action-docs
           path: ${{ env.ARTIFACT_DIR }}/action-docs.*
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: evidence
           path: ${{ env.ARTIFACT_DIR }}/evidence/**
@@ -49,31 +49,37 @@ jobs:
         include:
           - os: ubuntu-24.04
             runs-on: ubuntu-24.04
-            runner_type: default
-          - os: windows-latest
-            runs-on: windows-latest
+            runner_type: linux
+          - os: self-hosted-windows-lv
+            runs-on: self-hosted-windows-lv
             runner_type: integration
+          - os: self-hosted-windows-lv
+            runs-on: self-hosted-windows-lv
+            runner_type: default
     runs-on: ${{ matrix.runs-on }}
     env:
       RUNNER_TYPE: ${{ matrix.runner_type }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install PowerShell 7.5.1
-        if: matrix.os == 'windows-latest'
+      - name: Ensure PowerShell 7.5.1
+        if: matrix.runner_type != 'linux'
         shell: pwsh
         run: |
-          $msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'
-          $msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'
-          Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
-          $expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'
-          $actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash
-          if ($actualHash -ne $expectedHash) {
-            throw "SHA256 mismatch: $actualHash"
+          $required = [Version]'7.5.1'
+          if ($PSVersionTable.PSVersion -lt $required) {
+            $msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'
+            $msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'
+            Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
+            $expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'
+            $actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash
+            if ($actualHash -ne $expectedHash) {
+              throw "SHA256 mismatch: $actualHash"
+            }
+            Start-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'
           }
-          Start-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'
           $version = (pwsh --version).Trim() -replace '^PowerShell '
-          if ($version -ne '7.5.1') {
-            throw "PowerShell version $version is not 7.5.1"
+          if ([Version]$version -lt $required) {
+            throw "PowerShell version $version is less than $required"
           }
       - name: Capture setup info
         shell: pwsh
@@ -86,7 +92,7 @@ jobs:
             'RUNNER_OS'             = $env:RUNNER_OS
             'RUNNER_ARCH'           = $env:RUNNER_ARCH
           }
-          $file = "setup-info-${{ matrix.os }}.md"
+          $file = "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md"
           "was captured from the set up job." | Out-File -FilePath $file -Encoding utf8
           foreach ($k in $data.Keys) {
             if ($data[$k]) {
@@ -94,10 +100,10 @@ jobs:
             }
           }
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: setup-info-${{ matrix.os }}
-          path: setup-info-${{ matrix.os }}.md
+          name: setup-info-${{ matrix.os }}-${{ matrix.runner_type }}
+          path: setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md
       - name: Install Pester
         shell: pwsh
         run: |
@@ -112,21 +118,23 @@ jobs:
           if (Test-Path "tests/pester") {
             $cfg = New-PesterConfiguration
             $cfg.Run.Path = './tests/pester'
-            $cfg.TestResult.Enabled = $false
+            $cfg.TestResult.Enabled = $true
+            $cfg.TestResult.OutputFormat = 'JUnitXml'
+            $cfg.TestResult.OutputPath = 'pester-results/pester-junit.xml'
             $cfg.Run.Exit = $true
             Invoke-Pester -Configuration $cfg
           }
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: pester-junit-${{ matrix.os }}
+          name: pester-junit-${{ matrix.os }}-${{ matrix.runner_type }}
           path: pester-results/pester-junit.xml
           if-no-files-found: error
 
   report:
     needs: [node-ci, ps-ci]
     runs-on: ubuntu-24.04
-    if: always()
+    if: ${{ (success() || failure()) && !cancelled() }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -145,5 +153,5 @@ jobs:
             downloaded/pester-junit-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
-          EVIDENCE_DIR: test-screenshots
+          EVIDENCE_DIR: downloaded/evidence
       - run: npx tsx scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"

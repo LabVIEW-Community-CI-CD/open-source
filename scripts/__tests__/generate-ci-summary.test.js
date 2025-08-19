@@ -155,7 +155,7 @@ test('writes outputs to OS-specific directory', async () => {
 
   const env = {
     ...process.env,
-    TEST_RESULTS_GLOB: junitPath,
+    TEST_RESULTS_GLOBS: junitPath,
     EVIDENCE_DIR: tmp,
     RUNNER_OS: 'Windows',
   };
@@ -196,7 +196,7 @@ test('partitions requirement groups by runner_type', async () => {
 
   const env = {
     ...process.env,
-    TEST_RESULTS_GLOB: junitPath,
+    TEST_RESULTS_GLOBS: junitPath,
     EVIDENCE_DIR: dir,
     REQ_MAPPING_FILE: reqPath,
     RUNNER_OS: 'Linux',

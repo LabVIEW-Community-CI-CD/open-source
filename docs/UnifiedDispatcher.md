@@ -34,6 +34,17 @@ Arguments can also be read from a JSON file:
 pwsh ./actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json -LogLevel INFO
 ```
 
+### Argument precedence
+
+When multiple argument sources are supplied, values are merged in the following order:
+
+1. `ArgsFile`
+2. `ArgsJson`
+3. `ArgsHashtable`
+4. dispatcher switches (for example, `-DryRun`)
+
+Later entries override earlier ones. Unknown parameters from any source are ignored; by default they emit warnings, which can be suppressed by requesting the message with `-ReturnUnknownParams` or by using `-NoWarn`.
+
 ## Wrapper action usage
 
 ```yaml
