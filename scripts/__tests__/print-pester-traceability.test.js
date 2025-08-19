@@ -23,26 +23,26 @@ test('groups owners and includes requirements and evidence', async () => {
   // owners grouped correctly
   const aliceSection = stdout.match(/<details><summary>alice<\/summary>[\s\S]*?<\/details>/)[0];
   const bobSection = stdout.match(/<details><summary>bob<\/summary>[\s\S]*?<\/details>/)[0];
-  assert(aliceSection.includes('Alpha') && aliceSection.includes('Gamma'));
-  assert(!aliceSection.includes('Beta'));
-  assert(bobSection.includes('Beta'));
-  assert(!bobSection.includes('Alpha') && !bobSection.includes('Gamma'));
+  assert(aliceSection.includes('alpha') && aliceSection.includes('gamma'));
+  assert(!aliceSection.includes('beta'));
+  assert(bobSection.includes('beta'));
+  assert(!bobSection.includes('alpha') && !bobSection.includes('gamma'));
 
   // header and rows
   assert(aliceSection.includes('| Requirement | Test ID | Status | Duration (s) | Owner | Evidence |'));
   assert(
     aliceSection.includes(
-      '| REQ-123 | \\[Owner:alice\\] Alpha | Passed | 0.000 | alice | \\[link\\](http://example.com/alpha.log) |'
+      '| REQ-123 | alpha | Passed | 0.000 | alice | \\[link\\](http://example.com/alpha.log) |'
     )
   );
   assert(
     aliceSection.includes(
-      '| REQ-789 | \\[Owner:alice\\] Gamma | Passed | 0.000 | alice | \\[link\\](http://example.com/gamma.log) |'
+      '| REQ-789 | gamma | Passed | 0.000 | alice | \\[link\\](http://example.com/gamma.log) |'
     )
   );
   assert(
     bobSection.includes(
-      '| REQ-456 | \\[Owner:bob\\] Beta | Passed | 0.000 | bob | \\[link\\](http://example.com/beta.log) |'
+      '| REQ-456 | beta | Passed | 0.000 | bob | \\[link\\](http://example.com/beta.log) |'
     )
   );
 });
