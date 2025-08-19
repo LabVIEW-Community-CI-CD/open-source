@@ -23,6 +23,7 @@
     "link:check": "markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')"
   },
   "dependencies": {
+    "adm-zip": "^0.5.10",
     "glob": "^10.3.10",
     "js-yaml": "^4.1.0",
     "xml2js": "^0.6.2"

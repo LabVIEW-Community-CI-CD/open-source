@@ -2,8 +2,10 @@
 import fs from 'fs/promises';
 import { constants as fsConstants } from 'fs';
 import path from 'path';
+import os from 'os';
 import { pathToFileURL } from 'url';
 import { glob } from 'glob';
+import AdmZip from 'adm-zip';
 import { writeErrorSummary } from './error-handler.ts';
 import {
   buildSummary,
@@ -38,16 +40,45 @@ async function main() {
     const single = process.env.TEST_RESULTS_GLOB || 'artifacts/**/*junit*.xml';
     junitFiles = await glob(single, { nodir: true });
   }
+
+  let extractedDir: string | null = null;
+  const expanded: string[] = [];
+  for (const f of junitFiles) {
+    if (f.toLowerCase().endsWith('.zip')) {
+      if (!extractedDir) {
+        extractedDir = await fs.mkdtemp(path.join(os.tmpdir(), 'junit-'));
+      }
+      try {
+        const zip = new AdmZip(f);
+        for (const entry of zip.getEntries()) {
+          if (!entry.isDirectory && entry.entryName.toLowerCase().endsWith('.xml')) {
+            const dest = path.join(extractedDir, path.basename(entry.entryName));
+            await fs.writeFile(dest, entry.getData());
+            expanded.push(dest);
+          }
+        }
+      } catch (err) {
+        console.warn(`Failed to extract JUnit archive ${f}:`, err);
+      }
+    } else {
+      expanded.push(f);
+    }
+  }
+  junitFiles = expanded;
   const requireResults = !!process.env.REQUIRE_TEST_RESULTS;
   let tests: TestCase[] = [];
-  if (junitFiles.length === 0) {
-    const msg = 'No JUnit files found';
-    if (requireResults) {
-      throw new Error(msg);
+  try {
+    if (junitFiles.length === 0) {
+      const msg = 'No JUnit files found';
+      if (requireResults) {
+        throw new Error(msg);
+      }
+      console.warn(`${msg}; writing empty summary.`);
+    } else {
+      tests = await collectTestCases(junitFiles, evidenceDir, osType);
     }
-    console.warn(`${msg}; writing empty summary.`);
-  } else {
-    tests = await collectTestCases(junitFiles, evidenceDir, osType);
+  } finally {
+    if (extractedDir) await fs.rm(extractedDir, { recursive: true, force: true });
   }
   const { map, meta } = await loadRequirements(mappingFile);
   const groups = mapToRequirements(tests, map, meta);

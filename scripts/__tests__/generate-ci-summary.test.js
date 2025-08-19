@@ -6,6 +6,7 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import AdmZip from 'adm-zip';
 import { collectTestCases } from '../summary/tests.ts';
 import { loadRequirements, mapToRequirements } from '../summary/requirements.ts';
 import { groupToMarkdown, summaryToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../summary/index.ts';
@@ -380,4 +381,35 @@ test('partitions requirement groups by runner_type', async () => {
 
   await fs.rm(dir, { recursive: true, force: true });
   await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('handles zipped JUnit artifacts', async () => {
+  const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'zip-'));
+  const zip = new AdmZip();
+  const xml = '<testsuite><testcase classname="Dispatcher.Tests" name="zip" time="0"/></testsuite>';
+  zip.addFile('junit.xml', Buffer.from(xml));
+  const zipPath = path.join(tmp, 'junit.zip');
+  zip.writeZip(zipPath);
+  await fs.mkdir(path.join(tmp, 'evidence'));
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const reqPath = fileURLToPath(new URL('../../requirements.json', import.meta.url));
+  const dispPath = fileURLToPath(new URL('../../dispatchers.json', import.meta.url));
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: zipPath,
+    EVIDENCE_DIR: path.join(tmp, 'evidence'),
+    REQ_MAPPING_FILE: reqPath,
+    DISPATCHER_REGISTRY: dispPath,
+    RUNNER_OS: 'Linux',
+  };
+
+  await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const summary = await fs.readFile(path.join('artifacts', 'linux', 'requirements-summary.md'), 'utf8');
+  assert.match(summary, /REQ-001/);
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+  await fs.rm(tmp, { recursive: true, force: true });
 });
