@@ -1,6 +1,9 @@
 # Full Build 🛠️
 
 Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
+Each build records provenance by renaming output artifacts to include the
+build number and commit SHA and by writing an `artifact-manifest.json` file that
+maps the generated artifacts back to the source commit.
 
 ## Inputs
 
@@ -25,7 +28,7 @@ Runs **`Build.ps1`** to clean, compile, and package the LabVIEW Icon Editor.
     major: 1
     minor: 0
     patch: 0
-    build: 1
+    build: ${{ github.run_number }}
     commit: ${{ github.sha }}
     company_name: Example Co
     author_name: CI
