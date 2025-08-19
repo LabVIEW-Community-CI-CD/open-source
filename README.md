@@ -11,6 +11,8 @@ For setup and action reference, see the [documentation](docs/index.md). The [qui
 - NI LabVIEW with command-line interface support (g-cli) for LabVIEW-based actions
 - Supported platforms: Windows for LabVIEW tasks; PowerShell-only scripts also run on macOS and Linux
 
+See [Environment Setup](docs/environment-setup.md) for installation steps and commands to verify each dependency.
+
 ## GitHub Action usage
 
 ```yaml
