@@ -11,7 +11,7 @@ For documentation updates, follow the [documentation contribution guidelines](do
 
 ```bash
 npm run lint:md
-npx --yes linkinator README.md docs scripts --markdown --skip "https://open-source-actions.github.io/open-source-actions/" --skip "http://127.0.0.1:8000/" --skip "https://github.com/ni/g-cli" --skip "^docs$" --skip "^scripts$"
+npx --yes linkinator README.md docs scripts --config linkinator.config.json
 ```
 
 ## Requirement Traceability

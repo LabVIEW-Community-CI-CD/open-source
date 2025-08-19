@@ -13,7 +13,7 @@ See [Common Parameters](common-parameters.md) for a complete list of dispatcher 
 
 ## Cross‑platform
 
-Works on **Windows and Linux** as long as LabVIEW and [g-cli](https://github.com/ni/g-cli) are installed and available on `PATH`. For non‑standard installs, pass `gcliPath` in `args_json`.
+Works on **Windows and Linux** as long as LabVIEW and [g-cli](https://github.com/G-CLI/G-CLI) are installed and available on `PATH`. For non‑standard installs, pass `gcliPath` in `args_json`.
 
 ## Example (CLI)
 
