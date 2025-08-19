@@ -30,6 +30,11 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
+          name: test-results
+          path: test-results
+      - uses: actions/upload-artifact@v4
+        if: ${{ (success() || failure()) && !cancelled() }}
+        with:
           name: traceability
           path: ${{ env.ARTIFACT_DIR }}/traceability.*
       - uses: actions/upload-artifact@v4
@@ -105,8 +110,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: pester-junit-${{ matrix.os }}-${{ matrix.runner_type }}
-          path: pester-results/pester-junit.xml
+          name: test-results-pester-${{ matrix.os }}-${{ matrix.runner_type }}
+          path: pester-results
           if-no-files-found: error
 
   report:
@@ -128,8 +133,7 @@ jobs:
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: |
-            artifacts/test-results/**/*junit*.xml
-            artifacts/pester-junit-*/pester-junit.xml
+            artifacts/test-results*/**/*junit*.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: artifacts/evidence
