@@ -133,4 +133,11 @@ jobs:
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: artifacts/evidence
+      - run: npx tsx scripts/generate-traceability-matrix.ts
+      - run: cat artifacts/linux/traceability-matrix.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: ${{ (success() || failure()) && !cancelled() }}
+        with:
+          name: traceability-matrix
+          path: artifacts/linux/traceability-matrix.md
       - run: npx tsx scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"

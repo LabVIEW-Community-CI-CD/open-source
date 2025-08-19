@@ -18,6 +18,7 @@
     "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml",
     "derive:registry": "tsx scripts/derive-dispatcher-registry.ts",
     "generate:summary": "tsx scripts/generate-ci-summary.ts",
+    "generate:traceability-matrix": "tsx scripts/generate-traceability-matrix.ts",
     "postinstall": "patch-package",
     "lint:md": "markdownlint-cli2 README.md \"docs/**/*.md\" \"scripts/**/*.md\"",
     "link:check": "markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')"
