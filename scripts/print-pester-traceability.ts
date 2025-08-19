@@ -2,6 +2,7 @@
 import path from 'path';
 import { glob } from 'glob';
 import { collectTestCases } from './summary/tests.ts';
+import { buildTable } from './utils/markdown.ts';
 
 async function main() {
   const overrideDir = process.env.PESTER_JUNIT_PATH;
@@ -38,13 +39,17 @@ async function main() {
   const sortedOwners = Array.from(groups.keys()).sort();
   for (const owner of sortedOwners) {
     const tlist = groups.get(owner)!;
-    const table = ['| Test | Requirements | Status | Evidence |', '| --- | --- | --- | --- |'];
+    const header = ['Requirement', 'Test ID', 'Status', 'Duration (s)', 'Owner', 'Evidence'];
+    const rows: string[][] = [];
     for (const t of tlist) {
-      const reqs = t.requirements.join(', ');
       const evidence = t.evidence ? `[link](${t.evidence})` : '';
-      table.push(`| ${t.name} | ${reqs} | ${t.status} | ${evidence} |`);
+      const ownerVal = t.owner || owner;
+      const name = t.name.replace(/\[Owner:[^\]]+\]\s*/, '');
+      for (const req of t.requirements) {
+        rows.push([req, name, t.status, t.duration.toFixed(3), ownerVal, evidence]);
+      }
     }
-    const content = table.join('\n');
+    const content = buildTable(header, rows);
     lines.push(`<details><summary>${owner}</summary>\n\n${content}\n\n</details>`);
   }
   console.log(lines.join('\n\n'));
