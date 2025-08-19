@@ -1,0 +1,8 @@
+<testsuite>
+  <testcase name="[Owner:carol] Old" time="0">
+    <properties>
+      <property name="evidence" value="http://example.com/old.log"/>
+      <property name="requirement" value="REQ-OLD"/>
+    </properties>
+  </testcase>
+</testsuite>
