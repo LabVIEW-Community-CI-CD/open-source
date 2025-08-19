@@ -1,5 +1,11 @@
 site_name: Open Source LabVIEW Actions
-site_url: https://open-source-actions.github.io/open-source-actions/
+site_url: https://labview-community-ci-cd.github.io/open-source/
+repo_url: https://github.com/LabVIEW-Community-CI-CD/open-source
+repo_name: open-source
+edit_uri: edit/actions/docs/
+site_description: Actions for automating LabVIEW workflows
+site_author: Open Source Actions Team
+
 docs_dir: docs
 
 theme:
