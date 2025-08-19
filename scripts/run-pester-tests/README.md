@@ -17,6 +17,10 @@ For full documentation, see [run-pester-tests action](../../docs/actions/run-pes
     working_directory: '.'
 ```
 
+## Outputs
+
+Upon completion a `requirement-coverage.json` file is written to the specified `working_directory`. It reports the pass/fail status of each requirement ID inferred from test tags.
+
 See also: [docs/actions/run-pester-tests.md](../../docs/actions/run-pester-tests.md)
 
 ## License

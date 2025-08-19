@@ -20,18 +20,37 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-
-$testPath = Join-Path $WorkingDirectory 'tests/pester'
+$testPath = Join-Path (Resolve-Path $WorkingDirectory) 'tests/pester'
+Push-Location $WorkingDirectory
 $cfg = New-PesterConfiguration
-$cfg.Output.NoColor = $true
+if ($cfg.Output.PSObject.Properties.Name -contains 'NoColor') {
+    $cfg.Output.NoColor = $true
+}
 $cfg.Run.Path = $testPath
 $cfg.TestResult.Enabled = $false
-$ansiPattern = '\x1B\[[0-9;]*[A-Za-z]'
 
-$output = & {
-    Invoke-Pester -Configuration $cfg 2>&1
-}
+$run = Invoke-Pester -Configuration $cfg
 $exitCode = $LASTEXITCODE
-$output | ForEach-Object { $_ -replace $ansiPattern, '' }
+
+$coverage = @{}
+foreach ($test in $run.TestResult) {
+    foreach ($tag in $test.Tags) {
+        if (-not $coverage.ContainsKey($tag)) { $coverage[$tag] = 'PASS' }
+        if ($test.Result -ne 'Passed') { $coverage[$tag] = 'FAIL' }
+    }
+}
+
+$requirementsPath = Join-Path $WorkingDirectory 'requirements.json'
+if (Test-Path $requirementsPath) {
+    $requirements = (Get-Content $requirementsPath | ConvertFrom-Json).requirements
+    $report = foreach ($req in $requirements) {
+        $status = if ($coverage.ContainsKey($req.id)) { $coverage[$req.id] } else { 'NOT_RUN' }
+        [pscustomobject]@{ id = $req.id; status = $status }
+    }
+    $reportPath = Join-Path $WorkingDirectory 'requirement-coverage.json'
+    $report | ConvertTo-Json -Depth 5 | Set-Content -Path $reportPath
+}
+
+Pop-Location
 exit $exitCode
 
