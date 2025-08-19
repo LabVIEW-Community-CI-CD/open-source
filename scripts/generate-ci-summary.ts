@@ -7,6 +7,7 @@ import { glob } from 'glob';
 import { parseStringPromise } from 'xml2js';
 import yaml from 'js-yaml';
 import { writeErrorSummary } from './error-handler.ts';
+import { buildTable } from './utils/markdown.ts';
 
 interface TestCase {
   id: string;
@@ -211,48 +212,63 @@ export function buildSummary(groups: RequirementGroup[]) {
 }
 
 export function summaryToMarkdown(totals: { overall: { passed: number; failed: number; skipped: number; duration: number; rate: number }; byOs: Record<string, { passed: number; failed: number; skipped: number; duration: number; rate: number }> }) {
-  const lines = [
-    '### Test Summary',
-    '| OS | Passed | Failed | Skipped | Duration (s) | Pass Rate (%) |',
-    '| --- | --- | --- | --- | --- | --- |',
-    `| overall | ${totals.overall.passed} | ${totals.overall.failed} | ${totals.overall.skipped} | ${totals.overall.duration.toFixed(2)} | ${totals.overall.rate.toFixed(2)} |`,
+  const header = ['OS', 'Passed', 'Failed', 'Skipped', 'Duration (s)', 'Pass Rate (%)'];
+  const rows = [
+    [
+      'overall',
+      `${totals.overall.passed}`,
+      `${totals.overall.failed}`,
+      `${totals.overall.skipped}`,
+      totals.overall.duration.toFixed(2),
+      totals.overall.rate.toFixed(2),
+    ],
   ];
   for (const os of Object.keys(totals.byOs).sort()) {
     const t = totals.byOs[os];
-    lines.push(`| ${os} | ${t.passed} | ${t.failed} | ${t.skipped} | ${t.duration.toFixed(2)} | ${t.rate.toFixed(2)} |`);
+    rows.push([
+      os,
+      `${t.passed}`,
+      `${t.failed}`,
+      `${t.skipped}`,
+      t.duration.toFixed(2),
+      t.rate.toFixed(2),
+    ]);
   }
-  return lines.join('\n');
+  return ['### Test Summary', buildTable(header, rows)].join('\n');
 }
 
 export function requirementsSummaryToMarkdown(groups: RequirementGroup[]) {
-  const lines = [
-    '### Requirement Summary',
-    '| Requirement ID | Description | Owner | Total Tests | Passed | Failed | Skipped | Pass Rate (%) |',
-    '| --- | --- | --- | --- | --- | --- | --- | --- |',
-  ];
+  const header = ['Requirement ID', 'Description', 'Owner', 'Total Tests', 'Passed', 'Failed', 'Skipped', 'Pass Rate (%)'];
+  const rows: string[][] = [];
   for (const g of groups) {
     const total = g.tests.length;
     const passed = g.tests.filter((t) => t.status === 'Passed').length;
     const failed = g.tests.filter((t) => t.status === 'Failed').length;
     const skipped = g.tests.filter((t) => t.status === 'Skipped').length;
     const rate = passed + failed === 0 ? 0 : (passed / (passed + failed)) * 100;
-    lines.push(`| ${g.id} | ${g.description ?? ''} | ${g.owner ?? ''} | ${total} | ${passed} | ${failed} | ${skipped} | ${rate.toFixed(2)} |`);
+    rows.push([
+      g.id,
+      g.description ?? '',
+      g.owner ?? '',
+      `${total}`,
+      `${passed}`,
+      `${failed}`,
+      `${skipped}`,
+      rate.toFixed(2),
+    ]);
   }
-  return lines.join('\n');
+  return ['### Requirement Summary', buildTable(header, rows)].join('\n');
 }
 
 export function requirementTestsToMarkdown(groups: RequirementGroup[]) {
-  const lines = [
-    '### Requirement Testcases',
-    '| Requirement ID | Test ID | Status |',
-    '| --- | --- | --- |',
-  ];
+  const header = ['Requirement ID', 'Test ID', 'Status'];
+  const rows: string[][] = [];
   for (const g of groups) {
     for (const t of g.tests) {
-      lines.push(`| ${g.id} | ${t.name} | ${t.status} |`);
+      rows.push([g.id, t.name, t.status]);
     }
   }
-  return lines.join('\n');
+  return ['### Requirement Testcases', buildTable(header, rows)].join('\n');
 }
 
 export function groupToMarkdown(groups: RequirementGroup[], limit?: number) {
@@ -262,24 +278,27 @@ export function groupToMarkdown(groups: RequirementGroup[], limit?: number) {
     const total = g.tests.length;
     const passedCount = g.tests.filter((t) => t.status === 'Passed').length;
     const pct = total === 0 ? 0 : Math.round((passedCount / total) * 100);
-    const header = `${g.id} (${pct}% passed)`;
-    const table = [
-      '| Requirement | Test ID | Status | Duration (s) | Owner | Evidence |',
-      '| --- | --- | --- | --- | --- | --- |',
-    ];
+    const heading = `${g.id} (${pct}% passed)`;
+    const tblHeader = ['Requirement', 'Test ID', 'Status', 'Duration (s)', 'Owner', 'Evidence'];
+    const rows: string[][] = [];
     for (const t of g.tests) {
       if (remaining <= 0) break;
       const evidence = t.evidence ? `[link](${t.evidence})` : '';
-      table.push(
-        `| ${g.id} | ${t.name} | ${t.status} | ${t.duration.toFixed(3)} | ${t.owner ?? g.owner ?? ''} | ${evidence} |`,
-      );
+      rows.push([
+        g.id,
+        t.name,
+        t.status,
+        t.duration.toFixed(3),
+        t.owner ?? g.owner ?? '',
+        evidence,
+      ]);
       remaining--;
     }
-    const content = table.join('\n');
+    const content = buildTable(tblHeader, rows);
     if (g.tests.length > 5) {
-      lines.push(`<details><summary>${header}</summary>\n\n${content}\n\n</details>`);
+      lines.push(`<details><summary>${heading}</summary>\n\n${content}\n\n</details>`);
     } else {
-      lines.push(`#### ${header}\n\n${content}`);
+      lines.push(`#### ${heading}\n\n${content}`);
     }
     if (remaining <= 0) break;
   }
