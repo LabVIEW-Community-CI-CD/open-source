@@ -13,3 +13,7 @@ For documentation updates, follow the [documentation contribution guidelines](do
 npm run lint:md
 npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')
 ```
+
+## Commit Messages
+
+Each commit should reference at least one requirement ID defined in `requirements.json` (for example, `REQ-001`). Pull requests are automatically checked for this convention.
