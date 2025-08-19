@@ -43,7 +43,7 @@ When multiple argument sources are supplied, values are merged in the following 
 3. `ArgsHashtable`
 4. dispatcher switches (for example, `-DryRun`)
 
-Later entries override earlier ones. Unknown parameters from any source are ignored and emitted as warnings.
+Later entries override earlier ones. Unknown parameters from any source are ignored; by default they emit warnings, which can be suppressed by requesting the message with `-ReturnUnknownParams` or by using `-NoWarn`.
 
 ## Wrapper action usage
 

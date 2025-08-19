@@ -103,8 +103,11 @@ Describe 'Filter-Args helper' {
 
     function Dummy { param([string]$Known) }
     $args = @{ Known = 'value'; Extra = 'x' }
-    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams
+    $warnings = @()
+    $result = Filter-Args -InputArgs $args -FuncName 'Dummy' -ActionNameForWarn 'dummy' -ReturnUnknownParams -WarningVariable warnings
+    $warnings | Should -BeNullOrEmpty
     $result.PSObject.Properties.Name | Should -Contain 'UnknownParams'
+    $result.UnknownParams | Should -Match 'Extra'
   }
 }
 
