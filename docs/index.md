@@ -6,6 +6,7 @@ Open Source LabVIEW Actions unifies LabVIEW CI/CD scripts behind a single PowerS
 
 - [Architecture](architecture.md)
 - [Quickstart](quickstart.md)
+- [Environment Setup](environment-setup.md)
 - [Action Call Reference](action-call-reference.md)
 - [Common Parameters](common-parameters.md)
 - [Adapter Authoring Guide](adapter-authoring.md)
