@@ -18,19 +18,19 @@ export LABVIEW_ICON_EDITOR_PATH=/path/to/labview-icon-editor
 
 To enforce that the project exists, set `LABVIEW_ICON_EDITOR_REQUIRED=1` or call `Get-LabVIEWIconEditorArgsJson -RequireProject` in your test.
 
-Required tooling:
+Tooling for local runs:
 
 - PowerShell 7.5.1
 - Node.js 24 or newer
 - [`actionlint`](https://github.com/rhysd/actionlint)
-- [Pester](https://pester.dev/) (install with `Install-Module Pester -Force -Scope CurrentUser`)
+- Optional: [Pester](https://pester.dev/) (install with `Install-Module Pester -Force -Scope CurrentUser` for local runs; CI installs it automatically)
 
-Sample command sequence to run the suite:
+Sample command sequence to run the suite locally:
 
 ```powershell
 npm install
 actionlint
-Install-Module Pester -Force -Scope CurrentUser
+Install-Module Pester -Force -Scope CurrentUser  # only if Pester isn't already installed
 $cfg = New-PesterConfiguration
 $cfg.Run.Path = './tests/pester'
 $cfg.TestResult.Enabled = $false
