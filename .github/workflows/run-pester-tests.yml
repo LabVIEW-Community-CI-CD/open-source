@@ -15,9 +15,9 @@ jobs:
   run-pester-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Checkout target repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}

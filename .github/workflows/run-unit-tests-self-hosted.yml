@@ -7,7 +7,7 @@ jobs:
   run-unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Run unit tests action
         uses: ./run-unit-tests/action.yml
         with:
@@ -17,12 +17,12 @@ jobs:
           test_config: 'scripts/run-unit-tests/unittest-config.cfg'
           working_directory: 'scripts/run-unit-tests'
       - name: Upload test results to GitHub
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@0f06977fde99088e583f6fa8ec622da326e818c3
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           files: 'artifacts/unit-tests/UnitTestReport.xml'
       - name: Upload unit test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: unit-test-results
           path: 'artifacts/unit-tests/UnitTestReport.xml'

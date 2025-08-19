@@ -7,7 +7,7 @@ jobs:
   build-vi-package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Run build-vi-package action
         uses: ./build-vi-package/action.yml
         with:
@@ -23,7 +23,7 @@ jobs:
           commit: 'abcdef'
           display_information_json: '{"Name":"Test"}'
       - name: Upload VI package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vi-package
           path: 'scripts/build-vi-package/lv_icon.vip'

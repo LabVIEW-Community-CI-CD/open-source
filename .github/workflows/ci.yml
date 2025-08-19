@@ -14,8 +14,8 @@ jobs:
       # This job always runs on Linux, so the directory is fixed.
       ARTIFACT_DIR: artifacts/linux
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24
       - run: npm run check:node
@@ -25,29 +25,29 @@ jobs:
       - run: npm run derive:registry
       - run: rm -rf artifacts
       - run: mkdir -p artifacts && cp test-results/*junit*.xml artifacts/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: junit-results
           path: artifacts/**/*junit*.xml
-      - uses: EnricoMi/publish-unit-test-result-action@v2
+      - uses: EnricoMi/publish-unit-test-result-action@0f06977fde99088e583f6fa8ec622da326e818c3
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           files: artifacts/**/*junit*.xml
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: test-results/*junit*.xml
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: traceability
           path: ${{ env.ARTIFACT_DIR }}/traceability.*
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: action-docs
           path: ${{ env.ARTIFACT_DIR }}/action-docs.*
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: evidence
@@ -71,7 +71,7 @@ jobs:
     env:
       RUNNER_TYPE: ${{ matrix.runner_type }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Ensure PowerShell 7.5.1
         if: matrix.runner_type != 'linux'
         shell: pwsh
@@ -112,7 +112,7 @@ jobs:
             $cfg.Run.Exit = $true
             Invoke-Pester -Configuration $cfg
           }
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: test-results-pester-${{ matrix.os }}-${{ matrix.runner_type }}
@@ -124,14 +124,14 @@ jobs:
     runs-on: ubuntu-24.04
     if: ${{ (success() || failure()) && !cancelled() }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24
       - run: npm run check:node
       - run: npm install
       - run: rm -rf artifacts
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           path: ./artifacts
       - run: npm run derive:registry
@@ -145,7 +145,7 @@ jobs:
           EVIDENCE_DIR: artifacts/evidence
       - run: npx tsx scripts/generate-traceability-matrix.ts
       - run: cat artifacts/linux/traceability-matrix.md >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
           name: traceability-matrix

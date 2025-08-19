@@ -7,7 +7,7 @@ jobs:
   restore-setup-lv-source:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Run restore-setup-lv-source action
         uses: ./restore-setup-lv-source/action.yml
         with:
@@ -19,7 +19,7 @@ jobs:
         env:
           GCLI_SUPPRESS_PROMPTS: '1'
       - name: Upload restore logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: restore-logs
           path: 'scripts/restore-setup-lv-source/restore.log'

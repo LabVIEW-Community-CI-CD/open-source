@@ -7,7 +7,7 @@ jobs:
   close-labview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Close LabVIEW (32-bit)
         uses: ./close-labview/action.yml
         with:
@@ -16,7 +16,7 @@ jobs:
           working_directory: '${{ github.workspace }}/scripts/close-labview'
           dry_run: true
       - name: Upload log (32-bit)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: close-labview-32.log
           path: '${{ github.workspace }}/scripts/close-labview/close-labview.log'
@@ -29,7 +29,7 @@ jobs:
           working_directory: '${{ github.workspace }}/scripts/close-labview'
           dry_run: true
       - name: Upload log (64-bit)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: close-labview-64.log
           path: '${{ github.workspace }}/scripts/close-labview/close-labview.log'
