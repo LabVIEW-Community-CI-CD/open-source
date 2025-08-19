@@ -23,6 +23,7 @@ jobs:
       - run: npm run link:check
       - run: npm run test:ci
       - run: npm run derive:registry
+      - run: rm -rf artifacts
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: test-results/*junit*.xml
@@ -142,6 +143,7 @@ jobs:
           node-version: 24
       - run: npm run check:node
       - run: npm install
+      - run: rm -rf artifacts
       - uses: actions/download-artifact@v4
         with:
           path: ./artifacts

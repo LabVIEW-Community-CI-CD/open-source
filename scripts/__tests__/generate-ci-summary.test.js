@@ -22,7 +22,7 @@ test('generate-ci-summary features', async () => {
   assert.match(content, /TEST_RESULTS_GLOBS/);
   assert.match(reqContent, /<redacted>/);
   assert.match(summaryContent, /<details><summary>/);
-  assert.match(content, /\*\*\/\*junit\*\.xml/);
+  assert.match(content, /artifacts\/\*\*\/\*junit\*\.xml/);
 });
 
 test('writeErrorSummary skips summary file for non-Error throws', async () => {
@@ -310,6 +310,26 @@ test('skips invalid JUnit files and still generates summary', async () => {
 
   await fs.rm(dir, { recursive: true, force: true });
   await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('ignores stale JUnit files outside artifacts path', async () => {
+  await fs.rm('artifacts', { recursive: true, force: true });
+  const freshDir = path.join('artifacts', 'current');
+  await fs.mkdir(freshDir, { recursive: true });
+  const freshXml = '<testsuite><testcase name="fresh" time="0"/></testsuite>';
+  await fs.writeFile(path.join(freshDir, 'junit.xml'), freshXml);
+  const stalePath = path.join('stale-junit.xml');
+  await fs.writeFile(stalePath, '<testsuite><testcase name="stale" time="0"/></testsuite>');
+
+  const env = { ...process.env, RUNNER_OS: 'Linux' };
+  await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const trace = await fs.readFile(path.join('artifacts', 'linux', 'traceability.md'), 'utf8');
+  assert.match(trace, /fresh/);
+  assert.strictEqual(trace.includes('stale'), false);
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+  await fs.rm(stalePath, { force: true });
 });
 
 test('partitions requirement groups by runner_type', async () => {
