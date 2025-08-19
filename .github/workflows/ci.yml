@@ -30,10 +30,10 @@ jobs:
         with:
           name: junit-results
           path: artifacts/**/*junit*.xml
-      - uses: actions/upload-test-results@v1
+      - uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          junit-files: artifacts/**/*junit*.xml
+          files: artifacts/**/*junit*.xml
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: test-results/*junit*.xml

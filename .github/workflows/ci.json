@@ -58,10 +58,10 @@
           }
         },
         {
-          "uses": "actions/upload-test-results@v1",
+          "uses": "EnricoMi/publish-unit-test-result-action@v2",
           "if": "always()",
           "with": {
-            "junit-files": "artifacts/**/*junit*.xml"
+            "files": "artifacts/**/*junit*.xml"
           }
         },
         {
