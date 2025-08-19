@@ -116,6 +116,16 @@ test('collectTestCases uses evidence property and falls back to directory scan',
   await fs.rm(dir, { recursive: true, force: true });
 });
 
+test('collectTestCases captures requirement property', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'reqprop-'));
+  const xml = `<testsuite><testcase name="gamma" time="0"><properties><property name="requirement" value="REQ-123"/></properties></testcase></testsuite>`;
+  const xmlPath = path.join(dir, 'junit.xml');
+  await fs.writeFile(xmlPath, xml);
+  const tests = await collectTestCases([xmlPath], dir, 'linux');
+  assert.deepStrictEqual(tests[0].requirements, ['REQ-123']);
+  await fs.rm(dir, { recursive: true, force: true });
+});
+
 test('groupToMarkdown omits numeric identifiers', () => {
   const groups = [{
     id: 'REQ-XYZ',
