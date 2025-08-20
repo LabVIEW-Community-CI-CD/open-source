@@ -111,6 +111,21 @@ test('loadRequirements warns and skips invalid entries', async () => {
   assert.deepEqual(Object.keys(meta), ['REQ-1']);
 });
 
+test('loadRequirements merges multiple files', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'multi-'));
+  const req1 = { requirements: [{ id: 'REQ-A', tests: ['a'] }] };
+  const req2 = { requirements: [{ id: 'REQ-B', tests: ['b'] }] };
+  const p1 = path.join(dir, 'r1.json');
+  const p2 = path.join(dir, 'r2.json');
+  await fs.writeFile(p1, JSON.stringify(req1));
+  await fs.writeFile(p2, JSON.stringify(req2));
+  const { map, meta } = await loadRequirements([p1, p2]);
+  await fs.rm(dir, { recursive: true, force: true });
+  assert.deepEqual(map.a.requirements, ['REQ-A']);
+  assert.deepEqual(map.b.requirements, ['REQ-B']);
+  assert.deepEqual(Object.keys(meta).sort(), ['REQ-A', 'REQ-B']);
+});
+
 test('collectTestCases uses machine-name property for owner', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'owner-'));
   const xmlProp = `<testsuite><testcase name="foo" time="0"><properties><property name="machine-name" value="ci-bot"/></properties></testcase></testsuite>`;

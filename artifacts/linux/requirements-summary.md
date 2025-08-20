@@ -12,7 +12,7 @@
 | REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-033 | Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv. |  | 1 | 1 | 0 | 0 | 100.00 |
-| Unmapped |  |  | 43 | 43 | 0 | 0 | 100.00 |
+| Unmapped |  |  | 44 | 44 | 0 | 0 | 100.00 |
 
 ### Requirement Testcases
 | Requirement ID | Test ID | Status |
@@ -57,6 +57,7 @@
 | Unmapped | handles-zipped-junit-artifacts | Passed |
 | Unmapped | ignores-stale-junit-files-outside-artifacts-path | Passed |
 | Unmapped | loadrequirements-logs-warning-on-invalid-json | Passed |
+| Unmapped | loadrequirements-merges-multiple-files | Passed |
 | Unmapped | loadrequirements-warns-and-skips-invalid-entries | Passed |
 | Unmapped | logs-a-warning-when-no-junit-files-are-found | Passed |
 | Unmapped | partitions-requirement-groups-by-runner\_type | Passed |

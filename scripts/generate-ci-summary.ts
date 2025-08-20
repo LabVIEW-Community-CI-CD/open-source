@@ -23,7 +23,10 @@ import { collectTestCases } from './summary/tests.ts';
 import { loadRequirements, mapToRequirements, redact } from './summary/requirements.ts';
 
 async function main() {
-  const mappingFile = process.env.REQ_MAPPING_FILE || 'requirements.json';
+  const mappingFiles = (process.env.REQ_MAPPING_FILE || 'requirements.json')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
   const dispatcherRegistryFile = process.env.DISPATCHER_REGISTRY || 'dispatchers.json';
   const evidenceDir = process.env.EVIDENCE_DIR || 'test-screenshots';
   const osType = (process.env.RUNNER_OS ?? 'linux').toLowerCase();
@@ -82,7 +85,7 @@ async function main() {
   } finally {
     if (extractedDir) await fs.rm(extractedDir, { recursive: true, force: true });
   }
-  const { map, meta } = await loadRequirements(mappingFile);
+  const { map, meta } = await loadRequirements(mappingFiles);
   const groups = mapToRequirements(tests, map, meta);
   const allUnmapped = groups.every(g => g.id === 'Unmapped');
   if (allUnmapped) {

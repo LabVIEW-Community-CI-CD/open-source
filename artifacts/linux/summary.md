@@ -1,8 +1,8 @@
 ### Test Summary
 | OS | Passed | Failed | Skipped | Duration (s) | Pass Rate (%) |
 | --- | --- | --- | --- | --- | --- |
-| overall | 54 | 0 | 0 | 22.07 | 100.00 |
-| linux | 54 | 0 | 0 | 22.07 | 100.00 |
+| overall | 55 | 0 | 0 | 21.96 | 100.00 |
+| linux | 55 | 0 | 0 | 21.96 | 100.00 |
 
 ### Requirement Summary
 | Requirement ID | Description | Owner | Total Tests | Passed | Failed | Skipped | Pass Rate (%) |
@@ -18,6 +18,6 @@
 | REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-033 | Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv. |  | 1 | 1 | 0 | 0 | 100.00 |
-| Unmapped |  |  | 43 | 43 | 0 | 0 | 100.00 |
+| Unmapped |  |  | 44 | 44 | 0 | 0 | 100.00 |
 
 _For detailed per-test information, see [traceability.md](traceability.md)._
