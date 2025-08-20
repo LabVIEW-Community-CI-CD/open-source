@@ -1,8 +1,8 @@
 ### Test Summary
 | OS | Passed | Failed | Skipped | Duration (s) | Pass Rate (%) |
 | --- | --- | --- | --- | --- | --- |
-| overall | 51 | 0 | 0 | 16.25 | 100.00 |
-| linux | 51 | 0 | 0 | 16.25 | 100.00 |
+| overall | 51 | 0 | 0 | 15.52 | 100.00 |
+| linux | 51 | 0 | 0 | 15.52 | 100.00 |
 
 ### Requirement Summary
 | Requirement ID | Description | Owner | Total Tests | Passed | Failed | Skipped | Pass Rate (%) |
