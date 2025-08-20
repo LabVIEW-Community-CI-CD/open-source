@@ -27,7 +27,13 @@ if ($cfg.Output.PSObject.Properties.Name -contains 'NoColor') {
     $cfg.Output.NoColor = $true
 }
 $cfg.Run.Path = $testPath
-$cfg.TestResult.Enabled = $false
+$artifactRoot = Join-Path $WorkingDirectory 'artifacts'
+$timestamp = Get-Date -Format 'yyyyMMddHHmmss'
+$junitDir = Join-Path $artifactRoot "pester-junit-$timestamp"
+New-Item -ItemType Directory -Path $junitDir -Force | Out-Null
+$cfg.TestResult.Enabled = $true
+$cfg.TestResult.OutputFormat = 'JUnitXml'
+$cfg.TestResult.OutputPath = Join-Path $junitDir 'pester-junit.xml'
 
 $run = Invoke-Pester -Configuration $cfg
 $exitCode = $LASTEXITCODE
