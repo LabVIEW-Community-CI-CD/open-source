@@ -23,7 +23,7 @@ async function main() {
   }
   if (junitFiles.length === 0) {
     console.warn('No JUnit files found');
-    process.exit(1);
+    return;
   }
   const tests = [];
   for (const file of junitFiles) {

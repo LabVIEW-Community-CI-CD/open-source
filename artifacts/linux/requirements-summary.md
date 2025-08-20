@@ -42,7 +42,6 @@
 | Unmapped | escapemarkdown-escapes-special-characters | Passed |
 | Unmapped | escapemarkdown-leaves-plain-text-untouched | Passed |
 | Unmapped | fails-when-commit-lacks-requirement-reference | Passed |
-| Unmapped | fails-when-no-junit-files-are-found | Passed |
 | Unmapped | fails-when-requirement-lacks-test-coverage | Passed |
 | Unmapped | fails-when-tests-are-unmapped | Passed |
 | Unmapped | fails-when-tests-reference-unknown-requirements | Passed |
@@ -59,6 +58,7 @@
 | Unmapped | ignores-stale-junit-files-outside-artifacts-path | Passed |
 | Unmapped | loadrequirements-logs-warning-on-invalid-json | Passed |
 | Unmapped | loadrequirements-warns-and-skips-invalid-entries | Passed |
+| Unmapped | logs-a-warning-when-no-junit-files-are-found | Passed |
 | Unmapped | partitions-requirement-groups-by-runner\_type | Passed |
 | Unmapped | passes-with-coverage-and-requirement-reference | Passed |
 | Unmapped | requirementssummarytomarkdown-escapes-pipes-in-description | Passed |

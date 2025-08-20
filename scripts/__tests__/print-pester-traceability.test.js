@@ -47,18 +47,12 @@ test('groups owners and includes requirements and evidence', async () => {
   );
 });
 
-test('fails when no JUnit files are found', async () => {
+test('logs a warning when no JUnit files are found', async () => {
   const env = { ...process.env, RUNNER_OS: 'Linux' };
   const tsxPath = path.join(rootDir, 'node_modules/.bin/tsx');
   const cwd = path.join(fixtureDir, 'no-artifacts');
-  await assert.rejects(
-    execFileP(tsxPath, [scriptFile], { cwd, env }),
-    (err) => {
-      assert.equal(err.code, 1);
-      assert.match(err.stderr, /No JUnit files found/);
-      return true;
-    }
-  );
+  const { stderr } = await execFileP(tsxPath, [scriptFile], { cwd, env });
+  assert.match(stderr, /No JUnit files found/);
 });
 
 test('detects downloaded artifacts path', async () => {
