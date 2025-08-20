@@ -27,6 +27,21 @@ async function main() {
     process.exit(1);
   }
 
+  const unmapped = groups.find((g) => g.id === 'Unmapped');
+  if (unmapped && Array.isArray(unmapped.tests) && unmapped.tests.length > 0) {
+    const testIds = unmapped.tests.map((t: any) => t.id).join(', ');
+    console.error(`Tests missing requirement mapping: ${testIds}`);
+    process.exit(1);
+  }
+
+  const unknown = groups
+    .filter((g) => g.id !== 'Unmapped' && !reqIds.includes(g.id))
+    .map((g) => g.id);
+  if (unknown.length > 0) {
+    console.error(`Tests reference unknown requirements: ${unknown.join(', ')}`);
+    process.exit(1);
+  }
+
   const commitMsg = execSync('git log -1 --pretty=%B', { encoding: 'utf8' });
   const prBody = process.env.PR_BODY || process.env.GITHUB_PR_BODY || '';
   const combined = commitMsg + '\n' + prBody;

@@ -12,7 +12,7 @@
 | REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-033 | Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv. |  | 1 | 1 | 0 | 0 | 100.00 |
-| Unmapped |  |  | 40 | 40 | 0 | 0 | 100.00 |
+| Unmapped |  |  | 42 | 42 | 0 | 0 | 100.00 |
 
 ### Requirement Testcases
 | Requirement ID | Test ID | Status |
@@ -43,6 +43,8 @@
 | Unmapped | fails-when-commit-lacks-requirement-reference | Passed |
 | Unmapped | fails-when-no-junit-files-are-found | Passed |
 | Unmapped | fails-when-requirement-lacks-test-coverage | Passed |
+| Unmapped | fails-when-tests-are-unmapped | Passed |
+| Unmapped | fails-when-tests-reference-unknown-requirements | Passed |
 | Unmapped | formaterror-handles-plain-objects | Passed |
 | Unmapped | formaterror-handles-primitives | Passed |
 | Unmapped | formaterror-handles-real-error-objects | Passed |

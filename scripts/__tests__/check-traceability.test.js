@@ -64,3 +64,47 @@ test('passes with coverage and requirement reference', async () => {
   });
   await fs.rm(dir, { recursive: true, force: true });
 });
+
+test('fails when tests are unmapped', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'trace-'));
+  const req = { requirements: [{ id: 'REQ-1', tests: ['t1'] }] };
+  await fs.writeFile(path.join(dir, 'requirements.json'), JSON.stringify(req));
+  const trace = {
+    requirements: [
+      { id: 'REQ-1', tests: [{ id: 't1', status: 'Passed' }] },
+      { id: 'Unmapped', tests: [{ id: 't2', status: 'Passed' }] },
+    ],
+  };
+  await fs.writeFile(path.join(dir, 'trace.json'), JSON.stringify(trace));
+  await initRepo(dir, 'initial REQ-1');
+  await assert.rejects(
+    execFileP(tsx, [script], {
+      cwd: dir,
+      env: { ...process.env, REQ_MAPPING_FILE: 'requirements.json', TRACEABILITY_FILE: 'trace.json' },
+    }),
+    /Tests missing requirement mapping/,
+  );
+  await fs.rm(dir, { recursive: true, force: true });
+});
+
+test('fails when tests reference unknown requirements', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'trace-'));
+  const req = { requirements: [{ id: 'REQ-1', tests: ['t1'] }] };
+  await fs.writeFile(path.join(dir, 'requirements.json'), JSON.stringify(req));
+  const trace = {
+    requirements: [
+      { id: 'REQ-1', tests: [{ id: 't1', status: 'Passed' }] },
+      { id: 'REQ-2', tests: [{ id: 't2', status: 'Passed' }] },
+    ],
+  };
+  await fs.writeFile(path.join(dir, 'trace.json'), JSON.stringify(trace));
+  await initRepo(dir, 'initial REQ-1');
+  await assert.rejects(
+    execFileP(tsx, [script], {
+      cwd: dir,
+      env: { ...process.env, REQ_MAPPING_FILE: 'requirements.json', TRACEABILITY_FILE: 'trace.json' },
+    }),
+    /Tests reference unknown requirements/,
+  );
+  await fs.rm(dir, { recursive: true, force: true });
+});
