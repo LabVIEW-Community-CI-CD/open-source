@@ -17,13 +17,20 @@
 #>
 param(
     [string]$MinimumSupportedLVVersion,
-    [string]$SupportedBitness
+    [string]$SupportedBitness,
+    [switch]$DryRun
 )
 
 # Construct the command
 $script = @"
 g-cli --lv-ver $MinimumSupportedLVVersion --arch $SupportedBitness QuitLabVIEW
 "@
+
+if ($DryRun) {
+    Write-Output "DryRun: $script"
+    Write-Host "DryRun: Close LabVIEW $MinimumSupportedLVVersion ($SupportedBitness-bit)"
+    return 0
+}
 
 Write-Output "Executing the following command:"
 Write-Output $script

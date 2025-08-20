@@ -19,8 +19,8 @@ function Invoke-OpenSourceActionScript {
         $Arguments['RelativePath'] = [System.IO.Path]::TrimEndingDirectorySeparator($Arguments['RelativePath'])
     }
     if ($DryRun) {
+        $Arguments['DryRun'] = $true
         Write-Information "DryRun: & $scriptPath $($Arguments | ConvertTo-Json -Compress)"
-        return 0
     }
     $originalPath = $env:PATH
     try {

@@ -57,7 +57,9 @@ param (
     [string]$ReleaseNotesFile,
 
     [Parameter(Mandatory=$true)]
-    [string]$DisplayInformationJSON
+    [string]$DisplayInformationJSON,
+
+    [switch]$DryRun
 )
 
 # 1) Locate VIPB file in the action directory
@@ -128,17 +130,31 @@ else {
 if (-not $jsonObj.commit) {
     $jsonObj | Add-Member -MemberType NoteProperty -Name 'commit' -Value $Commit
 } else {
-    $jsonObj.commit = $Commit
+$jsonObj.commit = $Commit
 }
 
 # Re-convert to a JSON string with a comfortable nesting depth
 $UpdatedDisplayInformationJSON = $jsonObj | ConvertTo-Json -Depth 5
 
+# Precompute output names
+$shortCommit = if ($Commit.Length -ge 7) { $Commit.Substring(0,7) } else { $Commit }
+$versionTag  = "v$Major.$Minor.$Patch.$Build+g$shortCommit"
+$originalVip = Join-Path $PSScriptRoot 'lv_icon.vip'
+$newVip      = "lv_icon_$versionTag.vip"
+
 # 5) Construct the command script
 
 $script = @"
-g-cli --lv-ver $MinimumSupportedLVVersion --arch $SupportedBitness vipb -- --buildspec "$ResolvedVIPBPath" -v "$Major.$Minor.$Patch.$Build" --release-notes "$ReleaseNotesFile" --timeout 300
+g-cli --lv-ver $MinimumSupportedLVVersion --arch $SupportedBitness vipb -- --buildspec \"$ResolvedVIPBPath\" -v \"$Major.$Minor.$Patch.$Build\" --release-notes \"$ReleaseNotesFile\" --timeout 300
 "@
+
+if ($DryRun) {
+    Write-Output "DryRun: would run the following commands:"
+    Write-Output $script
+    Write-Host "DryRun: Successfully built VI package: $ResolvedVIPBPath"
+    Write-Host "DryRun: Rename VI package to '$newVip'"
+    return 0
+}
 
 Write-Output "Executing the following commands:"
 Write-Output $script
@@ -147,11 +163,7 @@ Write-Output $script
 try {
     Invoke-Expression $script
     Write-Host "Successfully built VI package: $ResolvedVIPBPath"
-    $shortCommit = if ($Commit.Length -ge 7) { $Commit.Substring(0,7) } else { $Commit }
-    $versionTag  = "v$Major.$Minor.$Patch.$Build+g$shortCommit"
-    $originalVip = Join-Path $PSScriptRoot 'lv_icon.vip'
     if (Test-Path $originalVip) {
-        $newVip = "lv_icon_$versionTag.vip"
         Rename-Item -Path $originalVip -NewName $newVip
         Write-Host "Renamed VI package to '$newVip'"
     } else {
