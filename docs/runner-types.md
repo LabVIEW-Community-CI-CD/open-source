@@ -6,19 +6,19 @@ Modern CI pipelines in this repository classify runners into two categories to c
 
 * **Environment** – GitHub-hosted virtual machines such as `ubuntu-latest` or `windows-latest`.
 * **Use cases** – Linting, unit tests and any step that can run on a clean ephemeral image.
-* **Configuration** – In `requirements.json` omit `runner_type` or set it to `standard`. Workflows simply use `runs-on: ubuntu-latest` or similar.
+* **Configuration** – In a requirement mapping file (for example, `requirements-core.json`) omit `runner_type` or set it to `standard`. Workflows simply use `runs-on: ubuntu-latest` or similar.
 * **Characteristics** – High concurrency, minimal boot time and no persistent state. Ideal for rapid validation.
 
 ## Integration runners
 
 * **Environment** – Long-lived machines with preinstalled tooling such as LabVIEW, g-cli and hardware drivers. They may be self-hosted or specialized GitHub images.
 * **Use cases** – End‑to‑end scenarios that interact with external systems, require licensed software or need deterministic state.
-* **Configuration** – Tag the runner with `runner_type: "integration"` in `requirements.json` and reference the runner by label in workflows. Integration entries often set `skip_dry_run: true` to force real execution.
+* **Configuration** – Tag the runner with `runner_type: "integration"` in the appropriate mapping file and reference the runner by label in workflows. Integration entries often set `skip_dry_run: true` to force real execution.
 * **Characteristics** – Limited availability and higher cost; jobs are serialized to protect shared resources. Treat these runners as scarce infrastructure.
 
 ## Declaring runner types
 
-The `requirements.json` file defines which runner each test or requirement targets:
+Requirement mapping files define which runner each test or requirement targets:
 
 ```json
 {
@@ -49,7 +49,7 @@ The summarizer partitions results by `runner_type`, producing artifacts such as 
 1. **Minimize integration usage.** Start with standard runners and move tests to integration environments only when they require external dependencies or state.
 2. **Isolate heavy workflows.** Place integration jobs in separate stages or repositories to avoid blocking quick validation paths.
 3. **Protect self-hosted runners.** Apply concurrency limits and explicit `needs` chains so multiple integration jobs do not compete for the same hardware.
-4. **Audit runner labels.** Keep `requirements.json` synchronized with the actual fleet of self-hosted machines. Stale labels lead to idle jobs.
+4. **Audit runner labels.** Keep requirement mapping files synchronized with the actual fleet of self-hosted machines. Stale labels lead to idle jobs.
 5. **Document expectations.** When adding new requirements or workflows, update `docs/requirements.md` so the `Runner` and `Runner Type` columns reflect the intended infrastructure.
 
 By explicitly classifying jobs, teams can scale the project efficiently—routine tasks remain fast on default runners while integration tests validate real‑world behavior without overloading scarce resources.

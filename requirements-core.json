@@ -1,0 +1,264 @@
+{
+  "runners": {
+    "self-hosted-windows-lv-integration": {
+      "owner": "NI",
+      "runner_label": "self-hosted-windows-lv",
+      "runner_type": "integration",
+      "skip_dry_run": false
+    },
+    "self-hosted-windows-lv-default": {
+      "owner": "NI",
+      "runner_label": "self-hosted-windows-lv",
+      "runner_type": "default",
+      "skip_dry_run": false
+    },
+    "ubuntu-latest": {
+      "owner": "GitHub Actions",
+      "runner_label": "ubuntu-latest",
+      "runner_type": "integration",
+      "skip_dry_run": false
+    }
+  },
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "description": "Dispatcher discovers available actions, describes them, and validates arguments.",
+      "tests": [
+        "Dispatcher.Tests"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "description": "Dispatcher dry-run mode prints descriptions and warns on unknown arguments without executing actions.",
+      "tests": [
+        "Dispatcher.DryRun.Tests"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "description": "Actions resolve RelativePath arguments using the action's WorkingDirectory as the base path and pass them without warnings, including when RelativePath is '.' and the WorkingDirectory targets subdirectories.",
+      "tests": [
+        "RelativePath.Actions.Tests"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "description": "Every action script exists at the expected path.",
+      "tests": [
+        "ScriptPath.Tests"
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "description": "Dispatcher fails when RelativePath is missing or invalid after resolving it relative to the specified WorkingDirectory.",
+      "tests": [
+        "Dispatcher.InvalidPaths.Tests"
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "description": "Workflow tests the composite action defined in apply-vipc/action.yml with minimum_supported_lv_version '2021', vip_lv_version '2021', supported_bitness '64', relative_path '.', and vipc_path 'scripts/apply-vipc/runner_dependencies.vipc' on the GitHub-hosted Ubuntu runner labeled ubuntu-latest with dry_run true.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "ApplyVipc.DryRunTrue.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-008",
+      "description": "Workflow tests the composite action defined in add-token-to-labview/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "AddTokenToLabview.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-009",
+      "description": "Workflow tests the composite action defined in build/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "Build.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-010",
+      "description": "Workflow tests the composite action defined in build-lvlibp/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "BuildLvlibp.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-011",
+      "description": "Workflow tests the composite action defined in build-vi-package/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "BuildViPackage.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-012",
+      "description": "Workflow clones an external repository and operates on it without modification using the composite action defined in close-labview/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "CloseLabview.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-013",
+      "description": "Workflow tests the composite action defined in generate-release-notes/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "GenerateReleaseNotes.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-014",
+      "description": "Workflow tests the composite action defined in missing-in-project/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "MissingInProject.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-015",
+      "description": "Workflow tests the composite action defined in modify-vipb-display-info/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "ModifyVipbDisplayInfo.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-016",
+      "description": "Workflow tests the composite action defined in prepare-labview-source/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "PrepareLabviewSource.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-017",
+      "description": "Workflow tests the composite action defined in rename-file/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "RenameFile.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-018",
+      "description": "Workflow tests the composite action defined in restore-setup-lv-source/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "RestoreSetupLvSource.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-019",
+      "description": "Workflow tests the composite action defined in revert-development-mode/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "RevertDevelopmentMode.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-020",
+      "description": "Workflow tests the composite action defined in run-unit-tests/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "RunUnitTests.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-021",
+      "description": "Workflow tests the composite action defined in set-development-mode/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "SetDevelopmentMode.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-022",
+      "description": "Workflow tests the composite action defined in setup-mkdocs/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
+      "runner": "ubuntu-latest",
+      "tests": [
+        "SetupMkdocs.Workflow"
+      ]
+    },
+    {
+      "id": "REQ-023",
+      "description": "Parser ingests JUnit XML artifacts starting at the testsuites root and iterating through nested suites and testcases.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-024",
+      "description": "Top-level testsuites attributes name, tests, errors, failures, disabled, and time are captured for summary reporting.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-025",
+      "description": "Each testsuite records attributes including name, tests, errors, failures, hostname, id, skipped, disabled, package, and time.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-026",
+      "description": "Suite properties are extracted as name/value pairs for environment details.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-027",
+      "description": "Testcase attributes name, status, classname, assertions, time, and any skip message are preserved.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-028",
+      "description": "Requirement identifiers embedded in testcase names are detected and associated with the test.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-029",
+      "description": "Test results are aggregated by requirement and by suite to count passed, failed, and skipped cases.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-030",
+      "description": "Traceability matrix links requirement IDs to testcases with status, execution time, host properties, and skipped reasons.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-031",
+      "description": "Parsing logic validates presence of required fields and reports missing or malformed data.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-032",
+      "description": "Parser tolerates and retains unknown attributes for future extensibility.",
+      "tests": [
+        "scripts/__tests__/junit-parser.test.js"
+      ]
+    },
+    {
+      "id": "REQ-033",
+      "description": "Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv.",
+      "tests": [
+        "SelfHosted.Workflow.Tests"
+      ]
+    }
+  ]
+}
