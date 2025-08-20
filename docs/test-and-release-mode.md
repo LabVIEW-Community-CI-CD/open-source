@@ -6,7 +6,7 @@ Committing build artifacts together with a `release.json` file enables the relea
 {"major":1,"minor":0,"patch":2,"title":"Release title"}
 ```
 
-Ensure the build artifacts are present (for example under `artifacts/`) and checked in alongside `release.json`. The `ci.yml` workflow runs first and, on success, hands off to `release.yml` to publish the release. See [AGENTS.md](../AGENTS.md#test-and-release-mode) for repository expectations.
+Ensure the build artifacts are present (for example under `artifacts/`) and checked in alongside `release.json`. The `ci.yml` workflow runs first and, on success, hands off to `release.yml` to publish the release. See the [Maintainer Guide](maintainer-guide.md) for repository expectations.
 
 ## Requirement Traceability
 
