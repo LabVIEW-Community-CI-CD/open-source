@@ -25,4 +25,4 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: build-lvlibp-artifact
-          path: 'scripts/build-lvlibp/lv_icon.lvlibp'
+          path: 'scripts/build-lvlibp/lv_icon_x64_v1.0.0.1+gabcdef.lvlibp'

@@ -30,6 +30,6 @@ Describe 'BuildLvlibp.Workflow' {
         $buildStep.with.build_spec | Should -Be 'PackedLib Build'
 
         $artifactStep | Should -Not -BeNullOrEmpty
-        $artifactStep.with.path | Should -Be 'scripts/build-lvlibp/lv_icon.lvlibp'
+        $artifactStep.with.path | Should -Be 'scripts/build-lvlibp/lv_icon_x64_v1.0.0.1+gabcdef.lvlibp'
     }
 }

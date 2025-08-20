@@ -36,7 +36,7 @@ Describe 'BuildViPackage.Workflow' {
         $buildStep.with.commit | Should -Be 'abcdef'
 
         $artifactStep | Should -Not -BeNullOrEmpty
-        $artifactStep.with.path | Should -Be 'scripts/build-vi-package/lv_icon.vip'
+        $artifactStep.with.path | Should -Be 'scripts/build-vi-package/lv_icon_v1.0.0.1+gabcdef.vip'
         $artifactStep.with.name | Should -Be 'vi-package'
     }
 }

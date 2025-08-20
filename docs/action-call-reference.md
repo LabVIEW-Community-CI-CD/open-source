@@ -157,7 +157,7 @@ See [rename-file](actions/rename-file.md) for all parameters.
 - uses: LabVIEW-Community-CI-CD/open-source-actions/rename-file@v1
   with:
     current_filename: 'C:/path/lv_icon.lvlibp'
-    new_filename: 'lv_icon_x64.lvlibp'
+    new_filename: 'lv_icon_x64_v1.0.0.1+gabcdef.lvlibp'
 ```
 
 ## restore-setup-lv-source

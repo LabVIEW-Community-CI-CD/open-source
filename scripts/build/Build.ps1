@@ -106,6 +106,9 @@ try {
     Write-Verbose " - CompanyName: $CompanyName"
     Write-Verbose " - AuthorName: $AuthorName"
 
+    $ShortCommit = if ($Commit.Length -ge 7) { $Commit.Substring(0,7) } else { $Commit }
+    $VersionTag  = "v$Major.$Minor.$Patch.$Build+g$ShortCommit"
+
     # Validate needed folders
     Assert-PathExists $RelativePath "RelativePath"
     Assert-PathExists "$RelativePath\resource\plugins" "Plugins folder"
@@ -157,11 +160,12 @@ try {
     Execute-Script $CloseLabVIEW `
         "-MinimumSupportedLVVersion 2021 -SupportedBitness 32"
 
-    # 5) Rename .lvlibp -> lv_icon_x86.lvlibp
-    Write-Verbose "Renaming .lvlibp file to lv_icon_x86.lvlibp..."
+    # 5) Rename .lvlibp -> include bitness and version
+    Write-Verbose "Renaming .lvlibp file to include bitness and version..."
     $RenameFile = Join-Path $ActionsPath "rename-file/Rename-file.ps1"
+    $newName32 = "lv_icon_x86_$VersionTag.lvlibp"
     Execute-Script $RenameFile `
-        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename 'lv_icon_x86.lvlibp'"
+        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename '$newName32'"
 
  #   # 6) Apply VIPC (64-bit)
  #   Write-Verbose "Now applying VIPC for 64-bit..."
@@ -188,10 +192,11 @@ try {
         "-MinimumSupportedLVVersion 2021 -SupportedBitness 64"
     
 
-    # Rename .lvlibp -> lv_icon_x64.lvlibp
-    Write-Verbose "Renaming .lvlibp file to lv_icon_x64.lvlibp..."
+    # Rename .lvlibp -> include bitness and version
+    Write-Verbose "Renaming .lvlibp file to include bitness and version..."
+    $newName64 = "lv_icon_x64_$VersionTag.lvlibp"
     Execute-Script $RenameFile `
-        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename 'lv_icon_x64.lvlibp'"
+        "-CurrentFilename `"$RelativePath\resource\plugins\lv_icon.lvlibp`" -NewFilename '$newName64'"
 
     # -------------------------------------------------------------------------
     # 8) Construct the JSON for "Company Name" & "Author Name", plus version
@@ -255,6 +260,13 @@ try {
             "-DisplayInformationJSON '$DisplayInformationJSON' " +
             "-Verbose"
         )
+
+    # Rename VI package to include version
+    Write-Verbose "Renaming VI package to include version..."
+    $vipOriginal = "$RelativePath\lv_icon.vip"
+    $vipNew      = "lv_icon_$VersionTag.vip"
+    Execute-Script $RenameFile `
+        "-CurrentFilename `"$vipOriginal`" -NewFilename '$vipNew'"
 
     # 12) Close LabVIEW (64-bit)
     Write-Verbose "Closing LabVIEW (64-bit)..."

@@ -124,6 +124,13 @@ else {
     $jsonObj.'Package Version'.build = $Build
 }
 
+# Add commit identifier
+if (-not $jsonObj.commit) {
+    $jsonObj | Add-Member -MemberType NoteProperty -Name 'commit' -Value $Commit
+} else {
+    $jsonObj.commit = $Commit
+}
+
 # Re-convert to a JSON string with a comfortable nesting depth
 $UpdatedDisplayInformationJSON = $jsonObj | ConvertTo-Json -Depth 5
 
@@ -140,6 +147,16 @@ Write-Output $script
 try {
     Invoke-Expression $script
     Write-Host "Successfully built VI package: $ResolvedVIPBPath"
+    $shortCommit = if ($Commit.Length -ge 7) { $Commit.Substring(0,7) } else { $Commit }
+    $versionTag  = "v$Major.$Minor.$Patch.$Build+g$shortCommit"
+    $originalVip = Join-Path $PSScriptRoot 'lv_icon.vip'
+    if (Test-Path $originalVip) {
+        $newVip = "lv_icon_$versionTag.vip"
+        Rename-Item -Path $originalVip -NewName $newVip
+        Write-Host "Renamed VI package to '$newVip'"
+    } else {
+        Write-Warning "Expected VI package '$originalVip' not found."
+    }
 }
 catch {
     $errorObject = [PSCustomObject]@{
