@@ -1,7 +1,7 @@
 # Quickstart
 
-1. **Install Requirements:** Ensure you have **NI LabVIEW** (with command-line interface support, often via *g-cli*) installed on the target runner. Most actions require LabVIEW and the NI g-cli tool to be available (Ubuntu runners are recommended). Also verify PowerShell 7+ (`pwsh`) is available for cross-platform script execution. Install **Node.js 24+** and run `npm install` to pull in the TypeScript dependencies used by helper scripts. Decide whether to execute on a standard GitHub-hosted runner or an integration runner with preinstalled tooling; see [runner-types](runner-types.md) for details.
-2. **Invoke via Composite Action (GitHub):** Use the adapter-specific action in your workflow. For example, to **build a LabVIEW Packed Library**:
+1. **Install Requirements:** Ensure you have **NI LabVIEW** (with command-line interface support, often via *g-cli*) installed on the target runner. Most actions require LabVIEW and the NI g-cli tool to be available (Ubuntu runners are recommended). Also verify PowerShell 7+ (`pwsh`) is available for cross-platform script execution. Install **Node.js 24+** and run `npm install` to pull in the TypeScript dependencies used by helper scripts. Decide whether to execute on a standard GitHub-hosted runner or an integration runner (a self-hosted machine with preinstalled tooling such as LabVIEW and g-cli); see [runner-types](runner-types.md) for details.
+2. **Invoke via Composite Action (GitHub):** Use the adapter-specific action in your workflow. Each task is implemented by a PowerShell adapter script and surfaced via a GitHub Action wrapper. For example, to **build a LabVIEW Packed Library**:
 
 ```yaml
 jobs:
@@ -25,7 +25,7 @@ jobs:
           commit: abcdef
 ```
 
-In this step, the wrapper action invokes the dispatcher to run the **build-lvlibp** task. The typed inputs provide the required parameters to build a 32-bit LV library. The dispatcher locates the appropriate script and executes it, failing the step if a problem occurs.
+In this step, the wrapper action (a composite GitHub Action) invokes the dispatcher to run the **build-lvlibp** adapter script. The typed inputs provide the required parameters to build a 32-bit LV library. The dispatcher locates the appropriate script and executes it, failing the step if a problem occurs.
 3. **Invoke via PowerShell (CLI):** You can also call the dispatcher script directly. For example, the above build can be run in a PowerShell session or script:
 
 ```powershell

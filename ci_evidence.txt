@@ -1,1 +1,1 @@
-{"pipeline":"Unknown","git_sha":"fa51e56d6e0dd1e65785ffda1bf416c270ee51de","req_status":{"REQ-023":"PASS","REQ-024":"PASS","REQ-025":"PASS","REQ-026":"PASS","REQ-027":"PASS","REQ-028":"PASS","REQ-029":"PASS","REQ-030":"PASS","REQ-031":"PASS","REQ-032":"PASS","REQ-033":"PASS"}}
+{"pipeline":"Unknown","git_sha":"27871350a1222b0755c17b2e48c61a074382fa07","req_status":{"REQ-023":"PASS","REQ-024":"PASS","REQ-025":"PASS","REQ-026":"PASS","REQ-027":"PASS","REQ-028":"PASS","REQ-029":"PASS","REQ-030":"PASS","REQ-031":"PASS","REQ-032":"PASS","REQ-033":"PASS"}}
