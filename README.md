@@ -159,6 +159,10 @@ full mappings of requirements to tests, see
 [docs/requirements-core.md](docs/requirements-core.md) and
 [docs/requirements-icon-editor.md](docs/requirements-icon-editor.md).
 
+When generating summaries, provide the mapping files via the `REQ_MAPPING_FILE`
+environment variable. Multiple files can be supplied as a comma‑separated list,
+for example `REQ_MAPPING_FILE="requirements-core.json,requirements-icon-editor.json"`.
+
 ## Contributing
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for general guidelines and [docs/contributing-docs.md](docs/contributing-docs.md) for documentation rules.

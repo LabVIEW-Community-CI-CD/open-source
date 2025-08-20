@@ -4,5 +4,5 @@
 
 markdownlint-cli2 v0.18.1 (markdownlint v0.38.0)
 Finding: README.md docs/**/*.md scripts/**/*.md
-Linting: 92 file(s)
+Linting: 94 file(s)
 Summary: 0 error(s)

@@ -50,52 +50,53 @@ function isRequirementEntry(value: unknown): value is RequirementEntry {
   return true;
 }
 
-export async function loadRequirements(mappingFile: string) {
-  try {
-    const raw = await fs.readFile(mappingFile, 'utf8');
-    const parsed: RequirementsFile = JSON.parse(raw);
+export async function loadRequirements(mappingFile: string | string[]) {
+  const files = Array.isArray(mappingFile) ? mappingFile : [mappingFile];
+  const map: Record<string, { requirements: string[]; owner?: string }> = {};
+  const meta: Record<string, { description?: string; owner?: string; runner_label?: string; runner_type?: string; skip_dry_run?: boolean }> = {};
+  for (const file of files) {
+    try {
+      const raw = await fs.readFile(file, 'utf8');
+      const parsed: RequirementsFile = JSON.parse(raw);
 
-    const defaults: Record<string, RunnerDefaults> = {};
-    const rawDefs = (parsed.runners || parsed.defaults) ?? {};
-    if (rawDefs && typeof rawDefs === 'object') {
-      for (const [name, val] of Object.entries(rawDefs)) {
-        if (isRunnerDefaults(val)) {
-          defaults[name] = val;
-        } else {
-          console.warn(`Invalid runner defaults for ${name}`);
+      const defaults: Record<string, RunnerDefaults> = {};
+      const rawDefs = (parsed.runners || parsed.defaults) ?? {};
+      if (rawDefs && typeof rawDefs === 'object') {
+        for (const [name, val] of Object.entries(rawDefs)) {
+          if (isRunnerDefaults(val)) {
+            defaults[name] = val;
+          } else {
+            console.warn(`Invalid runner defaults for ${name}`);
+          }
         }
       }
-    }
 
-    const map: Record<string, { requirements: string[]; owner?: string }> = {};
-    const meta: Record<string, { description?: string; owner?: string; runner_label?: string; runner_type?: string; skip_dry_run?: boolean }> = {};
-
-    if (Array.isArray(parsed.requirements)) {
-      for (const r of parsed.requirements) {
-        if (!isRequirementEntry(r)) {
-          console.warn(`Invalid requirement entry: ${JSON.stringify(r)}`);
-          continue;
-        }
-        const def = (r.runner && defaults[r.runner]) || {};
-        const owner = r.owner ?? def.owner;
-        const runner_label = r.runner_label ?? def.runner_label;
-        const runner_type = r.runner_type ?? def.runner_type;
-        const skip_dry_run = r.skip_dry_run ?? def.skip_dry_run;
-        meta[r.id] = { description: r.description, owner, runner_label, runner_type, skip_dry_run };
-        for (const t of r.tests) {
-          const key = t.toLowerCase();
-          if (!map[key]) map[key] = { requirements: [], owner };
-          map[key].requirements.push(r.id);
+      if (Array.isArray(parsed.requirements)) {
+        for (const r of parsed.requirements) {
+          if (!isRequirementEntry(r)) {
+            console.warn(`Invalid requirement entry: ${JSON.stringify(r)}`);
+            continue;
+          }
+          const def = (r.runner && defaults[r.runner]) || {};
+          const owner = r.owner ?? def.owner;
+          const runner_label = r.runner_label ?? def.runner_label;
+          const runner_type = r.runner_type ?? def.runner_type;
+          const skip_dry_run = r.skip_dry_run ?? def.skip_dry_run;
+          meta[r.id] = { description: r.description, owner, runner_label, runner_type, skip_dry_run };
+          for (const t of r.tests) {
+            const key = t.toLowerCase();
+            if (!map[key]) map[key] = { requirements: [], owner };
+            map[key].requirements.push(r.id);
+          }
         }
       }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`Failed to load requirements mapping from ${file}: ${msg}`);
+      await writeErrorSummary(err);
     }
-    return { map, meta };
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.warn(`Failed to load requirements mapping from ${mappingFile}: ${msg}`);
-    await writeErrorSummary(err);
-    return { map: {}, meta: {} };
   }
+  return { map, meta };
 }
 
 export function mapToRequirements(
