@@ -22,7 +22,7 @@ None.
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName rename-file -ArgsJson '{
   "CurrentFilename": "C:/path/lv_icon.lvlibp",
-  "NewFilename": "lv_icon_x64.lvlibp"
+  "NewFilename": "lv_icon_x64_v1.0.0.1+gabcdef.lvlibp"
 }'
 ```
 
@@ -46,7 +46,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
   uses: LabVIEW-Community-CI-CD/open-source-actions/rename-file@v1
   with:
     current_filename: 'C:/path/lv_icon.lvlibp'
-    new_filename: 'lv_icon_x64.lvlibp'
+    new_filename: 'lv_icon_x64_v1.0.0.1+gabcdef.lvlibp'
 ```
 
 ## Return Codes

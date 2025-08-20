@@ -32,7 +32,7 @@
           "uses": "actions/upload-artifact@v4",
           "with": {
             "name": "vi-package",
-            "path": "scripts/build-vi-package/lv_icon.vip"
+            "path": "scripts/build-vi-package/lv_icon_v1.0.0.1+gabcdef.vip"
           }
         }
       ]

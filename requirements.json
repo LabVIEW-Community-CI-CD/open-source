@@ -307,7 +307,7 @@
     },
     {
       "id": "REQIE-006",
-      "description": "After checking out the LabVIEW icon editor repository, Main: Build Packed Libraries (PPL) shall succeed for both 32-bit and 64-bit targets. Evidence: existence of 'resource/plugins/lv_icon_x86.lvlibp' and 'resource/plugins/lv_icon_x64.lvlibp' and a 'ppl.hash' file containing SHA256 for each artifact. Acceptance: non-zero artifact sizes and matching SHA256 re-computation. g-cli is expected at 'C:\\Program Files\\G-CLI\\bin\\g-cli.exe'.",
+      "description": "After checking out the LabVIEW icon editor repository, Main: Build Packed Libraries (PPL) shall succeed for both 32-bit and 64-bit targets. Evidence: existence of 'resource/plugins/lv_icon_x86_v<version>.lvlibp' and 'resource/plugins/lv_icon_x64_v<version>.lvlibp' and a 'ppl.hash' file containing SHA256 for each artifact. Acceptance: non-zero artifact sizes and matching SHA256 re-computation. g-cli is expected at 'C:\\Program Files\\G-CLI\\bin\\g-cli.exe'.",
       "skip_dry_run": true,
       "runner": "self-hosted-windows-lv-integration",
       "tests": [
@@ -317,7 +317,7 @@
     },
     {
       "id": "REQIE-007",
-      "description": "After checking out the LabVIEW icon editor repository, Main: Renaming and artifact upload steps shall complete. Evidence: an 'artifact-manifest.json' listing uploaded artifact names ('lv_icon_x86.lvlibp', 'lv_icon_x64.lvlibp'), paths, and sizes. Acceptance: manifest entries match on-disk files and GitHub Artifacts report success. g-cli is expected at 'C:\\Program Files\\G-CLI\\bin\\g-cli.exe'.",
+      "description": "After checking out the LabVIEW icon editor repository, Main: Renaming and artifact upload steps shall complete. Evidence: an 'artifact-manifest.json' listing uploaded artifact names ('lv_icon_x86_v<version>.lvlibp', 'lv_icon_x64_v<version>.lvlibp'), paths, and sizes. Acceptance: manifest entries match on-disk files and GitHub Artifacts report success. g-cli is expected at 'C:\\Program Files\\G-CLI\\bin\\g-cli.exe'.",
       "skip_dry_run": true,
       "runner": "self-hosted-windows-lv-integration",
       "tests": [
