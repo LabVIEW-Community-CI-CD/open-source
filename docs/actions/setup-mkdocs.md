@@ -8,11 +8,13 @@ Install a pinned MkDocs with caching.
 
 None.
 
-## GitHub Action inputs
+### GitHub Action inputs
 
 This action has no inputs.
 
-## GitHub Action example
+## Examples
+
+### GitHub Action
 
 ```yaml
 - name: Setup MkDocs

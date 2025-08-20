@@ -18,18 +18,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName add-token-to-labview -ArgsJson '{
-  "MinimumSupportedLVVersion": "2021",
-  "SupportedBitness": "64",
-  "WorkingDirectory": ".",
-  "RelativePath": "."
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -43,7 +32,20 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName add-token-to-labview -ArgsJson '{
+  "MinimumSupportedLVVersion": "2021",
+  "SupportedBitness": "64",
+  "WorkingDirectory": ".",
+  "RelativePath": "."
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Add library token

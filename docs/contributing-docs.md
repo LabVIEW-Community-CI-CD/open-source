@@ -8,6 +8,10 @@ Action documentation lives under [docs/actions](actions/README.md). Keep these f
 
 - Run `npm run verify:docs` to check that documented inputs match each action's action.yml.
 
+### Template
+
+Use [docs/template-action.md](template-action.md) as the starting point for new or updated action and workflow docs. Each document should include **Purpose**, **Parameters**, **Examples**, and **Return Codes** sections, with GitHub Action inputs mapped to CLI parameters and example code blocks for both CLI and GitHub usage.
+
 ## Markdown linting
 
 - Run `npm run lint:md` to lint Markdown formatting.
