@@ -66,6 +66,23 @@ nav:
           - Run Unit Tests: actions/run-unit-tests.md
           - Set Development Mode: actions/set-development-mode.md
           - Setup MkDocs: actions/setup-mkdocs.md
+      - Scripts:
+          - Add Token to LabVIEW: scripts/add-token-to-labview.md
+          - Apply VIPC: scripts/apply-vipc.md
+          - Build: scripts/build.md
+          - Build LVLibp: scripts/build-lvlibp.md
+          - Build VI Package: scripts/build-vi-package.md
+          - Close LabVIEW: scripts/close-labview.md
+          - Generate Release Notes: scripts/generate-release-notes.md
+          - Missing in Project: scripts/missing-in-project.md
+          - Modify VIPB Display Info: scripts/modify-vipb-display-info.md
+          - Prepare LabVIEW Source: scripts/prepare-labview-source.md
+          - Rename File: scripts/rename-file.md
+          - Restore Setup LV Source: scripts/restore-setup-lv-source.md
+          - Revert Development Mode: scripts/revert-development-mode.md
+          - Run Pester Tests: scripts/run-pester-tests.md
+          - Run Unit Tests: scripts/run-unit-tests.md
+          - Set Development Mode: scripts/set-development-mode.md
       - Workflows:
           - Overview: workflows/index.md
           - Add Token to LabVIEW: workflows/add-token-to-labview.md
