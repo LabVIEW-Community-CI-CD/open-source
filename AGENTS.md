@@ -29,10 +29,14 @@
 ## Testing
 - Run `npm run check:node` to verify Node.js satisfies the required version.
 - Run `npm install` to ensure Node dependencies are available.
-- Run `npm test`.
+- Run `npm run test:ci` (JUnit files appear under `test-results/`).
+- Run `npm run derive:registry`.
+- Run `TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary`.
 - Run `npm run lint:md` to lint Markdown files.
 - Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to verify links and ensure failures are visible.
 - Run `actionlint` to validate GitHub Actions workflows.
+- Run `npm run check:traceability` to validate generated artifacts.
+- Commit `test-results/*` and `artifacts/linux/*` along with source changes.
 
 ### Pester Tests
 
