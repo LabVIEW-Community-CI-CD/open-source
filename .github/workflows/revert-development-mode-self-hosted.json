@@ -14,7 +14,8 @@
           "name": "Run revert-development-mode action",
           "uses": "./revert-development-mode/action.yml",
           "with": {
-            "relative_path": "./"
+            "relative_path": "./",
+            "dry_run": true
           }
         },
         {

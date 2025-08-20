@@ -25,6 +25,7 @@ Describe 'RevertDevelopmentMode.Workflow' {
                     $job.'runs-on' | Should -Be 'ubuntu-latest'
                     $revertStep.uses | Should -Be './revert-development-mode/action.yml'
                     $revertStep.with.relative_path | Should -Not -BeNullOrEmpty
+                    $revertStep.with.dry_run | Should -Be $true
                     $uploadStep = $job.steps | Where-Object {
                         $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*' -and (
                             $_.with.name -match 'config' -or $_.with.path -match 'config'

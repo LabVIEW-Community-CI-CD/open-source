@@ -25,6 +25,7 @@ Describe 'RenameFile.Workflow' {
 
         $renameStep.with.current_filename | Should -Be 'scripts/rename-file/README.md'
         $renameStep.with.new_filename | Should -Be 'scripts/rename-file/README-renamed.md'
+        $renameStep.with.dry_run | Should -Be $true
         $uploadStep.with.path | Should -Be 'scripts/rename-file/README-renamed.md'
     }
 }

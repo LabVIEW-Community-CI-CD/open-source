@@ -18,7 +18,8 @@
             "supported_bitness": "64",
             "project_path": "scripts/run-unit-tests/lv_icon.lvproj",
             "test_config": "scripts/run-unit-tests/unittest-config.cfg",
-            "working_directory": "scripts/run-unit-tests"
+            "working_directory": "scripts/run-unit-tests",
+            "dry_run": true
           }
         },
         {

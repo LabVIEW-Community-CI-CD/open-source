@@ -13,6 +13,7 @@ jobs:
         with:
           current_filename: 'scripts/rename-file/README.md'
           new_filename: 'scripts/rename-file/README-renamed.md'
+          dry_run: true
       - name: Upload renamed file
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

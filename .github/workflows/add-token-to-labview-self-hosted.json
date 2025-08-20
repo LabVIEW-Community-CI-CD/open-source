@@ -16,7 +16,8 @@
           "with": {
             "minimum_supported_lv_version": "2021",
             "supported_bitness": "64",
-            "relative_path": "scripts/add-token-to-labview"
+            "relative_path": "scripts/add-token-to-labview",
+            "dry_run": true
           }
         },
         {

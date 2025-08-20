@@ -12,6 +12,7 @@ jobs:
         uses: ./revert-development-mode/action.yml
         with:
           relative_path: './'
+          dry_run: true
       - name: Upload config artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

@@ -32,6 +32,7 @@ Describe 'Build.Workflow' {
         $buildStep.with.labview_minor_revision | Should -Be '3'
         $buildStep.with.company_name | Should -Be 'Acme Corp'
         $buildStep.with.author_name | Should -Be 'Jane Doe'
+        $buildStep.with.dry_run | Should -Be $true
 
         $artifactMeta = $job.steps | Where-Object { $_.name -eq 'Record artifact metadata' } | Select-Object -First 1
         $manifestStep = $job.steps | Where-Object { $_.name -eq 'Upload artifact manifest' } | Select-Object -First 1

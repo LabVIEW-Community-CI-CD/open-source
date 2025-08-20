@@ -27,7 +27,8 @@
             "commit": "${{ github.sha }}",
             "labview_minor_revision": "3",
             "company_name": "Acme Corp",
-            "author_name": "Jane Doe"
+            "author_name": "Jane Doe",
+            "dry_run": true
           }
         },
         {
