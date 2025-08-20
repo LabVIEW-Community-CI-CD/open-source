@@ -67,13 +67,13 @@ Commit `test-results/*` and `artifacts/linux/*` along with your source changes. 
 
 ### Pester properties
 
-Pester tests should record traceability metadata by adding `Add-TestResult -Property` calls in each `It` block. At minimum, include an `Owner` and an `Evidence` path:
+Pester tests should record traceability metadata by adding `Add-TestResult -Property` calls in each `It` block. At minimum, include an `Owner`, a `Requirement` ID, and an `Evidence` path so the framework can link tests back to requirements:
 
 ```powershell
-It "does something" {
-    Add-TestResult -Property @{ Owner = 'DevTools'; Evidence = 'tests/pester/example.Tests.ps1' }
+It "[REQ-123] does something" {
+    Add-TestResult -Property @{ Owner = 'DevTools'; Requirement = 'REQ-123'; Evidence = 'tests/pester/example.Tests.ps1' }
     # test body
 }
 ```
 
-These properties are preferred over naming conventions when `scripts/generate-ci-summary.ts` builds the CI report.
+For other test frameworks, prefix the test name with `[REQ-123]` or use an equivalent mechanism to embed the requirement ID. These properties are preferred over naming conventions when `scripts/generate-ci-summary.ts` builds the CI report.
