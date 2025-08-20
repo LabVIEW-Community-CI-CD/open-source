@@ -128,6 +128,21 @@ Invoke-Pester -Configuration $cfg
 
 XML test result output is intentionally disabled.
 
+## Test and Release Mode
+
+Committing build artifacts together with a `release.json` file enables the
+release pipeline. The `release.json` file supplies the JSON payload describing
+the release:
+
+```json
+{"major":1,"minor":0,"patch":2,"title":"Release title"}
+```
+
+Ensure the build artifacts are present (for example under `artifacts/`) and
+checked in alongside `release.json`. The `ci.yml` workflow runs first and, on
+success, hands off to `release.yml` to publish the release. See
+[Test and Release Mode](AGENTS.md#test-and-release-mode) for more details.
+
 ## Requirement Traceability
 
 Each requirement is tracked as an issue or entry in
