@@ -12,7 +12,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 - **MinimumSupportedLVVersion** (`string`): Minimum LabVIEW version supported by the package.
 - **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
-- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3").
+- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3")
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
 - **VIPBPath** (`string`): Relative path to the VIPB file to build.
 - **Major** (`int`): Major version component.
@@ -95,4 +95,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/build-vi-package/README.md](../../scripts/build-vi-package/README.md).
+## See also
+
+- [Workflow documentation](../workflows/build-vi-package.md)
+- [scripts/build-vi-package/README.md](../../scripts/build-vi-package/README.md)

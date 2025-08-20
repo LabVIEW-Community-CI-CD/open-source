@@ -13,7 +13,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 - **MinimumSupportedLVVersion** (`string`): LabVIEW version used to run g-cli.
 - **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
-- **LabVIEW_Project** (`string`): Name of the LabVIEW project (without extension).
+- **LabVIEW_Project** (`string`): Name of the LabVIEW project (without extension)
 - **Build_Spec** (`string`): Build specification name within the project.
 
 ### Optional
@@ -70,4 +70,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/restore-setup-lv-source/README.md](../../scripts/restore-setup-lv-source/README.md).
+## See also
+
+- [Workflow documentation](../workflows/restore-setup-lv-source.md)
+- [scripts/restore-setup-lv-source/README.md](../../scripts/restore-setup-lv-source/README.md)

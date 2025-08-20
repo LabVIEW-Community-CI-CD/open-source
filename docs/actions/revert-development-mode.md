@@ -54,4 +54,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/revert-development-mode/README.md](../../scripts/revert-development-mode/README.md).
+## See also
+
+- [Workflow documentation](../workflows/revert-development-mode.md)
+- [scripts/revert-development-mode/README.md](../../scripts/revert-development-mode/README.md)
