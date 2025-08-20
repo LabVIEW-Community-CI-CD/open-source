@@ -1,0 +1,9 @@
+# Node dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+coverage/
+tmp/
+*.log
