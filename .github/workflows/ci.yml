@@ -7,7 +7,27 @@ on:
     branches: [actions]
 
 jobs:
+  release-check:
+    runs-on: ubuntu-24.04
+    outputs:
+      needs_release: ${{ steps.check.outputs.present }}
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - id: check
+        run: |
+          if [[ -f release.json ]]; then
+            echo 'present=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'present=false' >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: steps.check.outputs.present == 'true'
+        with:
+          name: release-metadata
+          path: release.json
+
   node-ci:
+    needs: release-check
     runs-on: ubuntu-24.04
     env:
       # Summary artifacts are emitted under artifacts/<os>.
@@ -55,6 +75,7 @@ jobs:
           if-no-files-found: ignore
 
   ps-ci:
+    needs: release-check
     strategy:
       matrix:
         include:
