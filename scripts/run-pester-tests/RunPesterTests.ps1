@@ -40,7 +40,9 @@ foreach ($test in $run.TestResult) {
     }
 }
 
-$requirementsPath = Join-Path $WorkingDirectory 'requirements.json'
+$reqFile = $env:REQ_MAPPING_FILE
+if (-not $reqFile) { $reqFile = 'requirements.json' }
+$requirementsPath = Join-Path $WorkingDirectory $reqFile
 if (Test-Path $requirementsPath) {
     $requirements = (Get-Content $requirementsPath | ConvertFrom-Json).requirements
     $report = foreach ($req in $requirements) {

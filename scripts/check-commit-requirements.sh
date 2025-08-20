@@ -3,12 +3,13 @@ set -euo pipefail
 
 base_sha="${1:-origin/main}"
 
-if [ ! -f requirements.json ]; then
-  echo "requirements.json not found" >&2
+req_file="${REQ_MAPPING_FILE:-requirements.json}"
+if [ ! -f "$req_file" ]; then
+  echo "$req_file not found" >&2
   exit 1
 fi
 
-pattern=$(jq -r '.requirements[].id' requirements.json | paste -sd'|' -)
+pattern=$(jq -r '.requirements[].id' "$req_file" | paste -sd'|' -)
 
 missing=0
 while read -r subject; do

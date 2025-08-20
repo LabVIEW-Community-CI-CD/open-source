@@ -150,12 +150,14 @@ success, hands off to `release.yml` to publish the release. See
 
 ## Requirement Traceability
 
-Each requirement is tracked as an issue or entry in
-[`requirements.json`](requirements.json). Every code change must reference the
+Each requirement is tracked as an issue or entry in a requirement mapping file
+such as [`requirements-core.json`](requirements-core.json) or
+[`requirements-icon-editor.json`](requirements-icon-editor.json). Every code change must reference the
 requirement it addresses, and each requirement must have at least one automated
-test. The CI pipeline checks these links and reports missing associations. For a
-full mapping of requirements to tests, see
-[docs/requirements.md](docs/requirements.md).
+test. The CI pipeline checks these links and reports missing associations. For
+full mappings of requirements to tests, see
+[docs/requirements-core.md](docs/requirements-core.md) and
+[docs/requirements-icon-editor.md](docs/requirements-icon-editor.md).
 
 ## Contributing
 
