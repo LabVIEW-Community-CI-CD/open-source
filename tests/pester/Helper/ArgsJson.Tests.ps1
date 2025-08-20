@@ -5,7 +5,7 @@ $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'ArgsJson.psm1')
 
 Describe 'Get-LabVIEWIconEditorArgsJson' {
-    It 'defaults to repo root when not requiring project' {
+    It 'defaults to repo root when not requiring project [REQ-000]' -Tag 'REQ-000' {
         $orig = $env:LABVIEW_ICON_EDITOR_PATH
         try {
             Remove-Item Env:LABVIEW_ICON_EDITOR_PATH -ErrorAction SilentlyContinue
@@ -24,7 +24,7 @@ Describe 'Get-LabVIEWIconEditorArgsJson' {
         }
     }
 
-    It 'throws when LABVIEW_ICON_EDITOR_PATH is invalid' {
+    It 'throws when LABVIEW_ICON_EDITOR_PATH is invalid [REQ-000]' -Tag 'REQ-000' {
         $orig = $env:LABVIEW_ICON_EDITOR_PATH
         try {
             $env:LABVIEW_ICON_EDITOR_PATH = Join-Path $PSScriptRoot 'NoSuchDir'

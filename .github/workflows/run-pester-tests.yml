@@ -26,3 +26,9 @@ jobs:
       - name: Run Pester tests
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -ArgsJson '{}' -WorkingDirectory "${{ github.workspace }}/target"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ (success() || failure()) && !cancelled() }}
+        with:
+          name: test-results-pester
+          path: target/test-results
+          if-no-files-found: error

@@ -38,7 +38,7 @@ Describe 'Adapters restore PATH' {
         @{ Func='Invoke-SetDevelopmentMode'; Script=[System.IO.Path]::Combine($repoRoot,'scripts','set-development-mode','Set_Development_Mode.ps1'); Arguments=@{ RelativePath='.' } }
     )
 
-    It "restores PATH after <Func>" -Tag 'REQ-000' -TestCases $cases {
+    It "restores PATH after <Func> [REQ-000]" -Tag 'REQ-000' -TestCases $cases {
         param($Func, $Script, $Arguments)
         $originalPath = $env:PATH
         $params = $Arguments

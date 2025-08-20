@@ -168,7 +168,7 @@ Describe 'set-development-mode resolves RelativePath' {
 
 Describe 'RelativePath "." resolves with varying working directories' {
     foreach ($subdir in @('docs', 'scripts', 'tests')) {
-        It "dry-runs without warnings when WorkingDirectory is $subdir" -Tag 'REQ-003' {
+        It "dry-runs without warnings when WorkingDirectory is $subdir [REQ-003]" -Tag 'REQ-003' {
             $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
             $workingDir = Join-Path $repoRoot $subdir
             $args = @{ RelativePath = './' } | ConvertTo-Json -Compress
