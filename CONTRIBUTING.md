@@ -21,11 +21,19 @@ npx --yes linkinator README.md docs scripts --config linkinator.config.json
 
 ## Requirement Traceability
 
-Each requirement is tracked as an issue or entry in `requirements.json`. Every
-code change must reference the requirement it addresses, and each requirement
-must be covered by at least one automated test. The CI pipeline checks these
-links and reports missing associations.
+Each requirement is tracked as an issue or entry in `requirements.json`. Whenever
+you introduce a new feature or fix, add a new requirement or update an existing
+ID in `requirements.json` accordingly. Every code change must reference the
+requirement it addresses, and each requirement must be covered by at least one
+automated test.
+
+Embed the relevant requirement ID in new test cases; the testing framework
+parses these annotations when generating the traceability report.
+
+During code reviews, missing requirement IDs or missing tests for a change are
+must-fix issues. The CI pipeline checks these links and reports missing
+associations.
 
 ## Commit Messages
 
-Each commit should reference at least one requirement ID defined in `requirements.json` (for example, `REQ-001`). Pull requests are automatically checked for this convention.
+Each commit should reference at least one requirement ID defined in `requirements.json` (for example, `REQ-001`). Pull requests lacking requirement references or associated tests must be updated before merging.
