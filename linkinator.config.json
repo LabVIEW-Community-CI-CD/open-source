@@ -7,6 +7,8 @@
   "directoryListing": true,
   "skip": [
     "https://open-source-actions.github.io/open-source-actions/",
-    "http://127.0.0.1:8000/"
+    "http://127.0.0.1:8000/",
+    "https://LabVIEW-Community-CI-CD.github.io/open-source-actions/summary.md",
+    "https://labview-community-ci-cd.github.io/open-source-actions/summary.md"
   ]
 }
