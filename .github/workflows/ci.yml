@@ -144,4 +144,10 @@ jobs:
             artifacts/linux/summary.md
             artifacts/linux/traceability.md
             artifacts/linux/traceability.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ (success() || failure()) && !cancelled() }}
+        with:
+          name: ci-evidence
+          path: ci_evidence.txt
+          if-no-files-found: error
       - run: npx tsx scripts/print-pester-traceability.ts >> "$GITHUB_STEP_SUMMARY"

@@ -2,6 +2,8 @@
 
 The **OpenSourceActions** module and composite action follow [Semantic Versioning](https://semver.org/) in the format **MAJOR.MINOR.PATCH**. The version is stored in `OpenSourceActions.psd1` and mirrored in repository tags.
 
+Each release automatically embeds the CI evidence JSON in the release notes, providing a summary of tested requirements and the commit used. The publish job validates this evidence and aborts the release if any requirement reports `FAIL`.
+
 ## MAJOR version
 
 Used for incompatible changes such as removing or renaming actions, changing required inputs, or altering behavior in a way that breaks existing workflows.

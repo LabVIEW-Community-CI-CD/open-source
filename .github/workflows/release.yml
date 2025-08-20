@@ -35,6 +35,36 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           name: traceability-report
           path: artifacts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: ci-evidence
+          path: artifacts
+      - name: Evaluate CI evidence
+        id: evidence
+        run: |
+          CI_EVIDENCE=$(cat artifacts/ci_evidence.txt)
+          echo "ci_evidence=$CI_EVIDENCE" >> "$GITHUB_OUTPUT"
+          if echo "$CI_EVIDENCE" | jq -e '.req_status | to_entries | any(.value == "FAIL")'; then
+            echo 'Requirement failure detected in CI evidence.' >&2
+            exit 1
+          fi
+      - name: Prepare release notes
+        id: notes
+        run: |
+          TITLE="${{ steps.meta.outputs.title }}"
+          CI_EVIDENCE=$(jq . artifacts/ci_evidence.txt)
+          {
+            echo "body<<'EOF'"
+            echo "$TITLE"
+            echo ""
+            echo "CI Evidence:"
+            echo '```json'
+            echo "$CI_EVIDENCE"
+            echo '```'
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
       - name: Create tag
         run: |
           git config user.name github-actions
@@ -49,7 +79,7 @@ jobs:
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
           release_name: ${{ steps.meta.outputs.title }}
-          body: ${{ steps.meta.outputs.title }}
+          body: ${{ steps.notes.outputs.body }}
       - name: Upload artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
