@@ -17,7 +17,22 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
+### GitHub Action inputs
+
+GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
+
+| Input | CLI parameter | Description |
+| --- | --- | --- |
+| `minimum_supported_lv_version` | `MinimumSupportedLVVersion` | LabVIEW version for the test run. |
+| `supported_bitness` | `SupportedBitness` | "32" or "64" bitness of LabVIEW. |
+| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
+| `working_directory` | `WorkingDirectory` | Base directory for the action; relative paths are resolved from here. |
+| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
+| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
+
+## Examples
+
+### CLI
 
 ```powershell
 $json = @'
@@ -35,20 +50,7 @@ Alternatively, load arguments from a JSON file:
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./config/run-tests.json
 ```
 
-## GitHub Action inputs
-
-GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
-
-| Input | CLI parameter | Description |
-| --- | --- | --- |
-| `minimum_supported_lv_version` | `MinimumSupportedLVVersion` | LabVIEW version for the test run. |
-| `supported_bitness` | `SupportedBitness` | "32" or "64" bitness of LabVIEW. |
-| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
-| `working_directory` | `WorkingDirectory` | Base directory for the action; relative paths are resolved from here. |
-| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
-| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
-
-## GitHub Action example
+### GitHub Action
 
 ```yaml
 - name: Run LabVIEW Unit Tests

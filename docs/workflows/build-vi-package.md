@@ -4,20 +4,22 @@
 
 Dispatch the [build-vi-package](../actions/build-vi-package.md) action to a target repository through `Invoke-OSAction.ps1`.
 
-## Inputs
+## Parameters
 
-| Input | Description |
+### Inputs
+
+| Parameter | Description |
 | --- | --- |
 | `repository` | Repository in `owner/repo` format to operate on. |
 | `ref` | Branch or tag to check out. Defaults to `main`. |
 
-## Required secrets
+### Secrets
 
 | Secret | Description |
 | --- | --- |
 | `REPO_TOKEN` | Personal access token with permission to read the target repository. |
 
-## Example
+## Examples
 
 ```yaml
 name: build-vi-package
@@ -47,6 +49,10 @@ jobs:
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName build-vi-package -WorkingDirectory "${{ github.workspace }}/target"
 ```
+
+## Return Codes
+
+- N/A
 
 ## See also
 

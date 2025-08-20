@@ -26,26 +26,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 - **ReleaseNotesFile** (`string`): Path to a release notes file included in the package.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
-  "MinimumSupportedLVVersion": "2023",
-  "SupportedBitness": "64",
-  "LabVIEWMinorRevision": "3",
-  "WorkingDirectory": ".",
-  "RelativePath": ".",
-  "VIPBPath": "Tooling/deployment/NI Icon editor.vipb",
-  "Major": 1,
-  "Minor": 0,
-  "Patch": 0,
-  "Build": 2,
-  "Commit": "abcdef",
-  "DisplayInformationJSON": "{\"Package Version\":{\"major\":1,\"minor\":0,\"patch\":0,\"build\":2}}"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -68,7 +49,28 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
+  "MinimumSupportedLVVersion": "2023",
+  "SupportedBitness": "64",
+  "LabVIEWMinorRevision": "3",
+  "WorkingDirectory": ".",
+  "RelativePath": ".",
+  "VIPBPath": "Tooling/deployment/NI Icon editor.vipb",
+  "Major": 1,
+  "Minor": 0,
+  "Patch": 0,
+  "Build": 2,
+  "Commit": "abcdef",
+  "DisplayInformationJSON": "{\"Package Version\":{\"major\":1,\"minor\":0,\"patch\":0,\"build\":2}}"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Build VI Package
