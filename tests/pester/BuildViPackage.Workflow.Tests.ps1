@@ -34,6 +34,7 @@ Describe 'BuildViPackage.Workflow' {
         $buildStep.with.patch | Should -Be '0'
         $buildStep.with.build | Should -Be '1'
         $buildStep.with.commit | Should -Be 'abcdef'
+        $buildStep.with.dry_run | Should -Be $true
 
         $artifactStep | Should -Not -BeNullOrEmpty
         $artifactStep.with.path | Should -Be 'scripts/build-vi-package/lv_icon_v1.0.0.1+gabcdef.vip'

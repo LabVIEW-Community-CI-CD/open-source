@@ -22,6 +22,7 @@ jobs:
           build: '1'
           commit: 'abcdef'
           display_information_json: '{"Name":"Test"}'
+          dry_run: true
       - name: Upload VI package
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

@@ -23,7 +23,8 @@
             "minor": "0",
             "patch": "0",
             "build": "1",
-            "commit": "abcdef"
+            "commit": "abcdef",
+            "dry_run": true
           }
         },
         {

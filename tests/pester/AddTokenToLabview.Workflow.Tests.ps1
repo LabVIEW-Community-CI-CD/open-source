@@ -26,6 +26,7 @@ Describe 'AddTokenToLabview.Workflow' {
         $addStep.with.minimum_supported_lv_version | Should -Be '2021'
         $addStep.with.supported_bitness | Should -Be '64'
         $addStep.with.relative_path | Should -Be 'scripts/add-token-to-labview'
+        $addStep.with.dry_run | Should -Be $true
 
         $uploadStep = $job.steps | Where-Object {
             $_.ContainsKey('uses') -and $_.uses -like 'actions/upload-artifact@*'

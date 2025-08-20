@@ -38,6 +38,7 @@ Describe 'CloseLabview.Workflow' {
 
                 foreach ($step in $closeSteps) {
                     $step.with.working_directory | Should -Be '${{ github.workspace }}/scripts/close-labview'
+                    $step.with.dry_run | Should -Be $true
                 }
 
                 $logUploadSteps = $job.steps | Where-Object {

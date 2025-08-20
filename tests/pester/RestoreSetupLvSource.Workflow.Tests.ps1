@@ -25,6 +25,7 @@ Describe 'RestoreSetupLvSource.Workflow' {
 
         $restoreStep.with.relative_path | Should -Be 'scripts/restore-setup-lv-source'
         $restoreStep.env | Should -Not -BeNullOrEmpty
+        $restoreStep.with.dry_run | Should -Be $true
 
         $artifactStep.with.path | Should -Be 'scripts/restore-setup-lv-source/restore.log'
     }

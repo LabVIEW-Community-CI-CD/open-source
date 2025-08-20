@@ -16,6 +16,7 @@ jobs:
           project_path: 'scripts/run-unit-tests/lv_icon.lvproj'
           test_config: 'scripts/run-unit-tests/unittest-config.cfg'
           working_directory: 'scripts/run-unit-tests'
+          dry_run: true
       - name: Upload test results to GitHub
         uses: EnricoMi/publish-unit-test-result-action@0f06977fde99088e583f6fa8ec622da326e818c3
         if: ${{ (success() || failure()) && !cancelled() }}

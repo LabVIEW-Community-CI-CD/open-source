@@ -29,6 +29,7 @@ Describe 'RunUnitTests.Workflow' {
         $testStep.with.project_path | Should -Be 'scripts/run-unit-tests/lv_icon.lvproj'
         $testStep.with.test_config | Should -Be 'scripts/run-unit-tests/unittest-config.cfg'
         $testStep.with.working_directory | Should -Be 'scripts/run-unit-tests'
+        $testStep.with.dry_run | Should -Be $true
 
         $artifactStep | Should -Not -BeNullOrEmpty
         $artifactStep.with.name | Should -Be 'unit-test-results'

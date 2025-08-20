@@ -28,6 +28,7 @@ Describe 'BuildLvlibp.Workflow' {
         $buildStep.with.relative_path | Should -Be 'scripts/build-lvlibp'
         $buildStep.with.labview_project | Should -Be 'scripts/build-lvlibp/lv_icon.lvproj'
         $buildStep.with.build_spec | Should -Be 'PackedLib Build'
+        $buildStep.with.dry_run | Should -Be $true
 
         $artifactStep | Should -Not -BeNullOrEmpty
         $artifactStep.with.path | Should -Be 'scripts/build-lvlibp/lv_icon_x64_v1.0.0.1+gabcdef.lvlibp'

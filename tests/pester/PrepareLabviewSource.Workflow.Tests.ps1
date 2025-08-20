@@ -26,6 +26,7 @@ Describe 'PrepareLabviewSource.Workflow' {
         $prepareStep.with.relative_path | Should -Be 'scripts/prepare-labview-source'
         $prepareStep.with.labview_project | Should -Be 'scripts/prepare-labview-source/lv_icon.lvproj'
         $prepareStep.with.build_spec | Should -Be 'PackageSource'
+        $prepareStep.with.dry_run | Should -Be $true
 
         $artifactStep.with.path | Should -Be 'scripts/prepare-labview-source/prepared-source.zip'
     }

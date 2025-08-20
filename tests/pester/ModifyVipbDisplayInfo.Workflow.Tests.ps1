@@ -33,6 +33,7 @@ Describe 'ModifyVipbDisplayInfo.Workflow' {
         $modStep.with.patch | Should -Be '0'
         $modStep.with.build | Should -Be '1'
         $modStep.with.commit | Should -Be 'abcdef'
+        $modStep.with.dry_run | Should -Be $true
         $modStep.with.display_information_json | Should -Be '{"Name":"Test"}'
 
         $artifactStep.with.path | Should -Be 'scripts/modify-vipb-display-info/lv_icon.vipb'

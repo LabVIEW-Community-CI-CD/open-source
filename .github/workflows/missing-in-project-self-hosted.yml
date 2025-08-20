@@ -15,6 +15,7 @@ jobs:
           supported_bitness: '64'
           project_file: 'scripts/missing-in-project/Missing in Project.lvproj'
           relative_path: 'scripts/missing-in-project'
+          dry_run: true
       - name: Upload missing findings
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

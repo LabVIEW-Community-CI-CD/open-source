@@ -24,7 +24,8 @@
             "patch": "0",
             "build": "1",
             "commit": "abcdef",
-            "display_information_json": "{\"Name\":\"Test\"}"
+            "display_information_json": "{\"Name\":\"Test\"}",
+            "dry_run": true
           }
         },
         {

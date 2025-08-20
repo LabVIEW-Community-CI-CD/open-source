@@ -27,6 +27,7 @@ Describe 'MissingInProject.Workflow' {
         $missingStep.with.supported_bitness | Should -Be '64'
         $missingStep.with.project_file | Should -Be 'scripts/missing-in-project/Missing in Project.lvproj'
         $missingStep.with.relative_path | Should -Be 'scripts/missing-in-project'
+        $missingStep.with.dry_run | Should -Be $true
 
         $artifactStep.with.path | Should -Be 'scripts/missing-in-project/missing_files.txt'
     }
