@@ -2,7 +2,9 @@
 
 [![Traceability](https://img.shields.io/endpoint?url=https://LabVIEW-Community-CI-CD.github.io/badge-summary.json)](https://LabVIEW-Community-CI-CD.github.io/summary.md)
 
-Open Source LabVIEW Actions is a collection of GitHub Actions and PowerShell scripts that streamline LabVIEW CI/CD workflows. Each task is exposed as its own action backed by a unified dispatcher. Refer to the [documentation](docs/index.md) for setup guidance, detailed examples, and the complete action reference.
+[![Docs](https://img.shields.io/badge/docs-view%20here-blue)](https://labview-community-ci-cd.github.io/open-source/)
+
+Open Source LabVIEW Actions is a collection of GitHub Actions and PowerShell scripts that streamline LabVIEW CI/CD workflows. Each task is exposed as its own action backed by a unified dispatcher. Refer to the [documentation](https://labview-community-ci-cd.github.io/open-source/) for setup guidance, detailed examples, and the complete action reference.
 
 ## Prerequisites
 
