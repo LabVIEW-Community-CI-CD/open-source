@@ -1,0 +1,6 @@
+digraph {
+  rankdir=LR;
+  "GitHub Action" -> Dispatcher -> "LabVIEW script";
+  "LabVIEW script" -> Outputs;
+  Outputs -> "GitHub Action" [label="Artifacts & results"];
+}

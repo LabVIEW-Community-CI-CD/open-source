@@ -2,6 +2,13 @@
 
 The Open Source LabVIEW Actions project exposes multiple LabVIEW CI/CD steps through a single dispatcher and a set of adapter scripts.
 
+## CI/CD workflow
+
+The GitHub Action triggers the dispatcher, which runs the requested LabVIEW
+script and returns artifacts and results back to the action.
+
+![GitHub Action to dispatcher to LabVIEW script flow](images/ci-workflow.svg)
+
 ## Dispatcher
 
 `Invoke-OSAction.ps1` routes incoming requests to the appropriate adapter script. The dispatcher discovers available actions, forwards command-line arguments, and preserves exit codes.
