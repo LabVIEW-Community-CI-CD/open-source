@@ -13,7 +13,8 @@ Param (
     [string]$VIP_LVVersion,
     [string]$SupportedBitness,
     [string]$RelativePath,
-    [string]$VIPCPath
+    [string]$VIPCPath,
+    [switch]$DryRun
 )
 
 # Auto-detect the VIPC file if one isn't provided
@@ -135,6 +136,11 @@ Write-Verbose "Full script content (for debugging): `n$script"
 # -------------------------
 # 5) Execute the Script & Handle Errors (Try/Catch with Invoke-Expression)
 # -------------------------
+if ($DryRun) {
+    Write-Output "DryRun: Successfully applied dependencies to LabVIEW: $VIP_LVVersion_B"
+    return 0
+}
+
 try {
     Write-Verbose "Starting Invoke-Expression to run g-cli commands..."
     Invoke-Expression $script

@@ -23,7 +23,8 @@
 param(
     [string]$MinimumSupportedLVVersion,
     [string]$SupportedBitness,
-    [string]$RelativePath
+    [string]$RelativePath,
+    [switch]$DryRun
 )
 
 # Build the g-cli argument array
@@ -35,6 +36,11 @@ $gcliArgs = @(
 )
 
 Write-Output "Executing: g-cli $($gcliArgs -join ' ')"
+
+if ($DryRun) {
+    Write-Output 'DryRun: Create localhost.library path from ini file'
+    return 0
+}
 
 & g-cli @gcliArgs
 if ($LASTEXITCODE -eq 0) {

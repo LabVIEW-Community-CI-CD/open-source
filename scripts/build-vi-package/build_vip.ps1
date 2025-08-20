@@ -57,7 +57,8 @@ param (
     [string]$ReleaseNotesFile,
 
     [Parameter(Mandatory=$true)]
-    [string]$DisplayInformationJSON
+    [string]$DisplayInformationJSON,
+    [switch]$DryRun
 )
 
 # 1) Locate VIPB file in the action directory
@@ -144,6 +145,11 @@ Write-Output "Executing the following commands:"
 Write-Output $script
 
 # 6) Execute the commands
+if ($DryRun) {
+    Write-Output "DryRun: Successfully built VI package: $ResolvedVIPBPath"
+    return 0
+}
+
 try {
     Invoke-Expression $script
     Write-Host "Successfully built VI package: $ResolvedVIPBPath"

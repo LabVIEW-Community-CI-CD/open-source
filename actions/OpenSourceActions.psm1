@@ -20,7 +20,7 @@ function Invoke-OpenSourceActionScript {
     }
     if ($DryRun) {
         Write-Information "DryRun: & $scriptPath $($Arguments | ConvertTo-Json -Compress)"
-        return 0
+        $Arguments['DryRun'] = $true
     }
     $originalPath = $env:PATH
     try {

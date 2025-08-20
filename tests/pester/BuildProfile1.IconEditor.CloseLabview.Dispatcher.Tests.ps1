@@ -19,6 +19,7 @@ Describe 'BuildProfile1.IconEditor.CloseLabview.Dispatcher' {
         $out = & $dispatcher -ActionName close-labview -ArgsJson $params.ArgsJson -WorkingDirectory $projectRoot -DryRun *>&1 | Out-String
         $LASTEXITCODE | Should -Be 0
         $out | Should -Match 'Close_LabVIEW.ps1'
+        $out | Should -Match 'g-cli --lv-ver 2021 --arch 64'
         $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
         $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
         $obj = $jsonText | ConvertFrom-Json
