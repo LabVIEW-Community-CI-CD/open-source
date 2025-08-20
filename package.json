@@ -18,6 +18,7 @@
     "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml scripts/**/*.test.js scripts/*.test.js",
     "derive:registry": "tsx scripts/derive-dispatcher-registry.ts",
     "generate:summary": "tsx scripts/generate-ci-summary.ts",
+    "generate:requirements-docs": "tsx scripts/generate-requirements-docs.ts",
     "generate:traceability-matrix": "tsx scripts/generate-traceability-matrix.ts",
     "check:traceability": "tsx scripts/check-traceability.ts",
     "lint:md": "markdownlint-cli2 README.md \"docs/**/*.md\" \"scripts/**/*.md\"",
