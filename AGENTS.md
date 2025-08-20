@@ -37,3 +37,15 @@
 ### Pester Tests
 
 Pester tests are part of the continuous integration pipeline. The GitHub runner executes them automatically, so agents must not run Pester tests manually.
+
+## Test and Release Mode
+
+Committing build artifacts together with a `release.json` file triggers the release pipeline.
+
+The `release.json` file must follow this schema:
+
+```json
+{"major":1,"minor":0,"patch":2,"title":"Release title"}
+```
+
+The workflow `ci.yml` runs first and, on success, hands off to `release.yml` for publishing.
