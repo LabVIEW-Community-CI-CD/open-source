@@ -118,13 +118,14 @@ jobs:
       - run: npm install
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
+          pattern: test-results-pester-*
           path: ./downloaded-artifacts
       - run: npm run derive:registry
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: |
             test-results/*junit*.xml
-            downloaded-artifacts/pester-junit-*/pester-junit.xml
+            downloaded-artifacts/test-results-pester-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: artifacts/evidence
