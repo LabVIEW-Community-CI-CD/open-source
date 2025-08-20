@@ -129,6 +129,13 @@ else {
     $jsonObj.'Package Version'.build = $Build
 }
 
+# Add commit identifier
+if (-not $jsonObj.commit) {
+    $jsonObj | Add-Member -MemberType NoteProperty -Name 'commit' -Value $Commit
+} else {
+    $jsonObj.commit = $Commit
+}
+
 # Re-convert to a JSON string with a comfortable nesting depth
 $UpdatedDisplayInformationJSON = $jsonObj | ConvertTo-Json -Depth 5
 

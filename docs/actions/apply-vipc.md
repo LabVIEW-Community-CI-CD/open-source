@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Apply a VI Package Configuration (.vipc) file to a specific LabVIEW installation using g-cli.
+Apply a [VI Package Configuration](../glossary.md#vipc) (`.vipc`) file to a specific LabVIEW installation using g-cli.
 
 ## Parameters
 
@@ -10,8 +10,8 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 ### Required
 
-- **MinimumSupportedLVVersion** (`string`): LabVIEW version used to apply the VIPC.
-- **VIP_LVVersion** (`string`): LabVIEW version the VIPC targets.
+- **MinimumSupportedLVVersion** (`string`): LabVIEW version used to apply the [VIPC](../glossary.md#vipc).
+- **VIP_LVVersion** (`string`): LabVIEW version the [VIPC](../glossary.md#vipc) targets.
 - **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
 - **VIPCPath** (`string`): Path to the `.vipc` file to apply.
@@ -20,7 +20,25 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
+### GitHub Action inputs
+
+GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
+
+| Input | CLI parameter | Description |
+| --- | --- | --- |
+| `minimum_supported_lv_version` | `MinimumSupportedLVVersion` | Minimum LabVIEW version supported. |
+| `vip_lv_version` | `VIP_LVVersion` | LabVIEW version associated with the VI Package. |
+| `supported_bitness` | `SupportedBitness` | "32" or "64" bitness of LabVIEW. |
+| `relative_path` | `RelativePath` | Path relative to the working directory. Use '.' to refer to the working directory. |
+| `vipc_path` | `VIPCPath` | Path to the [`VIPC`](../glossary.md#vipc) file. |
+| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
+| `working_directory` | `WorkingDirectory` | Base directory for the action; relative paths are resolved from here. |
+| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
+| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
+
+## Examples
+
+### CLI
 
 ```powershell
 pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
@@ -33,27 +51,11 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
 }'
 ```
 
-## GitHub Action inputs
-
-GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
-
-| Input | CLI parameter | Description |
-| --- | --- | --- |
-| `minimum_supported_lv_version` | `MinimumSupportedLVVersion` | Minimum LabVIEW version supported. |
-| `vip_lv_version` | `VIP_LVVersion` | LabVIEW version associated with the VI Package. |
-| `supported_bitness` | `SupportedBitness` | "32" or "64" bitness of LabVIEW. |
-| `relative_path` | `RelativePath` | Path relative to the working directory. Use '.' to refer to the working directory. |
-| `vipc_path` | `VIPCPath` | Path to the VIPC file. |
-| `gcli_path` | `gcliPath` | Optional path to the g-cli executable. |
-| `working_directory` | `WorkingDirectory` | Base directory for the action; relative paths are resolved from here. |
-| `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
-| `dry_run` | `DryRun` | If true, simulate the action without side effects. |
-
-## GitHub Action example
+### GitHub Action
 
 ```yaml
 - name: Apply VIPC
-  uses: LabVIEW-Community-CI-CD/open-source-actions/apply-vipc@v1
+  uses: LabVIEW-Community-CI-CD/open-source/apply-vipc@v1
   with:
     minimum_supported_lv_version: '2019'
     vip_lv_version: '2019'
@@ -70,4 +72,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/apply-vipc/README.md](../../scripts/apply-vipc/README.md).
+## See also
+
+- [Workflow documentation](../workflows/apply-vipc.md)
+- [scripts/apply-vipc/README.md](../../scripts/apply-vipc/README.md)

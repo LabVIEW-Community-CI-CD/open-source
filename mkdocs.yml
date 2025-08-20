@@ -35,57 +35,81 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight
 nav:
-  - Home:
-    - Overview: index.md
-    - Architecture: architecture.md
-  - Quickstart: quickstart.md
-  - Action Calls: action-call-reference.md
-  - Common Parameters: common-parameters.md
-  - Troubleshooting: troubleshooting.md
-  - Unified Dispatcher: UnifiedDispatcher.md
-  - Adapter Authoring: adapter-authoring.md
-  - Versioning: versioning.md
-  - Changelog: CHANGELOG.md
-  - Contributing: contributing-docs.md
-  - Requirements: requirements.md
-  - Testing with Pester: testing-pester.md
-  - Actions:
-    - Setup:
-      - Add Token to LabVIEW: actions/add-token-to-labview.md
-      - Apply VIPC: actions/apply-vipc.md
-      - Close LabVIEW: actions/close-labview.md
-      - Missing in Project: actions/missing-in-project.md
-      - Prepare LabVIEW Source: actions/prepare-labview-source.md
-      - Rename File: actions/rename-file.md
-      - Restore Setup LV Source: actions/restore-setup-lv-source.md
-      - Set Development Mode: actions/set-development-mode.md
-      - Revert Development Mode: actions/revert-development-mode.md
-    - Build:
-      - Build: actions/build.md
-      - Build LVLIBP: actions/build-lvlibp.md
-      - Build VI Package: actions/build-vi-package.md
-      - Generate Release Notes: actions/generate-release-notes.md
-      - Modify VIPB Display Info: actions/modify-vipb-display-info.md
-    - Testing:
-      - Run Unit Tests: actions/run-unit-tests.md
-  - Workflows:
-    - Add Token to LabVIEW: workflows/add-token-to-labview.md
-    - Apply VIPC: workflows/apply-vipc.md
-    - Build LVLIBP: workflows/build-lvlibp.md
-    - Build VI Package: workflows/build-vi-package.md
-    - Build: workflows/build.md
-    - Close LabVIEW: workflows/close-labview.md
-    - Generate Release Notes: workflows/generate-release-notes.md
-    - Missing in Project: workflows/missing-in-project.md
-    - Modify VIPB Display Info: workflows/modify-vipb-display-info.md
-    - Prepare LabVIEW Source: workflows/prepare-labview-source.md
-    - Rename File: workflows/rename-file.md
-    - Restore Setup LV Source: workflows/restore-setup-lv-source.md
-    - Revert Development Mode: workflows/revert-development-mode.md
-    - Run Pester Tests: workflows/run-pester-tests.md
-    - Run Unit Tests: workflows/run-unit-tests.md
-    - Set Development Mode: workflows/set-development-mode.md
-    - Setup MkDocs: workflows/setup-mkdocs.md
+  - Overview:
+      - Overview: index.md
+      - Architecture: architecture.md
+      - Unified Dispatcher: UnifiedDispatcher.md
+  - Guides:
+      - Quickstart: quickstart.md
+      - Environment Setup: environment-setup.md
+      - Troubleshooting: troubleshooting.md
+  - Reference:
+      - Glossary: glossary.md
+      - Action Calls: action-call-reference.md
+      - Common Parameters: common-parameters.md
+      - Actions:
+          - README: actions/README.md
+          - Overview: actions/index.md
+          - Add Token to LabVIEW: actions/add-token-to-labview.md
+          - Apply VIPC: actions/apply-vipc.md
+          - Build: actions/build.md
+          - Build LVLibp: actions/build-lvlibp.md
+          - Build VI Package: actions/build-vi-package.md
+          - Close LabVIEW: actions/close-labview.md
+          - Generate Release Notes: actions/generate-release-notes.md
+          - Missing in Project: actions/missing-in-project.md
+          - Modify VIPB Display Info: actions/modify-vipb-display-info.md
+          - Prepare LabVIEW Source: actions/prepare-labview-source.md
+          - Rename File: actions/rename-file.md
+          - Restore Setup LV Source: actions/restore-setup-lv-source.md
+          - Revert Development Mode: actions/revert-development-mode.md
+          - Run Pester Tests: actions/run-pester-tests.md
+          - Run Unit Tests: actions/run-unit-tests.md
+          - Set Development Mode: actions/set-development-mode.md
+          - Setup MkDocs: actions/setup-mkdocs.md
+      - Scripts:
+          - Add Token to LabVIEW: scripts/add-token-to-labview.md
+          - Apply VIPC: scripts/apply-vipc.md
+          - Build: scripts/build.md
+          - Build LVLibp: scripts/build-lvlibp.md
+          - Build VI Package: scripts/build-vi-package.md
+          - Close LabVIEW: scripts/close-labview.md
+          - Generate Release Notes: scripts/generate-release-notes.md
+          - Missing in Project: scripts/missing-in-project.md
+          - Modify VIPB Display Info: scripts/modify-vipb-display-info.md
+          - Prepare LabVIEW Source: scripts/prepare-labview-source.md
+          - Rename File: scripts/rename-file.md
+          - Restore Setup LV Source: scripts/restore-setup-lv-source.md
+          - Revert Development Mode: scripts/revert-development-mode.md
+          - Run Pester Tests: scripts/run-pester-tests.md
+          - Run Unit Tests: scripts/run-unit-tests.md
+          - Set Development Mode: scripts/set-development-mode.md
+      - Workflows:
+          - Overview: workflows/index.md
+          - Add Token to LabVIEW: workflows/add-token-to-labview.md
+          - Apply VIPC: workflows/apply-vipc.md
+          - Build: workflows/build.md
+          - Build LVLibp: workflows/build-lvlibp.md
+          - Build VI Package: workflows/build-vi-package.md
+          - Close LabVIEW: workflows/close-labview.md
+          - Generate Release Notes: workflows/generate-release-notes.md
+          - Missing in Project: workflows/missing-in-project.md
+          - Modify VIPB Display Info: workflows/modify-vipb-display-info.md
+          - Prepare LabVIEW Source: workflows/prepare-labview-source.md
+          - Rename File: workflows/rename-file.md
+          - Restore Setup LV Source: workflows/restore-setup-lv-source.md
+          - Revert Development Mode: workflows/revert-development-mode.md
+          - Run Pester Tests: workflows/run-pester-tests.md
+          - Run Unit Tests: workflows/run-unit-tests.md
+          - Set Development Mode: workflows/set-development-mode.md
+          - Setup MkDocs: workflows/setup-mkdocs.md
+  - Developer Docs:
+      - Adapter Authoring: adapter-authoring.md
+      - Versioning: versioning.md
+      - Changelog: CHANGELOG.md
+      - Contributing: contributing-docs.md
+      - Requirements: requirements.md
+      - Testing with Pester: testing-pester.md
 plugins:
   - search
   - autorefs

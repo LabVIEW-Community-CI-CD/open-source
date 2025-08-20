@@ -9,7 +9,7 @@ Describe 'ModifyVipbDisplayInfo.Workflow' {
         Evidence    = 'tests/pester/ModifyVipbDisplayInfo.Workflow.Tests.ps1'
     }
 
-    It 'runs modify-vipb-display-info action and uploads VIPB artifact' -Tag 'REQ-015' {
+    It 'runs modify-vipb-display-info action and uploads VIPB artifact [REQ-015]' -Tag 'REQ-015' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/modify-vipb-display-info-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

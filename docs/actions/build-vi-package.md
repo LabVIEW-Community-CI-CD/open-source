@@ -12,7 +12,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 - **MinimumSupportedLVVersion** (`string`): Minimum LabVIEW version supported by the package.
 - **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
-- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3").
+- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3")
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
 - **VIPBPath** (`string`): Relative path to the VIPB file to build.
 - **Major** (`int`): Major version component.
@@ -26,26 +26,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 - **ReleaseNotesFile** (`string`): Path to a release notes file included in the package.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
-  "MinimumSupportedLVVersion": "2023",
-  "SupportedBitness": "64",
-  "LabVIEWMinorRevision": "3",
-  "WorkingDirectory": ".",
-  "RelativePath": ".",
-  "VIPBPath": "Tooling/deployment/NI Icon editor.vipb",
-  "Major": 1,
-  "Minor": 0,
-  "Patch": 0,
-  "Build": 2,
-  "Commit": "abcdef",
-  "DisplayInformationJSON": "{\"Package Version\":{\"major\":1,\"minor\":0,\"patch\":0,\"build\":2}}"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -68,11 +49,32 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
+  "MinimumSupportedLVVersion": "2023",
+  "SupportedBitness": "64",
+  "LabVIEWMinorRevision": "3",
+  "WorkingDirectory": ".",
+  "RelativePath": ".",
+  "VIPBPath": "Tooling/deployment/NI Icon editor.vipb",
+  "Major": 1,
+  "Minor": 0,
+  "Patch": 0,
+  "Build": 2,
+  "Commit": "abcdef",
+  "DisplayInformationJSON": "{\"Package Version\":{\"major\":1,\"minor\":0,\"patch\":0,\"build\":2}}"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Build VI Package
-  uses: LabVIEW-Community-CI-CD/open-source-actions/build-vi-package@v1
+  uses: LabVIEW-Community-CI-CD/open-source/build-vi-package@v1
   with:
     minimum_supported_lv_version: '2023'
     supported_bitness: '64'
@@ -95,4 +97,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/build-vi-package/README.md](../../scripts/build-vi-package/README.md).
+## See also
+
+- [Workflow documentation](../workflows/build-vi-package.md)
+- [scripts/build-vi-package/README.md](../../scripts/build-vi-package/README.md)

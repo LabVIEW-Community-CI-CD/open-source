@@ -1,0 +1,14 @@
+{
+  "markdown": true,
+  "recurse": true,
+  "retry": true,
+  "retryErrors": true,
+  "verbosity": "error",
+  "directoryListing": true,
+  "skip": [
+    "https://labview-community-ci-cd.github.io/open-source/",
+    "http://127.0.0.1:8000/",
+    "https://LabVIEW-Community-CI-CD.github.io/summary.md",
+    "https://labview-community-ci-cd.github.io/summary.md"
+  ]
+}

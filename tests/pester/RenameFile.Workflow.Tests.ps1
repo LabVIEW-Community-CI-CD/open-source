@@ -9,7 +9,7 @@ Describe 'RenameFile.Workflow' {
         Evidence    = 'tests/pester/RenameFile.Workflow.Tests.ps1'
     }
 
-    It 'runs rename-file action and uploads renamed file artifact' -Tag 'REQ-017' {
+    It 'runs rename-file action and uploads renamed file artifact [REQ-017]' -Tag 'REQ-017' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/rename-file-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

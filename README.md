@@ -1,8 +1,8 @@
 # Open Source LabVIEW Actions
 
-Open Source LabVIEW Actions provides typed GitHub Action wrappers around a unified PowerShell dispatcher for LabVIEW CI/CD tasks. Each adapter (for example `run-unit-tests`) is exposed as its own action and can be called from workflows with `uses: LabVIEW-Community-CI-CD/open-source-actions/<action>@v1`.
+[![Traceability](https://img.shields.io/endpoint?url=https://LabVIEW-Community-CI-CD.github.io/badge-summary.json)](https://LabVIEW-Community-CI-CD.github.io/summary.md)
 
-For setup and action reference, see the [documentation](docs/index.md). The [quickstart](docs/quickstart.md) shows a full example and [Unified Dispatcher](docs/UnifiedDispatcher.md) describes how the dispatcher works. For an overview of the project's architecture, see [docs/architecture.md](docs/architecture.md). For a mapping of high-level requirements to the tests that verify them, see [docs/requirements.md](docs/requirements.md).
+Open Source LabVIEW Actions is a collection of GitHub Actions and PowerShell scripts that streamline LabVIEW CI/CD workflows. Each task is exposed as its own action backed by a unified dispatcher. Refer to the [documentation](docs/index.md) for setup guidance, detailed examples, and the complete action reference.
 
 ## Prerequisites
 
@@ -17,7 +17,7 @@ See [Environment Setup](docs/environment-setup.md) for installation steps and co
 
 ```yaml
 - name: Run tests
-  uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+  uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'
@@ -39,7 +39,7 @@ Common optional inputs available on all wrappers:
 Run tests from a subfolder:
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+- uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'
@@ -49,7 +49,7 @@ Run tests from a subfolder:
 Enable debug logging and perform a dry run:
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+- uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'
@@ -57,42 +57,7 @@ Enable debug logging and perform a dry run:
     dry_run: true
   ```
 
-Build Icon Editor:
-
-Chain the [apply-vipc](docs/actions/apply-vipc.md), [set-development-mode](docs/actions/set-development-mode.md), [build](docs/actions/build.md), and [revert-development-mode](docs/actions/revert-development-mode.md) actions to build the LabVIEW Icon Editor:
-
-```yaml
-- uses: actions/checkout@v4
-  with:
-    repository: LabVIEW-Community-CI-CD/labview-icon-editor
-    path: labview-icon-editor
-- uses: LabVIEW-Community-CI-CD/open-source-actions/apply-vipc@v1
-  with:
-    minimum_supported_lv_version: '2021'
-    vip_lv_version: '2021'
-    supported_bitness: '64'
-    relative_path: labview-icon-editor
-    vipc_path: labview-icon-editor/.github/actions/apply-vipc/runner_dependencies.vipc
-- uses: LabVIEW-Community-CI-CD/open-source-actions/set-development-mode@v1
-  with:
-    minimum_supported_lv_version: '2021'
-    supported_bitness: '64'
-    relative_path: labview-icon-editor
-- uses: LabVIEW-Community-CI-CD/open-source-actions/build@v1
-  with:
-    relative_path: labview-icon-editor
-    major: 1
-    minor: 0
-    patch: 0
-    build: 0
-    commit: abcdef
-    labview_minor_revision: '3'
-    company_name: 'Acme Corp'
-    author_name: 'Jane Doe'
-- uses: LabVIEW-Community-CI-CD/open-source-actions/revert-development-mode@v1
-  with:
-    relative_path: labview-icon-editor
-```
+For a full workflow example that chains multiple actions to build the LabVIEW Icon Editor, see [docs/quickstart.md#build-icon-editor](docs/quickstart.md#build-icon-editor).
 
 ## CLI/dispatcher usage
 
@@ -139,16 +104,25 @@ Workflows distinguish between standard GitHub-hosted images and integration runn
 
 ## Testing
 
-Run the JavaScript tests with:
+Run the JavaScript tests and generate traceability artifacts with:
 
 ```bash
 npm install
-npm test
+npm run test:ci
+npm run derive:registry
+RUNNER_OS=Linux TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+npm run check:traceability
 ```
 
-For CI, `npm run test:ci` emits a JUnit XML report that [scripts/generate-ci-summary.ts](scripts/generate-ci-summary.ts) parses to build requirement traceability files in OS‑specific subdirectories (e.g., `artifacts/windows`, `artifacts/linux`) based on the `RUNNER_OS` environment variable. The summary script searches `artifacts/` by default; set `TEST_RESULTS_GLOBS` if your reports are elsewhere.
+When running locally, set `RUNNER_OS` (for example, `RUNNER_OS=Linux`) before invoking `npm run generate:summary`.
 
-Pester tests cover the dispatcher and helper modules. See [docs/testing-pester.md](docs/testing-pester.md) for guidelines on using the canonical argument helper and adding new tests. Run them with:
+`npm run test:ci` writes JUnit files to `test-results/`. [scripts/generate-ci-summary.ts](scripts/generate-ci-summary.ts) parses these results to build requirement traceability files in OS‑specific subdirectories (e.g., `artifacts/windows`, `artifacts/linux`) based on the `RUNNER_OS` environment variable. Commit `test-results/*` and `artifacts/linux/*` along with your source changes. The summary script searches `artifacts/` by default; set `TEST_RESULTS_GLOBS` if your reports are elsewhere.
+
+Pester tests cover the dispatcher and helper modules. See [docs/testing-pester.md](docs/testing-pester.md) for guidelines on using the canonical argument helper and adding new tests. The GitHub runner installs Pester automatically; install it locally only if you plan to run the tests yourself:
+
+```powershell
+Install-Module Pester -Force -Scope CurrentUser
+```
 
 ```powershell
 $cfg = New-PesterConfiguration
@@ -158,6 +132,30 @@ Invoke-Pester -Configuration $cfg
 ```
 
 XML test result output is intentionally disabled.
+
+## Test and Release Mode
+
+Committing build artifacts together with a `release.json` file enables the
+release pipeline. The `release.json` file supplies the JSON payload describing
+the release:
+
+```json
+{"major":1,"minor":0,"patch":2,"title":"Release title"}
+```
+
+Ensure the build artifacts are present (for example under `artifacts/`) and
+checked in alongside `release.json`. The `ci.yml` workflow runs first and, on
+success, hands off to `release.yml` to publish the release. See
+[Test and Release Mode](AGENTS.md#test-and-release-mode) for more details.
+
+## Requirement Traceability
+
+Each requirement is tracked as an issue or entry in
+[`requirements.json`](requirements.json). Every code change must reference the
+requirement it addresses, and each requirement must have at least one automated
+test. The CI pipeline checks these links and reports missing associations. For a
+full mapping of requirements to tests, see
+[docs/requirements.md](docs/requirements.md).
 
 ## Contributing
 

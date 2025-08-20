@@ -9,7 +9,7 @@ Describe 'BuildViPackage.Workflow' {
         Evidence    = 'tests/pester/BuildViPackage.Workflow.Tests.ps1'
     }
 
-    It 'runs build-vi-package action and uploads vi package artifact' -Tag 'REQ-011' {
+    It 'runs build-vi-package action and uploads vi package artifact [REQ-011]' -Tag 'REQ-011' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/build-vi-package-self-hosted.json'
         if (-not (Test-Path $workflowPath)) {
@@ -36,7 +36,7 @@ Describe 'BuildViPackage.Workflow' {
         $buildStep.with.commit | Should -Be 'abcdef'
 
         $artifactStep | Should -Not -BeNullOrEmpty
-        $artifactStep.with.path | Should -Be 'scripts/build-vi-package/lv_icon.vip'
+        $artifactStep.with.path | Should -Be 'scripts/build-vi-package/lv_icon_v1.0.0.1+gabcdef.vip'
         $artifactStep.with.name | Should -Be 'vi-package'
     }
 }

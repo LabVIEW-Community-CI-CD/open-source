@@ -4,14 +4,18 @@ To keep documentation consistent and easy to review, please follow these rules w
 
 ## Action documentation
 
-Action documentation lives under [docs/actions/](actions/). Keep these files in sync with their corresponding implementations in [scripts/](../scripts).
+Action documentation lives under [docs/actions](actions/README.md). Keep these files in sync with their corresponding implementations in [scripts](../scripts/README.md).
 
 - Run `npm run verify:docs` to check that documented inputs match each action's action.yml.
+
+### Template
+
+Use [docs/template-action.md](template-action.md) as the starting point for new or updated action and workflow docs. Each document should include **Purpose**, **Parameters**, **Examples**, and **Return Codes** sections, with GitHub Action inputs mapped to CLI parameters and example code blocks for both CLI and GitHub usage.
 
 ## Markdown linting
 
 - Run `npm run lint:md` to lint Markdown formatting.
-- Run `npx --yes markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to check links before submitting changes.
+- Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to check links before submitting changes.
 - Keep one `#`-level heading at the top of each file and increment heading levels sequentially; do not skip levels.
 
 ## Heading levels
@@ -55,21 +59,25 @@ MkDocs serves the site at <http://127.0.0.1:8000/> by default. The server automa
 
 ## JUnit integration
 
-The CI pipeline collects JUnit XML output from both Node and PowerShell tests. `scripts/generate-ci-summary.ts` parses these files to build the requirement traceability report. Use `npm run test:ci` to produce the Node JUnit report when verifying documentation updates. By default, the summary script only searches `artifacts/` for JUnit XML files; if your results are elsewhere, pass a glob via `TEST_RESULTS_GLOBS`, for example:
+The CI pipeline collects JUnit XML output from both Node and PowerShell tests. `scripts/generate-ci-summary.ts` parses these files to build the requirement traceability report. Use `npm run test:ci` to produce the Node JUnit report when verifying documentation updates; the results appear under `test-results/` and must be committed with your pull request. Then run:
 
 ```bash
+npm run derive:registry
 TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+npm run check:traceability
 ```
+
+Commit `test-results/*` and `artifacts/linux/*` along with your source changes. The `validate-artifacts` job in CI verifies these files but does not generate them. By default, the summary script only searches `artifacts/` for JUnit XML files; if your results are elsewhere, pass a glob via `TEST_RESULTS_GLOBS`.
 
 ### Pester properties
 
-Pester tests should record traceability metadata by adding `Add-TestResult -Property` calls in each `It` block. At minimum, include an `Owner` and an `Evidence` path:
+Pester tests should record traceability metadata by adding `Add-TestResult -Property` calls in each `It` block. At minimum, include an `Owner`, a `Requirement` ID, and an `Evidence` path so the framework can link tests back to requirements:
 
 ```powershell
-It "does something" {
-    Add-TestResult -Property @{ Owner = 'DevTools'; Evidence = 'tests/pester/example.Tests.ps1' }
+It "[REQ-123] does something" {
+    Add-TestResult -Property @{ Owner = 'DevTools'; Requirement = 'REQ-123'; Evidence = 'tests/pester/example.Tests.ps1' }
     # test body
 }
 ```
 
-These properties are preferred over naming conventions when `scripts/generate-ci-summary.ts` builds the CI report.
+For other test frameworks, prefix the test name with `[REQ-123]` or use an equivalent mechanism to embed the requirement ID. These properties are preferred over naming conventions when `scripts/generate-ci-summary.ts` builds the CI report.

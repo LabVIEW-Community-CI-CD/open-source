@@ -9,7 +9,7 @@ Describe 'SetDevelopmentMode.Workflow' {
         Evidence    = 'tests/pester/SetDevelopmentMode.Workflow.Tests.ps1'
     }
 
-    It 'runs set-development-mode action and uploads logs' -Tag 'REQ-021' {
+    It 'runs set-development-mode action and uploads logs [REQ-021]' -Tag 'REQ-021' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $workflowPath = Join-Path $repoRoot '.github/workflows/set-development-mode-self-hosted.json'
         $wf = Get-Content -Raw $workflowPath | ConvertFrom-Json -AsHashtable

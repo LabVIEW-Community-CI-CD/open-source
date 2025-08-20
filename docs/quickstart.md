@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Packed Library (32-bit)
-        uses: LabVIEW-Community-CI-CD/open-source-actions/build-lvlibp@v1
+        uses: LabVIEW-Community-CI-CD/open-source/build-lvlibp@v1
         with:
           minimum_supported_lv_version: '2019'
           supported_bitness: '32'
@@ -70,7 +70,7 @@ jobs:
         with:
           repository: LabVIEW-Community-CI-CD/labview-icon-editor
           path: labview-icon-editor
-      - uses: LabVIEW-Community-CI-CD/open-source-actions/apply-vipc@v1
+      - uses: LabVIEW-Community-CI-CD/open-source/apply-vipc@v1
         with:
           minimum_supported_lv_version: '2021'
           vip_lv_version: '2021'
@@ -78,13 +78,13 @@ jobs:
           working_directory: labview-icon-editor
           relative_path: '.'
           vipc_path: labview-icon-editor/.github/actions/apply-vipc/runner_dependencies.vipc
-      - uses: LabVIEW-Community-CI-CD/open-source-actions/set-development-mode@v1
+      - uses: LabVIEW-Community-CI-CD/open-source/set-development-mode@v1
         with:
           minimum_supported_lv_version: '2021'
           supported_bitness: '64'
           working_directory: labview-icon-editor
           relative_path: '.'
-      - uses: LabVIEW-Community-CI-CD/open-source-actions/build@v1
+      - uses: LabVIEW-Community-CI-CD/open-source/build@v1
         with:
           working_directory: labview-icon-editor
           relative_path: '.'
@@ -96,7 +96,7 @@ jobs:
           labview_minor_revision: '3'
           company_name: 'Acme Corp'
           author_name: 'Jane Doe'
-      - uses: LabVIEW-Community-CI-CD/open-source-actions/revert-development-mode@v1
+      - uses: LabVIEW-Community-CI-CD/open-source/revert-development-mode@v1
         with:
           working_directory: labview-icon-editor
           relative_path: '.'

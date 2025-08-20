@@ -5,7 +5,7 @@
 - Ensure Node.js 24 or newer is installed (e.g. via the NodeSource setup script).
   - Verify with `node --version`.
 - Install `actionlint` and ensure it is on your `PATH`:
-  - `go install github.com/rhysd/actionlint/cmd/actionlint@latest`
+  - `go install github.com/rhysd/actionlint/cmd/actionlint@v1.6.26`
   - Verify with `actionlint -version`.
 - Ensure PowerShell 7.5.1 is installed and accessible.
   - Verify with `pwsh --version`.
@@ -29,8 +29,28 @@
 ## Testing
 - Run `npm run check:node` to verify Node.js satisfies the required version.
 - Run `npm install` to ensure Node dependencies are available.
-- Run `npm test`.
+- Run `npm run test:ci` (JUnit files appear under `test-results/`).
+- Run `npm run derive:registry`.
+- Run `TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary`.
 - Run `npm run lint:md` to lint Markdown files.
-- Run `npx --yes markdown-link-check -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')` to verify links and ensure failures are visible.
+- Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to verify links and ensure failures are visible.
 - Run `actionlint` to validate GitHub Actions workflows.
-- Run `pwsh -NoLogo -Command "$cfg = New-PesterConfiguration; $cfg.Run.Path = './tests/pester'; $cfg.TestResult.Enabled = $false; Invoke-Pester -Configuration $cfg"` and ensure all tests pass (XML output is intentionally disabled).
+- Run `scripts/check-commit-requirements.sh <base_sha>` to verify that recent commits include requirement IDs from `requirements.json`. Run this script after committing to ensure each commit message contains at least one requirement ID.
+- Run `npm run check:traceability` to validate generated artifacts.
+- Commit `test-results/*` and `artifacts/linux/*` along with source changes.
+
+### Pester Tests
+
+Pester tests are part of the continuous integration pipeline. The GitHub runner executes them automatically, so agents must not run Pester tests manually.
+
+## Test and Release Mode
+
+Committing build artifacts together with a `release.json` file triggers the release pipeline.
+
+The `release.json` file must follow this schema:
+
+```json
+{"major":1,"minor":0,"patch":2,"title":"Release title"}
+```
+
+The workflow `ci.yml` runs first and, on success, hands off to `release.yml` for publishing.

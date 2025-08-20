@@ -16,15 +16,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -ArgsJson '{
-  "WorkingDirectory": "."
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -34,14 +26,28 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -ArgsJson '{
+  "WorkingDirectory": "."
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Run Pester tests
-  uses: LabVIEW-Community-CI-CD/open-source-actions/run-pester-tests@v1
+  uses: LabVIEW-Community-CI-CD/open-source/run-pester-tests@v1
   with:
     working_directory: '.'
 ```
+
+## Outputs
+
+Running the action writes a `requirement-coverage.json` file to the working directory. The file lists each requirement ID discovered from test tags and whether its associated tests passed (`PASS`), failed (`FAIL`), or were not executed (`NOT_RUN`).
 
 ## Return Codes
 
@@ -52,4 +58,7 @@ See [run-pester-tests/action.yml](../../run-pester-tests/action.yml) and [script
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/run-pester-tests/README.md](../../scripts/run-pester-tests/README.md).
+## See also
+
+- [Workflow documentation](../workflows/run-pester-tests.md)
+- [scripts/run-pester-tests/README.md](../../scripts/run-pester-tests/README.md)

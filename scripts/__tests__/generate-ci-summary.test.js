@@ -6,6 +6,7 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import AdmZip from 'adm-zip';
 import { collectTestCases } from '../summary/tests.ts';
 import { loadRequirements, mapToRequirements } from '../summary/requirements.ts';
 import { groupToMarkdown, summaryToMarkdown, requirementsSummaryToMarkdown, buildSummary, computeStatusCounts } from '../summary/index.ts';
@@ -159,8 +160,8 @@ test('groupToMarkdown omits numeric identifiers', () => {
   const groups = [{
     id: 'REQ-XYZ',
     tests: [
-      { id: 'a', name: 'alpha', status: 'Passed', duration: 0, requirements: [] },
-      { id: 'b', name: 'beta', status: 'Failed', duration: 0, requirements: [] },
+      { id: 'alpha', name: 'Alpha', status: 'Passed', duration: 0, requirements: [] },
+      { id: 'beta', name: 'Beta', status: 'Failed', duration: 0, requirements: [] },
     ],
   }];
   const md = groupToMarkdown(groups);
@@ -174,9 +175,9 @@ test('groupToMarkdown supports optional limit for truncation', () => {
   const groups = [{
     id: 'REQ-XYZ',
     tests: [
-      { id: 'a', name: 'alpha', status: 'Passed', duration: 0, requirements: [] },
-      { id: 'b', name: 'beta', status: 'Failed', duration: 0, requirements: [] },
-      { id: 'c', name: 'gamma', status: 'Skipped', duration: 0, requirements: [] },
+      { id: 'alpha', name: 'Alpha', status: 'Passed', duration: 0, requirements: [] },
+      { id: 'beta', name: 'Beta', status: 'Failed', duration: 0, requirements: [] },
+      { id: 'gamma', name: 'Gamma', status: 'Skipped', duration: 0, requirements: [] },
     ],
   }];
   const truncated = groupToMarkdown(groups, 2);
@@ -312,6 +313,57 @@ test('skips invalid JUnit files and still generates summary', async () => {
   await fs.rm('artifacts', { recursive: true, force: true });
 });
 
+test('warns when all tests are unmapped', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'unmapped-'));
+  const junitPath = path.join(dir, 'junit.xml');
+  await fs.writeFile(junitPath, '<testsuite><testcase name="foo" time="0"/></testsuite>');
+  const reqPath = path.join(dir, 'req.json');
+  await fs.writeFile(reqPath, JSON.stringify({ requirements: [] }));
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: junitPath,
+    EVIDENCE_DIR: dir,
+    REQ_MAPPING_FILE: reqPath,
+    RUNNER_OS: 'Linux',
+  };
+
+  const { stderr } = await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+  assert.match(stderr, /All tests are unmapped/);
+
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('errors when strict unmapped mode enabled', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'unmapped-'));
+  const junitPath = path.join(dir, 'junit.xml');
+  await fs.writeFile(junitPath, '<testsuite><testcase name="foo" time="0"/></testsuite>');
+  const reqPath = path.join(dir, 'req.json');
+  await fs.writeFile(reqPath, JSON.stringify({ requirements: [] }));
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: junitPath,
+    EVIDENCE_DIR: dir,
+    REQ_MAPPING_FILE: reqPath,
+    RUNNER_OS: 'Linux',
+    REQUIRE_REQUIREMENTS_MAPPING: '1',
+  };
+
+  await assert.rejects(
+    execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env }),
+    /All tests are unmapped/,
+  );
+
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.rm('artifacts', { recursive: true, force: true });
+});
+
 test('ignores stale JUnit files outside artifacts path', async () => {
   await fs.rm('artifacts', { recursive: true, force: true });
   const freshDir = path.join('artifacts', 'current');
@@ -330,6 +382,15 @@ test('ignores stale JUnit files outside artifacts path', async () => {
 
   await fs.rm('artifacts', { recursive: true, force: true });
   await fs.rm(stalePath, { force: true });
+});
+
+test('throws when no JUnit files found and strict mode enabled', async () => {
+  await fs.rm('artifacts', { recursive: true, force: true });
+  const env = { ...process.env, REQUIRE_TEST_RESULTS: '1', RUNNER_OS: 'Linux' };
+  await assert.rejects(
+    execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env }),
+    /No JUnit files found/,
+  );
 });
 
 test('partitions requirement groups by runner_type', async () => {
@@ -371,4 +432,35 @@ test('partitions requirement groups by runner_type', async () => {
 
   await fs.rm(dir, { recursive: true, force: true });
   await fs.rm('artifacts', { recursive: true, force: true });
+});
+
+test('handles zipped JUnit artifacts', async () => {
+  const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'zip-'));
+  const zip = new AdmZip();
+  const xml = '<testsuite><testcase classname="Dispatcher.Tests" name="zip" time="0"/></testsuite>';
+  zip.addFile('junit.xml', Buffer.from(xml));
+  const zipPath = path.join(tmp, 'junit.zip');
+  zip.writeZip(zipPath);
+  await fs.mkdir(path.join(tmp, 'evidence'));
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+
+  const reqPath = fileURLToPath(new URL('../../requirements.json', import.meta.url));
+  const dispPath = fileURLToPath(new URL('../../dispatchers.json', import.meta.url));
+  const env = {
+    ...process.env,
+    TEST_RESULTS_GLOBS: zipPath,
+    EVIDENCE_DIR: path.join(tmp, 'evidence'),
+    REQ_MAPPING_FILE: reqPath,
+    DISPATCHER_REGISTRY: dispPath,
+    RUNNER_OS: 'Linux',
+  };
+
+  await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
+
+  const summary = await fs.readFile(path.join('artifacts', 'linux', 'requirements-summary.md'), 'utf8');
+  assert.match(summary, /REQ-001/);
+
+  await fs.rm('artifacts', { recursive: true, force: true });
+  await fs.rm(tmp, { recursive: true, force: true });
 });

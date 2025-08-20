@@ -23,29 +23,44 @@ test('groups owners and includes requirements and evidence', async () => {
   // owners grouped correctly
   const aliceSection = stdout.match(/<details><summary>alice<\/summary>[\s\S]*?<\/details>/)[0];
   const bobSection = stdout.match(/<details><summary>bob<\/summary>[\s\S]*?<\/details>/)[0];
-  assert(aliceSection.includes('Alpha') && aliceSection.includes('Gamma'));
-  assert(!aliceSection.includes('Beta'));
-  assert(bobSection.includes('Beta'));
-  assert(!bobSection.includes('Alpha') && !bobSection.includes('Gamma'));
+  assert(aliceSection.includes('alpha') && aliceSection.includes('gamma'));
+  assert(!aliceSection.includes('beta'));
+  assert(bobSection.includes('beta'));
+  assert(!bobSection.includes('alpha') && !bobSection.includes('gamma'));
 
-  // requirement IDs and evidence links
-  assert.match(aliceSection, /Alpha \| REQ-123 \| Passed \| \[link\]\(http:\/\/example.com\/alpha.log\)/);
-  assert.match(aliceSection, /Gamma \| REQ-789 \| Passed \| \[link\]\(http:\/\/example.com\/gamma.log\)/);
-  assert.match(bobSection, /Beta \| REQ-456 \| Passed \| \[link\]\(http:\/\/example.com\/beta.log\)/);
+  // header and rows
+  assert(aliceSection.includes('| Requirement | Test ID | Status | Duration (s) | Owner | Evidence |'));
+  assert(
+    aliceSection.includes(
+      '| REQ-123 | alpha | Passed | 0.000 | alice | \\[link\\](http://example.com/alpha.log) |'
+    )
+  );
+  assert(
+    aliceSection.includes(
+      '| REQ-789 | gamma | Passed | 0.000 | alice | \\[link\\](http://example.com/gamma.log) |'
+    )
+  );
+  assert(
+    bobSection.includes(
+      '| REQ-456 | beta | Passed | 0.000 | bob | \\[link\\](http://example.com/beta.log) |'
+    )
+  );
 });
 
-test('fails when no JUnit files are found', async () => {
+test('logs a warning when no JUnit files are found', async () => {
   const env = { ...process.env, RUNNER_OS: 'Linux' };
   const tsxPath = path.join(rootDir, 'node_modules/.bin/tsx');
   const cwd = path.join(fixtureDir, 'no-artifacts');
-  await assert.rejects(
-    execFileP(tsxPath, [scriptFile], { cwd, env }),
-    (err) => {
-      assert.equal(err.code, 1);
-      assert.match(err.stderr, /No JUnit files found/);
-      return true;
-    }
-  );
+  const { stderr } = await execFileP(tsxPath, [scriptFile], { cwd, env });
+  assert.match(stderr, /No JUnit files found/);
+});
+
+test('detects downloaded artifacts path', async () => {
+  const env = { ...process.env, RUNNER_OS: 'Linux' };
+  const tsxPath = path.join(rootDir, 'node_modules/.bin/tsx');
+  const cwd = path.join(fixtureDir, 'downloaded-only');
+  const { stdout } = await execFileP(tsxPath, [scriptFile], { cwd, env });
+  assert.match(stdout, /<details><summary>alice<\/summary>/);
 });
 
 test('uses latest artifact directory when multiple are present', async () => {

@@ -14,17 +14,9 @@ None.
 
 ### Optional
 
-- **OutputPath** (`string`): Path to write the release notes file (default `Tooling/deployment/release_notes.md`).
+- **OutputPath** (`string`): Path to write the release notes file (default `Tooling/deployment/release_notes.md`)
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName generate-release-notes -ArgsJson '{
-  "OutputPath": "Tooling/deployment/release_notes.md"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -36,11 +28,21 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName generate-release-notes -ArgsJson '{
+  "OutputPath": "Tooling/deployment/release_notes.md"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Generate release notes
-  uses: LabVIEW-Community-CI-CD/open-source-actions/generate-release-notes@v1
+  uses: LabVIEW-Community-CI-CD/open-source/generate-release-notes@v1
   with:
     output_path: 'Tooling/deployment/release_notes.md'
 ```
@@ -52,4 +54,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/generate-release-notes/README.md](../../scripts/generate-release-notes/README.md).
+## See also
+
+- [Workflow documentation](../workflows/generate-release-notes.md)
+- [scripts/generate-release-notes/README.md](../../scripts/generate-release-notes/README.md)

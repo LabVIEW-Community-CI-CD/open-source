@@ -17,16 +17,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName close-labview -ArgsJson '{
-  "minimum_supported_lv_version": "2021",
-  "supported_bitness": "64"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -39,11 +30,22 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName close-labview -ArgsJson '{
+  "minimum_supported_lv_version": "2021",
+  "supported_bitness": "64"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Close LabVIEW
-  uses: LabVIEW-Community-CI-CD/open-source-actions/close-labview@v1
+  uses: LabVIEW-Community-CI-CD/open-source/close-labview@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'
@@ -56,4 +58,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/close-labview/README.md](../../scripts/close-labview/README.md).
+## See also
+
+- [Workflow documentation](../workflows/close-labview.md)
+- [scripts/close-labview/README.md](../../scripts/close-labview/README.md)

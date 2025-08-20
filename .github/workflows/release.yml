@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.needs_release == 'true' }}
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Parse release metadata
+        id: meta
+        run: |
+          VERSION=$(jq -r '"\(.major).\(.minor).\(.patch)"' release.json)
+          TITLE=$(jq -r '.title' release.json)
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: release-metadata
+          path: artifacts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: traceability-report
+          path: artifacts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: ci-evidence
+          path: artifacts
+      - name: Evaluate CI evidence
+        id: evidence
+        run: |
+          CI_EVIDENCE=$(cat artifacts/ci_evidence.txt)
+          echo "ci_evidence=$CI_EVIDENCE" >> "$GITHUB_OUTPUT"
+          if echo "$CI_EVIDENCE" | jq -e '.req_status | to_entries | any(.value == "FAIL")'; then
+            echo 'Requirement failure detected in CI evidence.' >&2
+            exit 1
+          fi
+      - name: Prepare release notes
+        id: notes
+        run: |
+          TITLE="${{ steps.meta.outputs.title }}"
+          CI_EVIDENCE=$(jq . artifacts/ci_evidence.txt)
+          {
+            echo "body<<'EOF'"
+            echo "$TITLE"
+            echo ""
+            echo "CI Evidence:"
+            echo '```json'
+            echo "$CI_EVIDENCE"
+            echo '```'
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Create tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag "$TAG" "${{ github.event.workflow_run.head_sha }}"
+          git push origin "$TAG"
+        env:
+          TAG: ${{ steps.meta.outputs.tag }}
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          release_name: ${{ steps.meta.outputs.title }}
+          body: ${{ steps.notes.outputs.body }}
+      - name: Upload artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          for file in $(find artifacts -type f); do
+            gh release upload "$TAG" "$file" --clobber
+          done

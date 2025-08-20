@@ -1,11 +1,11 @@
 {
-  "name": "open-source-actions",
+  "name": "open-source",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=24"
+    "node": ">=20"
   },
   "scripts": {
     "check:node": "node scripts/check-node-version.js",
@@ -15,25 +15,27 @@
     "prederive:registry": "npm run check:node",
     "pregenerate:summary": "npm run check:node",
     "test": "tsx --test scripts/**/*.test.js scripts/*.test.js",
-    "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml",
+    "test:ci": "mkdir -p test-results && tsx --test --test-reporter=junit --test-reporter-destination test-results/node-junit.xml scripts/**/*.test.js scripts/*.test.js",
     "derive:registry": "tsx scripts/derive-dispatcher-registry.ts",
     "generate:summary": "tsx scripts/generate-ci-summary.ts",
-    "postinstall": "patch-package",
+    "generate:requirements-docs": "tsx scripts/generate-requirements-docs.ts",
+    "generate:traceability-matrix": "tsx scripts/generate-traceability-matrix.ts",
+    "check:traceability": "tsx scripts/check-traceability.ts",
     "lint:md": "markdownlint-cli2 README.md \"docs/**/*.md\" \"scripts/**/*.md\"",
-    "link:check": "markdown-link-check -q -c .markdown-link-check.json README.md $(find docs scripts -name '*.md')"
+    "link:check": "linkinator README.md docs scripts --config linkinator.config.json"
   },
   "dependencies": {
-    "glob": "^10.3.10",
+    "adm-zip": "^0.5.16",
+    "glob": "^11.0.3",
     "js-yaml": "^4.1.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
     "@types/xml2js": "^0.4.14",
-    "markdown-link-check": "3.13.7",
-    "markdownlint-cli2": "^0.12.1",
-    "patch-package": "^8.0.0",
+    "linkinator": "^6.1.4",
+    "markdownlint-cli2": "^0.18.1",
     "tsx": "^4.20.4",
-    "typescript": "^5.4.0"
+    "typescript": "^5.9.2"
   }
 }

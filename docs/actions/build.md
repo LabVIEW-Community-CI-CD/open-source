@@ -16,7 +16,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 - **Patch** (`int`): Patch version component.
 - **Build** (`int`): Build number component.
 - **Commit** (`string`): Commit identifier embedded in the build.
-- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3").
+- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3")
 - **CompanyName** (`string`): Name of the company for metadata.
 - **AuthorName** (`string`): Author or organization name for metadata.
 
@@ -24,24 +24,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName build -ArgsJson '{
-  "WorkingDirectory": ".",
-  "RelativePath": ".",
-  "Major": 1,
-  "Minor": 0,
-  "Patch": 0,
-  "Build": 1,
-  "Commit": "abcdef",
-  "LabVIEWMinorRevision": "3",
-  "CompanyName": "Acme Corp",
-  "AuthorName": "Jane Doe"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -61,11 +44,30 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName build -ArgsJson '{
+  "WorkingDirectory": ".",
+  "RelativePath": ".",
+  "Major": 1,
+  "Minor": 0,
+  "Patch": 0,
+  "Build": 1,
+  "Commit": "abcdef",
+  "LabVIEWMinorRevision": "3",
+  "CompanyName": "Acme Corp",
+  "AuthorName": "Jane Doe"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Build project
-  uses: LabVIEW-Community-CI-CD/open-source-actions/build@v1
+  uses: LabVIEW-Community-CI-CD/open-source/build@v1
   with:
     working_directory: '.'
     relative_path: '.'
@@ -86,4 +88,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/build/README.md](../../scripts/build/README.md).
+## See also
+
+- [Workflow documentation](../workflows/build.md)
+- [scripts/build/README.md](../../scripts/build/README.md)

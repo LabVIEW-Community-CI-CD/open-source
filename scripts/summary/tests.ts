@@ -4,7 +4,11 @@ import { TestCase } from './index.ts';
 import { parseJUnit } from '../junit-parser.ts';
 
 export function normalizeTestId(id: string): string {
-  return id.toLowerCase().replace(/::/g, '-').replace(/\s+/g, '-');
+  return id
+    .replace(/\[[^\]]*\]\s*/g, '')
+    .toLowerCase()
+    .replace(/::/g, '-')
+    .replace(/\s+/g, '-');
 }
 
 export async function collectTestCases(files: string[], evidenceDir: string, os?: string): Promise<TestCase[]> {

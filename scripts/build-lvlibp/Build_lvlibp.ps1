@@ -64,6 +64,17 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 } else {
     Write-Host "Build succeeded."
+    $shortCommit = if ($Commit.Length -ge 7) { $Commit.Substring(0,7) } else { $Commit }
+    $bitnessTag  = if ($SupportedBitness -eq '32') { 'x86' } else { 'x64' }
+    $versionTag  = "v$Major.$Minor.$Patch.$Build+g$shortCommit"
+    $original    = Join-Path $RelativePath 'lv_icon.lvlibp'
+    if (Test-Path $original) {
+        $newName = "lv_icon_${bitnessTag}_$versionTag.lvlibp"
+        Rename-Item -Path $original -NewName $newName
+        Write-Host "Renamed LVLIBP to '$newName'"
+    } else {
+        Write-Warning "Expected LVLIBP '$original' not found."
+    }
     exit 0
 }
 

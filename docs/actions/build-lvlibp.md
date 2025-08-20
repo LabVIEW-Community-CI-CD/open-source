@@ -13,7 +13,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 - **MinimumSupportedLVVersion** (`string`): LabVIEW version used for the build.
 - **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
-- **LabVIEW_Project** (`string`): Path to the LabVIEW project (.lvproj).
+- **LabVIEW_Project** (`string`): Path to the LabVIEW project (.lvproj)
 - **Build_Spec** (`string`): Name of the build specification to execute.
 - **Major** (`int`): Major version number.
 - **Minor** (`int`): Minor version number.
@@ -25,25 +25,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
-  "MinimumSupportedLVVersion": "2020",
-  "SupportedBitness": "64",
-  "WorkingDirectory": ".",
-  "RelativePath": ".",
-  "LabVIEW_Project": "Source/MyProject.lvproj",
-  "Build_Spec": "PackedLib Build",
-  "Major": 1,
-  "Minor": 0,
-  "Patch": 0,
-  "Build": 123,
-  "Commit": "abcdef"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -64,11 +46,31 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
+  "MinimumSupportedLVVersion": "2020",
+  "SupportedBitness": "64",
+  "WorkingDirectory": ".",
+  "RelativePath": ".",
+  "LabVIEW_Project": "Source/MyProject.lvproj",
+  "Build_Spec": "PackedLib Build",
+  "Major": 1,
+  "Minor": 0,
+  "Patch": 0,
+  "Build": 123,
+  "Commit": "abcdef"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Build Packed Library
-  uses: LabVIEW-Community-CI-CD/open-source-actions/build-lvlibp@v1
+  uses: LabVIEW-Community-CI-CD/open-source/build-lvlibp@v1
   with:
     minimum_supported_lv_version: '2020'
     supported_bitness: '64'
@@ -90,4 +92,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/build-lvlibp/README.md](../../scripts/build-lvlibp/README.md).
+## See also
+
+- [Workflow documentation](../workflows/build-lvlibp.md)
+- [scripts/build-lvlibp/README.md](../../scripts/build-lvlibp/README.md)

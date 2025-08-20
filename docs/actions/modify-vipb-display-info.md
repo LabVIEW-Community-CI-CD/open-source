@@ -14,7 +14,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
 - **VIPBPath** (`string`): Relative path to the VIPB file.
 - **MinimumSupportedLVVersion** (`string`): Minimum LabVIEW version supported by the package.
-- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3").
+- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3")
 - **Major** (`int`): Major version component.
 - **Minor** (`int`): Minor version component.
 - **Patch** (`int`): Patch version component.
@@ -26,26 +26,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 - **ReleaseNotesFile** (`string`): Path to a release notes file injected into the build.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -ArgsJson '{
-  "SupportedBitness": "64",
-  "WorkingDirectory": ".",
-  "RelativePath": ".",
-  "VIPBPath": "Tooling/deployment/NI Icon editor.vipb",
-  "MinimumSupportedLVVersion": "2023",
-  "LabVIEWMinorRevision": "3",
-  "Major": 1,
-  "Minor": 0,
-  "Patch": 0,
-  "Build": 2,
-  "Commit": "abcdef",
-  "DisplayInformationJSON": "{\"Package Version\":{\"major\":1,\"minor\":0,\"patch\":0,\"build\":2}}"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -68,11 +49,32 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -ArgsJson '{
+  "SupportedBitness": "64",
+  "WorkingDirectory": ".",
+  "RelativePath": ".",
+  "VIPBPath": "Tooling/deployment/NI Icon editor.vipb",
+  "MinimumSupportedLVVersion": "2023",
+  "LabVIEWMinorRevision": "3",
+  "Major": 1,
+  "Minor": 0,
+  "Patch": 0,
+  "Build": 2,
+  "Commit": "abcdef",
+  "DisplayInformationJSON": "{\"Package Version\":{\"major\":1,\"minor\":0,\"patch\":0,\"build\":2}}"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Modify VIPB display info
-  uses: LabVIEW-Community-CI-CD/open-source-actions/modify-vipb-display-info@v1
+  uses: LabVIEW-Community-CI-CD/open-source/modify-vipb-display-info@v1
   with:
     supported_bitness: '64'
     working_directory: '.'
@@ -95,4 +97,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/modify-vipb-display-info/README.md](../../scripts/modify-vipb-display-info/README.md).
+## See also
+
+- [Workflow documentation](../workflows/modify-vipb-display-info.md)
+- [scripts/modify-vipb-display-info/README.md](../../scripts/modify-vipb-display-info/README.md)

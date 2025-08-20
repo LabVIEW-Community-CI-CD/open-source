@@ -8,15 +8,17 @@ Install a pinned MkDocs with caching.
 
 None.
 
-## GitHub Action inputs
+### GitHub Action inputs
 
 This action has no inputs.
 
-## GitHub Action example
+## Examples
+
+### GitHub Action
 
 ```yaml
 - name: Setup MkDocs
-  uses: LabVIEW-Community-CI-CD/open-source-actions/setup-mkdocs@v1
+  uses: LabVIEW-Community-CI-CD/open-source/setup-mkdocs@v1
 ```
 
 ## Return Codes
@@ -27,3 +29,7 @@ This action has no inputs.
 See [setup-mkdocs/action.yml](../../setup-mkdocs/action.yml) for implementation details.
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
+
+## See also
+
+- [Workflow documentation](../workflows/setup-mkdocs.md)

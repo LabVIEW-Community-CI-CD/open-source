@@ -39,11 +39,11 @@ runs:
         if ('${{ inputs.gcli_path }}') { $args['gcliPath'] = '${{ inputs.gcli_path }}' }
         $params = @{
           ActionName = 'missing-in-project'
-          ArgsJson   = $args
+          Args       = $args
           LogLevel   = '${{ inputs.log_level }}'
         }
         if ('${{ inputs.dry_run }}' -eq 'true') { $params['DryRun'] = $true }
         if ('${{ inputs.working_directory }}') { $params['WorkingDirectory'] = '${{ inputs.working_directory }}' }
-        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'actions' 'Invoke-OSAction.ps1'
+        $script = Join-Path $env:GITHUB_ACTION_PATH '..' 'actions' 'common-dispatch.ps1'
         & $script @params
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

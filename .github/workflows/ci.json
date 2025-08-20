@@ -13,11 +13,32 @@
     }
   },
   "jobs": {
-    "node-ci": {
+    "release-check": {
       "runs-on": "ubuntu-24.04",
-      "env": {
-        "ARTIFACT_DIR": "artifacts/linux"
+      "outputs": {
+        "needs_release": "${{ steps.check.outputs.present }}"
       },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "id": "check",
+          "run": "if [[ -f release.json ]]; then\n  echo 'present=true' >> \"$GITHUB_OUTPUT\"\nelse\n  echo 'present=false' >> \"$GITHUB_OUTPUT\"\nfi"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "steps.check.outputs.present == 'true'",
+          "with": {
+            "name": "release-metadata",
+            "path": "release.json"
+          }
+        }
+      ]
+    },
+    "validate-artifacts": {
+      "needs": "release-check",
+      "runs-on": "ubuntu-24.04",
       "steps": [
         {
           "uses": "actions/checkout@v4"
@@ -29,57 +50,24 @@
           }
         },
         {
-          "run": "npm run check:node"
-        },
-        {
           "run": "npm install"
         },
         {
           "run": "npm run link:check"
         },
         {
-          "run": "npm run test:ci"
-        },
-        {
           "run": "npm run derive:registry"
         },
         {
-          "run": "rm -rf artifacts"
+          "run": "git diff --exit-code -- dispatchers.json"
         },
         {
-          "run": "npm run generate:summary",
-          "env": {
-            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml"
-          }
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "traceability",
-            "path": "${{ env.ARTIFACT_DIR }}/traceability.*"
-          }
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "action-docs",
-            "path": "${{ env.ARTIFACT_DIR }}/action-docs.*"
-          }
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "evidence",
-            "path": "${{ env.ARTIFACT_DIR }}/evidence/**",
-            "if-no-files-found": "ignore"
-          }
+          "run": "npm run check:traceability"
         }
       ]
     },
     "ps-ci": {
+      "needs": "release-check",
       "strategy": {
         "matrix": {
           "include": [
@@ -116,19 +104,6 @@
           "run": "$required = [Version]'7.5.1'\nif ($PSVersionTable.PSVersion -lt $required) {\n  $msiUrl = 'https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/PowerShell-7.5.1-win-x64.msi'\n  $msiPath = Join-Path $env:RUNNER_TEMP 'PowerShell-7.5.1-win-x64.msi'\n  Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath\n  $expectedHash = 'b110eccaf55bb53ae5e6b6de478587ed8203570b0bda9bd374a0998e24d4033a'\n  $actualHash = (Get-FileHash $msiPath -Algorithm SHA256).Hash\n  if ($actualHash -ne $expectedHash) {\n    throw \"SHA256 mismatch: $actualHash\"\n  }\n  Start-Process msiexec -Wait -ArgumentList '/i', $msiPath, '/qn', 'ADD_PATH=1'\n}\n$version = (pwsh --version).Trim() -replace '^PowerShell '\nif ([Version]$version -lt $required) {\n  throw \"PowerShell version $version is less than $required\"\n}\n"
         },
         {
-          "name": "Capture setup info",
-          "shell": "pwsh",
-          "run": "$data = [ordered]@{\n  'Current runner version' = $env:RUNNER_VERSION\n  'Runner Image'          = $env:ImageOS\n  'ImageVersion'          = $env:ImageVersion\n  'RUNNER_NAME'           = $env:RUNNER_NAME\n  'RUNNER_OS'             = $env:RUNNER_OS\n  'RUNNER_ARCH'           = $env:RUNNER_ARCH\n}\n$file = \"setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md\"\n\"was captured from the set up job.\" | Out-File -FilePath $file -Encoding utf8\nforeach ($k in $data.Keys) {\n  if ($data[$k]) {\n    \"${k}: $($data[$k])\" | Out-File -FilePath $file -Encoding utf8 -Append\n  }\n}\n"
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}",
-            "path": "setup-info-${{ matrix.os }}-${{ matrix.runner_type }}.md"
-          }
-        },
-        {
           "name": "Install Pester",
           "shell": "pwsh",
           "run": "if (-not (Get-Module -ListAvailable -Name Pester |\n          Where-Object { $_.Version -ge [Version]'5.0.0' })) {\n  Remove-Module Pester -ErrorAction SilentlyContinue\n  Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck\n}\n"
@@ -156,7 +131,7 @@
     },
     "report": {
       "needs": [
-        "node-ci",
+        "validate-artifacts",
         "ps-ci"
       ],
       "runs-on": "ubuntu-24.04",
@@ -178,12 +153,10 @@
           "run": "npm install"
         },
         {
-          "run": "rm -rf artifacts"
-        },
-        {
           "uses": "actions/download-artifact@v4",
           "with": {
-            "path": "./artifacts"
+            "pattern": "pester-junit-*",
+            "path": "./downloaded-artifacts"
           }
         },
         {
@@ -192,10 +165,24 @@
         {
           "run": "npm run generate:summary",
           "env": {
-            "TEST_RESULTS_GLOBS": "artifacts/test-results/**/*junit*.xml\nartifacts/pester-junit-*/pester-junit.xml\n",
+            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml\ndownloaded-artifacts/pester-junit-*/pester-junit.xml\n",
             "REQ_MAPPING_FILE": "requirements.json",
             "DISPATCHER_REGISTRY": "dispatchers.json",
             "EVIDENCE_DIR": "artifacts/evidence"
+          }
+        },
+        {
+          "run": "npx tsx scripts/generate-traceability-matrix.ts"
+        },
+        {
+          "run": "cat artifacts/linux/traceability-matrix.md >> \"$GITHUB_STEP_SUMMARY\""
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "(success() || failure()) && !cancelled()",
+          "with": {
+            "name": "traceability-matrix",
+            "path": "artifacts/linux/traceability-matrix.md"
           }
         },
         {

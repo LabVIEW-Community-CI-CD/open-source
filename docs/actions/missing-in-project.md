@@ -18,17 +18,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 
 None.
 
-## CLI example
-
-```powershell
-pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson '{
-  "LVVersion": "2020",
-  "SupportedBitness": "64",
-  "ProjectFile": "MyProject.lvproj"
-}'
-```
-
-## GitHub Action inputs
+### GitHub Action inputs
 
 GitHub Action inputs are provided in `snake_case`, while CLI parameters use `PascalCase`. The table below maps each input to its corresponding CLI parameter. For details on shared CLI flags, see [Common parameters](../common-parameters.md).
 
@@ -42,11 +32,23 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 | `log_level` | `LogLevel` | Verbosity level (ERROR\|WARN\|INFO\|DEBUG). |
 | `dry_run` | `DryRun` | If true, simulate the action without side effects. |
 
-## GitHub Action example
+## Examples
+
+### CLI
+
+```powershell
+pwsh -File actions/Invoke-OSAction.ps1 -ActionName missing-in-project -ArgsJson '{
+  "LVVersion": "2020",
+  "SupportedBitness": "64",
+  "ProjectFile": "MyProject.lvproj"
+}'
+```
+
+### GitHub Action
 
 ```yaml
 - name: Check for Missing Project Items
-  uses: LabVIEW-Community-CI-CD/open-source-actions/missing-in-project@v1
+  uses: LabVIEW-Community-CI-CD/open-source/missing-in-project@v1
   with:
     lv_version: '2020'
     supported_bitness: '64'
@@ -61,4 +63,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/missing-in-project/README.md](../../scripts/missing-in-project/README.md).
+## See also
+
+- [Workflow documentation](../workflows/missing-in-project.md)
+- [scripts/missing-in-project/README.md](../../scripts/missing-in-project/README.md)

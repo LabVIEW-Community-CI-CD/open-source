@@ -13,7 +13,7 @@
     New name (including path) for the renamed file.
 
 .EXAMPLE
-    .\Rename-file.ps1 -CurrentFilename "C:\path\lv_icon.lvlibp" -NewFilename "lv_icon_x64.lvlibp"
+    .\Rename-file.ps1 -CurrentFilename "C:\path\lv_icon.lvlibp" -NewFilename "lv_icon_x64_v1.0.0.1+gabcdef.lvlibp"
 #>
 param(
     [string]$CurrentFilename,

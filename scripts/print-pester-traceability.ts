@@ -2,6 +2,7 @@
 import path from 'path';
 import { glob } from 'glob';
 import { collectTestCases } from './summary/tests.ts';
+import { buildTable } from './utils/markdown.ts';
 
 async function main() {
   const overrideDir = process.env.PESTER_JUNIT_PATH;
@@ -9,7 +10,9 @@ async function main() {
   if (overrideDir) {
     junitFiles = await glob(path.join(overrideDir, 'pester-junit.xml'));
   } else {
-    const matches = await glob('artifacts/pester-junit-*/pester-junit.xml');
+    const matches = await glob(
+      '{artifacts/pester-junit-*/pester-junit.xml,downloaded-artifacts/test-results-pester-*/pester-junit.xml}'
+    );
     if (matches.length > 0) {
       const latestDir = matches
         .map((f) => path.dirname(f))
@@ -20,7 +23,7 @@ async function main() {
   }
   if (junitFiles.length === 0) {
     console.warn('No JUnit files found');
-    process.exit(1);
+    return;
   }
   const tests = [];
   for (const file of junitFiles) {
@@ -38,13 +41,20 @@ async function main() {
   const sortedOwners = Array.from(groups.keys()).sort();
   for (const owner of sortedOwners) {
     const tlist = groups.get(owner)!;
-    const table = ['| Test | Requirements | Status | Evidence |', '| --- | --- | --- | --- |'];
+    const header = ['Requirement', 'Test ID', 'Status', 'Duration (s)', 'Owner', 'Evidence'];
+    const rows: string[][] = [];
     for (const t of tlist) {
-      const reqs = t.requirements.join(', ');
       const evidence = t.evidence ? `[link](${t.evidence})` : '';
-      table.push(`| ${t.name} | ${reqs} | ${t.status} | ${evidence} |`);
+      rows.push([
+        t.requirements.join(', '),
+        t.id,
+        t.status,
+        t.duration.toFixed(3),
+        t.owner ?? owner,
+        evidence,
+      ]);
     }
-    const content = table.join('\n');
+    const content = buildTable(header, rows);
     lines.push(`<details><summary>${owner}</summary>\n\n${content}\n\n</details>`);
   }
   console.log(lines.join('\n\n'));

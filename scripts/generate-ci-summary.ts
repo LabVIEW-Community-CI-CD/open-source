@@ -2,15 +2,19 @@
 import fs from 'fs/promises';
 import { constants as fsConstants } from 'fs';
 import path from 'path';
+import os from 'os';
 import { pathToFileURL } from 'url';
 import { glob } from 'glob';
+import AdmZip from 'adm-zip';
 import { writeErrorSummary } from './error-handler.ts';
+import { execSync } from 'child_process';
 import {
   buildSummary,
   summaryToMarkdown,
   requirementsSummaryToMarkdown,
   requirementTestsToMarkdown,
   groupToMarkdown,
+  computeStatusCounts,
   TestCase,
   RequirementGroup,
 } from './summary/index.ts';
@@ -22,7 +26,7 @@ async function main() {
   const mappingFile = process.env.REQ_MAPPING_FILE || 'requirements.json';
   const dispatcherRegistryFile = process.env.DISPATCHER_REGISTRY || 'dispatchers.json';
   const evidenceDir = process.env.EVIDENCE_DIR || 'test-screenshots';
-  const osType = (process.env.RUNNER_OS ?? 'unknown').toLowerCase();
+  const osType = (process.env.RUNNER_OS ?? 'linux').toLowerCase();
 
   let junitFiles: string[] = [];
   const plural = process.env.TEST_RESULTS_GLOBS;
@@ -38,14 +42,56 @@ async function main() {
     const single = process.env.TEST_RESULTS_GLOB || 'artifacts/**/*junit*.xml';
     junitFiles = await glob(single, { nodir: true });
   }
+
+  let extractedDir: string | null = null;
+  const expanded: string[] = [];
+  for (const f of junitFiles) {
+    if (f.toLowerCase().endsWith('.zip')) {
+      if (!extractedDir) {
+        extractedDir = await fs.mkdtemp(path.join(os.tmpdir(), 'junit-'));
+      }
+      try {
+        const zip = new AdmZip(f);
+        for (const entry of zip.getEntries()) {
+          if (!entry.isDirectory && entry.entryName.toLowerCase().endsWith('.xml')) {
+            const dest = path.join(extractedDir, path.basename(entry.entryName));
+            await fs.writeFile(dest, entry.getData());
+            expanded.push(dest);
+          }
+        }
+      } catch (err) {
+        console.warn(`Failed to extract JUnit archive ${f}:`, err);
+      }
+    } else {
+      expanded.push(f);
+    }
+  }
+  junitFiles = expanded;
+  const requireResults = !!process.env.REQUIRE_TEST_RESULTS;
   let tests: TestCase[] = [];
-  if (junitFiles.length === 0) {
-    console.warn('No JUnit files found; writing empty summary.');
-  } else {
-    tests = await collectTestCases(junitFiles, evidenceDir, osType);
+  try {
+    if (junitFiles.length === 0) {
+      const msg = 'No JUnit files found';
+      if (requireResults) {
+        throw new Error(msg);
+      }
+      console.warn(`${msg}; writing empty summary.`);
+    } else {
+      tests = await collectTestCases(junitFiles, evidenceDir, osType);
+    }
+  } finally {
+    if (extractedDir) await fs.rm(extractedDir, { recursive: true, force: true });
   }
   const { map, meta } = await loadRequirements(mappingFile);
   const groups = mapToRequirements(tests, map, meta);
+  const allUnmapped = groups.every(g => g.id === 'Unmapped');
+  if (allUnmapped) {
+    const msg = 'All tests are unmapped; verify requirements mapping.';
+    if (process.env.REQUIRE_REQUIREMENTS_MAPPING) {
+      throw new Error(msg);
+    }
+    console.warn(msg);
+  }
   const totals = buildSummary(groups);
 
   const outDir = path.join('artifacts', osType);
@@ -91,6 +137,23 @@ async function main() {
       redact(`### Test Traceability Matrix\n\n${groupToMarkdown(list)}`),
     );
   }
+
+  const gitSha =
+    process.env.GITHUB_SHA || execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+  const reqStatus: Record<string, string> = {};
+  for (const g of groups) {
+    if (g.id === 'Unmapped') continue;
+    const { failed, total } = computeStatusCounts(g.tests);
+    reqStatus[g.id] = failed > 0 || total === 0 ? 'FAIL' : 'PASS';
+  }
+  const evidence = {
+    pipeline: process.env.PIPELINE_NAME || 'Unknown',
+    git_sha: gitSha,
+    req_status: reqStatus,
+  };
+  const evidenceStr = JSON.stringify(evidence);
+  await fs.writeFile('ci_evidence.txt', evidenceStr);
+  console.log(`CI_EVIDENCE=${evidenceStr}`);
 
   try {
     await fs.access(evidenceDir, fsConstants.R_OK);
