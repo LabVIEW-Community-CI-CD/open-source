@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-	<testcase name="fails when requirement lacks test coverage" time="1.600796" classname="test"/>
-	<testcase name="fails when commit lacks requirement reference" time="1.290223" classname="test"/>
-	<testcase name="passes with coverage and requirement reference" time="1.378174" classname="test"/>
-	<testcase name="fails when tests are unmapped" time="1.377752" classname="test"/>
-	<testcase name="fails when tests reference unknown requirements" time="1.488858" classname="test"/>
-	<testcase name="Dispatchers and parameters include descriptions" time="0.006826" classname="test"/>
-	<testcase name="formatError handles real Error objects" time="0.008141" classname="test"/>
-	<testcase name="formatError handles plain objects" time="0.002774" classname="test"/>
-	<testcase name="formatError handles primitives" time="0.000374" classname="test"/>
-	<testcase name="formatError handles unstringifiable values" time="0.000893" classname="test"/>
-	<testcase name="generate-ci-summary features" time="0.031059" classname="test"/>
-	<testcase name="writeErrorSummary skips summary file for non-Error throws" time="0.005622" classname="test"/>
-	<testcase name="writeErrorSummary appends error details to summary file" time="0.005978" classname="test"/>
-	<testcase name="associates classname with requirement" time="0.021947" classname="test"/>
-	<testcase name="loadRequirements logs warning on invalid JSON" time="0.014018" classname="test"/>
-	<testcase name="loadRequirements warns and skips invalid entries" time="0.007169" classname="test"/>
-	<testcase name="collectTestCases uses machine-name property for owner" time="0.022067" classname="test"/>
-	<testcase name="collectTestCases uses evidence property and falls back to directory scan" time="0.069604" classname="test"/>
-	<testcase name="collectTestCases captures requirement property" time="0.010208" classname="test"/>
-	<testcase name="groupToMarkdown omits numeric identifiers" time="0.002917" classname="test"/>
-	<testcase name="groupToMarkdown supports optional limit for truncation" time="0.000548" classname="test"/>
-	<testcase name="requirementsSummaryToMarkdown escapes pipes in description" time="0.000858" classname="test"/>
-	<testcase name="computeStatusCounts tallies test statuses" time="0.000321" classname="test"/>
-	<testcase name="summaryToMarkdown sorts OS alphabetically and escapes special characters" time="0.010225" classname="test"/>
-	<testcase name="summaryToMarkdown handles no tests" time="0.000873" classname="test"/>
-	<testcase name="buildSummary splits totals by OS" time="0.001773" classname="test"/>
-	<testcase name="writes outputs to OS-specific directory" time="1.879196" classname="test"/>
-	<testcase name="skips invalid JUnit files and still generates summary" time="1.737334" classname="test"/>
-	<testcase name="warns when all tests are unmapped" time="1.628116" classname="test"/>
-	<testcase name="errors when strict unmapped mode enabled" time="1.395253" classname="test"/>
-	<testcase name="ignores stale JUnit files outside artifacts path" time="1.221995" classname="test"/>
-	<testcase name="throws when no JUnit files found and strict mode enabled" time="1.042879" classname="test"/>
-	<testcase name="partitions requirement groups by runner_type" time="1.156693" classname="test"/>
-	<testcase name="handles zipped JUnit artifacts" time="1.178691" classname="test"/>
-	<testcase name="[REQ-023] parses nested JUnit structures" time="0.018451" classname="test"/>
-	<testcase name="[REQ-024] captures root testsuites attributes" time="0.007140" classname="test"/>
-	<testcase name="[REQ-025] captures testsuite attributes" time="0.011216" classname="test"/>
-	<testcase name="[REQ-026] captures suite properties" time="0.002249" classname="test"/>
-	<testcase name="[REQ-027] captures testcase attributes and skipped message" time="0.001802" classname="test"/>
-	<testcase name="[REQ-028] extracts requirement identifiers" time="0.003374" classname="test"/>
-	<testcase name="handles root-level testcases" time="0.001247" classname="test"/>
-	<testcase name="[REQ-029] aggregates status by requirement and suite" time="0.002187" classname="test"/>
-	<testcase name="[REQ-030] builds traceability matrix with skipped reasons" time="0.002402" classname="test"/>
-	<testcase name="[REQ-031] validates missing fields" time="0.001605" classname="test"/>
-	<testcase name="[REQ-032] preserves unknown attributes" time="0.000865" classname="test"/>
-	<testcase name="[REQ-033] throws error for malformed XML" time="0.003557" classname="test"/>
-	<testcase name="escapeMarkdown escapes special characters" time="0.002067" classname="test"/>
-	<testcase name="escapeMarkdown leaves plain text untouched" time="0.001811" classname="test"/>
-	<testcase name="groups owners and includes requirements and evidence" time="1.513361" classname="test"/>
-	<testcase name="logs a warning when no JUnit files are found" time="1.339499" classname="test"/>
-	<testcase name="detects downloaded artifacts path" time="1.477198" classname="test"/>
-	<testcase name="uses latest artifact directory when multiple are present" time="1.267915" classname="test"/>
-	<testcase name="buildIssueBranchName formats branch name" time="0.002297" classname="test"/>
-	<testcase name="buildIssueBranchName rejects non-numeric input" time="0.002150" classname="test"/>
+	<testcase name="fails when requirement lacks test coverage" time="1.274434" classname="test"/>
+	<testcase name="fails when commit lacks requirement reference" time="1.167365" classname="test"/>
+	<testcase name="passes with coverage and requirement reference" time="1.358822" classname="test"/>
+	<testcase name="fails when tests are unmapped" time="1.079574" classname="test"/>
+	<testcase name="fails when tests reference unknown requirements" time="1.166080" classname="test"/>
+	<testcase name="Dispatchers and parameters include descriptions" time="0.003728" classname="test"/>
+	<testcase name="formatError handles real Error objects" time="0.003260" classname="test"/>
+	<testcase name="formatError handles plain objects" time="0.000278" classname="test"/>
+	<testcase name="formatError handles primitives" time="0.000203" classname="test"/>
+	<testcase name="formatError handles unstringifiable values" time="0.000370" classname="test"/>
+	<testcase name="generate-ci-summary features" time="0.035494" classname="test"/>
+	<testcase name="writeErrorSummary skips summary file for non-Error throws" time="0.008406" classname="test"/>
+	<testcase name="writeErrorSummary appends error details to summary file" time="0.014600" classname="test"/>
+	<testcase name="associates classname with requirement" time="0.033537" classname="test"/>
+	<testcase name="loadRequirements logs warning on invalid JSON" time="0.015749" classname="test"/>
+	<testcase name="loadRequirements warns and skips invalid entries" time="0.006828" classname="test"/>
+	<testcase name="collectTestCases uses machine-name property for owner" time="0.008512" classname="test"/>
+	<testcase name="collectTestCases uses evidence property and falls back to directory scan" time="0.008069" classname="test"/>
+	<testcase name="collectTestCases captures requirement property" time="0.004347" classname="test"/>
+	<testcase name="groupToMarkdown omits numeric identifiers" time="0.001296" classname="test"/>
+	<testcase name="groupToMarkdown supports optional limit for truncation" time="0.000382" classname="test"/>
+	<testcase name="requirementsSummaryToMarkdown escapes pipes in description" time="0.000306" classname="test"/>
+	<testcase name="computeStatusCounts tallies test statuses" time="0.000287" classname="test"/>
+	<testcase name="summaryToMarkdown sorts OS alphabetically and escapes special characters" time="0.000470" classname="test"/>
+	<testcase name="summaryToMarkdown handles no tests" time="0.000276" classname="test"/>
+	<testcase name="buildSummary splits totals by OS" time="0.000567" classname="test"/>
+	<testcase name="writes outputs to OS-specific directory" time="1.555371" classname="test"/>
+	<testcase name="skips invalid JUnit files and still generates summary" time="1.472040" classname="test"/>
+	<testcase name="warns when all tests are unmapped" time="1.389964" classname="test"/>
+	<testcase name="errors when strict unmapped mode enabled" time="1.252761" classname="test"/>
+	<testcase name="ignores stale JUnit files outside artifacts path" time="1.096497" classname="test"/>
+	<testcase name="throws when no JUnit files found and strict mode enabled" time="0.809456" classname="test"/>
+	<testcase name="partitions requirement groups by runner_type" time="1.065265" classname="test"/>
+	<testcase name="handles zipped JUnit artifacts" time="1.025546" classname="test"/>
+	<testcase name="[REQ-023] parses nested JUnit structures" time="0.008218" classname="test"/>
+	<testcase name="[REQ-024] captures root testsuites attributes" time="0.005340" classname="test"/>
+	<testcase name="[REQ-025] captures testsuite attributes" time="0.003829" classname="test"/>
+	<testcase name="[REQ-026] captures suite properties" time="0.006395" classname="test"/>
+	<testcase name="[REQ-027] captures testcase attributes and skipped message" time="0.001214" classname="test"/>
+	<testcase name="[REQ-028] extracts requirement identifiers" time="0.006857" classname="test"/>
+	<testcase name="handles root-level testcases" time="0.004823" classname="test"/>
+	<testcase name="[REQ-029] aggregates status by requirement and suite" time="0.001360" classname="test"/>
+	<testcase name="[REQ-030] builds traceability matrix with skipped reasons" time="0.001307" classname="test"/>
+	<testcase name="[REQ-031] validates missing fields" time="0.004908" classname="test"/>
+	<testcase name="[REQ-032] preserves unknown attributes" time="0.000682" classname="test"/>
+	<testcase name="[REQ-033] throws error for malformed XML" time="0.001434" classname="test"/>
+	<testcase name="escapeMarkdown escapes special characters" time="0.001373" classname="test"/>
+	<testcase name="escapeMarkdown leaves plain text untouched" time="0.001099" classname="test"/>
+	<testcase name="groups owners and includes requirements and evidence" time="1.478370" classname="test"/>
+	<testcase name="logs a warning when no JUnit files are found" time="1.151677" classname="test"/>
+	<testcase name="detects downloaded artifacts path" time="1.192347" classname="test"/>
+	<testcase name="uses latest artifact directory when multiple are present" time="1.043350" classname="test"/>
+	<testcase name="buildIssueBranchName formats branch name" time="0.003204" classname="test"/>
+	<testcase name="buildIssueBranchName rejects non-numeric input" time="0.002252" classname="test"/>
 	<!-- tests 54 -->
 	<!-- suites 0 -->
 	<!-- pass 54 -->
@@ -61,5 +61,5 @@
 	<!-- cancelled 0 -->
 	<!-- skipped 0 -->
 	<!-- todo 0 -->
-	<!-- duration_ms 13638.529268 -->
+	<!-- duration_ms 11471.471396 -->
 </testsuites>
