@@ -29,6 +29,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           name: release-metadata
           path: artifacts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: traceability-report
+          path: artifacts
       - name: Create tag
         run: |
           git config user.name github-actions

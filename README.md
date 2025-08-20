@@ -1,5 +1,7 @@
 # Open Source LabVIEW Actions
 
+[![Traceability](https://img.shields.io/endpoint?url=https://LabVIEW-Community-CI-CD.github.io/open-source-actions/badge-summary.json)](https://LabVIEW-Community-CI-CD.github.io/open-source-actions/summary.md)
+
 Open Source LabVIEW Actions provides typed GitHub Action wrappers around a unified PowerShell dispatcher for LabVIEW CI/CD tasks. Each adapter (for example `run-unit-tests`) is exposed as its own action and can be called from workflows with `uses: LabVIEW-Community-CI-CD/open-source-actions/<action>@v1`.
 
 For setup and action reference, see the [documentation](docs/index.md). The [quickstart](docs/quickstart.md) shows a full example and [Unified Dispatcher](docs/UnifiedDispatcher.md) describes how the dispatcher works. For an overview of the project's architecture, see [docs/architecture.md](docs/architecture.md). For a mapping of high-level requirements to the tests that verify them, see [docs/requirements.md](docs/requirements.md).
