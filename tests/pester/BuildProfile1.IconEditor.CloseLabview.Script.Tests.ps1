@@ -12,10 +12,8 @@ Describe 'BuildProfile1.IconEditor.CloseLabview.Script' {
     It 'constructs g-cli QuitLabVIEW command without executing [REQIE-010]' -Tag 'REQIE-010' {
         $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
         $scriptPath = Join-Path $repoRoot 'scripts' 'close-labview' 'Close_LabVIEW.ps1'
-        $captured = $null
-        Mock Invoke-Expression { param($cmd) $script:captured = $cmd }
-        & $scriptPath -MinimumSupportedLVVersion '2021' -SupportedBitness '64' *> $null
-        Assert-MockCalled Invoke-Expression -Exactly 1 -Scope It
-        $captured | Should -Match 'g-cli --lv-ver 2021 --arch 64 QuitLabVIEW'
+        $out = & $scriptPath -MinimumSupportedLVVersion '2021' -SupportedBitness '64' -DryRun *>&1 | Out-String
+        $out | Should -Match 'g-cli --lv-ver 2021 --arch 64 QuitLabVIEW'
+        $out | Should -Match 'DryRun: Close LabVIEW 2021 (64-bit)'
     }
 }
