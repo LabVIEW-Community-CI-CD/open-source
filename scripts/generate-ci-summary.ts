@@ -7,12 +7,14 @@ import { pathToFileURL } from 'url';
 import { glob } from 'glob';
 import AdmZip from 'adm-zip';
 import { writeErrorSummary } from './error-handler.ts';
+import { execSync } from 'child_process';
 import {
   buildSummary,
   summaryToMarkdown,
   requirementsSummaryToMarkdown,
   requirementTestsToMarkdown,
   groupToMarkdown,
+  computeStatusCounts,
   TestCase,
   RequirementGroup,
 } from './summary/index.ts';
@@ -135,6 +137,23 @@ async function main() {
       redact(`### Test Traceability Matrix\n\n${groupToMarkdown(list)}`),
     );
   }
+
+  const gitSha =
+    process.env.GITHUB_SHA || execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+  const reqStatus: Record<string, string> = {};
+  for (const g of groups) {
+    if (g.id === 'Unmapped') continue;
+    const { failed, total } = computeStatusCounts(g.tests);
+    reqStatus[g.id] = failed > 0 || total === 0 ? 'FAIL' : 'PASS';
+  }
+  const evidence = {
+    pipeline: process.env.PIPELINE_NAME || 'Unknown',
+    git_sha: gitSha,
+    req_status: reqStatus,
+  };
+  const evidenceStr = JSON.stringify(evidence);
+  await fs.writeFile('ci_evidence.txt', evidenceStr);
+  console.log(`CI_EVIDENCE=${evidenceStr}`);
 
   try {
     await fs.access(evidenceDir, fsConstants.R_OK);
