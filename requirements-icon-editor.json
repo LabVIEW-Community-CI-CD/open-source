@@ -26,7 +26,8 @@
       "skip_dry_run": true,
       "runner": "self-hosted-windows-lv-integration",
       "tests": [
-        "BuildProfile1.IconEditor.PreSequence.matrix-enumeration"
+        "BuildProfile1.IconEditor.AddTokenToLabview.Script.Tests",
+        "BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher.Tests"
       ]
     },
     {
@@ -35,7 +36,8 @@
       "skip_dry_run": true,
       "runner": "self-hosted-windows-lv-integration",
       "tests": [
-        "BuildProfile1.IconEditor.Setup.apply-vipc-succeeds"
+        "BuildProfile1.IconEditor.ApplyVipc.Script.Tests",
+        "BuildProfile1.IconEditor.ApplyVipc.Dispatcher.Tests"
       ]
     },
     {
@@ -90,7 +92,8 @@
       "skip_dry_run": true,
       "runner": "self-hosted-windows-lv-integration",
       "tests": [
-        "BuildProfile1.IconEditor.Main.vi-package-built-and-hashed"
+        "BuildProfile1.IconEditor.BuildViPackage.Script.Tests",
+        "BuildProfile1.IconEditor.BuildViPackage.Dispatcher.Tests"
       ]
     },
     {
@@ -108,7 +111,8 @@
       "skip_dry_run": true,
       "runner": "self-hosted-windows-lv-integration",
       "tests": [
-        "BuildProfile1.IconEditor.Cleanup.labview-closed"
+        "BuildProfile1.IconEditor.CloseLabview.Script.Tests",
+        "BuildProfile1.IconEditor.CloseLabview.Dispatcher.Tests"
       ]
     },
     {

@@ -74,17 +74,38 @@
             {
               "os": "ubuntu-24.04",
               "runs-on": "ubuntu-24.04",
-              "runner_type": "linux"
+              "runner_type": "linux",
+              "suite": "script"
+            },
+            {
+              "os": "ubuntu-24.04",
+              "runs-on": "ubuntu-24.04",
+              "runner_type": "linux",
+              "suite": "dispatcher"
             },
             {
               "os": "self-hosted-windows-lv",
               "runs-on": "self-hosted-windows-lv",
-              "runner_type": "integration"
+              "runner_type": "integration",
+              "suite": "script"
             },
             {
               "os": "self-hosted-windows-lv",
               "runs-on": "self-hosted-windows-lv",
-              "runner_type": "default"
+              "runner_type": "integration",
+              "suite": "dispatcher"
+            },
+            {
+              "os": "self-hosted-windows-lv",
+              "runs-on": "self-hosted-windows-lv",
+              "runner_type": "default",
+              "suite": "script"
+            },
+            {
+              "os": "self-hosted-windows-lv",
+              "runs-on": "self-hosted-windows-lv",
+              "runner_type": "default",
+              "suite": "dispatcher"
             }
           ]
         }
@@ -109,21 +130,19 @@
           "run": "if (-not (Get-Module -ListAvailable -Name Pester |\n          Where-Object { $_.Version -ge [Version]'5.0.0' })) {\n  Remove-Module Pester -ErrorAction SilentlyContinue\n  Install-Module -Name Pester -MinimumVersion 5.0.0 -Scope CurrentUser -Force -SkipPublisherCheck\n}\n"
         },
         {
-          "name": "Validate native YAML parsing",
-          "shell": "pwsh",
-          "run": "$parsed = ConvertFrom-Yaml 'a: 1'\nif ($parsed.a -ne 1) { throw 'YAML parsing failed' }\n"
-        },
-        {
           "name": "Run Pester",
           "shell": "pwsh",
-          "run": "if (Test-Path \"tests/pester\") {\n  $cfg = New-PesterConfiguration\n  $cfg.Run.Path = './tests/pester'\n  $cfg.TestResult.Enabled = $false\n  $cfg.Run.Exit = $true\n  Invoke-Pester -Configuration $cfg\n}\n"
+          "run": "if (Test-Path \"tests/pester\") {\n  $cfg = New-PesterConfiguration\n  if ('${{ matrix.suite }}' -eq 'script') {\n    $cfg.Run.Path = 'tests/pester/*Script.Tests.ps1'\n  } else {\n    $cfg.Run.Path = 'tests/pester/*Dispatcher.Tests.ps1'\n  }\n  $cfg.TestResult.Enabled = $true\n  $cfg.TestResult.OutputFormat = 'JUnitXml'\n  $cfg.TestResult.OutputPath = 'pester-results/pester-junit.xml'\n  $cfg.Run.Exit = $true\n  Invoke-Pester -Configuration $cfg | Tee-Object -FilePath 'pester-results/pester.log'\n}\n"
         },
         {
           "uses": "actions/upload-artifact@v4",
           "if": "always()",
           "with": {
-            "name": "pester-junit-${{ matrix.os }}-${{ matrix.runner_type }}",
-            "path": "pester-results/pester-junit.xml",
+            "name": "test-results-pester-${{ matrix.os }}-${{ matrix.runner_type }}-${{ matrix.suite }}",
+            "path": [
+              "pester-results/pester-junit.xml",
+              "pester-results/pester.log"
+            ],
             "if-no-files-found": "error"
           }
         }
@@ -155,7 +174,7 @@
         {
           "uses": "actions/download-artifact@v4",
           "with": {
-            "pattern": "pester-junit-*",
+            "pattern": "test-results-pester-*",
             "path": "./downloaded-artifacts"
           }
         },
@@ -165,7 +184,7 @@
         {
           "run": "npm run generate:summary",
           "env": {
-            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml\ndownloaded-artifacts/pester-junit-*/pester-junit.xml\n",
+            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml\ndownloaded-artifacts/test-results-pester-*/pester-junit.xml\n",
             "REQ_MAPPING_FILE": "requirements.json",
             "DISPATCHER_REGISTRY": "dispatchers.json",
             "EVIDENCE_DIR": "artifacts/evidence"

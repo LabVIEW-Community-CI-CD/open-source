@@ -49,12 +49,27 @@ jobs:
           - os: ubuntu-24.04
             runs-on: ubuntu-24.04
             runner_type: linux
+            suite: script
+          - os: ubuntu-24.04
+            runs-on: ubuntu-24.04
+            runner_type: linux
+            suite: dispatcher
           - os: self-hosted-windows-lv
             runs-on: self-hosted-windows-lv
             runner_type: integration
+            suite: script
+          - os: self-hosted-windows-lv
+            runs-on: self-hosted-windows-lv
+            runner_type: integration
+            suite: dispatcher
           - os: self-hosted-windows-lv
             runs-on: self-hosted-windows-lv
             runner_type: default
+            suite: script
+          - os: self-hosted-windows-lv
+            runs-on: self-hosted-windows-lv
+            runner_type: default
+            suite: dispatcher
     runs-on: ${{ matrix.runs-on }}
     env:
       RUNNER_TYPE: ${{ matrix.runner_type }}
@@ -93,18 +108,24 @@ jobs:
         run: |
           if (Test-Path "tests/pester") {
             $cfg = New-PesterConfiguration
-            $cfg.Run.Path = './tests/pester'
+            if ('${{ matrix.suite }}' -eq 'script') {
+              $cfg.Run.Path = 'tests/pester/*Script.Tests.ps1'
+            } else {
+              $cfg.Run.Path = 'tests/pester/*Dispatcher.Tests.ps1'
+            }
             $cfg.TestResult.Enabled = $true
             $cfg.TestResult.OutputFormat = 'JUnitXml'
             $cfg.TestResult.OutputPath = 'pester-results/pester-junit.xml'
             $cfg.Run.Exit = $true
-            Invoke-Pester -Configuration $cfg
+            Invoke-Pester -Configuration $cfg | Tee-Object -FilePath 'pester-results/pester.log'
           }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ (success() || failure()) && !cancelled() }}
         with:
-          name: test-results-pester-${{ matrix.os }}-${{ matrix.runner_type }}
-          path: pester-results
+          name: test-results-pester-${{ matrix.os }}-${{ matrix.runner_type }}-${{ matrix.suite }}
+          path: |
+            pester-results/pester-junit.xml
+            pester-results/pester.log
           if-no-files-found: error
 
   report:
