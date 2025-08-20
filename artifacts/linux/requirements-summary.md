@@ -12,7 +12,7 @@
 | REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-033 | Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv. |  | 1 | 1 | 0 | 0 | 100.00 |
-| Unmapped |  |  | 44 | 44 | 0 | 0 | 100.00 |
+| Unmapped |  |  | 48 | 48 | 0 | 0 | 100.00 |
 
 ### Requirement Testcases
 | Requirement ID | Test ID | Status |
@@ -31,6 +31,10 @@
 | Unmapped | associates-classname-with-requirement | Passed |
 | Unmapped | buildissuebranchname-formats-branch-name | Passed |
 | Unmapped | buildissuebranchname-rejects-non-numeric-input | Passed |
+| Unmapped | buildprofile1.iconeditor.addtokentolabview.dispatcher.dry-runs-add-token-to-labview-with-expected-arguments- | Passed |
+| Unmapped | buildprofile1.iconeditor.applyvipc.dispatcher.dry-runs-apply-vipc-with-expected-arguments- | Passed |
+| Unmapped | buildprofile1.iconeditor.buildvipackage.dispatcher.dry-runs-build-vi-package-with-expected-arguments- | Passed |
+| Unmapped | buildprofile1.iconeditor.closelabview.dispatcher.dry-runs-close-labview-with-expected-arguments- | Passed |
 | Unmapped | buildsummary-splits-totals-by-os | Passed |
 | Unmapped | collecttestcases-captures-requirement-property | Passed |
 | Unmapped | collecttestcases-uses-evidence-property-and-falls-back-to-directory-scan | Passed |
