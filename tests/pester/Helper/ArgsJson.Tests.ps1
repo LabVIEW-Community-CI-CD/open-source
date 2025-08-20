@@ -1,11 +1,18 @@
 #requires -Version 7.0
+# Requirement: REQ-007 - Helper derives LabVIEW icon editor arguments from environment.
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 Import-Module (Join-Path $PSScriptRoot 'ArgsJson.psm1')
 
 Describe 'Get-LabVIEWIconEditorArgsJson' {
-    It 'defaults to repo root when not requiring project' {
+    $meta = @{
+        requirement = 'REQ-007'
+        Owner       = 'DevTools'
+        Evidence    = 'tests/pester/Helper/ArgsJson.Tests.ps1'
+    }
+
+    It 'defaults to repo root when not requiring project [REQ-007]' -Tag 'REQ-007' {
         $orig = $env:LABVIEW_ICON_EDITOR_PATH
         try {
             Remove-Item Env:LABVIEW_ICON_EDITOR_PATH -ErrorAction SilentlyContinue
@@ -24,7 +31,7 @@ Describe 'Get-LabVIEWIconEditorArgsJson' {
         }
     }
 
-    It 'throws when LABVIEW_ICON_EDITOR_PATH is invalid' {
+    It 'throws when LABVIEW_ICON_EDITOR_PATH is invalid [REQ-007]' -Tag 'REQ-007' {
         $orig = $env:LABVIEW_ICON_EDITOR_PATH
         try {
             $env:LABVIEW_ICON_EDITOR_PATH = Join-Path $PSScriptRoot 'NoSuchDir'
