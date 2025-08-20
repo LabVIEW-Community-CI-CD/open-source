@@ -55,7 +55,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName restore-setup-lv-source -Args
 
 ```yaml
 - name: Restore LabVIEW setup
-  uses: LabVIEW-Community-CI-CD/open-source-actions/restore-setup-lv-source@v1
+  uses: LabVIEW-Community-CI-CD/open-source/restore-setup-lv-source@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'

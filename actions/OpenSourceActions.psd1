@@ -5,7 +5,7 @@
   Author                = 'LabVIEW Community CI/CD'
   CompanyName           = 'LabVIEW Community'
   Copyright             = '(c) 2025 LabVIEW Community'
-  Description           = 'Unified dispatcher adapters for open-source-actions'
+  Description           = 'Unified dispatcher adapters for open-source'
   PowerShellVersion     = '7.0'
   CompatiblePSEditions  = @('Core')
 
