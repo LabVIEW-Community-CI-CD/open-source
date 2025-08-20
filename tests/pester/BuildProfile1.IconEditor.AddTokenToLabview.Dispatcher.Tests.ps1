@@ -2,8 +2,6 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
-$dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
 Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 
 Describe 'BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher' {
@@ -13,14 +11,19 @@ Describe 'BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher' {
         Evidence    = 'tests/pester/BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher.Tests.ps1'
     }
 
-    It 'invokes add-token-to-labview via dispatcher [REQIE-001]' -Tag 'REQIE-001' {
+    It 'dry-runs add-token-to-labview with expected arguments [REQIE-001]' -Tag 'REQIE-001' {
+        $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
+        $dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
         $params = Get-LabVIEWIconEditorArgsJson
-        $json = $params.ArgsJson
         $projectRoot = $params.WorkingDirectory
-        $out = & $dispatcher -ActionName add-token-to-labview -ArgsJson $json -WorkingDirectory $projectRoot -DryRun *>&1 | Out-String
+        $out = & $dispatcher -ActionName add-token-to-labview -ArgsJson $params.ArgsJson -WorkingDirectory $projectRoot -DryRun *>&1 | Out-String
         $LASTEXITCODE | Should -Be 0
         $out | Should -Match 'AddTokenToLabVIEW.ps1'
-        $out | Should -Match '"MinimumSupportedLVVersion":"2021"'
-        $out | Should -Match '"SupportedBitness":"64"'
+        $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
+        $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
+        $obj = $jsonText | ConvertFrom-Json
+        $obj.MinimumSupportedLVVersion | Should -Be '2021'
+        $obj.SupportedBitness | Should -Be '64'
+        $obj.RelativePath | Should -Be '.'
     }
 }

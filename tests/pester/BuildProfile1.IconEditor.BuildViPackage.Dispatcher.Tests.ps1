@@ -2,8 +2,6 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
-$dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
 Import-Module (Join-Path $PSScriptRoot 'Helper' 'ArgsJson.psm1')
 
 Describe 'BuildProfile1.IconEditor.BuildViPackage.Dispatcher' {
@@ -13,26 +11,30 @@ Describe 'BuildProfile1.IconEditor.BuildViPackage.Dispatcher' {
         Evidence    = 'tests/pester/BuildProfile1.IconEditor.BuildViPackage.Dispatcher.Tests.ps1'
     }
 
-    It 'invokes build-vi-package via dispatcher [REQIE-008]' -Tag 'REQIE-008' {
+    It 'dry-runs build-vi-package with expected arguments [REQIE-008]' -Tag 'REQIE-008' {
+        $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
+        $dispatcher = Join-Path $repoRoot 'actions' 'Invoke-OSAction.ps1'
         $params = Get-LabVIEWIconEditorArgsJson
-        $base = $params.ArgsJson | ConvertFrom-Json
-        $vipbPath = Join-Path $repoRoot 'scripts' 'build-vi-package' 'NI Icon editor.vipb'
-        $releaseNotes = Join-Path $repoRoot 'scripts' 'build-vi-package' 'release-notes.md'
-        $base | Add-Member LabVIEWMinorRevision '3'
-        $base | Add-Member VIPBPath $vipbPath
-        $base | Add-Member Major 1
-        $base | Add-Member Minor 0
-        $base | Add-Member Patch 0
-        $base | Add-Member Build 2
-        $base | Add-Member Commit 'abcdef0'
-        $base | Add-Member DisplayInformationJSON '{"Package Version":{"major":1,"minor":0,"patch":0,"build":2}}'
-        $base | Add-Member ReleaseNotesFile $releaseNotes
-        $json = $base | ConvertTo-Json -Compress
         $projectRoot = $params.WorkingDirectory
+        $args = $params.ArgsJson | ConvertFrom-Json
+        $args | Add-Member -NotePropertyName LabVIEWMinorRevision -NotePropertyValue '2021'
+        $args | Add-Member -NotePropertyName VIPBPath -NotePropertyValue 'dummy.vipb'
+        $args | Add-Member -NotePropertyName Major -NotePropertyValue 1
+        $args | Add-Member -NotePropertyName Minor -NotePropertyValue 0
+        $args | Add-Member -NotePropertyName Patch -NotePropertyValue 0
+        $args | Add-Member -NotePropertyName Build -NotePropertyValue 2
+        $args | Add-Member -NotePropertyName Commit -NotePropertyValue 'abcdef0'
+        $args | Add-Member -NotePropertyName DisplayInformationJSON -NotePropertyValue '{}'
+        $json = $args | ConvertTo-Json -Compress
         $out = & $dispatcher -ActionName build-vi-package -ArgsJson $json -WorkingDirectory $projectRoot -DryRun *>&1 | Out-String
         $LASTEXITCODE | Should -Be 0
         $out | Should -Match 'build_vip.ps1'
-        $out | Should -Match [regex]::Escape('NI Icon editor.vipb')
-        $out | Should -Match '"Commit":"abcdef0"'
+        $jsonLine = $out -split "`n" | Where-Object { $_ -match '{' } | Select-Object -Last 1
+        $jsonText = $jsonLine -replace '^[^{}]*({.*})','$1'
+        $obj = $jsonText | ConvertFrom-Json
+        $obj.MinimumSupportedLVVersion | Should -Be '2021'
+        $obj.SupportedBitness | Should -Be '64'
+        $obj.VIPBPath | Should -Be 'dummy.vipb'
+        $obj.Commit | Should -Be 'abcdef0'
     }
 }

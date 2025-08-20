@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<testsuites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="junit_schema_4.xsd" name="Pester" tests="4" errors="0" failures="0" disabled="0" time="1.403">
+  <testsuite name="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher.Tests.ps1" tests="1" errors="0" failures="0" hostname="71c40d4e897c" id="0" skipped="0" disabled="0" package="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher.Tests.ps1" time="1.060">
+    <properties>
+      <property name="cwd" value="/workspace/open-source" />
+      <property name="user" value="root" />
+      <property name="framework-version" value="5.7.1" />
+      <property name="os-version" value="6.12.13" />
+      <property name="platform" value="Linux" />
+      <property name="junit-version" value="4" />
+      <property name="clr-version" value="9.0.4" />
+      <property name="machine-name" value="71c40d4e897c" />
+      <property name="user-domain" value="" />
+    </properties>
+    <testcase name="BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher.dry-runs add-token-to-labview with expected arguments [REQIE-001]" status="Passed" classname="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.AddTokenToLabview.Dispatcher.Tests.ps1" assertions="0" time="0.482" />
+  </testsuite>
+  <testsuite name="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.ApplyVipc.Dispatcher.Tests.ps1" tests="1" errors="0" failures="0" hostname="71c40d4e897c" id="1" skipped="0" disabled="0" package="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.ApplyVipc.Dispatcher.Tests.ps1" time="0.084">
+    <properties>
+      <property name="cwd" value="/workspace/open-source" />
+      <property name="user" value="root" />
+      <property name="framework-version" value="5.7.1" />
+      <property name="os-version" value="6.12.13" />
+      <property name="platform" value="Linux" />
+      <property name="junit-version" value="4" />
+      <property name="clr-version" value="9.0.4" />
+      <property name="machine-name" value="71c40d4e897c" />
+      <property name="user-domain" value="" />
+    </properties>
+    <testcase name="BuildProfile1.IconEditor.ApplyVipc.Dispatcher.dry-runs apply-vipc with expected arguments [REQIE-002]" status="Passed" classname="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.ApplyVipc.Dispatcher.Tests.ps1" assertions="0" time="0.042" />
+  </testsuite>
+  <testsuite name="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.BuildViPackage.Dispatcher.Tests.ps1" tests="1" errors="0" failures="0" hostname="71c40d4e897c" id="2" skipped="0" disabled="0" package="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.BuildViPackage.Dispatcher.Tests.ps1" time="0.147">
+    <properties>
+      <property name="cwd" value="/workspace/open-source" />
+      <property name="user" value="root" />
+      <property name="framework-version" value="5.7.1" />
+      <property name="os-version" value="6.12.13" />
+      <property name="platform" value="Linux" />
+      <property name="junit-version" value="4" />
+      <property name="clr-version" value="9.0.4" />
+      <property name="machine-name" value="71c40d4e897c" />
+      <property name="user-domain" value="" />
+    </properties>
+    <testcase name="BuildProfile1.IconEditor.BuildViPackage.Dispatcher.dry-runs build-vi-package with expected arguments [REQIE-008]" status="Passed" classname="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.BuildViPackage.Dispatcher.Tests.ps1" assertions="0" time="0.106" />
+  </testsuite>
+  <testsuite name="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.CloseLabview.Dispatcher.Tests.ps1" tests="1" errors="0" failures="0" hostname="71c40d4e897c" id="3" skipped="0" disabled="0" package="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.CloseLabview.Dispatcher.Tests.ps1" time="0.112">
+    <properties>
+      <property name="cwd" value="/workspace/open-source" />
+      <property name="user" value="root" />
+      <property name="framework-version" value="5.7.1" />
+      <property name="os-version" value="6.12.13" />
+      <property name="platform" value="Linux" />
+      <property name="junit-version" value="4" />
+      <property name="clr-version" value="9.0.4" />
+      <property name="machine-name" value="71c40d4e897c" />
+      <property name="user-domain" value="" />
+    </properties>
+    <testcase name="BuildProfile1.IconEditor.CloseLabview.Dispatcher.dry-runs close-labview with expected arguments [REQIE-010]" status="Passed" classname="/workspace/open-source/tests/pester/BuildProfile1.IconEditor.CloseLabview.Dispatcher.Tests.ps1" assertions="0" time="0.036" />
+  </testsuite>
+</testsuites>
