@@ -12,7 +12,7 @@
 | REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-033 | Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv. |  | 1 | 1 | 0 | 0 | 100.00 |
-| Unmapped |  |  | 42 | 42 | 0 | 0 | 100.00 |
+| Unmapped |  |  | 43 | 43 | 0 | 0 | 100.00 |
 
 ### Requirement Testcases
 | Requirement ID | Test ID | Status |
@@ -36,6 +36,7 @@
 | Unmapped | collecttestcases-uses-evidence-property-and-falls-back-to-directory-scan | Passed |
 | Unmapped | collecttestcases-uses-machine-name-property-for-owner | Passed |
 | Unmapped | computestatuscounts-tallies-test-statuses | Passed |
+| Unmapped | detects-downloaded-artifacts-path | Passed |
 | Unmapped | dispatchers-and-parameters-include-descriptions | Passed |
 | Unmapped | errors-when-strict-unmapped-mode-enabled | Passed |
 | Unmapped | escapemarkdown-escapes-special-characters | Passed |

@@ -61,6 +61,14 @@ test('fails when no JUnit files are found', async () => {
   );
 });
 
+test('detects downloaded artifacts path', async () => {
+  const env = { ...process.env, RUNNER_OS: 'Linux' };
+  const tsxPath = path.join(rootDir, 'node_modules/.bin/tsx');
+  const cwd = path.join(fixtureDir, 'downloaded-only');
+  const { stdout } = await execFileP(tsxPath, [scriptFile], { cwd, env });
+  assert.match(stdout, /<details><summary>alice<\/summary>/);
+});
+
 test('uses latest artifact directory when multiple are present', async () => {
   const env = { ...process.env, RUNNER_OS: 'Linux' };
   const tsxPath = path.join(rootDir, 'node_modules/.bin/tsx');
