@@ -44,6 +44,7 @@ nav:
       - Environment Setup: environment-setup.md
       - Troubleshooting: troubleshooting.md
   - Reference:
+      - Glossary: glossary.md
       - Action Calls: action-call-reference.md
       - Common Parameters: common-parameters.md
       - Actions:

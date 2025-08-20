@@ -1,6 +1,6 @@
 # Apply VIPC Dependencies 📦
 
-Ensure a runner has all required LabVIEW packages installed before building or testing. This composite action calls **`ApplyVIPC.ps1`** to apply a `.vipc` container through **g-cli**. The action automatically detects the `runner_dependencies.vipc` file located in this directory.
+Ensure a runner has all required LabVIEW packages installed before building or testing. This composite action calls **`ApplyVIPC.ps1`** to apply a [`VIPC`](../glossary.md#vipc) container through **g-cli**. The action automatically detects the `runner_dependencies.vipc` file located in this directory.
 
 ---
 
@@ -52,7 +52,7 @@ steps:
       relative_path: ${{ github.workspace }}
 ```
 
-The CI pipeline applies these dependencies across multiple LabVIEW versions—2021 (32-bit and 64-bit) and 2023 (64-bit)—as shown in
+[CI](../glossary.md#ci) pipeline applies these dependencies across multiple LabVIEW versions—2021 (32-bit and 64-bit) and 2023 (64-bit)—as shown in
 [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml).
 
 ---
