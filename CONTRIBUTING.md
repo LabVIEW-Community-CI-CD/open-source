@@ -6,9 +6,11 @@ Contributions of all kinds are welcome. Ensure you have Node.js 24 or newer inst
 npm install
 npm run test:ci
 npm run derive:registry
-TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+RUNNER_OS=Linux TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
 npm run check:traceability
 ```
+
+When running locally, set `RUNNER_OS` (for example, `RUNNER_OS=Linux`) before invoking `npm run generate:summary`.
 
 `npm run test:ci` writes JUnit files to `test-results/`. Commit `test-results/*` and `artifacts/linux/*` along with your source changes.
 

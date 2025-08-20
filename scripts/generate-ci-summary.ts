@@ -24,7 +24,7 @@ async function main() {
   const mappingFile = process.env.REQ_MAPPING_FILE || 'requirements.json';
   const dispatcherRegistryFile = process.env.DISPATCHER_REGISTRY || 'dispatchers.json';
   const evidenceDir = process.env.EVIDENCE_DIR || 'test-screenshots';
-  const osType = (process.env.RUNNER_OS ?? 'unknown').toLowerCase();
+  const osType = (process.env.RUNNER_OS ?? 'linux').toLowerCase();
 
   let junitFiles: string[] = [];
   const plural = process.env.TEST_RESULTS_GLOBS;
