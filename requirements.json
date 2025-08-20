@@ -64,6 +64,13 @@
       ]
     },
     {
+      "id": "REQ-007",
+      "description": "Helper derives LabVIEW icon editor arguments from environment and defaults to the repository root.",
+      "tests": [
+        "Helper.ArgsJson.Tests"
+      ]
+    },
+    {
       "id": "REQ-008",
       "description": "Workflow tests the composite action defined in add-token-to-labview/action.yml on the GitHub-hosted Ubuntu runner labeled ubuntu-latest.",
       "runner": "ubuntu-latest",
