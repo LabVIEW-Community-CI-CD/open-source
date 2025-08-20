@@ -6,6 +6,14 @@ Install a pinned MkDocs with caching.
 
 ## Parameters
 
+Common parameters are described in [Common parameters](../common-parameters.md).
+
+### Required
+
+None.
+
+### Optional
+
 None.
 
 ### GitHub Action inputs
