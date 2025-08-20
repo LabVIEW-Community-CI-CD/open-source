@@ -1,11 +1,16 @@
 # Contributing
 
-Contributions of all kinds are welcome. Ensure you have Node.js 24 or newer installed, then run `npm install` to set up dependencies. Before submitting pull requests, run the JavaScript tests and any available linters.
+Contributions of all kinds are welcome. Ensure you have Node.js 24 or newer installed, then run the following commands before submitting pull requests:
 
 ```bash
 npm install
-npm test
+npm run test:ci
+npm run derive:registry
+TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+npm run check:traceability
 ```
+
+Commit `test-results/*` and `artifacts/linux/*` along with your source changes.
 
 For documentation updates, follow the [documentation contribution guidelines](docs/contributing-docs.md). Run the following to lint Markdown files and verify links before submitting a pull request:
 

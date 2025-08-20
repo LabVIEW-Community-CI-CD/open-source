@@ -104,12 +104,17 @@ Workflows distinguish between standard GitHub-hosted images and integration runn
 
 ## Testing
 
-Run the JavaScript tests with:
+Run the JavaScript tests and generate traceability data with:
 
 ```bash
 npm install
-npm test
+npm run test:ci
+npm run derive:registry
+TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+npm run check:traceability
 ```
+
+JUnit files appear under `test-results/`. Commit `test-results/*` and `artifacts/linux/*` along with source changes.
 
 For CI, `npm run test:ci` emits a JUnit XML report that [scripts/generate-ci-summary.ts](scripts/generate-ci-summary.ts) parses to build requirement traceability files in OS‑specific subdirectories (e.g., `artifacts/windows`, `artifacts/linux`) based on the `RUNNER_OS` environment variable. The summary script searches `artifacts/` by default; set `TEST_RESULTS_GLOBS` if your reports are elsewhere.
 
