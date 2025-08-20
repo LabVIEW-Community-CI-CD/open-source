@@ -27,3 +27,7 @@ jobs:
         with:
           name: vi-package
           path: 'scripts/build-vi-package/lv_icon_v1.0.0.1+gabcdef.vip'
+      - name: Generate SLSA provenance
+        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018
+        with:
+          subject-path: 'scripts/build-vi-package/lv_icon_v1.0.0.1+gabcdef.vip'
