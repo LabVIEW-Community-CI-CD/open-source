@@ -13,11 +13,32 @@
     }
   },
   "jobs": {
-    "node-ci": {
+    "release-check": {
       "runs-on": "ubuntu-24.04",
-      "env": {
-        "ARTIFACT_DIR": "artifacts/linux"
+      "outputs": {
+        "needs_release": "${{ steps.check.outputs.present }}"
       },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "id": "check",
+          "run": "if [[ -f release.json ]]; then\n  echo 'present=true' >> \"$GITHUB_OUTPUT\"\nelse\n  echo 'present=false' >> \"$GITHUB_OUTPUT\"\nfi"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "steps.check.outputs.present == 'true'",
+          "with": {
+            "name": "release-metadata",
+            "path": "release.json"
+          }
+        }
+      ]
+    },
+    "validate-artifacts": {
+      "needs": "release-check",
+      "runs-on": "ubuntu-24.04",
       "steps": [
         {
           "uses": "actions/checkout@v4"
@@ -29,75 +50,24 @@
           }
         },
         {
-          "run": "npm run check:node"
-        },
-        {
           "run": "npm install"
         },
         {
           "run": "npm run link:check"
         },
         {
-          "run": "npm run test:ci"
-        },
-        {
           "run": "npm run derive:registry"
         },
         {
-          "run": "rm -rf artifacts"
+          "run": "git diff --exit-code -- dispatchers.json"
         },
         {
-          "run": "mkdir -p artifacts && cp test-results/*junit*.xml artifacts/"
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "junit-results",
-            "path": "artifacts/**/*junit*.xml"
-          }
-        },
-        {
-          "uses": "EnricoMi/publish-unit-test-result-action@v2",
-          "if": "always()",
-          "with": {
-            "files": "artifacts/**/*junit*.xml"
-          }
-        },
-        {
-          "run": "npm run generate:summary",
-          "env": {
-            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml"
-          }
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "traceability",
-            "path": "${{ env.ARTIFACT_DIR }}/traceability.*"
-          }
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "action-docs",
-            "path": "${{ env.ARTIFACT_DIR }}/action-docs.*"
-          }
-        },
-        {
-          "uses": "actions/upload-artifact@v4",
-          "if": "always()",
-          "with": {
-            "name": "evidence",
-            "path": "${{ env.ARTIFACT_DIR }}/evidence/**",
-            "if-no-files-found": "ignore"
-          }
+          "run": "npm run check:traceability"
         }
       ]
     },
     "ps-ci": {
+      "needs": "release-check",
       "strategy": {
         "matrix": {
           "include": [
@@ -161,7 +131,7 @@
     },
     "report": {
       "needs": [
-        "node-ci",
+        "validate-artifacts",
         "ps-ci"
       ],
       "runs-on": "ubuntu-24.04",
@@ -183,12 +153,9 @@
           "run": "npm install"
         },
         {
-          "run": "rm -rf artifacts"
-        },
-        {
           "uses": "actions/download-artifact@v4",
           "with": {
-            "path": "./artifacts"
+            "path": "./downloaded-artifacts"
           }
         },
         {
@@ -197,7 +164,7 @@
         {
           "run": "npm run generate:summary",
           "env": {
-            "TEST_RESULTS_GLOBS": "artifacts/junit-results/artifacts/**/*junit*.xml\nartifacts/pester-junit-*/pester-junit.xml\n",
+            "TEST_RESULTS_GLOBS": "test-results/*junit*.xml\ndownloaded-artifacts/pester-junit-*/pester-junit.xml\n",
             "REQ_MAPPING_FILE": "requirements.json",
             "DISPATCHER_REGISTRY": "dispatchers.json",
             "EVIDENCE_DIR": "artifacts/evidence"

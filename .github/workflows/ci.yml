@@ -26,54 +26,19 @@ jobs:
           name: release-metadata
           path: release.json
 
-  node-ci:
+  validate-artifacts:
     needs: release-check
     runs-on: ubuntu-24.04
-    env:
-      # Summary artifacts are emitted under artifacts/<os>.
-      # This job always runs on Linux, so the directory is fixed.
-      ARTIFACT_DIR: artifacts/linux
     steps:
       - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24
-      - run: npm run check:node
       - run: npm install
       - run: npm run link:check
-      - run: npm run test:ci
       - run: npm run derive:registry
-      - run: rm -rf artifacts
-      - run: mkdir -p artifacts && cp test-results/*junit*.xml artifacts/
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ (success() || failure()) && !cancelled() }}
-        with:
-          name: junit-results
-          path: artifacts/**/*junit*.xml
-      - uses: EnricoMi/publish-unit-test-result-action@0f06977fde99088e583f6fa8ec622da326e818c3
-        if: ${{ (success() || failure()) && !cancelled() }}
-        with:
-          files: artifacts/**/*junit*.xml
-      - run: npm run generate:summary
-        env:
-          TEST_RESULTS_GLOBS: test-results/*junit*.xml
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ (success() || failure()) && !cancelled() }}
-        with:
-          name: traceability
-          path: ${{ env.ARTIFACT_DIR }}/traceability.*
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ (success() || failure()) && !cancelled() }}
-        with:
-          name: action-docs
-          path: ${{ env.ARTIFACT_DIR }}/action-docs.*
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ (success() || failure()) && !cancelled() }}
-        with:
-          name: evidence
-          path: ${{ env.ARTIFACT_DIR }}/evidence/**
-          if-no-files-found: ignore
-
+      - run: git diff --exit-code -- dispatchers.json
+      - run: npm run check:traceability
   ps-ci:
     needs: release-check
     strategy:
@@ -141,7 +106,7 @@ jobs:
           if-no-files-found: error
 
   report:
-    needs: [node-ci, ps-ci]
+    needs: [validate-artifacts, ps-ci]
     runs-on: ubuntu-24.04
     if: ${{ (success() || failure()) && !cancelled() }}
     steps:
@@ -151,16 +116,15 @@ jobs:
           node-version: 24
       - run: npm run check:node
       - run: npm install
-      - run: rm -rf artifacts
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          path: ./artifacts
+          path: ./downloaded-artifacts
       - run: npm run derive:registry
       - run: npm run generate:summary
         env:
           TEST_RESULTS_GLOBS: |
-            artifacts/junit-results/artifacts/**/*junit*.xml
-            artifacts/pester-junit-*/pester-junit.xml
+            test-results/*junit*.xml
+            downloaded-artifacts/pester-junit-*/pester-junit.xml
           REQ_MAPPING_FILE: requirements.json
           DISPATCHER_REGISTRY: dispatchers.json
           EVIDENCE_DIR: artifacts/evidence
