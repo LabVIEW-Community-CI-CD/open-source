@@ -43,3 +43,7 @@ jobs:
         with:
           name: artifact-manifest
           path: scripts/build/artifact-manifest.json
+      - name: Generate SLSA provenance
+        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018
+        with:
+          subject-path: scripts/build/${{ steps.record.outputs.artifact }}
