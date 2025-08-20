@@ -36,6 +36,7 @@
 - Run `npx --yes linkinator README.md docs scripts --config linkinator.config.json` to verify links and ensure failures are visible.
 - Run `actionlint` to validate GitHub Actions workflows.
 - Run `npm run check:traceability` to validate generated artifacts.
+- Run `scripts/check-commit-requirements.sh <base_sha>` to verify recent commits include requirement IDs from `requirements.json`. Run this script after committing to ensure each commit message contains at least one requirement ID.
 - Commit `test-results/*` and `artifacts/linux/*` along with source changes.
 
 ### Pester Tests
