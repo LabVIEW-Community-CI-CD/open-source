@@ -14,7 +14,7 @@ None.
 
 ### Optional
 
-- **OutputPath** (`string`): Path to write the release notes file (default `Tooling/deployment/release_notes.md`).
+- **OutputPath** (`string`): Path to write the release notes file (default `Tooling/deployment/release_notes.md`)
 
 ## CLI example
 
@@ -52,4 +52,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/generate-release-notes/README.md](../../scripts/generate-release-notes/README.md).
+## See also
+
+- [Workflow documentation](../workflows/generate-release-notes.md)
+- [scripts/generate-release-notes/README.md](../../scripts/generate-release-notes/README.md)

@@ -49,3 +49,7 @@ jobs:
 
 After the workflow completes, the target repository will contain a `requirement-coverage.json` file summarizing requirement pass/fail status from the test run.
 ```
+
+## See also
+
+- [Action documentation](../actions/run-pester-tests.md)

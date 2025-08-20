@@ -4,7 +4,7 @@ List of available GitHub Actions.
 
 - [add-token-to-labview](./add-token-to-labview.md): Add a custom library path token to the LabVIEW INI file so LabVIEW can locate project libraries.
 - [apply-vipc](./apply-vipc.md): Apply a VI Package Configuration (.vipc) file to a specific LabVIEW installation using g-cli.
-- [build-lvlibp](./build-lvlibp.md): Build a LabVIEW project’s build specification into a Packed Project Library (.lvlibp).
+- [build-lvlibp](./build-lvlibp.md): Build a LabVIEW project’s build specification into a Packed Project Library (.lvlibp)
 - [build-vi-package](./build-vi-package.md): Update VIPB display information and build a VI package using g-cli.
 - [build](./build.md): Automate building the LabVIEW Icon Editor project, including cleaning, building libraries, and packaging.
 - [close-labview](./close-labview.md): Gracefully close a running LabVIEW instance via g-cli.
@@ -19,3 +19,7 @@ List of available GitHub Actions.
 - [run-unit-tests](./run-unit-tests.md): Run LabVIEW unit tests via the LabVIEW Unit Test Framework CLI and report pass/fail/error using standard exit codes.
 - [set-development-mode](./set-development-mode.md): Configure the repository for development mode by removing packed libraries, adding tokens, preparing sources, and closing LabVIEW.
 - [setup-mkdocs](./setup-mkdocs.md): Install a pinned MkDocs with caching.
+
+## See also
+
+- [Workflow documentation](../workflows/index.md)

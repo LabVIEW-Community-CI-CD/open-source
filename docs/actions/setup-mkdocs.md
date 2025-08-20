@@ -27,3 +27,7 @@ This action has no inputs.
 See [setup-mkdocs/action.yml](../../setup-mkdocs/action.yml) for implementation details.
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
+
+## See also
+
+- [Workflow documentation](../workflows/setup-mkdocs.md)

@@ -47,3 +47,7 @@ jobs:
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName close-labview -WorkingDirectory "${{ github.workspace }}/target"
 ```
+
+## See also
+
+- [Action documentation](../actions/close-labview.md)

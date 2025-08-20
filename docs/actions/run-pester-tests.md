@@ -56,4 +56,7 @@ See [run-pester-tests/action.yml](../../run-pester-tests/action.yml) and [script
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/run-pester-tests/README.md](../../scripts/run-pester-tests/README.md).
+## See also
+
+- [Workflow documentation](../workflows/run-pester-tests.md)
+- [scripts/run-pester-tests/README.md](../../scripts/run-pester-tests/README.md)

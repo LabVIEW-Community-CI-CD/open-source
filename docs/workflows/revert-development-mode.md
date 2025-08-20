@@ -47,3 +47,7 @@ jobs:
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName revert-development-mode -WorkingDirectory "${{ github.workspace }}/target"
 ```
+
+## See also
+
+- [Action documentation](../actions/revert-development-mode.md)

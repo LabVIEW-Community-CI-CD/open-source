@@ -13,7 +13,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 - **MinimumSupportedLVVersion** (`string`): LabVIEW version used for the build.
 - **SupportedBitness** (`string`): "32" or "64" bitness of LabVIEW.
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
-- **LabVIEW_Project** (`string`): Path to the LabVIEW project (.lvproj).
+- **LabVIEW_Project** (`string`): Path to the LabVIEW project (.lvproj)
 - **Build_Spec** (`string`): Name of the build specification to execute.
 - **Major** (`int`): Major version number.
 - **Minor** (`int`): Minor version number.
@@ -90,4 +90,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/build-lvlibp/README.md](../../scripts/build-lvlibp/README.md).
+## See also
+
+- [Workflow documentation](../workflows/build-lvlibp.md)
+- [scripts/build-lvlibp/README.md](../../scripts/build-lvlibp/README.md)

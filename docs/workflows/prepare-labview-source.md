@@ -47,3 +47,7 @@ jobs:
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName prepare-labview-source -WorkingDirectory "${{ github.workspace }}/target"
 ```
+
+## See also
+
+- [Action documentation](../actions/prepare-labview-source.md)

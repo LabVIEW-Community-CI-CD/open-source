@@ -14,7 +14,7 @@ Common parameters are described in [Common parameters](../common-parameters.md).
 - **RelativePath** (`string`): Path relative to the action's working directory. Use "." when the working directory is desired.
 - **VIPBPath** (`string`): Relative path to the VIPB file.
 - **MinimumSupportedLVVersion** (`string`): Minimum LabVIEW version supported by the package.
-- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3").
+- **LabVIEWMinorRevision** (`string`): LabVIEW minor revision (e.g., "3")
 - **Major** (`int`): Major version component.
 - **Minor** (`int`): Minor version component.
 - **Patch** (`int`): Patch version component.
@@ -95,4 +95,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/modify-vipb-display-info/README.md](../../scripts/modify-vipb-display-info/README.md).
+## See also
+
+- [Workflow documentation](../workflows/modify-vipb-display-info.md)
+- [scripts/modify-vipb-display-info/README.md](../../scripts/modify-vipb-display-info/README.md)

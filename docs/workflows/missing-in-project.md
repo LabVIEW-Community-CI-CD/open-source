@@ -47,3 +47,7 @@ jobs:
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName missing-in-project -WorkingDirectory "${{ github.workspace }}/target"
 ```
+
+## See also
+
+- [Action documentation](../actions/missing-in-project.md)

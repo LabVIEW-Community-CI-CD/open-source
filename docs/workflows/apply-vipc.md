@@ -47,3 +47,7 @@ jobs:
         shell: pwsh
         run: ./actions/Invoke-OSAction.ps1 -ActionName apply-vipc -WorkingDirectory "${{ github.workspace }}/target"
 ```
+
+## See also
+
+- [Action documentation](../actions/apply-vipc.md)

@@ -61,4 +61,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/missing-in-project/README.md](../../scripts/missing-in-project/README.md).
+## See also
+
+- [Workflow documentation](../workflows/missing-in-project.md)
+- [scripts/missing-in-project/README.md](../../scripts/missing-in-project/README.md)

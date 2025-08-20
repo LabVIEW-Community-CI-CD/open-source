@@ -66,4 +66,7 @@ GitHub Action inputs are provided in `snake_case`, while CLI parameters use `Pas
 
 For troubleshooting tips, see the [troubleshooting guide](../troubleshooting.md).
 
-See also: [scripts/run-unit-tests/README.md](../../scripts/run-unit-tests/README.md).
+## See also
+
+- [Workflow documentation](../workflows/run-unit-tests.md)
+- [scripts/run-unit-tests/README.md](../../scripts/run-unit-tests/README.md)
