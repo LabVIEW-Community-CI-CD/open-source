@@ -10,7 +10,9 @@ async function main() {
   if (overrideDir) {
     junitFiles = await glob(path.join(overrideDir, 'pester-junit.xml'));
   } else {
-    const matches = await glob('artifacts/pester-junit-*/pester-junit.xml');
+    const matches = await glob(
+      '{artifacts/pester-junit-*/pester-junit.xml,downloaded-artifacts/test-results-pester-*/pester-junit.xml}'
+    );
     if (matches.length > 0) {
       const latestDir = matches
         .map((f) => path.dirname(f))
@@ -21,7 +23,7 @@ async function main() {
   }
   if (junitFiles.length === 0) {
     console.warn('No JUnit files found');
-    process.exit(1);
+    return;
   }
   const tests = [];
   for (const file of junitFiles) {

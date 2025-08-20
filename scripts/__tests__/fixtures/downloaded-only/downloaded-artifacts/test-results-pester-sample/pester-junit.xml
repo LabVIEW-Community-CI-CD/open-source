@@ -1,0 +1,20 @@
+<testsuite>
+  <testcase name="[Owner:alice] Alpha" time="0">
+    <properties>
+      <property name="evidence" value="http://example.com/alpha.log"/>
+      <property name="requirement" value="REQ-123"/>
+    </properties>
+  </testcase>
+  <testcase name="[Owner:bob] Beta" time="0">
+    <properties>
+      <property name="evidence" value="http://example.com/beta.log"/>
+      <property name="requirement" value="REQ-456"/>
+    </properties>
+  </testcase>
+  <testcase name="[Owner:alice] Gamma" time="0">
+    <properties>
+      <property name="evidence" value="http://example.com/gamma.log"/>
+      <property name="requirement" value="REQ-789"/>
+    </properties>
+  </testcase>
+</testsuite>

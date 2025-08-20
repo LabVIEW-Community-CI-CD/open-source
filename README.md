@@ -112,9 +112,11 @@ Run the JavaScript tests and generate traceability artifacts with:
 npm install
 npm run test:ci
 npm run derive:registry
-TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
+RUNNER_OS=Linux TEST_RESULTS_GLOBS='test-results/*junit*.xml' npm run generate:summary
 npm run check:traceability
 ```
+
+When running locally, set `RUNNER_OS` (for example, `RUNNER_OS=Linux`) before invoking `npm run generate:summary`.
 
 `npm run test:ci` writes JUnit files to `test-results/`. [scripts/generate-ci-summary.ts](scripts/generate-ci-summary.ts) parses these results to build requirement traceability files in OS‑specific subdirectories (e.g., `artifacts/windows`, `artifacts/linux`) based on the `RUNNER_OS` environment variable. Commit `test-results/*` and `artifacts/linux/*` along with your source changes. The summary script searches `artifacts/` by default; set `TEST_RESULTS_GLOBS` if your reports are elsewhere.
 

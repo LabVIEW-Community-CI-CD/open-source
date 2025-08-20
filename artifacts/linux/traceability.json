@@ -9,7 +9,7 @@
           "name": "[REQ-023] parses nested JUnit structures",
           "className": "test",
           "status": "Passed",
-          "duration": 0.010654,
+          "duration": 0.010082,
           "requirements": [
             "REQ-023"
           ],
@@ -26,7 +26,7 @@
           "name": "[REQ-024] captures root testsuites attributes",
           "className": "test",
           "status": "Passed",
-          "duration": 0.002258,
+          "duration": 0.005663,
           "requirements": [
             "REQ-024"
           ],
@@ -43,7 +43,7 @@
           "name": "[REQ-025] captures testsuite attributes",
           "className": "test",
           "status": "Passed",
-          "duration": 0.00565,
+          "duration": 0.009162,
           "requirements": [
             "REQ-025"
           ],
@@ -60,7 +60,7 @@
           "name": "[REQ-026] captures suite properties",
           "className": "test",
           "status": "Passed",
-          "duration": 0.001244,
+          "duration": 0.001348,
           "requirements": [
             "REQ-026"
           ],
@@ -77,7 +77,7 @@
           "name": "[REQ-027] captures testcase attributes and skipped message",
           "className": "test",
           "status": "Passed",
-          "duration": 0.00091,
+          "duration": 0.001231,
           "requirements": [
             "REQ-027"
           ],
@@ -94,7 +94,7 @@
           "name": "[REQ-028] extracts requirement identifiers",
           "className": "test",
           "status": "Passed",
-          "duration": 0.001612,
+          "duration": 0.002499,
           "requirements": [
             "REQ-028"
           ],
@@ -111,7 +111,7 @@
           "name": "[REQ-029] aggregates status by requirement and suite",
           "className": "test",
           "status": "Passed",
-          "duration": 0.001559,
+          "duration": 0.002267,
           "requirements": [
             "REQ-029"
           ],
@@ -128,7 +128,7 @@
           "name": "[REQ-030] builds traceability matrix with skipped reasons",
           "className": "test",
           "status": "Passed",
-          "duration": 0.003239,
+          "duration": 0.005244,
           "requirements": [
             "REQ-030"
           ],
@@ -145,7 +145,7 @@
           "name": "[REQ-031] validates missing fields",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000726,
+          "duration": 0.001908,
           "requirements": [
             "REQ-031"
           ],
@@ -162,7 +162,7 @@
           "name": "[REQ-032] preserves unknown attributes",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000549,
+          "duration": 0.000992,
           "requirements": [
             "REQ-032"
           ],
@@ -179,7 +179,7 @@
           "name": "[REQ-033] throws error for malformed XML",
           "className": "test",
           "status": "Passed",
-          "duration": 0.001895,
+          "duration": 0.002834,
           "requirements": [
             "REQ-033"
           ],
@@ -195,7 +195,7 @@
           "name": "associates classname with requirement",
           "className": "test",
           "status": "Passed",
-          "duration": 0.018942,
+          "duration": 0.014469,
           "requirements": [],
           "os": "linux"
         },
@@ -204,7 +204,7 @@
           "name": "buildIssueBranchName formats branch name",
           "className": "test",
           "status": "Passed",
-          "duration": 0.001637,
+          "duration": 0.002344,
           "requirements": [],
           "os": "linux"
         },
@@ -213,7 +213,7 @@
           "name": "buildIssueBranchName rejects non-numeric input",
           "className": "test",
           "status": "Passed",
-          "duration": 0.002179,
+          "duration": 0.002091,
           "requirements": [],
           "os": "linux"
         },
@@ -222,7 +222,7 @@
           "name": "buildSummary splits totals by OS",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000572,
+          "duration": 0.000433,
           "requirements": [],
           "os": "linux"
         },
@@ -231,7 +231,7 @@
           "name": "collectTestCases captures requirement property",
           "className": "test",
           "status": "Passed",
-          "duration": 0.009305,
+          "duration": 0.005539,
           "requirements": [],
           "os": "linux"
         },
@@ -240,7 +240,7 @@
           "name": "collectTestCases uses evidence property and falls back to directory scan",
           "className": "test",
           "status": "Passed",
-          "duration": 0.007855,
+          "duration": 0.009586,
           "requirements": [],
           "os": "linux"
         },
@@ -249,7 +249,7 @@
           "name": "collectTestCases uses machine-name property for owner",
           "className": "test",
           "status": "Passed",
-          "duration": 0.009939,
+          "duration": 0.006178,
           "requirements": [],
           "os": "linux"
         },
@@ -258,7 +258,16 @@
           "name": "computeStatusCounts tallies test statuses",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000858,
+          "duration": 0.000281,
+          "requirements": [],
+          "os": "linux"
+        },
+        {
+          "id": "detects-downloaded-artifacts-path",
+          "name": "detects downloaded artifacts path",
+          "className": "test",
+          "status": "Passed",
+          "duration": 1.105138,
           "requirements": [],
           "os": "linux"
         },
@@ -267,7 +276,7 @@
           "name": "Dispatchers and parameters include descriptions",
           "className": "test",
           "status": "Passed",
-          "duration": 0.004349,
+          "duration": 0.036492,
           "requirements": [],
           "os": "linux"
         },
@@ -276,7 +285,7 @@
           "name": "errors when strict unmapped mode enabled",
           "className": "test",
           "status": "Passed",
-          "duration": 1.196136,
+          "duration": 1.11958,
           "requirements": [],
           "os": "linux"
         },
@@ -285,7 +294,7 @@
           "name": "escapeMarkdown escapes special characters",
           "className": "test",
           "status": "Passed",
-          "duration": 0.003923,
+          "duration": 0.001481,
           "requirements": [],
           "os": "linux"
         },
@@ -294,7 +303,7 @@
           "name": "escapeMarkdown leaves plain text untouched",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000209,
+          "duration": 0.000322,
           "requirements": [],
           "os": "linux"
         },
@@ -303,16 +312,7 @@
           "name": "fails when commit lacks requirement reference",
           "className": "test",
           "status": "Passed",
-          "duration": 1.236475,
-          "requirements": [],
-          "os": "linux"
-        },
-        {
-          "id": "fails-when-no-junit-files-are-found",
-          "name": "fails when no JUnit files are found",
-          "className": "test",
-          "status": "Passed",
-          "duration": 1.195666,
+          "duration": 1.146226,
           "requirements": [],
           "os": "linux"
         },
@@ -321,7 +321,7 @@
           "name": "fails when requirement lacks test coverage",
           "className": "test",
           "status": "Passed",
-          "duration": 1.406053,
+          "duration": 1.462805,
           "requirements": [],
           "os": "linux"
         },
@@ -330,7 +330,7 @@
           "name": "fails when tests are unmapped",
           "className": "test",
           "status": "Passed",
-          "duration": 1.104866,
+          "duration": 1.053679,
           "requirements": [],
           "os": "linux"
         },
@@ -339,7 +339,7 @@
           "name": "fails when tests reference unknown requirements",
           "className": "test",
           "status": "Passed",
-          "duration": 1.261696,
+          "duration": 1.050087,
           "requirements": [],
           "os": "linux"
         },
@@ -348,7 +348,7 @@
           "name": "formatError handles plain objects",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000555,
+          "duration": 0.0004,
           "requirements": [],
           "os": "linux"
         },
@@ -357,7 +357,7 @@
           "name": "formatError handles primitives",
           "className": "test",
           "status": "Passed",
-          "duration": 0.00433,
+          "duration": 0.000211,
           "requirements": [],
           "os": "linux"
         },
@@ -366,7 +366,7 @@
           "name": "formatError handles real Error objects",
           "className": "test",
           "status": "Passed",
-          "duration": 0.015097,
+          "duration": 0.004185,
           "requirements": [],
           "os": "linux"
         },
@@ -375,7 +375,7 @@
           "name": "formatError handles unstringifiable values",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000839,
+          "duration": 0.000509,
           "requirements": [],
           "os": "linux"
         },
@@ -384,7 +384,7 @@
           "name": "generate-ci-summary features",
           "className": "test",
           "status": "Passed",
-          "duration": 0.023741,
+          "duration": 0.020376,
           "requirements": [],
           "os": "linux"
         },
@@ -393,7 +393,7 @@
           "name": "groups owners and includes requirements and evidence",
           "className": "test",
           "status": "Passed",
-          "duration": 1.34373,
+          "duration": 1.359414,
           "requirements": [],
           "os": "linux"
         },
@@ -402,7 +402,7 @@
           "name": "groupToMarkdown omits numeric identifiers",
           "className": "test",
           "status": "Passed",
-          "duration": 0.004553,
+          "duration": 0.001396,
           "requirements": [],
           "os": "linux"
         },
@@ -411,7 +411,7 @@
           "name": "groupToMarkdown supports optional limit for truncation",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000483,
+          "duration": 0.000543,
           "requirements": [],
           "os": "linux"
         },
@@ -420,7 +420,7 @@
           "name": "handles root-level testcases",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000842,
+          "duration": 0.003818,
           "requirements": [],
           "os": "linux"
         },
@@ -429,7 +429,7 @@
           "name": "handles zipped JUnit artifacts",
           "className": "test",
           "status": "Passed",
-          "duration": 0.861237,
+          "duration": 0.951522,
           "requirements": [],
           "os": "linux"
         },
@@ -438,7 +438,7 @@
           "name": "ignores stale JUnit files outside artifacts path",
           "className": "test",
           "status": "Passed",
-          "duration": 0.961907,
+          "duration": 1.093633,
           "requirements": [],
           "os": "linux"
         },
@@ -447,7 +447,7 @@
           "name": "loadRequirements logs warning on invalid JSON",
           "className": "test",
           "status": "Passed",
-          "duration": 0.015092,
+          "duration": 0.010929,
           "requirements": [],
           "os": "linux"
         },
@@ -456,7 +456,16 @@
           "name": "loadRequirements warns and skips invalid entries",
           "className": "test",
           "status": "Passed",
-          "duration": 0.014363,
+          "duration": 0.007079,
+          "requirements": [],
+          "os": "linux"
+        },
+        {
+          "id": "logs-a-warning-when-no-junit-files-are-found",
+          "name": "logs a warning when no JUnit files are found",
+          "className": "test",
+          "status": "Passed",
+          "duration": 1.094434,
           "requirements": [],
           "os": "linux"
         },
@@ -465,7 +474,7 @@
           "name": "partitions requirement groups by runner_type",
           "className": "test",
           "status": "Passed",
-          "duration": 0.9219,
+          "duration": 0.934896,
           "requirements": [],
           "os": "linux"
         },
@@ -474,7 +483,7 @@
           "name": "passes with coverage and requirement reference",
           "className": "test",
           "status": "Passed",
-          "duration": 1.361361,
+          "duration": 1.221751,
           "requirements": [],
           "os": "linux"
         },
@@ -483,7 +492,7 @@
           "name": "requirementsSummaryToMarkdown escapes pipes in description",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000444,
+          "duration": 0.000352,
           "requirements": [],
           "os": "linux"
         },
@@ -492,7 +501,7 @@
           "name": "skips invalid JUnit files and still generates summary",
           "className": "test",
           "status": "Passed",
-          "duration": 1.335721,
+          "duration": 1.466326,
           "requirements": [],
           "os": "linux"
         },
@@ -501,7 +510,7 @@
           "name": "summaryToMarkdown handles no tests",
           "className": "test",
           "status": "Passed",
-          "duration": 0.000486,
+          "duration": 0.000273,
           "requirements": [],
           "os": "linux"
         },
@@ -510,7 +519,7 @@
           "name": "summaryToMarkdown sorts OS alphabetically and escapes special characters",
           "className": "test",
           "status": "Passed",
-          "duration": 0.001717,
+          "duration": 0.000736,
           "requirements": [],
           "os": "linux"
         },
@@ -519,7 +528,7 @@
           "name": "throws when no JUnit files found and strict mode enabled",
           "className": "test",
           "status": "Passed",
-          "duration": 0.802157,
+          "duration": 0.766417,
           "requirements": [],
           "os": "linux"
         },
@@ -528,7 +537,7 @@
           "name": "uses latest artifact directory when multiple are present",
           "className": "test",
           "status": "Passed",
-          "duration": 1.145154,
+          "duration": 1.00279,
           "requirements": [],
           "os": "linux"
         },
@@ -537,7 +546,7 @@
           "name": "warns when all tests are unmapped",
           "className": "test",
           "status": "Passed",
-          "duration": 1.444261,
+          "duration": 1.300662,
           "requirements": [],
           "os": "linux"
         },
@@ -546,7 +555,7 @@
           "name": "writeErrorSummary appends error details to summary file",
           "className": "test",
           "status": "Passed",
-          "duration": 0.004997,
+          "duration": 0.006145,
           "requirements": [],
           "os": "linux"
         },
@@ -555,7 +564,7 @@
           "name": "writeErrorSummary skips summary file for non-Error throws",
           "className": "test",
           "status": "Passed",
-          "duration": 0.002732,
+          "duration": 0.002591,
           "requirements": [],
           "os": "linux"
         },
@@ -564,7 +573,7 @@
           "name": "writes outputs to OS-specific directory",
           "className": "test",
           "status": "Passed",
-          "duration": 1.346136,
+          "duration": 1.484103,
           "requirements": [],
           "os": "linux"
         }
@@ -573,18 +582,18 @@
   ],
   "totals": {
     "overall": {
-      "passed": 53,
+      "passed": 54,
       "failed": 0,
       "skipped": 0,
-      "duration": 19.104791000000002,
+      "duration": 19.795452,
       "rate": 100
     },
     "byOs": {
       "linux": {
-        "passed": 53,
+        "passed": 54,
         "failed": 0,
         "skipped": 0,
-        "duration": 19.104791000000002,
+        "duration": 19.795452,
         "rate": 100
       }
     }

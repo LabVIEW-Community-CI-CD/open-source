@@ -12,7 +12,7 @@
 | REQ-031 | Parsing logic validates presence of required fields and reports missing or malformed data. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-032 | Parser tolerates and retains unknown attributes for future extensibility. |  | 1 | 1 | 0 | 0 | 100.00 |
 | REQ-033 | Tests ending with SelfHosted.Workflow.Tests.ps1 execute only in dry run mode unless the workflow targets a self-hosted Windows runner labeled self-hosted-windows-lv. |  | 1 | 1 | 0 | 0 | 100.00 |
-| Unmapped |  |  | 42 | 42 | 0 | 0 | 100.00 |
+| Unmapped |  |  | 43 | 43 | 0 | 0 | 100.00 |
 
 ### Requirement Testcases
 | Requirement ID | Test ID | Status |
@@ -36,12 +36,12 @@
 | Unmapped | collecttestcases-uses-evidence-property-and-falls-back-to-directory-scan | Passed |
 | Unmapped | collecttestcases-uses-machine-name-property-for-owner | Passed |
 | Unmapped | computestatuscounts-tallies-test-statuses | Passed |
+| Unmapped | detects-downloaded-artifacts-path | Passed |
 | Unmapped | dispatchers-and-parameters-include-descriptions | Passed |
 | Unmapped | errors-when-strict-unmapped-mode-enabled | Passed |
 | Unmapped | escapemarkdown-escapes-special-characters | Passed |
 | Unmapped | escapemarkdown-leaves-plain-text-untouched | Passed |
 | Unmapped | fails-when-commit-lacks-requirement-reference | Passed |
-| Unmapped | fails-when-no-junit-files-are-found | Passed |
 | Unmapped | fails-when-requirement-lacks-test-coverage | Passed |
 | Unmapped | fails-when-tests-are-unmapped | Passed |
 | Unmapped | fails-when-tests-reference-unknown-requirements | Passed |
@@ -58,6 +58,7 @@
 | Unmapped | ignores-stale-junit-files-outside-artifacts-path | Passed |
 | Unmapped | loadrequirements-logs-warning-on-invalid-json | Passed |
 | Unmapped | loadrequirements-warns-and-skips-invalid-entries | Passed |
+| Unmapped | logs-a-warning-when-no-junit-files-are-found | Passed |
 | Unmapped | partitions-requirement-groups-by-runner\_type | Passed |
 | Unmapped | passes-with-coverage-and-requirement-reference | Passed |
 | Unmapped | requirementssummarytomarkdown-escapes-pipes-in-description | Passed |
