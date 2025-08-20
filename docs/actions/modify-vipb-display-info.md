@@ -74,7 +74,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName modify-vipb-display-info -Arg
 
 ```yaml
 - name: Modify VIPB display info
-  uses: LabVIEW-Community-CI-CD/open-source-actions/modify-vipb-display-info@v1
+  uses: LabVIEW-Community-CI-CD/open-source/modify-vipb-display-info@v1
   with:
     supported_bitness: '64'
     working_directory: '.'

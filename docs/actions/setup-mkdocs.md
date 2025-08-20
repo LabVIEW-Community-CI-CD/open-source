@@ -18,7 +18,7 @@ This action has no inputs.
 
 ```yaml
 - name: Setup MkDocs
-  uses: LabVIEW-Community-CI-CD/open-source-actions/setup-mkdocs@v1
+  uses: LabVIEW-Community-CI-CD/open-source/setup-mkdocs@v1
 ```
 
 ## Return Codes

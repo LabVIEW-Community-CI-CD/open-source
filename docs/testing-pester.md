@@ -4,7 +4,7 @@
 
 Most tests run without cloning the [`labview-icon-editor`](https://github.com/LabVIEW-Community-CI-CD/labview-icon-editor) repository. The helper defaults to the repository root as the project directory.
 
-Tests that need the example project can either clone it under `open-source-actions/labview-icon-editor`:
+Tests that need the example project can either clone it under `open-source/labview-icon-editor`:
 
 ```bash
 git clone https://github.com/LabVIEW-Community-CI-CD/labview-icon-editor.git labview-icon-editor

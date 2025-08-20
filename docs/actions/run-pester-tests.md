@@ -40,7 +40,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-pester-tests -ArgsJson '{
 
 ```yaml
 - name: Run Pester tests
-  uses: LabVIEW-Community-CI-CD/open-source-actions/run-pester-tests@v1
+  uses: LabVIEW-Community-CI-CD/open-source/run-pester-tests@v1
   with:
     working_directory: '.'
 ```

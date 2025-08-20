@@ -74,7 +74,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-vi-package -ArgsJson '{
 
 ```yaml
 - name: Build VI Package
-  uses: LabVIEW-Community-CI-CD/open-source-actions/build-vi-package@v1
+  uses: LabVIEW-Community-CI-CD/open-source/build-vi-package@v1
   with:
     minimum_supported_lv_version: '2023'
     supported_bitness: '64'

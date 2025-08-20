@@ -54,7 +54,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName run-unit-tests -ArgsFile ./co
 
 ```yaml
 - name: Run LabVIEW Unit Tests
-  uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+  uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2020'
     supported_bitness: '64'
