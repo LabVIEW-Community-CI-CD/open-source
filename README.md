@@ -4,7 +4,7 @@
 
 [![Docs](https://img.shields.io/badge/docs-view%20here-blue)](https://labview-community-ci-cd.github.io/open-source/)
 
-Open Source LabVIEW Actions is a collection of GitHub Actions and PowerShell scripts that streamline LabVIEW CI/CD workflows. Each task is exposed as its own action backed by a unified dispatcher. Refer to the [documentation](https://labview-community-ci-cd.github.io/open-source/) for setup guidance, detailed examples, and the complete action reference.
+Open Source LabVIEW Actions is a collection of GitHub Actions and PowerShell scripts that streamline LabVIEW CI/CD workflows. Each task is implemented by a PowerShell adapter script with a GitHub Action wrapper, all coordinated by a unified dispatcher. Refer to the [documentation](https://labview-community-ci-cd.github.io/open-source/) for setup guidance, detailed examples, and the complete action reference.
 
 ## Prerequisites
 
@@ -25,7 +25,7 @@ See [Environment Setup](docs/environment-setup.md) for installation steps and co
     supported_bitness: '64'
 ```
 
-Each adapter has its own wrapper. Replace `run-unit-tests` with any action name listed in the [action reference](docs/index.md#action-reference). The wrappers translate the typed inputs above into the dispatcher.
+Each adapter script ships with a corresponding wrapper action. Replace `run-unit-tests` with any action name listed in the [action reference](docs/index.md#action-reference). The wrapper translates the typed inputs above into the dispatcher.
 
 Common optional inputs available on all wrappers:
 
