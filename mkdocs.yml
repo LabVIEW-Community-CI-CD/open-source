@@ -46,8 +46,45 @@ nav:
   - Reference:
       - Action Calls: action-call-reference.md
       - Common Parameters: common-parameters.md
-      - Actions: actions/index.md
-      - Workflows: workflows/index.md
+      - Actions:
+          - README: actions/README.md
+          - Overview: actions/index.md
+          - Add Token to LabVIEW: actions/add-token-to-labview.md
+          - Apply VIPC: actions/apply-vipc.md
+          - Build: actions/build.md
+          - Build LVLibp: actions/build-lvlibp.md
+          - Build VI Package: actions/build-vi-package.md
+          - Close LabVIEW: actions/close-labview.md
+          - Generate Release Notes: actions/generate-release-notes.md
+          - Missing in Project: actions/missing-in-project.md
+          - Modify VIPB Display Info: actions/modify-vipb-display-info.md
+          - Prepare LabVIEW Source: actions/prepare-labview-source.md
+          - Rename File: actions/rename-file.md
+          - Restore Setup LV Source: actions/restore-setup-lv-source.md
+          - Revert Development Mode: actions/revert-development-mode.md
+          - Run Pester Tests: actions/run-pester-tests.md
+          - Run Unit Tests: actions/run-unit-tests.md
+          - Set Development Mode: actions/set-development-mode.md
+          - Setup MkDocs: actions/setup-mkdocs.md
+      - Workflows:
+          - Overview: workflows/index.md
+          - Add Token to LabVIEW: workflows/add-token-to-labview.md
+          - Apply VIPC: workflows/apply-vipc.md
+          - Build: workflows/build.md
+          - Build LVLibp: workflows/build-lvlibp.md
+          - Build VI Package: workflows/build-vi-package.md
+          - Close LabVIEW: workflows/close-labview.md
+          - Generate Release Notes: workflows/generate-release-notes.md
+          - Missing in Project: workflows/missing-in-project.md
+          - Modify VIPB Display Info: workflows/modify-vipb-display-info.md
+          - Prepare LabVIEW Source: workflows/prepare-labview-source.md
+          - Rename File: workflows/rename-file.md
+          - Restore Setup LV Source: workflows/restore-setup-lv-source.md
+          - Revert Development Mode: workflows/revert-development-mode.md
+          - Run Pester Tests: workflows/run-pester-tests.md
+          - Run Unit Tests: workflows/run-unit-tests.md
+          - Set Development Mode: workflows/set-development-mode.md
+          - Setup MkDocs: workflows/setup-mkdocs.md
   - Developer Docs:
       - Adapter Authoring: adapter-authoring.md
       - Versioning: versioning.md
