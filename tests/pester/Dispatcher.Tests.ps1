@@ -68,6 +68,23 @@ Describe 'Unified Dispatcher — discovery and validation' {
     pwsh -NoProfile -File $global:dispatcher -ActionName no-such-action -ArgsJson $json -WorkingDirectory $projectRoot *>$null
     $LASTEXITCODE | Should -Be 1
   }
+
+  It 'fails to describe an unknown action [REQ-001]' -Tag 'REQ-001' {
+    $params = Get-LabVIEWIconEditorArgsJson
+    $json = $params.ArgsJson
+    $projectRoot = $params.WorkingDirectory
+    pwsh -NoProfile -File $global:dispatcher -Describe no-such-action -ArgsJson $json -WorkingDirectory $projectRoot *>&1 | Out-String | Out-Null
+    $LASTEXITCODE | Should -Be 1
+  }
+
+  It 'fails when required arguments are missing [REQ-001]' -Tag 'REQ-001' {
+    $params = Get-LabVIEWIconEditorArgsJson
+    $projectRoot = $params.WorkingDirectory
+    $json = @{ SupportedBitness = '64' } | ConvertTo-Json -Compress
+    $out = pwsh -NoProfile -File $global:dispatcher -ActionName close-labview -ArgsJson $json -WorkingDirectory $projectRoot -DryRun *>&1 | Out-String
+    $LASTEXITCODE | Should -Be 1
+    $out | Should -Match "Missing an argument for parameter 'MinimumSupportedLVVersion'"
+  }
 }
 
 Describe 'ArgsJson path handling' {
