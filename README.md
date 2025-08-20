@@ -2,7 +2,7 @@
 
 [![Traceability](https://img.shields.io/endpoint?url=https://LabVIEW-Community-CI-CD.github.io/badge-summary.json)](https://LabVIEW-Community-CI-CD.github.io/summary.md)
 
-Open Source LabVIEW Actions provides typed GitHub Action wrappers around a unified PowerShell dispatcher for LabVIEW CI/CD tasks. Each adapter (for example `run-unit-tests`) is exposed as its own action and can be called from workflows with `uses: LabVIEW-Community-CI-CD/open-source-actions/<action>@v1`.
+Open Source LabVIEW Actions provides typed GitHub Action wrappers around a unified PowerShell dispatcher for LabVIEW CI/CD tasks. Each adapter (for example `run-unit-tests`) is exposed as its own action and can be called from workflows with `uses: LabVIEW-Community-CI-CD/open-source/<action>@v1`.
 
 For setup and action reference, see the [documentation](docs/index.md). The [quickstart](docs/quickstart.md) shows a full example and [Unified Dispatcher](docs/UnifiedDispatcher.md) describes how the dispatcher works. For an overview of the project's architecture, see [docs/architecture.md](docs/architecture.md). For a mapping of high-level requirements to the tests that verify them, see [docs/requirements.md](docs/requirements.md).
 
@@ -19,7 +19,7 @@ See [Environment Setup](docs/environment-setup.md) for installation steps and co
 
 ```yaml
 - name: Run tests
-  uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+  uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'
@@ -41,7 +41,7 @@ Common optional inputs available on all wrappers:
 Run tests from a subfolder:
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+- uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'
@@ -51,7 +51,7 @@ Run tests from a subfolder:
 Enable debug logging and perform a dry run:
 
 ```yaml
-- uses: LabVIEW-Community-CI-CD/open-source-actions/run-unit-tests@v1
+- uses: LabVIEW-Community-CI-CD/open-source/run-unit-tests@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'

@@ -55,7 +55,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName prepare-labview-source -ArgsJ
 
 ```yaml
 - name: Prepare LabVIEW source
-  uses: LabVIEW-Community-CI-CD/open-source-actions/prepare-labview-source@v1
+  uses: LabVIEW-Community-CI-CD/open-source/prepare-labview-source@v1
   with:
     minimum_supported_lv_version: '2021'
     supported_bitness: '64'

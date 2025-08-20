@@ -55,7 +55,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName apply-vipc -ArgsJson '{
 
 ```yaml
 - name: Apply VIPC
-  uses: LabVIEW-Community-CI-CD/open-source-actions/apply-vipc@v1
+  uses: LabVIEW-Community-CI-CD/open-source/apply-vipc@v1
   with:
     minimum_supported_lv_version: '2019'
     vip_lv_version: '2019'

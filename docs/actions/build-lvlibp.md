@@ -70,7 +70,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build-lvlibp -ArgsJson '{
 
 ```yaml
 - name: Build Packed Library
-  uses: LabVIEW-Community-CI-CD/open-source-actions/build-lvlibp@v1
+  uses: LabVIEW-Community-CI-CD/open-source/build-lvlibp@v1
   with:
     minimum_supported_lv_version: '2020'
     supported_bitness: '64'

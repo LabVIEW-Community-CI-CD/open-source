@@ -67,7 +67,7 @@ pwsh -File actions/Invoke-OSAction.ps1 -ActionName build -ArgsJson '{
 
 ```yaml
 - name: Build project
-  uses: LabVIEW-Community-CI-CD/open-source-actions/build@v1
+  uses: LabVIEW-Community-CI-CD/open-source/build@v1
   with:
     working_directory: '.'
     relative_path: '.'
