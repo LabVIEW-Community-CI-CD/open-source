@@ -9,6 +9,7 @@ Open Source LabVIEW Actions unifies LabVIEW [CI/CD](glossary.md#ci-cd) scripts b
 - [User Guide](user-guide.md)
 - [Contributor Guide](contributor-guide.md)
 - [Maintainer Guide](maintainer-guide.md)
+- [Test and Release Mode](test-and-release-mode.md)
 - [Environment Setup](environment-setup.md)
 - [Action Call Reference](action-call-reference.md)
 - [Common Parameters](common-parameters.md)
