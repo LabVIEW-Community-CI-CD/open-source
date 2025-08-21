@@ -23,6 +23,17 @@ import { collectTestCases } from './summary/tests.ts';
 import { loadRequirements, mapToRequirements, redact } from './summary/requirements.ts';
 
 async function main() {
+  const hasRunnerMeta = Boolean(
+    process.env.RUNNER_LABEL ||
+      process.env.RUNNER_TYPE ||
+      process.env.SKIP_DRY_RUN,
+  );
+  if (!hasRunnerMeta) {
+    console.error(
+      'At least one of RUNNER_LABEL, RUNNER_TYPE, or SKIP_DRY_RUN must be set',
+    );
+    process.exit(1);
+  }
   const mappingFiles = (process.env.REQ_MAPPING_FILE || 'requirements.json')
     .split(',')
     .map((s) => s.trim())
