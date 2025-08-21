@@ -277,6 +277,7 @@ test('writes outputs to OS-specific directory', async () => {
     TEST_RESULTS_GLOBS: junitPath,
     EVIDENCE_DIR: tmp,
     RUNNER_OS: 'Windows',
+    RUNNER_LABEL: 'ubuntu-latest',
   };
 
   await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
@@ -312,6 +313,7 @@ test('skips invalid JUnit files and still generates summary', async () => {
     TEST_RESULTS_GLOBS: `${goodPath} ${badPath}`,
     EVIDENCE_DIR: dir,
     RUNNER_OS: 'Linux',
+    RUNNER_LABEL: 'ubuntu-latest',
   };
 
   const { stderr } = await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
@@ -343,6 +345,7 @@ test('warns when all tests are unmapped', async () => {
     EVIDENCE_DIR: dir,
     REQ_MAPPING_FILE: reqPath,
     RUNNER_OS: 'Linux',
+    RUNNER_LABEL: 'ubuntu-latest',
   };
 
   const { stderr } = await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
@@ -368,6 +371,7 @@ test('errors when strict unmapped mode enabled', async () => {
     REQ_MAPPING_FILE: reqPath,
     RUNNER_OS: 'Linux',
     REQUIRE_REQUIREMENTS_MAPPING: '1',
+    RUNNER_LABEL: 'ubuntu-latest',
   };
 
   await assert.rejects(
@@ -389,6 +393,7 @@ test('ignores stale JUnit files outside artifacts path', async () => {
   await fs.writeFile(stalePath, '<testsuite><testcase name="stale" time="0"/></testsuite>');
 
   const env = { ...process.env, RUNNER_OS: 'Linux' };
+  env.RUNNER_LABEL = 'ubuntu-latest';
   await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
 
   const trace = await fs.readFile(path.join('artifacts', 'linux', 'traceability.md'), 'utf8');
@@ -401,7 +406,7 @@ test('ignores stale JUnit files outside artifacts path', async () => {
 
 test('throws when no JUnit files found and strict mode enabled', async () => {
   await fs.rm('artifacts', { recursive: true, force: true });
-  const env = { ...process.env, REQUIRE_TEST_RESULTS: '1', RUNNER_OS: 'Linux' };
+  const env = { ...process.env, REQUIRE_TEST_RESULTS: '1', RUNNER_OS: 'Linux', RUNNER_LABEL: 'ubuntu-latest' };
   await assert.rejects(
     execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env }),
     /No JUnit files found/,
@@ -431,6 +436,7 @@ test('partitions requirement groups by runner_type', async () => {
     EVIDENCE_DIR: dir,
     REQ_MAPPING_FILE: reqPath,
     RUNNER_OS: 'Linux',
+    RUNNER_LABEL: 'ubuntu-latest',
   };
 
   await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
@@ -469,6 +475,7 @@ test('handles zipped JUnit artifacts', async () => {
     REQ_MAPPING_FILE: reqPath,
     DISPATCHER_REGISTRY: dispPath,
     RUNNER_OS: 'Linux',
+    RUNNER_LABEL: 'ubuntu-latest',
   };
 
   await execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env });
@@ -478,4 +485,13 @@ test('handles zipped JUnit artifacts', async () => {
 
   await fs.rm('artifacts', { recursive: true, force: true });
   await fs.rm(tmp, { recursive: true, force: true });
+});
+
+test('fails without runner metadata', async () => {
+  await fs.rm('artifacts', { recursive: true, force: true });
+  const env = { ...process.env, RUNNER_OS: 'Linux' };
+  await assert.rejects(
+    execFileP('node_modules/.bin/tsx', ['scripts/generate-ci-summary.ts'], { env }),
+    /RUNNER_LABEL, RUNNER_TYPE, or SKIP_DRY_RUN must be set/,
+  );
 });
