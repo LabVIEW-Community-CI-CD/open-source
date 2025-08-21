@@ -15,8 +15,8 @@ on:
       skip_dry_run:
         description: 'Set skip_dry_run for the runner'
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: ''
 
 jobs:
   update:
@@ -49,7 +49,7 @@ jobs:
             if (json.runners && json.runners[key]) {
               if (label) json.runners[key].runner_label = label;
               if (type) json.runners[key].runner_type = type;
-              if (skipInput !== '') json.runners[key].skip_dry_run = skipInput === 'true';
+              if (skipInput) json.runners[key].skip_dry_run = skipInput === 'true';
               fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n');
               fs.appendFileSync(process.env.GITHUB_ENV, `REQ_FILE=${file}\n`);
               found = true;
