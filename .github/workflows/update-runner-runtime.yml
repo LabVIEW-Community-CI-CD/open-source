@@ -33,43 +33,19 @@ jobs:
       - run: npm ci
 
       - name: Update requirements
-        shell: bash
+        id: update
         env:
           RUNNER_KEY: ${{ inputs.runner_key }}
           RUNNER_LABEL: ${{ inputs.runner_label }}
           RUNNER_TYPE: ${{ inputs.runner_type }}
           SKIP_DRY_RUN: ${{ inputs.skip_dry_run }}
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const key = process.env.RUNNER_KEY;
-          const label = process.env.RUNNER_LABEL;
-          const type = process.env.RUNNER_TYPE;
-          const skipInput = process.env.SKIP_DRY_RUN;
-          const files = fs.readdirSync(process.cwd()).filter(f => f.startsWith('requirements') && f.endsWith('.json'));
-          const updated = [];
-          for (const file of files) {
-            const json = JSON.parse(fs.readFileSync(file, 'utf8'));
-            if (json.runners && json.runners[key]) {
-              if (label) json.runners[key].runner_label = label;
-              if (type) json.runners[key].runner_type = type;
-              if (skipInput) json.runners[key].skip_dry_run = skipInput === 'true';
-              fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n');
-              updated.push(file);
-              console.log(`Updated ${file}`);
-            }
-          }
-          if (updated.length === 0) {
-            throw new Error(`Runner ${key} not found`);
-          }
-          fs.appendFileSync(process.env.GITHUB_ENV, `REQ_FILES<<EOF\n${updated.join('\n')}\nEOF\n`);
-          NODE
+        run: node scripts/update-runner-runtime.js
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          printf '%s\n' "$REQ_FILES" | xargs git add
+          printf '%s\n' "${{ steps.update.outputs.req_files }}" | xargs git add
           git commit -m "chore: update runner runtime for ${{ inputs.runner_key }}" || echo "No changes to commit"
           git push
 
