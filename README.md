@@ -102,7 +102,7 @@ pwsh actions/Invoke-OSAction.ps1 -Describe run-unit-tests
 
 ## Runner Types
 
-Workflows distinguish between standard GitHub-hosted images and integration runners with preinstalled tooling. See [docs/runner-types.md](docs/runner-types.md) for a detailed comparison.
+Workflows distinguish between standard GitHub-hosted images and integration runners with preinstalled tooling. See [docs/runner-types.md](docs/runner-types.md) for a detailed comparison. Administrators can update runner metadata without a pull request by following the [Update Runner Runtime guide](docs/update-runner-runtime.md).
 
 ## Testing
 

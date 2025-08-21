@@ -56,11 +56,4 @@ By explicitly classifying jobs, teams can scale the project efficiently—routin
 
 ## Updating runner metadata
 
-Administrators can modify runner mappings without opening a pull request by using the `update-runner-runtime` workflow. Trigger the workflow from the Actions tab and supply the following inputs:
-
-* `runner_key` – key of the runner in the requirements file.
-* `runner_label` – label applied to the runner.
-* `runner_type` – value for `runner_type` such as `standard` or `integration`.
-* `skip_dry_run` – set to `true` to force real execution.
-
-The workflow updates the corresponding `requirements*.json` file, commits the change with `GITHUB_TOKEN`, and optionally runs registry derivation, traceability checks, and `actionlint` to validate the update.
+Administrators can modify runner mappings without opening a pull request by running the [`update-runner-runtime`](../.github/workflows/update-runner-runtime.yml) workflow. For step‑by‑step instructions, input examples, and troubleshooting tips, see the [Update Runner Runtime guide](update-runner-runtime.md).
