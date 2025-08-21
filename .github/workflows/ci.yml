@@ -33,10 +33,10 @@ jobs:
       - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 22
+          node-version: 24
       - run: npm config delete proxy
       - run: npm config delete https-proxy
-      - run: npm install
+      - run: npm ci
       - run: npm run link:check
       - run: npm run derive:registry
       - run: git diff --exit-code -- dispatchers.json
@@ -115,9 +115,9 @@ jobs:
       - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 22
+          node-version: 24
+      - run: npm ci
       - run: npm run check:node
-      - run: npm install
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           pattern: test-results-pester-*
