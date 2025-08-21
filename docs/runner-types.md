@@ -53,3 +53,14 @@ The summarizer partitions results by `runner_type`, producing artifacts such as 
 5. **Document expectations.** When adding new requirements or workflows, update `docs/requirements.md` so the `Runner` and `Runner Type` columns reflect the intended infrastructure.
 
 By explicitly classifying jobs, teams can scale the project efficiently—routine tasks remain fast on default runners while integration tests validate real‑world behavior without overloading scarce resources.
+
+## Updating runner metadata
+
+Administrators can modify runner mappings without opening a pull request by using the `update-runner-runtime` workflow. Trigger the workflow from the Actions tab and supply the following inputs:
+
+* `runner_key` – key of the runner in the requirements file.
+* `runner_label` – label applied to the runner.
+* `runner_type` – value for `runner_type` such as `standard` or `integration`.
+* `skip_dry_run` – set to `true` to force real execution.
+
+The workflow updates the corresponding `requirements*.json` file, commits the change with `GITHUB_TOKEN`, and optionally runs registry derivation, traceability checks, and `actionlint` to validate the update.
