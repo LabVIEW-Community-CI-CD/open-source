@@ -1,0 +1,53 @@
+name: "Contribution Proposal"
+description: "Suggest a new feature or improvement (with context and scope)."
+labels: ["enhancement", "discussion"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing! Please complete the details below to propose your idea.
+  - type: textarea
+    id: problem
+    attributes:
+      label: "❓ Problem Statement"
+      description: "What problem or need does this proposal address?"
+      placeholder: "Describe the problem or user need."
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: "📖 Context"
+      description: "Background or references relevant to this proposal (links welcome)."
+      placeholder: "Provide context and why this change is important."
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "🏷️ Action Area"
+      description: "Which part of the project is this proposal targeting?"
+      options:
+        - Build
+        - Test
+        - Package
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: pr-link
+    attributes:
+      label: "🔗 Related PR (if any)"
+      description: "Link to a draft Pull Request or branch (if you’ve started working on this)."
+      placeholder: "https://github.com/<org>/<repo>/pull/<id>"
+    validations:
+      required: false
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "💡 Proposed Solution"
+      description: "Describe your proposed solution or changes (if you have an idea)."
+      placeholder: "Outline how you might solve this, if known."
+    validations:
+      required: false

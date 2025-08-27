@@ -1,0 +1,56 @@
+name: "CI Triage"
+description: "Capture CI failure details for troubleshooting (signals, logs, runner info)."
+labels: ["ci", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the following to help us diagnose the CI failure:
+  - type: input
+    id: signals
+    attributes:
+      label: "🔎 Signals Catalog ID(s)"
+      description: "List any relevant Signals Catalog ID(s) for this failure (if known)."
+      placeholder: "e.g. SIG-GCLI-001, SIG-MIP-002"
+    validations:
+      required: false
+  - type: input
+    id: matrix-leg
+    attributes:
+      label: "🖥️ Affected Matrix Leg/Runner"
+      description: "Which OS / LabVIEW version/bitness did the failure occur on?"
+      placeholder: "e.g. Windows 10, LabVIEW 2021 64-bit"
+    validations:
+      required: true
+  - type: dropdown
+    id: step-type
+    attributes:
+      label: "🚦 Failing Step"
+      options:
+        - Unit Tests
+        - Build (PPL)
+        - Package (VIPM)
+        - Release
+        - Gate (Dev Mode / MIP)
+      multiple: false
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: "🗒️ Relevant Logs/Artifacts"
+      description: "Link to logs or paste key excerpts (include the failing job run URL if possible)."
+      placeholder: "https://github.com/<org>/<repo>/actions/runs/<id>"
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "💡 Additional Notes"
+      description: "Any context (recent changes, suspected root cause, reproduction steps)."
+      placeholder: "Optional extra details"
+      render: markdown
+    validations:
+      required: false
